@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE0UlEQVR4nO2XS2xUVRjHf+ece+/cuXQ6nZkOFUpLKbQ8grwUEQKG+IC4wRcxLtiIRhcuTEyMbk1caOLCGElkSSQRE0xIMAYFCRgEKa8I8igCZfqk9DV9zAwzc+85Lu60lWjcERb2W53zfcn5fuc73/dPjjDG8DBNPtTsMwAzADMAgGUqQiCE4FL7AELA8tY0oVsgxIMFECY0Mj2jbN25D9tSHNy9naZ5iQeeHED23Z1ACEEq4bGgoYamedXUJj2EgLtD+QeWWFcU2DreluHobxne2fEYq5fWYSnB9Y5hPt9zhm3PtLDt6VYAhACtTWUdPo0x/KNKUggM/x4DwIBlS2QlKIwx5su9Z/nkq5NEHAshoOxrXtqymBefbSVX8MEYpBR4no0SgkLRp1gKsJREG4PRBoNBa0M66TGRL1MsBVMAYvIGlfVEvkQy7rL5ySaE72ujlODDz47yzcErGAOvv7KCj959iqFsgUS1i5SCsh9w7o875AplWpuSNMypJjt2j6hrYVsKKcMEWpup6vyX7/CJW0QiFlLIMPD+G+tJ1URJxl0+eGs93/14jY93nUBKwXC2wBd7ztA3MI6lJPsPXeVS+12OtXXy5+0RpBSMTRTpH8whpUAIgZSC0fEigyP5+3yDI3ly+TLPbWxmYCiPJYUgCAypRJRNaxuxlcCL2nR0ZYlVOQyO5Dly8jbrV9ezYU0DABvW1DORK3OxfQA3YnH+8h2Ot2Wo8hwsS7LjhUc5djrD1ZuD2JakNuHx8tYlfLr7JKlElMI9n83rGonHIliTD2MMrF81l3TKo7d/nM7eUTzPoe1iL6VSwLw51VN9ZFuKRFwhJeTyJb4+cIlli2pJJz1OXejh4rV+LrXf5b2d6wDYve88F9v7kVLw9mtruNU1wg/HbrJ0YW0IIEXYI8ta0riOxeFfO3jz1VUsbk6xa+85Nj3ewLffX2H780upibmcONs5BWQMNM6tpqUpSV1qFtoY5tfH0dpwvWOY6pjD1RuDLG6upSbuYgxYSiKkwBgzLURCCC7fGGB0rEg8FqF1QQrbkly4coflLWk6urP8cqYLAaRTHls2NtPZO8qc2TG0Nhz8+TrlQLO8Jc3aFXPp6hvjpxO3UEqQiEfZuKaB7v4xVi6pI18oc/32MJme7DQAwOh4kQNH2tm6aSE1MRcwuK5NqRTg2KrSySGsH2gEEOhwb1tyavYL93wcR6HktBCU/QClJMVSQLkccOpCN/FYJAQISxke1D+Y49SFbqJRG4whCExlkMNyB9oQr3KwLMVItoBSAmPCGAKUDLs9CAyB1igl0YFBqfAQKQXFUkBdahZPrJw7DTCZQAjI9GTp6hujptqlaV4NrmPhB5ruO2OkEh7RSLg32iCVxLEVGIM2MJ4r0tk3SuOcOJ5rc7NrhNamFIHWFcGCYikgNssJq/p3AK1DgNO/93AjM4yo3GjrpoVkeseYyBXp7R8nVhVBCMjlyzQ3Jlg0P8H+Q9eYX18NBibyZZJxl+WtsznelqFQ9HEdhRe1MRoiEYv6uhgtTcn7ASbN9zXFUgDCkB0t8kh6FuO5EgYoVSS4WPZxbEWV5xBxLPqHcnhuONWOrdDa4NiKQBuGsnkcW+H7GqUE8apQXS1LImb+BTMAMwD/e4C/ABuRL8p2CZCsAAAAAElFTkSuQmCC" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE0UlEQVR4nO2XS2xUVRjHf+ece+/cuXQ6nZkOFUpLKbQ8grwUEQKG+IC4wRcxLtiIRhcuTEyMbk1caOLCGElkSSQRE0xIMAYFCRgEKa8I8igCZfqk9DV9zAwzc+85Lu60lWjcERb2W53zfcn5fuc73/dPjjDG8DBNPtTsMwAzADMAgGUqQiCE4FL7AELA8tY0oVsgxIMFECY0Mj2jbN25D9tSHNy9naZ5iQeeHED23Z1ACEEq4bGgoYamedXUJj2EgLtD+QeWWFcU2DreluHobxne2fEYq5fWYSnB9Y5hPt9zhm3PtLDt6VYAhACtTWUdPo0x/KNKUggM/x4DwIBlS2QlKIwx5su9Z/nkq5NEHAshoOxrXtqymBefbSVX8MEYpBR4no0SgkLRp1gKsJREG4PRBoNBa0M66TGRL1MsBVMAYvIGlfVEvkQy7rL5ySaE72ujlODDz47yzcErGAOvv7KCj959iqFsgUS1i5SCsh9w7o875AplWpuSNMypJjt2j6hrYVsKKcMEWpup6vyX7/CJW0QiFlLIMPD+G+tJ1URJxl0+eGs93/14jY93nUBKwXC2wBd7ztA3MI6lJPsPXeVS+12OtXXy5+0RpBSMTRTpH8whpUAIgZSC0fEigyP5+3yDI3ly+TLPbWxmYCiPJYUgCAypRJRNaxuxlcCL2nR0ZYlVOQyO5Dly8jbrV9ezYU0DABvW1DORK3OxfQA3YnH+8h2Ot2Wo8hwsS7LjhUc5djrD1ZuD2JakNuHx8tYlfLr7JKlElMI9n83rGonHIliTD2MMrF81l3TKo7d/nM7eUTzPoe1iL6VSwLw51VN9ZFuKRFwhJeTyJb4+cIlli2pJJz1OXejh4rV+LrXf5b2d6wDYve88F9v7kVLw9mtruNU1wg/HbrJ0YW0IIEXYI8ta0riOxeFfO3jz1VUsbk6xa+85Nj3ewLffX2H780upibmcONs5BWQMNM6tpqUpSV1qFtoY5tfH0dpwvWOY6pjD1RuDLG6upSbuYgxYSiKkwBgzLURCCC7fGGB0rEg8FqF1QQrbkly4coflLWk6urP8cqYLAaRTHls2NtPZO8qc2TG0Nhz8+TrlQLO8Jc3aFXPp6hvjpxO3UEqQiEfZuKaB7v4xVi6pI18oc/32MJme7DQAwOh4kQNH2tm6aSE1MRcwuK5NqRTg2KrSySGsH2gEEOhwb1tyavYL93wcR6HktBCU/QClJMVSQLkccOpCN/FYJAQISxke1D+Y49SFbqJRG4whCExlkMNyB9oQr3KwLMVItoBSAmPCGAKUDLs9CAyB1igl0YFBqfAQKQXFUkBdahZPrJw7DTCZQAjI9GTp6hujptqlaV4NrmPhB5ruO2OkEh7RSLg32iCVxLEVGIM2MJ4r0tk3SuOcOJ5rc7NrhNamFIHWFcGCYikgNssJq/p3AK1DgNO/93AjM4yo3GjrpoVkeseYyBXp7R8nVhVBCMjlyzQ3Jlg0P8H+Q9eYX18NBibyZZJxl+WtsznelqFQ9HEdhRe1MRoiEYv6uhgtTcn7ASbN9zXFUgDCkB0t8kh6FuO5EgYoVSS4WPZxbEWV5xBxLPqHcnhuONWOrdDa4NiKQBuGsnkcW+H7GqUE8apQXS1LImb+BTMAMwD/e4C/ABuRL8p2CZCsAAAAAElFTkSuQmCC" />
+<title>FAQ — Pertanyaan Umum Seputar Service AC | AClean Service</title>
+<meta name="description" content="Jawaban lengkap pertanyaan umum seputar service AC: biaya cuci AC, kapan harus isi freon, berapa lama proses service, garansi, dan area layanan AClean Service." />
+<meta name="keywords" content="faq service ac, tanya jawab service ac, biaya cuci ac, kapan isi freon ac" />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="FAQ — Pertanyaan Umum Seputar Service AC | AClean Service" />
+<meta property="og:description" content="Jawaban lengkap pertanyaan umum seputar service AC." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="id_ID" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Berapa biaya cuci AC di AClean Service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Biaya cleaning AC di AClean Service mulai dari Rp 85.000 per unit untuk AC split 0.5-2 PK. Harga sudah termasuk pembersihan indoor, outdoor, filter, saluran drain, dan pengecekan suhu. Untuk AC cassette atau central, harga dihitung per PK mulai Rp 100.000/PK."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kapan AC harus diisi freon?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AC perlu diisi freon jika menunjukkan tanda-tanda: AC tidak dingin meski filter sudah bersih, ada bunga es di pipa outdoor, suhu output AC di atas 18°C, atau tekanan freon di bawah normal saat dicek dengan manifold gauge. Normalnya freon tidak perlu ditambah kecuali ada kebocoran. Biaya isi freon original di AClean mulai Rp 450.000."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa lama proses service AC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Proses cleaning AC standar memakan waktu sekitar 30-45 menit per unit. Service besar (overhaul) sekitar 1-2 jam per unit. Pengisian freon sekitar 30 menit. Pemasangan AC baru sekitar 2-4 jam tergantung kondisi lokasi dan panjang pipa."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Area mana saja yang dilayani AClean Service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AClean Service melayani wilayah Tangerang Selatan dan sekitarnya meliputi: Alam Sutera, Gading Serpong, BSD City, Graha Raya-Bintaro, Karawaci, area Serpong lainnya, dan Jakarta (by appointment). Teknisi bisa tiba di lokasi dalam 30-60 menit setelah booking."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah AClean memberikan garansi service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ya, setiap layanan AClean Service dilengkapi garansi resmi. Jika ada keluhan setelah service, teknisi kami akan kembali tanpa biaya tambahan selama masa garansi. Kami juga menggunakan spare part original dan freon asli Daikin untuk menjamin kualitas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Merek AC apa saja yang bisa di-service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AClean Service menangani semua merek AC: Daikin, Panasonic, LG, Samsung, Sharp, Mitsubishi, Gree, Midea, Haier, Toshiba, Hitachi, dan merek lainnya. Kami menangani AC split, cassette, standing floor, split duct, dan AC central/VRV."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana cara booking service AC di AClean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Booking sangat mudah melalui WhatsApp di nomor 0812-8989-8937. Cukup kirim pesan dengan informasi: jenis layanan yang dibutuhkan, jumlah unit AC, dan alamat lokasi. Tim kami akan segera merespons dan menjadwalkan kunjungan teknisi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah bisa service AC di hari weekend atau libur?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AClean Service beroperasi Senin-Sabtu pukul 09:00-17:00 WIB. Untuk kebutuhan mendesak di luar jam operasional atau hari Minggu, silakan hubungi WhatsApp kami dan kami akan berusaha mengakomodasi jadwal Anda."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa bedanya cleaning AC biasa dengan service besar (overhaul)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cleaning AC biasa (Rp 85.000) mencakup pembersihan filter, evaporator, kondensor, drain, dan pengecekan suhu tanpa menurunkan unit indoor. Service besar/overhaul (Rp 400.000) mencakup pembongkaran total unit indoor, pembersihan menyeluruh evaporator coil dan blower fan di bagian belakang, serta pengecekan tekanan freon. Overhaul direkomendasikan setiap 1-2 tahun."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa AC saya tidak dingin padahal baru dicuci?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Jika AC tidak dingin setelah dicuci, kemungkinan penyebabnya: freon berkurang atau habis karena kebocoran pipa, kapasitor kompresor lemah, kompresor mulai aus, atau kapasitas AC tidak sesuai dengan ukuran ruangan. Hubungi AClean untuk pengecekan lebih lanjut — kami akan diagnosa masalahnya dan memberikan solusi yang tepat."
+      }
+    }
+  ]
+}
+</script>
+<style>
+:root{--primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;--primary-50:#EBF0FA;--primary-100:#C6D4F0;--accent:#F59E0B;--accent-light:#FCD34D;--dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;--white:#FFFFFF;--font-heading:'Plus Jakarta Sans',sans-serif;--font-body:'DM Sans',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);color:var(--dark);line-height:1.7;background:var(--white)}
+a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-light)}
+.nav{position:sticky;top:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--gray-200);z-index:100;padding:12px 0}
+.nav-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.nav-logo img{height:40px}.nav-links{display:flex;gap:8px;align-items:center}
+.nav-links a{padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;color:var(--dark-600);transition:.2s}
+.nav-links a:hover{background:var(--primary-50);color:var(--primary)}
+.nav-cta{background:var(--primary)!important;color:var(--white)!important;font-weight:600!important;padding:10px 20px!important;border-radius:10px!important}
+.hero{background:linear-gradient(135deg,var(--primary-dark),var(--primary));padding:60px 0;text-align:center;color:var(--white)}
+.hero h1{font-family:var(--font-heading);font-size:36px;font-weight:800;margin-bottom:12px}
+.hero p{color:var(--primary-100);font-size:18px;max-width:650px;margin:0 auto}
+.faq-section{max-width:800px;margin:0 auto;padding:40px 24px 60px}
+.faq-section h2{font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--primary);margin:32px 0 16px}
+.faq-item{border:1px solid var(--gray-200);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:.2s}
+.faq-item:hover{border-color:var(--primary-100)}
+.faq-q{padding:16px 20px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px;background:var(--gray-100)}
+.faq-q:hover{background:var(--primary-50)}
+.faq-q::after{content:"\25BC";font-size:12px;color:var(--gray-400);transition:.3s}
+.faq-item.open .faq-q::after{transform:rotate(180deg)}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:15px;color:var(--dark-600)}
+.faq-item.open .faq-a{max-height:300px;padding:16px 20px}
+.cta-section{background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:20px;padding:48px;text-align:center;color:var(--white);margin:40px auto;max-width:800px}
+.cta-section h2{font-family:var(--font-heading);font-size:28px;margin-bottom:12px;color:var(--white)}
+.cta-section p{color:var(--primary-100);margin-bottom:24px;font-size:16px}
+.cta-btn{display:inline-block;background:var(--accent);color:var(--dark)!important;font-weight:700;padding:16px 40px;border-radius:12px;font-size:16px;font-family:var(--font-heading);transition:.3s}
+.cta-btn:hover{background:var(--accent-light);transform:translateY(-2px)}
+.footer{background:var(--dark);color:var(--gray-400);padding:40px 0;text-align:center;font-size:14px}.footer a{color:var(--primary-100)}.ft-brand img{height:40px;margin-bottom:16px;opacity:.9}
+.wa-float{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(37,211,102,.4);z-index:99;transition:.3s}.wa-float:hover{transform:scale(1.1)}.wa-float svg{width:28px;height:28px;fill:var(--white)}
+@media(max-width:768px){.nav-links a:not(.nav-cta){display:none}.hero h1{font-size:28px}.hero p{font-size:15px;padding:0 20px}.cta-section{padding:32px 20px;border-radius:16px;margin:24px}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-in">
+<a href="./" class="nav-logo"><img src="data:image/jpeg;base64,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" alt="AClean Service" /></a>
+<div class="nav-links">
+<a href="./">Beranda</a><a href="./#layanan">Layanan</a><a href="tentang-kami.html">Tentang</a><a href="kontak.html">Kontak</a><a href="blog/index.html">Blog</a>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20ingin%20tanya%20tentang%20service%20AC" class="nav-cta" target="_blank">Hubungi Kami</a>
+</div></div></nav>
+
+<header class="hero">
+<h1>Pertanyaan Umum (FAQ)</h1>
+<p>Jawaban lengkap seputar layanan service AC AClean — biaya, proses, garansi, dan area layanan.</p>
+</header>
+
+<main class="faq-section">
+
+<h2>Biaya & Harga</h2>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa biaya cuci AC di AClean Service?</div>
+<div class="faq-a">Biaya cleaning AC di AClean Service mulai dari <strong>Rp 85.000 per unit</strong> untuk AC split 0.5-2 PK. Harga sudah termasuk pembersihan indoor, outdoor, filter, saluran drain, dan pengecekan suhu. Untuk AC cassette atau central, harga dihitung per PK mulai Rp 100.000/PK.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa biaya isi freon AC?</div>
+<div class="faq-a">Biaya pengisian freon original di AClean mulai dari <strong>Rp 450.000 per unit</strong>. Kami menggunakan freon original Daikin R-32 untuk menjamin kualitas dan keawetan. Harga sudah termasuk pengecekan tekanan dan kebocoran.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apa bedanya cleaning AC biasa dengan service besar (overhaul)?</div>
+<div class="faq-a">Cleaning AC biasa (Rp 85.000) mencakup pembersihan filter, evaporator, kondensor, drain, dan pengecekan suhu <strong>tanpa menurunkan unit indoor</strong>. Service besar/overhaul (Rp 400.000) mencakup <strong>pembongkaran total</strong> unit indoor, pembersihan menyeluruh evaporator coil dan blower fan di bagian belakang, serta pengecekan tekanan freon. Overhaul direkomendasikan setiap 1-2 tahun.</div>
+</div>
+
+<h2>Layanan & Proses</h2>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Berapa lama proses service AC?</div>
+<div class="faq-a">Proses cleaning AC standar memakan waktu sekitar <strong>30-45 menit per unit</strong>. Service besar (overhaul) sekitar 1-2 jam per unit. Pengisian freon sekitar 30 menit. Pemasangan AC baru sekitar 2-4 jam tergantung kondisi lokasi dan panjang pipa.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Kapan AC harus diisi freon?</div>
+<div class="faq-a">AC perlu diisi freon jika menunjukkan tanda-tanda: AC tidak dingin meski filter sudah bersih, ada bunga es di pipa outdoor, suhu output AC di atas 18&deg;C, atau tekanan freon di bawah normal. Normalnya freon <strong>tidak perlu ditambah</strong> kecuali ada kebocoran. Jika freon sering habis, ada masalah kebocoran yang harus diperbaiki.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Kenapa AC saya tidak dingin padahal baru dicuci?</div>
+<div class="faq-a">Kemungkinan penyebabnya: freon berkurang karena kebocoran pipa, kapasitor kompresor lemah, kompresor mulai aus, atau kapasitas AC tidak sesuai dengan ukuran ruangan. Hubungi AClean untuk pengecekan lebih lanjut — kami akan diagnosa masalahnya dan memberikan solusi yang tepat.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Merek AC apa saja yang bisa di-service?</div>
+<div class="faq-a">AClean Service menangani <strong>semua merek AC</strong>: Daikin, Panasonic, LG, Samsung, Sharp, Mitsubishi, Gree, Midea, Haier, Toshiba, Hitachi, dan merek lainnya. Kami menangani AC split, cassette, standing floor, split duct, dan AC central/VRV.</div>
+</div>
+
+<h2>Booking & Area Layanan</h2>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Bagaimana cara booking service AC di AClean?</div>
+<div class="faq-a">Booking sangat mudah melalui <strong>WhatsApp di nomor 0812-8989-8937</strong>. Cukup kirim pesan dengan informasi: jenis layanan yang dibutuhkan, jumlah unit AC, dan alamat lokasi. Tim kami akan segera merespons dan menjadwalkan kunjungan teknisi.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Area mana saja yang dilayani AClean Service?</div>
+<div class="faq-a">AClean Service melayani wilayah <strong>Tangerang Selatan</strong> dan sekitarnya: Alam Sutera, Gading Serpong, BSD City, Graha Raya-Bintaro, Karawaci, area Serpong lainnya, dan Jakarta (by appointment). Teknisi bisa tiba di lokasi dalam 30-60 menit setelah booking.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah bisa service AC di hari weekend atau libur?</div>
+<div class="faq-a">AClean Service beroperasi <strong>Senin-Sabtu pukul 09:00-17:00 WIB</strong>. Untuk kebutuhan mendesak di luar jam operasional atau hari Minggu, silakan hubungi WhatsApp kami dan kami akan berusaha mengakomodasi jadwal Anda.</div>
+</div>
+
+<h2>Garansi & Kepercayaan</h2>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah AClean memberikan garansi service?</div>
+<div class="faq-a">Ya, setiap layanan AClean Service dilengkapi <strong>garansi resmi</strong>. Jika ada keluhan setelah service, teknisi kami akan kembali tanpa biaya tambahan selama masa garansi. Kami juga menggunakan spare part original dan freon asli Daikin.</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Apakah teknisi AClean berpengalaman?</div>
+<div class="faq-a">Teknisi AClean memiliki <strong>pengalaman 10+ tahun</strong> di bidang AC. Kami telah men-service lebih dari 50.000 unit AC dengan rating <strong>4.9 bintang</strong> di Google dari 4.000+ pelanggan. Setiap teknisi terlatih menangani semua jenis dan merek AC.</div>
+</div>
+
+<div class="cta-section">
+<h2>Masih Ada Pertanyaan?</h2>
+<p>Hubungi AClean Service via WhatsApp — kami siap menjawab semua pertanyaan Anda!</p>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20ingin%20tanya%20tentang%20service%20AC" class="cta-btn" target="_blank">&#128172; Chat via WhatsApp</a>
+</div>
+
+</main>
+
+<footer class="footer">
+<div class="ft-brand"><img src="data:image/png;base64,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" alt="AClean" /></div>
+<p>&copy; 2026 AClean Service &mdash; Jasa Service AC Profesional Tangerang Selatan</p>
+<p style="margin-top:8px"><a href="./">Beranda</a> &bull; <a href="tentang-kami.html">Tentang</a> &bull; <a href="kontak.html">Kontak</a> &bull; <a href="faq.html">FAQ</a> &bull; <a href="blog/index.html">Blog</a></p>
+</footer>
+
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC" class="wa-float" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.627.616l4.584-1.207A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.193 0-4.266-.648-5.997-1.835l-.42-.282-3.236.852.867-3.168-.31-.447A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+</body></html>

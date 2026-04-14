@@ -36,7 +36,7 @@ Execute the comprehensive SEO improvement plan for AClean to compete in Tangeran
 | service-ac-karawaci.html | service AC karawaci |
 | service-ac-bintaro.html | service AC bintaro |
 | service-ac-jakarta.html | service AC jakarta |
-| service-ac-tangerang-kota.html | service AC tangerang kota |
+| service-ac-graha-raya.html | service AC graha raya |
 
 **Each page WAJIB have:**
 - [ ] Unique title dengan keyword "service AC [area]"

@@ -19,7 +19,7 @@ Estimated Impact: **+15-20%** ranking potential
 | service-ac-karawaci.html | service AC karawaci | MEDIUM |
 | service-ac-bintaro.html | service AC bintaro | MEDIUM |
 | service-ac-jakarta.html | service AC jakarta | HIGH |
-| service-ac-tangerang-kota.html | service AC tangerang kota | LOW |
+| service-ac-graha-raya.html | service AC graha raya | AREA BARU |
 
 ### 1.2 Update Meta Tags per Halaman
 Estimated Impact: **+10%** click-through rate

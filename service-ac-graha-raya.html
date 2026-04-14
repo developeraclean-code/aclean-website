@@ -5,25 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE0UlEQVR4nO2XS2xUVRjHf+ece+/cuXQ6nZkOFUpLKbQ8grwUEQKG+IC4wRcxLtiIRhcuTEyMbk1caOLCGElkSSQRE0xIMAYFCRgEKa8I8igCZfqk9DV9zAwzc+85Lu60lWjcERb2W53zfcn5fuc73/dPjjDG8DBNPtTsMwAzADMAgGUqQiCE4FL7AELA8tY0oVsgxIMFECY0Mj2jbN25D9tSHNy9naZ5iQeeHED23Z1ACEEq4bGgoYamedXUJj2EgLtD+QeWWFcU2DreluHobxne2fEYq5fWYSnB9Y5hPt9zhm3PtLDt6VYAhACtTWUdPo0x/KNKUggM/x4BwIBlS2QlKIwx5su9Z/nkq5NEHAshoOxrXtqymBefbSVX8MEYpBR4no0SgkLRp1gKsJREG4PRBoNBa0M66TGRL1MsBVMAYvIGlfVEvkQy7rL5ySaE72ujlODDz47yzcErGAOvv7KCj959iqFsgUS1i5SCsh9w7o875AplWpuSNMypJjt2j6hrYVsKKcMEWpup6vyX7/CJW0QiFlLIMPD+G+tJ1URJxl0+eGs93/14jY93nUBKwXC2wBd7ztA3MI6lJPsPXeVS+12OtXXy5+0RpBSMTRTpH8whpUAIgZSC0fEigyP5+3yDI3ly+TLPbWxmYCiPJYUgCAypRJRNaxuxlcCL2nR0ZYlVOQyO5Dly8jbrV9ezYU0DABvW1DORK3OxfQA3YnH+8h2Ot2Wo8hwsS7LjhUc5djrD1ZuD2JakNuHx8tYlfLr7JKlElMI9n83rGonHIliTD2MMrF81l3TKo7d/nM7eUTzPoe1iL6VSwLw51VN9ZFuKRFwhJeTyJb4+cIlli2pJJz1OXejh4rV+LrXf5b2d6wDYve88F9v7kVLw9mtruNU1wg/HbrJ0YW0IIEXYI8ta0riOxeFfO3jz1VUsbk6xa+85Nj3ewLffX2H780upibmcONs5BWQMNM6tpqUpSV1qFtoY5tfH0dpwvWOY6pjD1RuDLG6upSbuYgxYSiKkwBgzLURCCC7fGGB0rEg8FqF1QQrbkly4coflLWk6urP8cqYLAaRTHls2NtPZO8qc2TG0Nhz8+TrlQLO8Jc3aFXPp6hvjpxO3UEqQiEfZuKaB7v4xVi6pI18oc/32MJme7DQAwOh4kQNH2tm6aSE1MRcwuK5NqRTg2KrSySGsH2gEEOhwb1tyavYL93wcR6HktBCU/QClJMVSQLkccOpCN/FYJAQISxke1D+Y49SFbqJRG4whCExlkMNyB9oQr3KwLMVItoBSAmPCGAKUDLs9CAyB1igl0YFBqfAQKQXFUkBdahZPrJw7DTCZQAjI9GTp6hujptqlaV4NrmPhB5ruO2OkEh7RSLg32iCVxLEVGIM2MJ4r0tk3SuOcOJ5rc7NrhNamFIHWFcGCYikgNssJq/p3AK1DgNO/93AjM4yo3GjrpoVkeseYyBXp7R8nVhVBCMjlyzQ3Jlg0P8H+Q9eYX18NBibyZZJxl+WtsznelqFQ9HEdhRe1MRoiEYv6uhgtTcn7ASbN9zXFUgDCkB0t8kh6FuO5EgYoVSS4WPZxbEWV5xBxLPqHcnhuONWOrdDa4NiKQBuGsnkcW+H7GqUE8apQXS1LImb+BTMAMwD/e4C/ABuRL8p2CZCsAAAAAElFTkSuQmCC" />
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE0UlEQVR4nO2XS2xUVRjHf+ece+/cuXQ6nZkOFUpLKbQ8grwUEQKG+IC4wRcxLtiIRhcuTEyMbk1caOLCGElkSSQRE0xIMAYFCRgEKa8I8igCZfqk9DV9zAwzc+85Lu60lWjcERb2W53zfcn5fuc73/dPjjDG8DBNPtTsMwAzADMAgGUqQiCE4FL7AELA8tY0oVsgxIMFECY0Mj2jbN25D9tSHNy9naZ5iQeeHED23Z1ACEEq4bGgoYamedXUJj2EgLtD+QeWWFcU2DreluHobxne2fGYq5fWYSnB9Y5hPt9zhm3PtLDt6VYAhACtTWUdPo0x/KNKUggM/x4BwIBlS2QlKIwx5su9Z/nkq5NEHAshoOxrXtqymBefbSVX8MEYpBR4no0SgkLRp1gKsJREG4PRBoNBa0M66TGRL1MsBVMAYvIGlfVEvkQy7rL5ySaE72ujlODDz47yzcErGAOvv7KCj959iqFsgUS1i5SCsh9w7o875AplWpuSNMypJjt2j6hrYVsKKcMEWpup6vyX7/CJW0QiFlLIMPD+G+tJ1URJxl0+eGs93/14jY93nUBKwXC2wBd7ztA3MI6lJPsPXeVS+12OtXXy5+0RpBSMTRTpH8whpUAIgZSC0fEigyP5+3yDI3ly+TLPbWxmYCiPJYUgCAypRJRNaxuxlcCL2nR0ZYlVOQyO5Dly8jbrV9ezYU0DABvW1DORK3OxfQA3YnH+8h2Ot2Wo8hwsS7LjhUc5djrD1ZuD2JakNuHx8tYlfLr7JKlElMI9n83rGonHIliTD2MMrF81l3TKo7d/nM7eUTzPoe1iL6VSwLw51VN9ZFuKRFwhJeTyJb4+cIlli2pJJz1OXejh4rV+LrXf5b2d6wDYve88F9v7kVLw9mtruNU1wg/HbrJ0YW0IIEXYI8ta0riOxeFfO3jz1VUsbk6xa+85Nj3ewLffX2H780upibmcONs5BWQMNM6tpqUpSV1qFtoY5tfH0dpwvWOY6pjD1RuDLG6upSbuYgxYSiKkwBgzLURCCC7fGGB0rEg8FqF1QQrbkly4coflLWk6urP8cqYLAaRTHls2NtPZO8qc2TG0Nhz8+TrlQLO8Jc3aFXPp6hvjpxO3UEqQiEfZuKaB7v4xVi6pI18oc/32MJme7DQAwOh4kQNH2tm6aSE1MRcwuK5NqRTg2KrSySGsH2gEEOhwb1tyavYL93wcR6HktBCU/QClJMVSQLkccOpCN/FYJAQISxke1D+Y49SFbqJRG4whCExlkMNyB9oQr3KwLMVItoBSAmPCGAKUDLs9CAyB1igl0YFBqfAQKQXFUkBdahZPrJw7DTCZQAjI9GTp6hujptqlaV4NrmPhB5ruO2OkEh7RSLg32iCVxLEVGIM2MJ4r0tk3SuOcOJ5rc7NrhNamFIHWFcGCYikgNssJq/p3AK1DgNO/93AjM4yo3GjrpoVkeseYyBXp7R8nVhVBCMjlyzQ3Jlg0P8H+Q9eYX18NBibyZZJxl+WtsznelqFQ9HEdhRe1MRoiEYv6uhgtTcn7ASbN9zXFUgDCkB0t8kh6FuO5EgYoVSS4WPZxbEWV5xBxLPqHcnhuONWOrdDa4NiKQBuGsnkcW+H7GqUE8apQXS1LImb+BTMAMwD/e4C/ABuRL8p2CZCsAAAAAElFTkSuQmCC" />
-<title>Service AC Tangerang Kota - AClean | Cuci AC & Perbaikan Mulai Rp 85.000</title>
-<meta name="description" content="Service AC profesional di Tangerang Kota. Cuci AC, isi freon, perbaikan AC. Teknisi berpengalaman datang ke lokasi Anda. Garansi 30 hari. Hubungi sekarang!" />
-<meta name="keywords" content="service AC tangerang kota, cleaning AC tangerang kota, isi freon tangerang kota, perbaikan AC tangerang kota, service AC terdekat tangerang kota" />
+<title>Service AC Graha Raya - AClean | Cuci AC & Perbaikan Mulai Rp 85.000</title>
+<meta name="description" content="Service AC profesional di Graha Raya. Cuci AC, isi freon, perbaikan AC. Teknisi berpengalaman datang ke lokasi Anda. Garansi 30 hari. Hubungi sekarang!" />
+<meta name="keywords" content="service AC graharaya, cleaning AC graharaya, isi freon graharaya, perbaikan AC graharaya, service AC terdekat graharaya" />
 <meta name="robots" content="index, follow" />
-<meta property="og:title" content="Service AC Tangerang Kota - AClean | Cuci AC & Perbaikan Mulai Rp 85.000" />
-<meta property="og:description" content="Service AC profesional di Tangerang Kota. Cuci AC, isi freon, perbaikan AC. Teknisi berpengalaman. Garansi 30 hari." />
+<meta property="og:title" content="Service AC Graha Raya - AClean | Cuci AC & Perbaikan Mulai Rp 85.000" />
+<meta property="og:description" content="Service AC profesional di Graha Raya. Cuci AC, isi freon, perbaikan AC. Teknisi berpengalaman. Garansi 30 hari." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="id_ID" />
-<link rel="canonical" href="https://aclean.id/service-ac-tangerang-kota.html" />
+<link rel="canonical" href="https://aclean.id/service-ac-graha-raya.html" />
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"LocalBusiness",
-  "name":"AClean Service Tangerang Kota",
-  "description":"Jasa service AC profesional di Tangerang Kota",
-  "url":"https://aclean.id/service-ac-tangerang-kota.html",
+  "name":"AClean Service Graha Raya",
+  "description":"Jasa service AC profesional di Graha Raya",
+  "url":"https://aclean.id/service-ac-graha-raya.html",
   "telephone":"+6281289898937",
-  "areaServed":"Tangerang Kota",
-  "address":{"@type":"PostalAddress","addressLocality":"Tangerang Kota","addressRegion":"Tangerang","addressCountry":"ID"},
+  "areaServed":"Graha Raya",
+  "address":{"@type":"PostalAddress","addressLocality":"Graha Raya","addressRegion":"Tangerang","addressCountry":"ID"},
   "openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"17:00"}}
 }
 </script>
@@ -111,11 +111,11 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
 
 <section class="hero"><div class="hero-in">
 <div>
-<h1>Service AC <span class="hl">Tangerang Kota</span> Profesional</h1>
-<p class="hero-sub">Layanan service AC panggilan di area Tangerang Kota. Cuci AC, isi freon, perbaikan, dan pasang AC baru dengan teknisi berpengalaman.</p>
+<h1>Service AC <span class="hl">Graha Raya</span> Profesional</h1>
+<p class="hero-sub">Layanan service AC panggilan di area Graha Raya. Cuci AC, isi freon, perbaikan, dan pasang AC baru dengan teknisi berpengalaman.</p>
 <div class="hero-price"><span class="tag">PROMO</span> Cleaning AC mulai Rp 85.000/unit</div>
 <div class="hero-actions">
-<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC%20di%20Tangerang%20Kota" class="btn-p">Booking Sekarang</a>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC%20di%20Graha%20Raya" class="btn-p">Booking Sekarang</a>
 <a href="tel:+6281289898937" class="btn-s">Telp: 0812-8989-8937</a>
 </div>
 <div class="hero-trust">
@@ -135,7 +135,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
 </div></div>
 
 <section class="svc"><div class="sec-in">
-<h2 class="sec-title">Layanan Service AC Tangerang Kota</h2>
+<h2 class="sec-title">Layanan Service AC Graha Raya</h2>
 <p class="sec-desc">Kami menyediakan berbagai layanan untuk memenuhi kebutuhan AC Anda.</p>
 <div class="svc-grid">
 <div class="sc">
@@ -160,7 +160,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
 </div></section>
 
 <section class="pricing"><div class="sec-in">
-<h2 class="sec-title">Daftar Harga Service AC Tangerang Kota</h2>
+<h2 class="sec-title">Daftar Harga Service AC Graha Raya</h2>
 <div class="pricing-table">
 <table>
 <tr><th>Layanan</th><th>Harga</th><th>Keterangan</th></tr>
@@ -175,7 +175,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
 </div></section>
 
 <section class="cta-sec">
-<h2>Butuh Service AC di Tangerang Kota?</h2>
+<h2>Butuh Service AC di Graha Raya?</h2>
 <p>Hubungi kami sekarang untuk respons cepat!</p>
 <a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC%20di%20Tangerang%20Kota" class="cta-btn">Chat via WhatsApp</a>
 </section>

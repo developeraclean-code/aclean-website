@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE0UlEQVR4nO2XS2xUVRjHf+ece+/cuXQ6nZkOFUpLKbQ8grwUEQKG+IC4wRcxLtiIRhcuTEyMbk1caOLCGElkSSQRE0xIMAYFCRgEKa8I8igCZfqk9DV9zAwzc+85Lu60lWjcERb2W53zfcn5fuc73/dPjjDG8DBNPtTsMwAzADMAgGUqQiCE4FL7AELA8tY0oVsgxIMFECY0Mj2jbN25D9tSHNy9naZ5iQeeHED23Z1ACEEq4bGgoYamedXUJj2EgLtD+QeWWFcU2DreluHobxne2fEYq5fWYSnB9Y5hPt9zhm3PtLDt6VYAhACtTWUdPo0x/KNKUggM/x4DwIBlS2QlKIwx5su9Z/nkq5NEHAshoOxrXtqymBefbSVX8MEYpBR4no0SgkLRp1gKsJREG4PRBoNBa0M66TGRL1MsBVMAYvIGlfVEvkQy7rL5ySaE72ujlODDz47yzcErGAOvv7KCj959iqFsgUS1i5SCsh9w7o875AplWpuSNMypJjt2j6hrYVsKKcMEWpup6vyX7/CJW0QiFlLIMPD+G+tJ1URJxl0+eGs93/14jY93nUBKwXC2wBd7ztA3MI6lJPsPXeVS+12OtXXy5+0RpBSMTRTpH8whpUAIgZSC0fEigyP5+3yDI3ly+TLPbWxmYCiPJYUgCAypRJRNaxuxlcCL2nR0ZYlVOQyO5Dly8jbrV9ezYU0DABvW1DORK3OxfQA3YnH+8h2Ot2Wo8hwsS7LjhUc5djrD1ZuD2JakNuHx8tYlfLr7JKlElMI9n83rGonHIliTD2MMrF81l3TKo7d/nM7eUTzPoe1iL6VSwLw51VN9ZFuKRFwhJeTyJb4+cIlli2pJJz1OXejh4rV+LrXf5b2d6wDYve88F9v7kVLw9mtruNU1wg/HbrJ0YW0IIEXYI8ta0riOxeFfO3jz1VUsbk6xa+85Nj3ewLffX2H780upibmcONs5BWQMNM6tpqUpSV1qFtoY5tfH0dpwvWOY6pjD1RuDLG6upSbuYgxYSiKkwBgzLURCCC7fGGB0rEg8FqF1QQrbkly4coflLWk6urP8cqYLAaRTHls2NtPZO8qc2TG0Nhz8+TrlQLO8Jc3aFXPp6hvjpxO3UEqQiEfZuKaB7v4xVi6pI18oc/32MJme7DQAwOh4kQNH2tm6aSE1MRcwuK5NqRTg2KrSySGsH2gEEOhwb1tyavYL93wcR6HktBCU/QClJMVSQLkccOpCN/FYJAQISxke1D+Y49SFbqJRG4whCExlkMNyB9oQr3KwLMVItoBSAmPCGAKUDLs9CAyB1igl0YFBqfAQKQXFUkBdahZPrJw7DTCZQAjI9GTp6hujptqlaV4NrmPhB5ruO2OkEh7RSLg32iCVxLEVGIM2MJ4r0tk3SuOcOJ5rc7NrhNamFIHWFcGCYikgNssJq/p3AK1DgNO/93AjM4yo3GjrpoVkeseYyBXp7R8nVhVBCMjlyzQ3Jlg0P8H+Q9eYX18NBibyZZJxl+WtsznelqFQ9HEdhRe1MRoiEYv6uhgtTcn7ASbN9zXFUgDCkB0t8kh6FuO5EgYoVSS4WPZxbEWV5xBxLPqHcnhuONWOrdDa4NiKQBuGsnkcW+H7GqUE8apQXS1LImb+BTMAMwD/e4C/ABuRL8p2CZCsAAAAAElFTkSuQmCC" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE0UlEQVR4nO2XS2xUVRjHf+ece+/cuXQ6nZkOFUpLKbQ8grwUEQKG+IC4wRcxLtiIRhcuTEyMbk1caOLCGElkSSQRE0xIMAYFCRgEKa8I8igCZfqk9DV9zAwzc+85Lu60lWjcERb2W53zfcn5fuc73/dPjjDG8DBNPtTsMwAzADMAgGUqQiCE4FL7AELA8tY0oVsgxIMFECY0Mj2jbN25D9tSHNy9naZ5iQeeHED23Z1ACEEq4bGgoYamedXUJj2EgLtD+QeWWFcU2DreluHobxne2fEYq5fWYSnB9Y5hPt9zhm3PtLDt6VYAhACtTWUdPo0x/KNKUggM/x4DwIBlS2QlKIwx5su9Z/nkq5NEHAshoOxrXtqymBefbSVX8MEYpBR4no0SgkLRp1gKsJREG4PRBoNBa0M66TGRL1MsBVMAYvIGlfVEvkQy7rL5ySaE72ujlODDz47yzcErGAOvv7KCj959iqFsgUS1i5SCsh9w7o875AplWpuSNMypJjt2j6hrYVsKKcMEWpup6vyX7/CJW0QiFlLIMPD+G+tJ1URJxl0+eGs93/14jY93nUBKwXC2wBd7ztA3MI6lJPsPXeVS+12OtXXy5+0RpBSMTRTpH8whpUAIgZSC0fEigyP5+3yDI3ly+TLPbWxmYCiPJYUgCAypRJRNaxuxlcCL2nR0ZYlVOQyO5Dly8jbrV9ezYU0DABvW1DORK3OxfQA3YnH+8h2Ot2Wo8hwsS7LjhUc5djrD1ZuD2JakNuHx8tYlfLr7JKlElMI9n83rGonHIliTD2MMrF81l3TKo7d/nM7eUTzPoe1iL6VSwLw51VN9ZFuKRFwhJeTyJb4+cIlli2pJJz1OXejh4rV+LrXf5b2d6wDYve88F9v7kVLw9mtruNU1wg/HbrJ0YW0IIEXYI8ta0riOxeFfO3jz1VUsbk6xa+85Nj3ewLffX2H780upibmcONs5BWQMNM6tpqUpSV1qFtoY5tfH0dpwvWOY6pjD1RuDLG6upSbuYgxYSiKkwBgzLURCCC7fGGB0rEg8FqF1QQrbkly4coflLWk6urP8cqYLAaRTHls2NtPZO8qc2TG0Nhz8+TrlQLO8Jc3aFXPp6hvjpxO3UEqQiEfZuKaB7v4xVi6pI18oc/32MJme7DQAwOh4kQNH2tm6aSE1MRcwuK5NqRTg2KrSySGsH2gEEOhwb1tyavYL93wcR6HktBCU/QClJMVSQLkccOpCN/FYJAQISxke1D+Y49SFbqJRG4whCExlkMNyB9oQr3KwLMVItoBSAmPCGAKUDLs9CAyB1igl0YFBqfAQKQXFUkBdahZPrJw7DTCZQAjI9GTp6hujptqlaV4NrmPhB5ruO2OkEh7RSLg32iCVxLEVGIM2MJ4r0tk3SuOcOJ5rc7NrhNamFIHWFcGCYikgNssJq/p3AK1DgNO/93AjM4yo3GjrpoVkeseYyBXp7R8nVhVBCMjlyzQ3Jlg0P8H+Q9eYX18NBibyZZJxl+WtsznelqFQ9HEdhRe1MRoiEYv6uhgtTcn7ASbN9zXFUgDCkB0t8kh6FuO5EgYoVSS4WPZxbEWV5xBxLPqHcnhuONWOrdDa4NiKQBuGsnkcW+H7GqUE8apQXS1LImb+BTMAMwD/e4C/ABuRL8p2CZCsAAAAAElFTkSuQmCC" />
+<title>Service AC Central & Split Duct - AClean | Gedung, Kantor, Mall</title>
+<meta name="description" content="Jasa service AC central, split duct, dan VRV untuk gedung, kantor, dan mall. Pembersihan, perbaikan, dan maintenance AC central. Hubungi sekarang!" />
+<meta name="keywords" content="service ac central, split duct, vrv, maintenance ac gedung, service ac kantor, cleaning ac central, ac cassette, ac standing floor" />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="Service AC Central & Split Duct - AClean | Gedung, Kantor, Mall" />
+<meta property="og:description" content="Jasa service AC central dan split duct profesional untuk gedung, kantor, mall. Teknisi berpengalaman, garansi resmi." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="id_ID" />
+<link rel="canonical" href="https://aclean.id/service-ac-central.html" />
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "name":"AClean Service - AC Central & Split Duct",
+  "description":"Jasa service AC central, split duct, dan VRV profesional untuk gedung, kantor, dan mall",
+  "url":"https://aclean.id/service-ac-central.html",
+  "telephone":"+6281289898937",
+  "areaServed":["Tangerang Selatan","Jakarta","BSD","Alam Sutera","Gading Serpong","Kantor","Gedung","Mall"],
+  "address":{"@type":"PostalAddress","addressLocality":"Tangerang Selatan","addressRegion":"Banten","addressCountry":"ID"},
+  "openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"17:00"}}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;--primary-50:#EBF0FA;--primary-100:#C6D4F0;--accent:#F59E0B;--accent-light:#FCD34D;--dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;--white:#FFFFFF;--font-heading:'Plus Jakarta Sans',sans-serif;--font-body:'DM Sans',sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--dark);background:var(--white);line-height:1.6}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 24px}
+.nav-logo{height:44px}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{text-decoration:none;color:var(--dark-600);font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:.2s}
+.nav-links a:hover{color:var(--primary);background:var(--primary-50)}
+.nav-cta{background:var(--primary)!important;color:var(--white)!important;padding:10px 20px!important;border-radius:10px!important;font-weight:600!important}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:110px 24px 80px;background:linear-gradient(135deg,#EBF0FA 0%,#F8FAFF 50%,#FFF 100%)}
+.hero-in{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero h1{font-family:var(--font-heading);font-size:42px;font-weight:800;line-height:1.15;color:var(--dark);margin-bottom:12px}
+.hero h1 .hl{background:linear-gradient(135deg,var(--primary),var(--primary-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:16px;color:var(--gray-500);line-height:1.7;margin-bottom:20px}
+.hero-price{font-family:var(--font-heading);font-size:16px;color:var(--primary);font-weight:700;margin-bottom:24px}
+.hero-price .tag{background:var(--accent-light);color:#92400E;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:700}
+.btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:var(--white);padding:16px 28px;border-radius:14px;text-decoration:none;font-weight:700;font-size:15px;transition:.3s}
+.btn-p:hover{background:var(--primary-light);transform:translateY(-2px)}
+.btn-s{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--dark);padding:16px 28px;border-radius:14px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--gray-200)}
+.btn-s:hover{border-color:var(--primary);color:var(--primary)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-trust{display:flex;gap:16px;margin-top:24px;flex-wrap:wrap}
+.hero-trust-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-500)}
+.stats{background:var(--dark);padding:40px 24px}
+.stats-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.stat{text-align:center}
+.stat-n{font-family:var(--font-heading);font-size:32px;font-weight:800;color:var(--white)}
+.stat-n .ac{color:var(--accent)}
+.stat-l{font-size:13px;color:var(--gray-400)}
+section{padding:70px 24px}
+.sec-in{max-width:1200px;margin:0 auto}
+.sec-title{font-family:var(--font-heading);font-size:32px;font-weight:800;margin-bottom:10px}
+.sec-desc{font-size:15px;color:var(--gray-500);margin-bottom:30px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sc{background:var(--white);border-radius:18px;overflow:hidden;border:1px solid var(--gray-200);transition:.4s}
+.sc:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
+.sc-img{height:160px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:48px}
+.sc-con{padding:20px}
+.sc-con h3{font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:6px}
+.sc-con p{font-size:13px;color:var(--gray-500);margin-bottom:14px}
+.sc-price{display:flex;align-items:baseline;gap:4px;margin-bottom:14px}
+.sc-price .amt{font-family:var(--font-heading);font-size:22px;font-weight:800;color:var(--primary)}
+.sc-price .un{font-size:12px;color:var(--gray-400)}
+.sc-cta{display:block;text-align:center;padding:12px;border-radius:12px;background:var(--primary-50);color:var(--primary);text-decoration:none;font-weight:700;font-size:14px}
+.sc-cta:hover{background:var(--primary);color:var(--white)}
+.pricing{background:var(--gray-100)}
+.pricing-table{background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--gray-200);max-width:600px}
+.pricing-table table{width:100%;border-collapse:collapse}
+.pricing-table th,.pricing-table td{padding:14px 20px;text-align:left;border-bottom:1px solid var(--gray-100)}
+.pricing-table th{background:var(--primary);color:var(--white);font-weight:600;font-size:14px}
+.pricing-table td{font-size:14px}
+.pricing-table td:last-child{font-weight:700;color:var(--primary)}
+.cta-sec{background:linear-gradient(135deg,var(--primary-dark),var(--primary));text-align:center;padding:60px 24px;color:var(--white)}
+.cta-sec h2{font-family:var(--font-heading);font-size:32px;font-weight:800;margin-bottom:14px}
+.cta-sec p{opacity:.8;margin-bottom:24px}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--white);color:var(--primary-dark);padding:16px 32px;border-radius:12px;text-decoration:none;font-weight:700}
+footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
+.ft-in{max-width:1200px;margin:0 auto}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+.ft-brand p{color:var(--gray-400);font-size:14px;margin-top:10px}
+.ft-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;color:var(--gray-300)}
+.ft-col a{display:block;color:var(--gray-400);text-decoration:none;font-size:14px;padding:4px 0;transition:.2s}
+.ft-col a:hover{color:var(--white)}
+.wa{position:fixed;bottom:24px;right:24px;z-index:1000;width:56px;height:56px;border-radius:16px;background:#25D366;display:flex;align-items:center;justify-content:center;text-decoration:none;color:white;font-size:24px}
+@media(max-width:1024px){.hero-in{grid-template-columns:1fr;text-align:center}.hero-actions{justify-content:center}.stats-in{grid-template-columns:repeat(2,1fr)}.svc-grid{grid-template-columns:repeat(2,1fr)}.ft-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.nav-links{display:none}.hero{padding:100px 16px 60px}.hero h1{font-size:28px}.section{padding:50px 16px}.stats-in{grid-template-columns:1fr}.svc-grid{grid-template-columns:1fr}.ft-grid{grid-template-columns:1fr}.hero-in{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAsUlEQVR42mNkGGDAOMD8//+/DP///+8HAwPDf0ZGRgYmJqb/DAwM/xkYGP4zMDD8Z2Bg+M/AwMDAyMjI+J+BgeG/AwPDf0ZGxv8MDAwMjIyM/xkYGBgYGRn/MzAwMDIyMv5nYGD4z8DA8J+RkeE/IyPjf0ZGhv8MDAz/GRgY/jMwMPxnZGT4z8jI+J+RkeE/AwPDfwYGhv8MDAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM/xkYGP4zMjL8Z2Rk+M/AwPCfkZHhPyMj439GRob/DAwM" alt="AClean" class="nav-logo" />
+<div class="nav-links">
+<a href="index.html">Beranda</a><a href="service-ac-tangerang-selatan.html">Layanan</a><a href="#harga">Harga</a><a href="kontak.html">Kontak</a>
+<a href="https://wa.me/+6281289898937" class="btn-p" style="padding:10px 20px!important">Hubungi Kami</a>
+</div>
+</div></nav>
+
+<section class="hero"><div class="hero-in">
+<div>
+<h1>Service AC <span class="hl">Central & Split Duct</span></h1>
+<p class="hero-sub">Layanan service AC profesional untuk gedung, kantor, mall, dan bangunan komersial. Kami menangani AC central, split duct, VRV, cassette, dan standing floor.</p>
+<div class="hero-price"><span class="tag">PROFESIONAL</span> Harga per PK · Teknisi Berpengalaman</div>
+<div class="hero-actions">
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC%20Central" class="btn-p">Booking Sekarang</a>
+<a href="tel:+6281289898937" class="btn-s">Telp: 0812-8989-8937</a>
+</div>
+<div class="hero-trust">
+<div class="hero-trust-item">✓ Garansi Resmi</div>
+<div class="hero-trust-item">✓ Teknisi Bersertifikat</div>
+<div class="hero-trust-item">✓ Sparepart Original</div>
+</div>
+</div>
+<div style="text-align:center;font-size:80px">🏢</div>
+</div></section>
+
+<div class="stats"><div class="stats-in">
+<div class="stat"><div class="stat-n">500<span class="ac">+</span></div><div class="stat-l">AC Diservice</div></div>
+<div class="stat"><div class="stat-n">4.9<span class="ac">★</span></div><div class="stat-l">Rating Google</div></div>
+<div class="stat"><div class="stat-n">10<span class="ac">+</span></div><div class="stat-l">Tahun Pengalaman</div></div>
+<div class="stat"><div class="stat-n">30<span class="ac">HR</span></div><div class="stat-l">Garansi</div></div>
+</div></div>
+
+<section class="svc"><div class="sec-in">
+<h2 class="sec-title">Layanan AC Central & Split Duct</h2>
+<p class="sec-desc">Kami menyediakan layanan lengkap untuk semua jenis AC komersial.</p>
+<div class="svc-grid">
+<div class="sc">
+<div class="sc-img">🧹</div>
+<div class="sc-con"><h3>Cleaning AC Central</h3><p>Pembersihan unit AC central, split duct, dan VRV.</p>
+<div class="sc-price"><span class="amt">Mulai</span><span class="un">Rp 100.000/PK</span></div>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20mau%20booking%20cleaning%20AC%20Central" class="sc-cta">Booking</a></div>
+</div>
+<div class="sc">
+<div class="sc-img">🔧</div>
+<div class="sc-con"><h3>Perbaikan AC Central</h3><p>Diagnosa dan perbaikan AC central, VRV, dan sistem ducting.</p>
+<div class="sc-price"><span class="amt">Mulai</span><span class="un">Rp 200.000</span></div>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20AC%20Central%20saya%20rusak" class="sc-cta">Booking</a></div>
+</div>
+<div class="sc">
+<div class="sc-img">❄️</div>
+<div class="sc-con"><h3>Isi Freon AC Central</h3><p>Pengisian freon R410A, R32 untuk AC central.</p>
+<div class="sc-price"><span class="amt">Mulai</span><span class="un">Rp 250.000/PK</span></div>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20mau%20isi%20freon%20AC%20Central" class="sc-cta">Booking</a></div>
+</div>
+<div class="sc">
+<div class="sc-img">🛡️</div>
+<div class="sc-con"><h3>Maintenance Kontrak</h3><p>Kontrak maintenance berkala untuk gedung dan kantor.</p>
+<div class="sc-price"><span class="amt">Mulai</span><span class="un">Rp 75.000/PK/bln</span></div>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20ingin%20info%20kontrak%20maintenance" class="sc-cta">Info Kontak</a></div>
+</div>
+<div class="sc">
+<div class="sc-img">📋</div>
+<div class="sc-con"><h3>Service AC Cassette</h3><p>Pembersihan dan perbaikan AC cassette ceiling.</p>
+<div class="sc-price"><span class="amt">Mulai</span><span class="un">Rp 300.000</span></div>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20mau%20service%20AC%20Cassette" class="sc-cta">Booking</a></div>
+</div>
+<div class="sc">
+<div class="sc-img">🏢</div>
+<div class="sc-con"><h3>Service AC Standing</h3><p>Pembersihan dan perbaikan AC standing floor.</p>
+<div class="sc-price"><span class="amt">Mulai</span><span class="un">Rp 350.000</span></div>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20mau%20service%20AC%20Standing" class="sc-cta">Booking</a></div>
+</div>
+</div>
+</div></section>
+
+<section class="pricing" id="harga"><div class="sec-in">
+<h2 class="sec-title">Daftar Harga Service AC Central</h2>
+<div class="pricing-table">
+<table>
+<tr><th>Layanan</th><th>Harga</th><th>Keterangan</th></tr>
+<tr><td>Cleaning AC Central / Split Duct</td><td>Mulai Rp 100.000</td><td>Per PK</td></tr>
+<tr><td>Cleaning AC Cassette</td><td>Rp 300.000 - 500.000</td><td>Per unit</td></tr>
+<tr><td>Cleaning AC Standing Floor</td><td>Rp 350.000 - 600.000</td><td>Per unit</td></tr>
+<tr><td>Isi Freon AC Central</td><td>Mulai Rp 250.000</td><td>Per PK (R410A)</td></tr>
+<tr><td>Maintenance Kontrak Bulanan</td><td>Mulai Rp 75.000</td><td>Per PK per bulan</td></tr>
+<tr><td>Perbaikan / Service</td><td>Mulai Rp 200.000</td><td>Sesuai kerusakan</td></tr>
+</table>
+</div>
+</div></section>
+
+<section class="cta-sec">
+<h2>Butuh Service AC Central?</h2>
+<p>Hubungi kami sekarang untuk konsultasi dan booking!</p>
+<a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC%20Central" class="cta-btn">Chat via WhatsApp</a>
+</section>
+
+<footer><div class="ft-in">
+<div class="ft-grid">
+<div class="ft-brand"><h3>AClean Service</h3><p>Jasa service AC profesional untuk rumah, kantor, dan gedung. Teknisi berpengalaman, garansi resmi.</p></div>
+<div class="ft-col"><h4>Layanan</h4>
+<a href="service-ac-tangerang-selatan.html">Service AC</a>
+<a href="cuci-ac.html">Cleaning AC</a>
+<a href="isi-freon.html">Isi Freon</a>
+<a href="pasang-ac.html">Pasang AC</a>
+</div>
+<div class="ft-col"><h4>Area</h4>
+<a href="service-ac-alam-sutera.html">Alam Sutera</a>
+<a href="service-ac-gading-serpong.html">Gading Serpong</a>
+<a href="service-ac-bsd.html">BSD City</a>
+<a href="service-ac-karawaci.html">Karawaci</a>
+<a href="service-ac-jakarta.html">Jakarta</a>
+</div>
+<div class="ft-col"><h4>Kontak</h4>
+<a href="https://wa.me/+6281289898937">WA: 0812-8989-8937</a>
+<a href="mailto:info@aclean.id">info@aclean.id</a>
+</div>
+</div>
+</div></footer>
+
+<a href="https://wa.me/+6281289898937" class="wa">💬</a>
+</body>
+</html>

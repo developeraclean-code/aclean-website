@@ -1062,57 +1062,109 @@ function getStoredServices() {
   } catch(e) { return null; }
 }
 
+// Catalog v2 — sinkron dengan order.html DEFAULT_SERVICES
+const ADMIN_CATALOG = [
+  // CUCI
+  {id:'cuci-kecil', label:'🌀 Service Cleaning AC Split', cat:'cuci', popular:true,
+   icon:'🌀', img:'images/service-cuci-ac.jpg',
+   desc:'Pembersihan evaporator, blower & filter. Tidak bongkar unit indoor.',
+   variants:[
+     {id:'cuci-std-kecil', name:'Kapasitas 0,5PK – 1PK',   price:85000,  originalPrice:100000},
+     {id:'cuci-std-besar', name:'Kapasitas 1,5PK – 2,5PK', price:90000,  originalPrice:110000},
+   ]},
+  {id:'cuci-besar-deep', label:'🌀 Service Besar Unit AC Split', cat:'cuci',
+   icon:'🌀', img:'images/service-cuci-ac.jpg',
+   desc:'Bongkar unit indoor dibersihkan 1-1. Termasuk Vacum Unit AC.',
+   variants:[
+     {id:'deep-kecil', name:'Kapasitas 1/2PK – 1PK',   price:400000, originalPrice:500000},
+     {id:'deep-besar', name:'Kapasitas 1,5PK – 2,5PK', price:450000, originalPrice:550000},
+   ]},
+  {id:'cuci-ducting', label:'🌀 Service Cleaning AC Duct / Ducting', cat:'cuci',
+   icon:'🌀', img:'images/service-ac-central.jpg',
+   desc:'Service Cleaning AC Split Duct/Ducting. Include pengecekan unit.',
+   variants:[
+     {id:'duct-kecil', name:'Ukuran 1,5PK – 2,5PK', price:250000,  originalPrice:350000},
+     {id:'duct-besar', name:'Ukuran 3PK – 5PK',      price:450000,  originalPrice:550000},
+     {id:'duct-xl',    name:'Ukuran 5PK ke Atas',     price:1000000, originalPrice:1250000},
+   ]},
+  // PERBAIKAN
+  {id:'diagnosa', label:'🔧 Diagnosa & Cek Unit AC', cat:'perbaikan',
+   icon:'🔧', img:'images/service-cuci-ac.jpg',
+   desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan.',
+   price:100000},
+  {id:'perbaikan', label:'🔧 Perbaikan AC Split', cat:'perbaikan',
+   icon:'🔧', img:'images/service-cuci-ac.jpg',
+   desc:'Perbaikan kerusakan umum: kapasitor, motor fan, PCB.',
+   price:100000},
+  // PASANG
+  {id:'pasang-baru', label:'📦 Jasa Pemasangan Unit AC Baru', cat:'pasang', popular:true,
+   icon:'📦', img:'images/service-pasang-ac.jpg',
+   desc:'Jasa Pemasangan Unit Indoor & Outdoor Saja.',
+   variants:[
+     {id:'pasang-kecil',  name:'Pasang 1/2PK – 1PK Tanpa Vacum',           price:350000, originalPrice:400000},
+     {id:'pasang-besar',  name:'Pasang 1,5PK – 2,5PK Tanpa Vacum',         price:400000, originalPrice:450000},
+     {id:'bp-kecil-vac',  name:'Bongkar Pasang 1/2PK – 1PK + Vacum',       price:500000, originalPrice:600000},
+     {id:'bp-besar-vac',  name:'Bongkar Pasang 1,5PK – 2,5PK + Vacum',     price:550000, originalPrice:650000},
+     {id:'bongkar-saja',  name:'Bongkar Unit Saja',                          price:150000, originalPrice:200000},
+   ]},
+  // FREON
+  {id:'freon-r22',    label:'❄️ Isi Freon R22',       cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R22 untuk AC lama.',  price:350000},
+  {id:'freon-r32',    label:'❄️ Isi Freon R32',       cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R32, ramah lingkungan.', price:450000, popular:true},
+  {id:'freon-r410',   label:'❄️ Isi Freon R410A',     cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R410A untuk AC inverter.', price:450000},
+  {id:'vacuum-freon', label:'❄️ Vacuum + Full Freon', cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Vacuum sistem + isi freon penuh.',  price:500000},
+];
+
 function renderPriceFields() {
-  const savedSvcs = getStoredServices();
-  const DEFAULT_SERVICES = [
-    {id:'cuci-kecil',   name:'Cuci AC Split 0,5PK – 1PK',          price:85000},
-    {id:'cuci-besar',   name:'Cuci AC Split 1,5PK – 2,5PK',         price:90000},
-    {id:'cuci-ducting', name:'Cuci AC Ducting / Cassette',           price:250000},
-    {id:'diagnosa',     name:'Diagnosa & Cek Unit AC',               price:100000},
-    {id:'perbaikan',    name:'Perbaikan AC Split',                   price:100000},
-    {id:'pasang-baru',  name:'Pasang AC Baru',                       price:350000},
-    {id:'bongkar-pasang',name:'Bongkar Pasang (Pindah Unit)',        price:400000},
-    {id:'freon-r22',    name:'Isi Freon R22',                        price:350000},
-    {id:'freon-r32',    name:'Isi Freon R32',                        price:450000},
-    {id:'freon-r410',   name:'Isi Freon R410A',                      price:450000},
-    {id:'vacuum-freon', name:'Vacuum + Full Freon',                  price:500000},
-  ];
-  const svcs = savedSvcs || DEFAULT_SERVICES.map(s => ({...s}));
   const container = document.getElementById('priceFields');
-  container.innerHTML = svcs.map(s => `
-    <div class="sf-row">
-      <div>
-        <div class="sf-label">${s.name}</div>
-        <div class="sf-sub">ID: ${s.id}</div>
-      </div>
-      <input type="number" class="sf-input" id="price-${s.id}" value="${s.price}" min="0" step="1000"/>
-    </div>
-  `).join('');
+  let html = '';
+  ADMIN_CATALOG.forEach(svc => {
+    html += `<div style="padding:10px 0 4px;font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--gray-100);margin-top:4px">${svc.label}</div>`;
+    if (svc.variants) {
+      svc.variants.forEach(v => {
+        html += `
+        <div class="sf-row">
+          <div>
+            <div class="sf-label" style="font-size:13px">${v.name}</div>
+            <div class="sf-sub">Harga coret: <input type="number" id="orig-${v.id}" value="${v.originalPrice||0}" min="0" step="1000" style="width:100px;padding:2px 6px;border-radius:5px;border:1px solid var(--gray-200);font-size:11px"/></div>
+          </div>
+          <input type="number" class="sf-input" id="price-${v.id}" value="${v.price}" min="0" step="1000"/>
+        </div>`;
+      });
+    } else {
+      html += `
+      <div class="sf-row">
+        <div><div class="sf-label">${svc.label.replace(/^[^\s]+ /,'')}</div></div>
+        <input type="number" class="sf-input" id="price-${svc.id}" value="${svc.price}" min="0" step="1000"/>
+      </div>`;
+    }
+  });
+  container.innerHTML = html;
 }
 
 function savePrices() {
-  const savedSvcs = getStoredServices();
-  const DEFAULT_SERVICES = [
-    {id:'cuci-kecil',name:'Cuci AC Split 0,5PK – 1PK',price:85000,cat:'cuci',popular:true,icon:'🌀',img:'images/service-cuci-ac.jpg',desc:'Pembersihan menyeluruh evaporator, blower & filter.'},
-    {id:'cuci-besar',name:'Cuci AC Split 1,5PK – 2,5PK',price:90000,cat:'cuci',icon:'🌀',img:'images/service-cuci-ac.jpg',desc:'Pembersihan mendalam untuk AC berkapasitas menengah-besar.'},
-    {id:'cuci-ducting',name:'Cuci AC Ducting / Cassette',price:250000,cat:'cuci',icon:'🌀',img:'images/service-ac-central.jpg',desc:'Service pembersihan AC tipe Ducting, Cassette & Ceiling.'},
-    {id:'diagnosa',name:'Diagnosa & Cek Unit AC',price:100000,cat:'perbaikan',icon:'🔧',img:'images/service-cuci-ac.jpg',desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan.'},
-    {id:'perbaikan',name:'Perbaikan AC Split',price:100000,cat:'perbaikan',icon:'🔧',img:'images/service-cuci-ac.jpg',desc:'Perbaikan kerusakan umum AC Split.'},
-    {id:'pasang-baru',name:'Pasang AC Baru',price:350000,cat:'pasang',popular:true,icon:'📦',img:'images/service-pasang-ac.jpg',desc:'Instalasi AC baru lengkap: pipa, kabel, bracket, vacuum & test.'},
-    {id:'bongkar-pasang',name:'Bongkar Pasang (Pindah Unit)',price:400000,cat:'pasang',icon:'🔄',img:'images/service-bongkar-pasang.jpg',desc:'Bongkar dari lokasi lama, reinstalasi di lokasi baru.'},
-    {id:'freon-r22',name:'Isi Freon R22',price:350000,cat:'freon',icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Pengisian refrigerant R22 untuk unit AC lama.'},
-    {id:'freon-r32',name:'Isi Freon R32',price:450000,cat:'freon',popular:true,icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Pengisian refrigerant R32. Ramah lingkungan, efisiensi tinggi.'},
-    {id:'freon-r410',name:'Isi Freon R410A',price:450000,cat:'freon',icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Pengisian refrigerant R410A untuk AC inverter modern.'},
-    {id:'vacuum-freon',name:'Vacuum + Full Freon',price:500000,cat:'freon',icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Vacuum sistem AC + isi freon penuh.'},
-  ];
-  const base = savedSvcs || DEFAULT_SERVICES;
-  const updated = base.map(s => {
-    const el = document.getElementById('price-'+s.id);
-    return {...s, price: el ? Number(el.value) : s.price};
+  const updated = ADMIN_CATALOG.map(svc => {
+    if (svc.variants) {
+      return {
+        ...svc,
+        name: svc.label.replace(/^[^\s]+ /,''),
+        variants: svc.variants.map(v => {
+          const priceEl = document.getElementById('price-'+v.id);
+          const origEl  = document.getElementById('orig-'+v.id);
+          return {
+            ...v,
+            price: priceEl ? Number(priceEl.value) : v.price,
+            originalPrice: origEl ? Number(origEl.value) : v.originalPrice,
+          };
+        })
+      };
+    } else {
+      const el = document.getElementById('price-'+svc.id);
+      return {...svc, name: svc.label.replace(/^[^\s]+ /,''), price: el ? Number(el.value) : svc.price};
+    }
   });
   localStorage.setItem('aclean_services', JSON.stringify(updated));
   localStorage.setItem('aclean_services_ver', 'v2');
-  showToast('✅ Harga berhasil disimpan!', 'success');
+  showToast('✅ Harga berhasil disimpan! Berlaku di halaman order.', 'success');
 }
 
 function loadTransportSettings() {
@@ -1142,17 +1194,16 @@ async function saveTransport() {
 
 // ─── FOTO LAYANAN ─────────────────────────────────────────────────────────────
 const IMG_SERVICES = [
-  {id:'cuci-kecil',   name:'Cuci AC Split 0,5PK – 1PK',    icon:'🌀'},
-  {id:'cuci-besar',   name:'Cuci AC Split 1,5PK – 2,5PK',  icon:'🌀'},
-  {id:'cuci-ducting', name:'Cuci AC Ducting / Cassette',    icon:'🌀'},
-  {id:'diagnosa',     name:'Diagnosa & Cek Unit AC',         icon:'🔧'},
-  {id:'perbaikan',    name:'Perbaikan AC Split',             icon:'🔧'},
-  {id:'pasang-baru',  name:'Pasang AC Baru',                 icon:'📦'},
-  {id:'bongkar-pasang',name:'Bongkar Pasang (Pindah Unit)', icon:'🔄'},
-  {id:'freon-r22',    name:'Isi Freon R22',                  icon:'❄️'},
-  {id:'freon-r32',    name:'Isi Freon R32',                  icon:'❄️'},
-  {id:'freon-r410',   name:'Isi Freon R410A',               icon:'❄️'},
-  {id:'vacuum-freon', name:'Vacuum + Full Freon',            icon:'❄️'},
+  {id:'cuci-kecil',      name:'Service Cleaning AC Split',           icon:'🌀'},
+  {id:'cuci-besar-deep', name:'Service Besar Unit AC Split',         icon:'🌀'},
+  {id:'cuci-ducting',    name:'Service Cleaning Duct / Ducting',     icon:'🌀'},
+  {id:'diagnosa',        name:'Diagnosa & Cek Unit AC',              icon:'🔧'},
+  {id:'perbaikan',       name:'Perbaikan AC Split',                  icon:'🔧'},
+  {id:'pasang-baru',     name:'Jasa Pemasangan Unit AC Baru',        icon:'📦'},
+  {id:'freon-r22',       name:'Isi Freon R22',                       icon:'❄️'},
+  {id:'freon-r32',       name:'Isi Freon R32',                       icon:'❄️'},
+  {id:'freon-r410',      name:'Isi Freon R410A',                     icon:'❄️'},
+  {id:'vacuum-freon',    name:'Vacuum + Full Freon',                 icon:'❄️'},
 ];
 
 let imgStore = {}; // {service_id: base64_string}

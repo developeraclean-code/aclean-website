@@ -227,6 +227,74 @@ tr:hover td{background:var(--gray-50)}
 .svc-icon-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .svc-icon-lbl{font-size:16px;flex-shrink:0}
 
+/* CATALOG MANAGER */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.cat-tab{padding:8px 18px;border-radius:20px;border:1.5px solid var(--gray-200);background:var(--white);font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--gray-500);cursor:pointer;transition:.2s}
+.cat-tab:hover{border-color:var(--primary-100);color:var(--primary)}
+.cat-tab.active{background:var(--primary);border-color:var(--primary);color:var(--white)}
+.subcat-header{font-family:var(--font);font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.6px;margin:24px 0 10px;display:flex;align-items:center;gap:10px}
+.subcat-header::after{content:'';flex:1;height:1px;background:var(--gray-200)}
+.svc-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.svc-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:14px;padding:16px;transition:.2s;position:relative}
+.svc-card:hover{border-color:var(--primary-100);box-shadow:0 2px 12px rgba(27,58,123,.07)}
+.svc-card.built-in{border-left:3px solid var(--primary-100)}
+.svc-card.custom{border-left:3px solid var(--accent)}
+.svc-card-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.svc-card-icon{font-size:22px;flex-shrink:0;line-height:1.2}
+.svc-card-name{font-family:var(--font);font-size:14px;font-weight:700;color:var(--dark);line-height:1.3}
+.svc-card-desc{font-size:11px;color:var(--gray-400);margin-top:3px;line-height:1.4}
+.svc-card-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--orange-50);color:var(--orange);margin-top:5px}
+.svc-variants{margin-top:8px;border-top:1px solid var(--gray-100);padding-top:8px}
+.svc-variant-row{display:flex;justify-content:space-between;font-size:12px;color:var(--dark-600);padding:3px 0;gap:8px}
+.svc-variant-price{font-weight:700;color:var(--primary);white-space:nowrap}
+.svc-single-price{font-size:14px;font-weight:700;color:var(--primary);margin-top:8px}
+.svc-card-actions{display:flex;gap:6px;margin-top:12px;align-items:center}
+.svc-act-del{padding:5px 10px;border-radius:7px;font-family:var(--font-body);font-size:12px;font-weight:600;border:1.5px solid #FECACA;background:var(--red-50);color:var(--red);cursor:pointer;transition:.2s}
+.svc-act-del:hover{background:var(--red);color:var(--white)}
+.svc-act-edit{padding:5px 10px;border-radius:7px;font-family:var(--font-body);font-size:12px;font-weight:600;border:1.5px solid var(--primary-100);background:var(--primary-50);color:var(--primary);cursor:pointer;transition:.2s}
+.svc-act-edit:hover{background:var(--primary);color:var(--white)}
+.built-in-tag{font-size:11px;color:var(--gray-400);font-weight:500;font-style:italic}
+.catalog-toolbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.add-svc-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.2s;white-space:nowrap}
+.add-svc-btn:hover{background:var(--primary-light)}
+
+/* ADD SERVICE MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:20px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.modal-head{padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1;padding-bottom:16px;border-bottom:1px solid var(--gray-100)}
+.modal-head h2{font-family:var(--font);font-size:18px;font-weight:800;color:var(--dark)}
+.modal-close{width:32px;height:32px;border-radius:50%;border:none;background:var(--gray-100);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--gray-500);transition:.2s;flex-shrink:0}
+.modal-close:hover{background:var(--gray-200)}
+.modal-body{padding:20px 24px 24px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:13px;font-weight:600;color:var(--dark-600);margin-bottom:6px;display:block}
+.form-label .req{color:var(--red);margin-left:2px}
+.form-label .opt{color:var(--gray-400);font-weight:400;font-size:12px}
+.form-input{width:100%;padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark);outline:none;transition:.2s}
+.form-input:focus{border-color:var(--primary)}
+.form-select{width:100%;padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark);background:var(--white);outline:none;cursor:pointer;transition:.2s}
+.form-select:focus{border-color:var(--primary)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.price-type-toggle{display:flex;gap:8px;margin-bottom:16px}
+.pt-btn{flex:1;padding:9px;border-radius:9px;border:1.5px solid var(--gray-200);background:var(--white);font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--gray-500);cursor:pointer;transition:.2s;text-align:center}
+.pt-btn.active{border-color:var(--primary);background:var(--primary-50);color:var(--primary)}
+.variant-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.variant-row-form{display:grid;grid-template-columns:1fr 90px 90px 28px;gap:6px;align-items:center}
+.variant-row-form input{padding:8px 10px;border-radius:7px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:12px;color:var(--dark);outline:none;width:100%;transition:.2s}
+.variant-row-form input:focus{border-color:var(--primary)}
+.variant-del-btn{width:28px;height:28px;border-radius:6px;border:none;background:var(--red-50);color:var(--red);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.add-variant-btn{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary);background:var(--primary-50);border:1.5px dashed var(--primary-100);border-radius:8px;padding:9px 14px;cursor:pointer;transition:.2s;width:100%;justify-content:center}
+.add-variant-btn:hover{background:var(--primary-100)}
+.variant-col-head{display:grid;grid-template-columns:1fr 90px 90px 28px;gap:6px;margin-bottom:4px}
+.variant-col-head span{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.4px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding-top:16px;border-top:1px solid var(--gray-100);margin-top:4px}
+.btn-cancel{padding:10px 20px;border-radius:9px;border:1.5px solid var(--gray-200);background:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--gray-500);cursor:pointer;transition:.2s}
+.btn-cancel:hover{background:var(--gray-100)}
+.btn-save-svc{padding:10px 24px;border-radius:9px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.2s}
+.btn-save-svc:hover{background:var(--primary-light)}
+.form-hint{font-size:11px;color:var(--gray-400);margin-top:4px}
+
 /* MOBILE TOGGLE */
 .mob-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;background:none;border:1.5px solid var(--gray-200);border-radius:8px;cursor:pointer;flex-shrink:0}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
@@ -338,6 +406,9 @@ tr:hover td{background:var(--gray-50)}
       </button>
       <button class="sb-link" onclick="showTab('images',this)">
         <span class="ic">🖼️</span> Foto Layanan
+      </button>
+      <button class="sb-link" onclick="showTab('catalog',this)">
+        <span class="ic">⚙️</span> Kelola Layanan
       </button>
 
       <div class="sb-section">Lainnya</div>
@@ -499,6 +570,22 @@ tr:hover td{background:var(--gray-50)}
           </button>
           <div id="imgSaveStatus" style="margin-top:10px;font-size:13px;color:var(--gray-400)"></div>
         </div>
+      </div>
+
+      <!-- ── TAB: KELOLA LAYANAN ── -->
+      <div class="tab-content" id="tab-catalog">
+        <div class="catalog-toolbar">
+          <div>
+            <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:4px">Kelola Layanan</h2>
+            <p style="font-size:14px;color:var(--gray-400)">Tambah layanan baru per kategori & sub-kategori. Layanan bawaan tidak bisa dihapus.</p>
+          </div>
+          <button class="add-svc-btn" onclick="openAddModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Layanan
+          </button>
+        </div>
+        <div class="cat-tabs" id="catalogCatTabs"></div>
+        <div id="catalogGrid"></div>
       </div>
 
       <!-- ── TAB: SETUP (hidden, kept for tab routing) ── -->
@@ -724,6 +811,103 @@ function res(body)  {
 
 <div class="toast" id="toast"></div>
 
+<!-- ═══════════════════════════════════════════════
+     MODAL TAMBAH / EDIT LAYANAN
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="addSvcModal" onclick="modalOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="modalTitle">Tambah Layanan Baru</h2>
+      <button class="modal-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Kategori <span class="req">*</span></label>
+          <select class="form-select" id="svcCat" onchange="onCatChange()">
+            <option value="cuci">🌀 Cuci AC</option>
+            <option value="perbaikan">🔧 Perbaikan</option>
+            <option value="pasang">📦 Pemasangan</option>
+            <option value="freon">❄️ Freon</option>
+            <option value="__new__">+ Kategori Baru...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ikon <span class="opt">(emoji)</span></label>
+          <input type="text" class="form-input" id="svcIcon" placeholder="🌀" maxlength="4"/>
+        </div>
+      </div>
+
+      <div class="form-group" id="newCatGroup" style="display:none">
+        <label class="form-label">Nama Kategori Baru <span class="req">*</span></label>
+        <input type="text" class="form-input" id="svcNewCat" placeholder="cth: Instalasi, Maintenance, AC Central..."/>
+        <div class="form-hint">Huruf kecil, tanpa spasi (pakai strip). Contoh: ac-central</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Sub-Kategori <span class="opt">(opsional)</span></label>
+        <input type="text" class="form-input" id="svcSubcat" placeholder="cth: AC Split, AC Cassette, AC Central..."/>
+        <div class="form-hint">Digunakan untuk mengelompokkan layanan dalam kategori yang sama.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Nama Layanan <span class="req">*</span></label>
+        <input type="text" class="form-input" id="svcName" placeholder="cth: Service Cleaning AC Split"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Deskripsi <span class="opt">(opsional)</span></label>
+        <input type="text" class="form-input" id="svcDesc" placeholder="Deskripsi singkat layanan..."/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tipe Harga <span class="req">*</span></label>
+        <div class="price-type-toggle">
+          <button class="pt-btn active" id="ptFixed" onclick="setPriceType('fixed')">💰 Harga Tunggal</button>
+          <button class="pt-btn" id="ptVariant" onclick="setPriceType('variant')">📋 Dengan Varian</button>
+        </div>
+
+        <div id="fixedPriceGroup">
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Harga <span class="req">*</span></label>
+              <input type="number" class="form-input" id="fixedPrice" placeholder="85000" min="0" step="1000"/>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Harga Coret <span class="opt">(opsional)</span></label>
+              <input type="number" class="form-input" id="fixedOrigPrice" placeholder="100000" min="0" step="1000"/>
+            </div>
+          </div>
+        </div>
+
+        <div id="variantGroup" style="display:none">
+          <div class="variant-col-head">
+            <span>Nama Varian</span><span>Harga</span><span>Coret</span><span></span>
+          </div>
+          <div class="variant-list" id="variantList"></div>
+          <button type="button" class="add-variant-btn" onclick="addVariantRow()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Varian
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:var(--dark-600);font-weight:500">
+          <input type="checkbox" id="svcPopular" style="width:16px;height:16px;accent-color:var(--accent)"/>
+          Tandai sebagai layanan <strong style="margin-left:4px">Populer ⭐</strong>
+        </label>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeAddModal()">Batal</button>
+        <button class="btn-save-svc" onclick="saveNewService()">Simpan Layanan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ─── KONFIGURASI ───────────────────────────────────────────────────────────────
 const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
@@ -841,7 +1025,7 @@ function doLogout() {
 }
 
 // ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
-const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan'};
+const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan', catalog:'Kelola Layanan'};
 function toggleSidebar() {
   const sb = document.getElementById('sidebar');
   const ov = document.getElementById('sidebarOverlay');
@@ -873,6 +1057,7 @@ function showTab(tab, btn) {
   if (tab === 'today') renderToday();
   if (tab === 'settings') { renderPriceFields(); loadTransportSettings(); }
   if (tab === 'images') { renderImageGrid(); }
+  if (tab === 'catalog') { activeCatTab = 'all'; renderCatalogManager(); }
 }
 
 // ─── LOAD ORDERS ──────────────────────────────────────────────────────────────
@@ -1222,6 +1407,288 @@ async function saveTransport() {
   } catch(e) {
     showToast('✅ Disimpan lokal (Supabase: '+e.message+')', 'success');
   }
+}
+
+// ─── CATALOG MANAGER ──────────────────────────────────────────────────────────
+const CAT_LABELS = {
+  cuci:      '🌀 Cuci AC',
+  perbaikan: '🔧 Perbaikan',
+  pasang:    '📦 Pemasangan',
+  freon:     '❄️ Freon',
+};
+let activeCatTab = 'all';
+let editingServiceId = null;
+let variantCount = 0;
+let currentPriceType = 'fixed';
+
+function getCustomServices() {
+  try { const s = localStorage.getItem('aclean_custom_services'); return s ? JSON.parse(s) : []; }
+  catch(e) { return []; }
+}
+function saveCustomServices(arr) {
+  localStorage.setItem('aclean_custom_services', JSON.stringify(arr));
+}
+function getAllServices() {
+  return [...ADMIN_CATALOG, ...getCustomServices()];
+}
+function getCatLabel(cat) {
+  return CAT_LABELS[cat] || ('🏷️ ' + cat.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()));
+}
+
+function renderCatalogManager() {
+  const all = getAllServices();
+  const usedCats = [...new Set(all.map(s => s.cat))];
+  const cats = ['all', ...usedCats];
+
+  // Category tabs
+  document.getElementById('catalogCatTabs').innerHTML = cats.map(c =>
+    `<button class="cat-tab${c===activeCatTab?' active':''}" onclick="setCatTab('${c}')">
+      ${c==='all' ? '📋 Semua ('+all.length+')' : getCatLabel(c)+' ('+all.filter(s=>s.cat===c).length+')'}
+    </button>`
+  ).join('');
+
+  const filtered = activeCatTab === 'all' ? all : all.filter(s => s.cat === activeCatTab);
+
+  if (!filtered.length) {
+    document.getElementById('catalogGrid').innerHTML =
+      `<div class="empty-state"><div class="ic">📭</div><h3>Belum ada layanan</h3><p>Klik "Tambah Layanan" untuk mulai menambahkan.</p></div>`;
+    return;
+  }
+
+  // Group by subcategory
+  const bySubcat = {};
+  filtered.forEach(svc => {
+    const key = svc.subcat || '__none__';
+    if (!bySubcat[key]) bySubcat[key] = [];
+    bySubcat[key].push(svc);
+  });
+
+  const subcatKeys = Object.keys(bySubcat);
+  const hasMultipleSubcats = subcatKeys.length > 1 || (subcatKeys.length === 1 && subcatKeys[0] !== '__none__');
+
+  let html = '';
+  subcatKeys.forEach(key => {
+    if (hasMultipleSubcats) {
+      html += `<div class="subcat-header">${key === '__none__' ? 'Umum' : key}</div>`;
+    }
+    html += `<div class="svc-cards-grid">`;
+    bySubcat[key].forEach(svc => {
+      const isCustom = !ADMIN_CATALOG.find(b => b.id === svc.id);
+      html += renderServiceCard(svc, isCustom);
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById('catalogGrid').innerHTML = html;
+}
+
+function renderServiceCard(svc, isCustom) {
+  const name = svc.name || svc.label.replace(/^[^\s]+\s/, '');
+  let priceHtml = '';
+  if (svc.variants && svc.variants.length) {
+    priceHtml = `<div class="svc-variants">` +
+      svc.variants.map(v =>
+        `<div class="svc-variant-row"><span>${v.name}</span><span class="svc-variant-price">Rp${(v.price||0).toLocaleString('id')}</span></div>`
+      ).join('') +
+      `</div>`;
+  } else {
+    priceHtml = `<div class="svc-single-price">Rp${(svc.price||0).toLocaleString('id')}</div>`;
+  }
+  const catLabel = `<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--primary-50);color:var(--primary);display:inline-block;margin-top:4px">${getCatLabel(svc.cat)}</span>`;
+  const subcatLabel = svc.subcat ? `<span style="font-size:10px;color:var(--gray-400);margin-left:4px">${svc.subcat}</span>` : '';
+  const actions = isCustom
+    ? `<button class="svc-act-edit" onclick="openEditModal('${svc.id}')">✏️ Edit</button>
+       <button class="svc-act-del" onclick="deleteCustomService('${svc.id}')">🗑️ Hapus</button>`
+    : `<span class="built-in-tag">Layanan bawaan</span>`;
+
+  return `<div class="svc-card ${isCustom?'custom':'built-in'}">
+    <div class="svc-card-head">
+      <div class="svc-card-icon">${svc.icon||'📋'}</div>
+      <div style="flex:1;min-width:0">
+        <div class="svc-card-name">${name}</div>
+        ${svc.desc ? `<div class="svc-card-desc">${svc.desc}</div>` : ''}
+        <div style="margin-top:4px">${catLabel}${subcatLabel}</div>
+        ${svc.popular ? `<span class="svc-card-badge">⭐ Populer</span>` : ''}
+      </div>
+    </div>
+    ${priceHtml}
+    <div class="svc-card-actions">${actions}</div>
+  </div>`;
+}
+
+function setCatTab(cat) {
+  activeCatTab = cat;
+  renderCatalogManager();
+}
+
+// ─── MODAL ADD / EDIT ─────────────────────────────────────────────────────────
+function openAddModal() {
+  editingServiceId = null;
+  document.getElementById('modalTitle').textContent = 'Tambah Layanan Baru';
+  resetModalForm();
+  document.getElementById('addSvcModal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const svc = getCustomServices().find(s => s.id === id);
+  if (!svc) return;
+  editingServiceId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Layanan';
+  resetModalForm();
+
+  const knownCats = Object.keys(CAT_LABELS);
+  if (knownCats.includes(svc.cat)) {
+    document.getElementById('svcCat').value = svc.cat;
+    document.getElementById('newCatGroup').style.display = 'none';
+  } else {
+    document.getElementById('svcCat').value = '__new__';
+    document.getElementById('svcNewCat').value = svc.cat;
+    document.getElementById('newCatGroup').style.display = 'block';
+  }
+
+  document.getElementById('svcIcon').value    = svc.icon || '';
+  document.getElementById('svcSubcat').value  = svc.subcat || '';
+  document.getElementById('svcName').value    = svc.name || svc.label.replace(/^[^\s]+\s/, '');
+  document.getElementById('svcDesc').value    = svc.desc || '';
+  document.getElementById('svcPopular').checked = !!svc.popular;
+
+  if (svc.variants && svc.variants.length) {
+    setPriceType('variant');
+    svc.variants.forEach(v => addVariantRow(v.name, v.price, v.originalPrice));
+  } else {
+    setPriceType('fixed');
+    document.getElementById('fixedPrice').value    = svc.price || '';
+    document.getElementById('fixedOrigPrice').value = svc.originalPrice || '';
+  }
+
+  document.getElementById('addSvcModal').classList.add('open');
+}
+
+function resetModalForm() {
+  document.getElementById('svcCat').value = 'cuci';
+  document.getElementById('svcIcon').value = '';
+  document.getElementById('svcSubcat').value = '';
+  document.getElementById('svcName').value = '';
+  document.getElementById('svcDesc').value = '';
+  document.getElementById('svcNewCat').value = '';
+  document.getElementById('newCatGroup').style.display = 'none';
+  document.getElementById('svcPopular').checked = false;
+  document.getElementById('variantList').innerHTML = '';
+  variantCount = 0;
+  setPriceType('fixed');
+  document.getElementById('fixedPrice').value = '';
+  document.getElementById('fixedOrigPrice').value = '';
+}
+
+function closeAddModal() {
+  document.getElementById('addSvcModal').classList.remove('open');
+  editingServiceId = null;
+}
+
+function modalOverlayClick(e) {
+  if (e.target === document.getElementById('addSvcModal')) closeAddModal();
+}
+
+function onCatChange() {
+  const val = document.getElementById('svcCat').value;
+  document.getElementById('newCatGroup').style.display = val === '__new__' ? 'block' : 'none';
+}
+
+function setPriceType(type) {
+  currentPriceType = type;
+  document.getElementById('ptFixed').classList.toggle('active', type === 'fixed');
+  document.getElementById('ptVariant').classList.toggle('active', type === 'variant');
+  document.getElementById('fixedPriceGroup').style.display = type === 'fixed' ? 'block' : 'none';
+  document.getElementById('variantGroup').style.display = type === 'variant' ? 'block' : 'none';
+}
+
+function addVariantRow(name='', price='', origPrice='') {
+  const idx = ++variantCount;
+  const row = document.createElement('div');
+  row.className = 'variant-row-form';
+  row.id = 'vrow-' + idx;
+  row.innerHTML = `
+    <input type="text" placeholder="cth: 1/2PK – 1PK" value="${name}"/>
+    <input type="number" placeholder="85000" value="${price||''}" min="0" step="1000"/>
+    <input type="number" placeholder="100000" value="${origPrice||''}" min="0" step="1000"/>
+    <button type="button" class="variant-del-btn" onclick="document.getElementById('vrow-${idx}').remove()">✕</button>
+  `;
+  document.getElementById('variantList').appendChild(row);
+}
+
+function saveNewService() {
+  let cat = document.getElementById('svcCat').value;
+  if (cat === '__new__') {
+    cat = document.getElementById('svcNewCat').value.trim().toLowerCase().replace(/\s+/g,'-');
+    if (!cat) { showToast('⚠️ Nama kategori baru wajib diisi', 'error'); return; }
+  }
+
+  const name = document.getElementById('svcName').value.trim();
+  if (!name) { showToast('⚠️ Nama layanan wajib diisi', 'error'); return; }
+
+  const icon   = document.getElementById('svcIcon').value.trim() || '📋';
+  const subcat = document.getElementById('svcSubcat').value.trim() || null;
+  const desc   = document.getElementById('svcDesc').value.trim() || null;
+  const popular = document.getElementById('svcPopular').checked;
+
+  const svc = {
+    id: editingServiceId || ('custom-' + Date.now()),
+    cat, icon, subcat, name,
+    label: `${icon} ${name}`,
+    desc, popular,
+    img: 'images/service-cuci-ac.jpg',
+  };
+
+  if (currentPriceType === 'variant') {
+    const rows = document.querySelectorAll('#variantList .variant-row-form');
+    if (!rows.length) { showToast('⚠️ Tambahkan minimal 1 varian harga', 'error'); return; }
+    svc.variants = [];
+    let valid = true;
+    rows.forEach((row, i) => {
+      const inputs = row.querySelectorAll('input');
+      const vname  = inputs[0].value.trim();
+      const vprice = Number(inputs[1].value);
+      const vorig  = Number(inputs[2].value) || undefined;
+      if (!vname || !vprice) { valid = false; return; }
+      svc.variants.push({ id:`${svc.id}-v${i+1}`, name:vname, price:vprice, originalPrice:vorig });
+    });
+    if (!valid) { showToast('⚠️ Nama & harga setiap varian wajib diisi', 'error'); return; }
+  } else {
+    const price = Number(document.getElementById('fixedPrice').value);
+    if (!price) { showToast('⚠️ Harga wajib diisi', 'error'); return; }
+    svc.price = price;
+    const orig = Number(document.getElementById('fixedOrigPrice').value);
+    if (orig) svc.originalPrice = orig;
+  }
+
+  const customs = getCustomServices();
+  if (editingServiceId) {
+    const idx = customs.findIndex(s => s.id === editingServiceId);
+    if (idx >= 0) customs[idx] = svc; else customs.push(svc);
+  } else {
+    customs.push(svc);
+  }
+  saveCustomServices(customs);
+
+  // Update aclean_services agar order.html langsung membaca layanan baru
+  const allSvcs = [...ADMIN_CATALOG, ...customs];
+  localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
+  localStorage.setItem('aclean_services_ver', 'v2');
+
+  closeAddModal();
+  renderCatalogManager();
+  showToast(editingServiceId ? '✅ Layanan berhasil diperbarui!' : '✅ Layanan baru berhasil ditambahkan!', 'success');
+}
+
+function deleteCustomService(id) {
+  if (!confirm('Hapus layanan ini? Tindakan tidak bisa dibatalkan.')) return;
+  const customs = getCustomServices().filter(s => s.id !== id);
+  saveCustomServices(customs);
+  const allSvcs = [...ADMIN_CATALOG, ...customs];
+  localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
+  localStorage.setItem('aclean_services_ver', 'v2');
+  renderCatalogManager();
+  showToast('🗑️ Layanan dihapus', 'success');
 }
 
 // ─── FOTO LAYANAN ─────────────────────────────────────────────────────────────

@@ -18,6 +18,15 @@
 <meta name="twitter:image" content="https://aclean.id/og-image.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<style>
+.flatpickr-day.unavailable{background:#FEE2E2!important;color:#DC2626!important;border-color:#FECACA!important;cursor:not-allowed!important;text-decoration:line-through}
+.flatpickr-day.unavailable:hover{background:#FEE2E2!important}
+.date-avail-hint{font-size:12px;margin-top:6px;padding:6px 10px;border-radius:8px;display:none}
+.date-avail-hint.full{display:block;background:#FEE2E2;color:#DC2626}
+.date-avail-hint.ok{display:block;background:#DCFCE7;color:#16A34A}
+</style>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -442,7 +451,8 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
         <!-- TANGGAL -->
         <div class="field">
           <label for="fTanggal">Tanggal Kunjungan <span class="req">*</span></label>
-          <input type="date" id="fTanggal" required/>
+          <input type="text" id="fTanggal" placeholder="Pilih tanggal kunjungan" readonly required style="cursor:pointer;background:var(--white)"/>
+          <div class="date-avail-hint" id="dateAvailHint"></div>
         </div>
 
         <!-- WAKTU -->
@@ -584,16 +594,31 @@ const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIs
 
 // ─── DATA LAYANAN ──────────────────────────────────────────────────────────────
 const DEFAULT_SERVICES = [
-  // CUCI AC
-  {id:'cuci-kecil',cat:'cuci',name:'Cuci AC Split 0,5PK – 1PK',
-   desc:'Pembersihan menyeluruh evaporator, blower & filter. Cocok untuk ruangan ≤ 18m².',
-   price:85000,img:'images/service-cuci-ac.jpg',popular:true,icon:'🌀'},
-  {id:'cuci-besar',cat:'cuci',name:'Cuci AC Split 1,5PK – 2,5PK',
-   desc:'Pembersihan mendalam AC kapasitas menengah-besar. Ruangan 18–36m².',
-   price:90000,img:'images/service-cuci-ac.jpg',icon:'🌀'},
-  {id:'cuci-ducting',cat:'cuci',name:'Cuci AC Ducting / Cassette',
-   desc:'Service pembersihan AC tipe Ducting, Cassette & Ceiling. Teknik khusus per unit.',
-   price:250000,img:'images/service-ac-central.jpg',icon:'🌀'},
+  // CUCI AC — Standard
+  {id:'cuci-kecil',cat:'cuci',name:'Service Cleaning AC Split',
+   desc:'Pembersihan evaporator, blower & filter. Cocok untuk AC ≤ 1PK. Cuci bersih, tidak bongkar unit indoor.',
+   price:85000,img:'images/service-cuci-ac.jpg',popular:true,icon:'🌀',
+   variants:[
+     {id:'cuci-std-kecil', name:'Kapasitas Unit AC Split 0,5PK – 1PK',   price:85000,  originalPrice:100000},
+     {id:'cuci-std-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:90000,  originalPrice:110000},
+   ]},
+  // CUCI AC — Service Besar (Deep Cleaning)
+  {id:'cuci-besar-deep',cat:'cuci',name:'Service Besar Unit AC Split',
+   desc:'Pengerjaan bongkar unit indoor dan dibersihkan menyeluruh 1-1. Harga sudah termasuk Vacum Unit AC.',
+   img:'images/service-cuci-ac.jpg',icon:'🌀',
+   variants:[
+     {id:'deep-kecil', name:'Kapasitas Unit AC Split 1/2PK – 1PK',   price:400000, originalPrice:500000},
+     {id:'deep-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:450000, originalPrice:550000},
+   ]},
+  // CUCI AC — Ducting / Duct
+  {id:'cuci-ducting',cat:'cuci',name:'Service Cleaning AC Split Duct / Ducting',
+   desc:'Jasa Service Cleaning AC Split Duct/Ducting. Include pengecekan unit, pengambilan data, pembersihan menyeluruh.',
+   img:'images/service-ac-central.jpg',icon:'🌀',
+   variants:[
+     {id:'duct-kecil', name:'AC Split Duct Ukuran 1,5PK – 2,5PK', price:250000,  originalPrice:350000},
+     {id:'duct-besar', name:'AC Split Duct Ukuran 3PK – 5PK',      price:450000,  originalPrice:550000},
+     {id:'duct-xl',    name:'AC Split Duct Ukuran 5PK ke Atas',     price:1000000, originalPrice:1250000},
+   ]},
   // PERBAIKAN
   {id:'diagnosa',cat:'perbaikan',name:'Diagnosa & Cek Unit AC',
    desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan. Biaya sparepart terpisah.',
@@ -601,25 +626,16 @@ const DEFAULT_SERVICES = [
   {id:'perbaikan',cat:'perbaikan',name:'Perbaikan AC Split',
    desc:'Perbaikan kerusakan umum: kapasitor, motor fan, PCB. Harga jasa — sparepart terpisah.',
    price:100000,img:'images/service-cuci-ac.jpg',icon:'🔧'},
-  // PASANG — dengan variants sub-opsi
-  {id:'pasang-baru',cat:'pasang',name:'Pasang AC Baru',
-   desc:'Instalasi unit AC baru. Pilih kapasitas & paket sesuai kebutuhan.',
+  // PASANG — Instalasi Baru
+  {id:'pasang-baru',cat:'pasang',name:'Jasa Pemasangan Unit AC Baru',
+   desc:'Jasa Pemasangan Unit Indoor & Outdoor Saja. Tidak Termasuk Pipa AC, Kabel Listrik, Breket, dll.',
    img:'images/service-pasang-ac.jpg',popular:true,icon:'📦',
    variants:[
-     {id:'pasang-kecil',      name:'Pasang AC 1/2PK – 1PK (Tanpa Vacum)',      price:350000},
-     {id:'pasang-besar',      name:'Pasang AC 1,5PK – 2,5PK (Tanpa Vacum)',    price:400000},
-     {id:'pasang-kecil-vac',  name:'Pasang AC 1/2PK – 1PK + Vacum Unit',       price:450000},
-     {id:'pasang-besar-vac',  name:'Pasang AC 1,5PK – 2,5PK + Vacum Unit',     price:500000},
-     {id:'bongkar-saja',      name:'Bongkar Unit Saja (Tanpa Reinstalasi)',      price:150000},
-   ]},
-  {id:'bongkar-pasang',cat:'pasang',name:'Bongkar Pasang (Pindah Unit)',
-   desc:'Bongkar dari lokasi lama, reinstalasi di lokasi baru. Pilih opsi sesuai kebutuhan.',
-   img:'images/service-bongkar-pasang.jpg',icon:'🔄',
-   variants:[
-     {id:'bp-kecil',     name:'Bongkar Pasang AC 1/2PK – 1PK',               price:400000},
-     {id:'bp-besar',     name:'Bongkar Pasang AC 1,5PK – 2,5PK',             price:450000},
-     {id:'bp-kecil-vac', name:'Bongkar Pasang + Vacum AC 1/2PK – 1PK',       price:500000},
-     {id:'bp-besar-vac', name:'Bongkar Pasang + Vacum AC 1,5PK – 2,5PK',    price:550000},
+     {id:'pasang-kecil',     name:'Pemasangan AC 1/2PK – 1PK Tanpa Vacum Unit',          price:350000, originalPrice:400000},
+     {id:'pasang-besar',     name:'Pemasangan AC 1,5PK – 2,5PK Tanpa Vacum Unit',        price:400000, originalPrice:450000},
+     {id:'bp-kecil-vac',     name:'Jasa Bongkar Pasang AC 1/2PK – 1PK Dengan Vacum Unit',  price:500000, originalPrice:600000},
+     {id:'bp-besar-vac',     name:'Jasa Bongkar Pasang AC 1,5PK – 2,5PK Dengan Vacum Unit',price:550000, originalPrice:650000},
+     {id:'bongkar-saja',     name:'Jasa Bongkar Unit Saja',                                price:150000, originalPrice:200000},
    ]},
   // FREON
   {id:'freon-r22',cat:'freon',name:'Isi Freon R22',
@@ -692,6 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('orderForm').addEventListener('submit', submitOrder);
   renderCart();
+  initDatePicker();
 });
 
 // ─── RENDER LAYANAN ────────────────────────────────────────────────────────────
@@ -808,7 +825,10 @@ function showVariantModal(svcId) {
   document.getElementById('variantOptions').innerHTML = svc.variants.map(v => `
     <div class="v-option" id="vopt-${v.id}" onclick="selectVariant('${v.id}')">
       <div class="v-opt-name">${v.name}</div>
-      <div class="v-opt-price">Rp ${fmtRp(v.price)}</div>
+      <div style="text-align:right;flex-shrink:0;margin-left:12px">
+        <div class="v-opt-price">Rp ${fmtRp(v.price)}</div>
+        ${v.originalPrice ? `<div style="font-size:11px;color:var(--gray-400);text-decoration:line-through">Rp ${fmtRp(v.originalPrice)}</div>` : ''}
+      </div>
     </div>
   `).join('');
   document.getElementById('variantAddBtn').disabled = true;
@@ -1012,24 +1032,34 @@ function buildWAMsg(o) {
 }
 
 // ─── VALIDASI ──────────────────────────────────────────────────────────────────
+function getTanggalValue() {
+  if (datePicker && datePicker.selectedDates[0])
+    return datePicker.formatDate(datePicker.selectedDates[0], 'Y-m-d');
+  return document.getElementById('fTanggal').value || '';
+}
+
 function validate() {
   let ok = true;
-  const required = [
-    {id:'fNama',  label:'Nama Lengkap'},
-    {id:'fWA',    label:'Nomor WhatsApp'},
-    {id:'fArea',  label:'Area Layanan'},
-    {id:'fAlamat',label:'Alamat Lengkap'},
-    {id:'fUkuran',label:'Ukuran AC'},
-    {id:'fTanggal',label:'Tanggal Kunjungan'},
+  const fields = [
+    {id:'fNama',   label:'Nama Lengkap'},
+    {id:'fWA',     label:'Nomor WhatsApp'},
+    {id:'fArea',   label:'Area Layanan'},
+    {id:'fAlamat', label:'Alamat Lengkap'},
+    {id:'fUkuran', label:'Ukuran AC'},
   ];
-  required.forEach(f => {
+  fields.forEach(f => {
     const el = document.getElementById(f.id);
-    if (!el.value.trim()) {
-      el.classList.add('error');
-      el.addEventListener('input', () => el.classList.remove('error'), {once:true});
+    if (!el || !el.value.trim()) {
+      if (el) { el.classList.add('error'); el.addEventListener('input',()=>el.classList.remove('error'),{once:true}); }
       ok = false;
     }
   });
+  // Validate tanggal separately (flatpickr)
+  if (!getTanggalValue()) {
+    const el = document.getElementById('fTanggal');
+    if (el) el.classList.add('error');
+    ok = false;
+  }
   if (!ok) showToast('❌ Lengkapi semua field wajib');
   return ok;
 }
@@ -1051,7 +1081,7 @@ async function submitOrder(e) {
   const area     = document.getElementById('fArea').value;
   const alamat   = document.getElementById('fAlamat').value.trim();
   const ukuran   = document.getElementById('fUkuran').value;
-  const tanggal  = document.getElementById('fTanggal').value;
+  const tanggal  = getTanggalValue();
   const catatan  = document.getElementById('fCatatan').value.trim();
   const koordinat = gpsCoords || '';
   const transport = getTransportFee();
@@ -1093,6 +1123,105 @@ async function submitOrder(e) {
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   showToast('✅ Membuka WhatsApp...');
   setTimeout(() => window.open(waUrl, '_blank'), 600);
+}
+
+// ─── DATE AVAILABILITY ────────────────────────────────────────────────────────
+let unavailableDates = []; // array of 'YYYY-MM-DD' strings (full dates)
+let availabilityCache = {}; // {YYYY-MM: [{date, slots_taken, max_per_day}]}
+let datePicker = null;
+
+async function fetchMonthAvailability(year, month) {
+  const key = `${year}-${String(month).padStart(2,'0')}`;
+  if (availabilityCache[key]) return availabilityCache[key];
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/rpc/get_month_availability`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`},
+      body: JSON.stringify({p_year: year, p_month: month})
+    });
+    if (!res.ok) return [];
+    const rows = await res.json();
+    availabilityCache[key] = rows || [];
+    return rows || [];
+  } catch(e) { return []; }
+}
+
+async function updateUnavailableDates(year, month) {
+  const rows = await fetchMonthAvailability(year, month);
+  rows.forEach(r => {
+    const d = r.schedule_date ? r.schedule_date.slice(0,10) : null;
+    if (d && !r.available && !unavailableDates.includes(d)) {
+      unavailableDates.push(d);
+    }
+  });
+  if (datePicker) datePicker.redraw();
+}
+
+function initDatePicker() {
+  const today = new Date();
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
+
+  datePicker = flatpickr('#fTanggal', {
+    locale: {
+      firstDayOfWeek: 1,
+      weekdays: {shorthand:['Min','Sen','Sel','Rab','Kam','Jum','Sab'], longhand:['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']},
+      months: {shorthand:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+               longhand:['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']}
+    },
+    minDate: tomorrow,
+    dateFormat: 'Y-m-d',
+    altInput: true,
+    altFormat: 'l, j F Y',
+    disableMobile: false,
+    onDayCreate(dObj, dStr, fp, dayElem) {
+      const d = dayElem.dateObj;
+      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      if (unavailableDates.includes(key)) {
+        dayElem.classList.add('unavailable');
+        dayElem.title = 'Tanggal penuh';
+      }
+    },
+    onMonthChange(selectedDates, dateStr, fp) {
+      updateUnavailableDates(fp.currentYear, fp.currentMonth + 1);
+    },
+    onReady(selectedDates, dateStr, fp) {
+      updateUnavailableDates(fp.currentYear, fp.currentMonth + 1);
+      // Also prefetch next month
+      const nm = fp.currentMonth === 11 ? 1 : fp.currentMonth + 2;
+      const ny = fp.currentMonth === 11 ? fp.currentYear + 1 : fp.currentYear;
+      updateUnavailableDates(ny, nm);
+    },
+    onChange(selectedDates, dateStr) {
+      const hint = document.getElementById('dateAvailHint');
+      if (!dateStr) { hint.className = 'date-avail-hint'; return; }
+      if (unavailableDates.includes(dateStr)) {
+        // Shouldn't happen (day disabled), but guard anyway
+        hint.className = 'date-avail-hint full';
+        hint.textContent = '❌ Tanggal ini sudah penuh. Pilih tanggal lain.';
+        datePicker.clear();
+        return;
+      }
+      // Check current availability
+      const [y,m] = dateStr.split('-');
+      const cacheKey = `${y}-${m}`;
+      const rows = availabilityCache[cacheKey] || [];
+      const row = rows.find(r => r.schedule_date && r.schedule_date.slice(0,10) === dateStr);
+      if (row) {
+        const sisa = row.max_per_day - row.slots_taken;
+        hint.className = 'date-avail-hint ok';
+        hint.textContent = `✅ Tersedia — ${sisa} slot tersisa dari ${row.max_per_day} slot/hari`;
+      } else {
+        hint.className = 'date-avail-hint ok';
+        hint.textContent = `✅ Tanggal tersedia`;
+      }
+    },
+    disable: [
+      function(date) {
+        const key = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+        return unavailableDates.includes(key);
+      }
+    ]
+  });
 }
 
 // ─── TOAST ─────────────────────────────────────────────────────────────────────

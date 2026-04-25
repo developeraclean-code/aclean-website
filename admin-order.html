@@ -440,6 +440,13 @@ tr:hover td{background:var(--gray-50)}
                   </div>
                   <input type="number" class="sf-input" id="freeTransportMinInput" value="2" min="1" max="10"/>
                 </div>
+                <div class="ts-row">
+                  <div>
+                    <div class="ts-label">Max Order per Hari</div>
+                    <div class="ts-desc">Tanggal otomatis diblokir jika sudah penuh</div>
+                  </div>
+                  <input type="number" class="sf-input" id="maxPerDayInput" value="8" min="1" max="50"/>
+                </div>
               </div>
               <button class="save-btn" onclick="saveTransport()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1110,16 +1117,26 @@ function savePrices() {
 function loadTransportSettings() {
   const fee = localStorage.getItem('aclean_transport_fee');
   const min = localStorage.getItem('aclean_free_min');
+  const mpd = localStorage.getItem('aclean_max_per_day');
   if (fee) document.getElementById('transportFeeInput').value = fee;
   if (min) document.getElementById('freeTransportMinInput').value = min;
+  if (mpd) document.getElementById('maxPerDayInput').value = mpd;
 }
 
-function saveTransport() {
+async function saveTransport() {
   const fee = document.getElementById('transportFeeInput').value;
   const min = document.getElementById('freeTransportMinInput').value;
+  const mpd = document.getElementById('maxPerDayInput').value;
   localStorage.setItem('aclean_transport_fee', fee);
   localStorage.setItem('aclean_free_min', min);
-  showToast('✅ Pengaturan transport disimpan!', 'success');
+  localStorage.setItem('aclean_max_per_day', mpd);
+  // Simpan max_per_day ke Supabase
+  try {
+    await supaRpc('save_website_setting', {p_key:'max_per_day', p_value:mpd, admin_pass:ADMIN_PASS});
+    showToast('✅ Pengaturan transport & kapasitas disimpan!', 'success');
+  } catch(e) {
+    showToast('✅ Disimpan lokal (Supabase: '+e.message+')', 'success');
+  }
 }
 
 // ─── FOTO LAYANAN ─────────────────────────────────────────────────────────────

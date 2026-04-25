@@ -217,18 +217,35 @@ tr:hover td{background:var(--gray-50)}
 .spinner{width:24px;height:24px;border:3px solid var(--gray-200);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* NAME/VARIANT INPUT */
+.svc-name-inp{width:100%;padding:5px 8px;border-radius:6px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dark-600);outline:none;transition:.2s}
+.svc-name-inp:focus{border-color:var(--primary)}
+.var-name-inp{width:100%;padding:4px 8px;border-radius:5px;border:1px solid var(--gray-200);font-family:var(--font-body);font-size:12px;color:var(--dark);outline:none;transition:.2s;margin-bottom:4px}
+.var-name-inp:focus{border-color:var(--primary)}
+.svc-edit-block{padding:10px 0 4px;border-top:1px solid var(--gray-100);margin-top:4px}
+.svc-edit-block:first-child{border-top:none}
+.svc-icon-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.svc-icon-lbl{font-size:16px;flex-shrink:0}
+
+/* MOBILE TOGGLE */
+.mob-toggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;background:none;border:1.5px solid var(--gray-200);border-radius:8px;cursor:pointer;flex-shrink:0}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+
 /* RESPONSIVE */
 @media(max-width:1100px){
   .stats-row{grid-template-columns:repeat(2,1fr)}
   .settings-grid{grid-template-columns:1fr}
 }
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%);transition:.3s}
+  .sidebar{transform:translateX(-100%);transition:.3s;z-index:100}
   .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
   .main{margin-left:0}
   .stats-row{grid-template-columns:1fr 1fr}
   .table-wrap{overflow-x:auto}
   table{min-width:700px}
+  .mob-toggle{display:flex}
+  .content{padding:16px}
 }
 </style>
 </head>
@@ -287,6 +304,7 @@ tr:hover td{background:var(--gray-50)}
 <!-- ═══════════════════════════════════════════════
      MAIN APP
 ════════════════════════════════════════════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 <div class="app" id="appShell">
 
   <!-- SIDEBAR -->
@@ -316,16 +334,13 @@ tr:hover td{background:var(--gray-50)}
 
       <div class="sb-section">Pengaturan</div>
       <button class="sb-link" onclick="showTab('settings',this)">
-        <span class="ic">💰</span> Harga & Transport
+        <span class="ic">📋</span> Katalog & Harga
       </button>
       <button class="sb-link" onclick="showTab('images',this)">
         <span class="ic">🖼️</span> Foto Layanan
       </button>
 
-      <div class="sb-section">Panduan</div>
-      <button class="sb-link" onclick="showTab('setup',this)">
-        <span class="ic">🔧</span> Setup Google Sheets
-      </button>
+      <div class="sb-section">Lainnya</div>
       <a class="sb-link" href="order.html" target="_blank">
         <span class="ic">🛒</span> Lihat Halaman Order
       </a>
@@ -342,7 +357,12 @@ tr:hover td{background:var(--gray-50)}
   <!-- MAIN CONTENT -->
   <div class="main">
     <div class="topbar">
-      <div class="topbar-title" id="topbarTitle">Semua Order</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mob-toggle" onclick="toggleSidebar()" aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="topbar-title" id="topbarTitle">Semua Order</div>
+      </div>
       <div class="topbar-right">
         <span class="topbar-date" id="topbarDate"></span>
         <button class="btn-refresh" onclick="loadOrders()">
@@ -406,8 +426,8 @@ tr:hover td{background:var(--gray-50)}
 
       <!-- ── TAB: SETTINGS ── -->
       <div class="tab-content" id="tab-settings">
-        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Pengaturan Harga & Transport</h2>
-        <p style="font-size:14px;color:var(--gray-400);margin-bottom:24px">Perubahan harga langsung berlaku di halaman <a href="order.html" target="_blank" style="color:var(--primary)">order.html</a> setelah disimpan.</p>
+        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Katalog Layanan & Harga</h2>
+        <p style="font-size:14px;color:var(--gray-400);margin-bottom:24px">Edit nama layanan, nama opsi, dan harga. Perubahan langsung berlaku di <a href="order.html" target="_blank" style="color:var(--primary)">halaman order</a> setelah disimpan.</p>
 
         <div class="settings-grid" id="settingsMainGrid">
           <!-- HARGA LAYANAN -->
@@ -481,11 +501,8 @@ tr:hover td{background:var(--gray-50)}
         </div>
       </div>
 
-      <!-- ── TAB: SETUP ── -->
-      <div class="tab-content" id="tab-setup">
-        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Setup Google Sheets</h2>
-        <p style="font-size:14px;color:var(--gray-400);margin-bottom:28px">Ikuti langkah berikut untuk menghubungkan sistem order ke Google Sheets milik Anda. <strong>Cukup dilakukan 1 kali.</strong></p>
-
+      <!-- ── TAB: SETUP (hidden, kept for tab routing) ── -->
+      <div class="tab-content" id="tab-setup" style="display:none!important">
         <div class="setup-steps">
 
           <div class="setup-step">
@@ -751,13 +768,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showApp(s.name, s.email, s.avatar);
   }
 
-  // Load Apps Script URL tersimpan
-  if (appsScriptUrl) {
-    const el = document.getElementById('appsScriptUrlInput');
-    if (el) el.value = appsScriptUrl;
-    document.getElementById('urlStatus').textContent = '✅ URL sudah tersimpan';
-  }
-
   // Load harga tersimpan ke settings tab
   renderPriceFields();
   loadTransportSettings();
@@ -831,10 +841,22 @@ function doLogout() {
 }
 
 // ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
-const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Harga & Transport', images:'Foto Layanan', setup:'Setup Google Sheets'};
+const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan'};
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('open');
+}
+
 function showTab(tab, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  // Close sidebar on mobile
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
   // Handle images tab as part of settings tab-content
   if (tab === 'images') {
     document.getElementById('tab-settings').classList.add('active');
@@ -1118,40 +1140,50 @@ function renderPriceFields() {
   const container = document.getElementById('priceFields');
   let html = '';
   ADMIN_CATALOG.forEach(svc => {
-    html += `<div style="padding:10px 0 4px;font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--gray-100);margin-top:4px">${svc.label}</div>`;
+    const svcName = svc.label.replace(/^[^\s]+\s/, '');
+    html += `<div class="svc-edit-block">
+      <div class="svc-icon-row">
+        <span class="svc-icon-lbl">${svc.icon}</span>
+        <input type="text" class="svc-name-inp" id="svcname-${svc.id}" value="${svcName}" placeholder="Nama layanan"/>
+      </div>`;
     if (svc.variants) {
       svc.variants.forEach(v => {
-        html += `
-        <div class="sf-row">
-          <div>
-            <div class="sf-label" style="font-size:13px">${v.name}</div>
-            <div class="sf-sub">Harga coret: <input type="number" id="orig-${v.id}" value="${v.originalPrice||0}" min="0" step="1000" style="width:100px;padding:2px 6px;border-radius:5px;border:1px solid var(--gray-200);font-size:11px"/></div>
+        html += `<div class="sf-row">
+          <div style="flex:1;min-width:0">
+            <input type="text" class="var-name-inp" id="varname-${v.id}" value="${v.name}" placeholder="Nama opsi"/>
+            <div class="sf-sub">Coret: <input type="number" id="orig-${v.id}" value="${v.originalPrice||0}" min="0" step="1000" style="width:90px;padding:2px 6px;border-radius:5px;border:1px solid var(--gray-200);font-size:11px"/></div>
           </div>
-          <input type="number" class="sf-input" id="price-${v.id}" value="${v.price}" min="0" step="1000"/>
+          <input type="number" class="sf-input" id="price-${v.id}" value="${v.price}" min="0" step="1000" style="width:110px"/>
         </div>`;
       });
     } else {
-      html += `
-      <div class="sf-row">
-        <div><div class="sf-label">${svc.label.replace(/^[^\s]+ /,'')}</div></div>
-        <input type="number" class="sf-input" id="price-${svc.id}" value="${svc.price}" min="0" step="1000"/>
+      html += `<div class="sf-row">
+        <div class="sf-label" style="color:var(--gray-400);font-size:12px">Harga</div>
+        <input type="number" class="sf-input" id="price-${svc.id}" value="${svc.price}" min="0" step="1000" style="width:110px"/>
       </div>`;
     }
+    html += `</div>`;
   });
   container.innerHTML = html;
 }
 
 function savePrices() {
   const updated = ADMIN_CATALOG.map(svc => {
+    const nameEl   = document.getElementById('svcname-'+svc.id);
+    const newName  = nameEl ? nameEl.value.trim() : svc.label.replace(/^[^\s]+ /,'');
+    const newLabel = `${svc.icon} ${newName}`;
     if (svc.variants) {
       return {
         ...svc,
-        name: svc.label.replace(/^[^\s]+ /,''),
+        label: newLabel,
+        name: newName,
         variants: svc.variants.map(v => {
+          const vNameEl = document.getElementById('varname-'+v.id);
           const priceEl = document.getElementById('price-'+v.id);
           const origEl  = document.getElementById('orig-'+v.id);
           return {
             ...v,
+            name: vNameEl ? vNameEl.value.trim() : v.name,
             price: priceEl ? Number(priceEl.value) : v.price,
             originalPrice: origEl ? Number(origEl.value) : v.originalPrice,
           };
@@ -1159,12 +1191,12 @@ function savePrices() {
       };
     } else {
       const el = document.getElementById('price-'+svc.id);
-      return {...svc, name: svc.label.replace(/^[^\s]+ /,''), price: el ? Number(el.value) : svc.price};
+      return {...svc, label: newLabel, name: newName, price: el ? Number(el.value) : svc.price};
     }
   });
   localStorage.setItem('aclean_services', JSON.stringify(updated));
   localStorage.setItem('aclean_services_ver', 'v2');
-  showToast('✅ Harga berhasil disimpan! Berlaku di halaman order.', 'success');
+  showToast('✅ Nama & harga berhasil disimpan! Berlaku di halaman order.', 'success');
 }
 
 function loadTransportSettings() {

@@ -278,7 +278,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
   .tab-btn{padding:8px 14px;font-size:13px}
   .ft-grid{grid-template-columns:1fr}
   .steps-row{max-width:340px}
+  .service-grid{grid-template-columns:1fr}
 }
+body.cart-open{padding-bottom:72px}
 </style>
 </head>
 <body>
@@ -932,8 +934,13 @@ function updateCartFormSummary() {
 
 function updateCartBar() {
   const bar = document.getElementById('cartBar');
-  if (!cart.length) { bar.classList.remove('visible'); return; }
+  if (!cart.length) {
+    bar.classList.remove('visible');
+    document.body.classList.remove('cart-open');
+    return;
+  }
   bar.classList.add('visible');
+  document.body.classList.add('cart-open');
   const total = getSubtotal() + getTransportFee();
   const totalQty = getTotalQty();
   document.getElementById('cartBarCount').textContent = cart.length;
@@ -1118,7 +1125,7 @@ async function submitOrder(e) {
         notes:        catatan || '',
         source:       'website'
       })
-    }).catch(()=>{});
+    }).catch(err => console.error('Supabase insert error:', err));
   });
 
   // localStorage backup

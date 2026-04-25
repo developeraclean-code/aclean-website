@@ -568,15 +568,34 @@ const DEFAULT_SERVICES = [
    price:500000,img:'images/service-isi-freon.jpg',icon:'❄️'},
 ];
 
-// Load override dari admin panel jika ada
-function getServices() {
+// Load harga override dari admin panel jika ada (localStorage)
+function getBaseServices() {
   try {
     const saved = localStorage.getItem('aclean_services');
     if (saved) return JSON.parse(saved);
   } catch(e) {}
-  return DEFAULT_SERVICES;
+  return DEFAULT_SERVICES.map(s => ({...s}));
 }
-const SERVICES = getServices();
+let SERVICES = getBaseServices();
+
+// Fetch foto layanan dari Supabase dan override img
+async function loadServiceImages() {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/rpc/get_website_settings`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`},
+      body: JSON.stringify({})
+    });
+    if (!res.ok) return;
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return;
+    const imgMap = {};
+    rows.forEach(r => { if (r.key && r.key.startsWith('img_')) imgMap[r.key.replace('img_','')] = r.value; });
+    if (Object.keys(imgMap).length === 0) return;
+    SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
+    renderServices(currentCat); // re-render dengan foto baru
+  } catch(e) { /* silent fail — pakai foto default */ }
+}
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
 let selectedSvc  = null;
@@ -588,6 +607,7 @@ let currentCat   = 'cuci';
 // ─── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderServices('cuci');
+  loadServiceImages(); // async — update foto kalau ada di Supabase
 
   // Default date = besok
   const d = new Date(); d.setDate(d.getDate()+1);

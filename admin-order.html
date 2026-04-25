@@ -164,6 +164,23 @@ tr:hover td{background:var(--gray-50)}
 .ts-label{font-size:13px;font-weight:600;color:var(--dark-600)}
 .ts-desc{font-size:11px;color:var(--gray-400);margin-top:2px}
 
+/* IMAGE UPLOAD */
+.img-section{margin-top:28px}
+.img-section h3{font-family:var(--font);font-size:15px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.img-section .sc-sub{font-size:13px;color:var(--gray-400);margin-bottom:20px}
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.img-item{background:var(--white);border:1.5px solid var(--gray-200);border-radius:12px;overflow:hidden;transition:.2s}
+.img-item:hover{border-color:var(--primary-100)}
+.img-preview{width:100%;height:130px;object-fit:cover;display:block;background:var(--gray-100)}
+.img-preview-ph{width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,var(--primary-50),var(--primary-100))}
+.img-info{padding:10px 12px}
+.img-name{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:6px;line-height:1.4}
+.img-upload-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;border-radius:8px;border:1.5px dashed var(--gray-300);background:var(--gray-50);color:var(--gray-500);font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;transition:.2s}
+.img-upload-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-50)}
+.img-upload-btn.has-img{border-style:solid;border-color:var(--green-100);background:var(--green-50);color:var(--green)}
+.img-file-input{display:none}
+.img-status{font-size:11px;color:var(--gray-400);margin-top:4px;text-align:center;min-height:16px}
+
 /* SETUP GUIDE */
 .setup-steps{display:flex;flex-direction:column;gap:20px;max-width:760px}
 .setup-step{background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)}
@@ -301,6 +318,9 @@ tr:hover td{background:var(--gray-50)}
       <button class="sb-link" onclick="showTab('settings',this)">
         <span class="ic">💰</span> Harga & Transport
       </button>
+      <button class="sb-link" onclick="showTab('images',this)">
+        <span class="ic">🖼️</span> Foto Layanan
+      </button>
 
       <div class="sb-section">Panduan</div>
       <button class="sb-link" onclick="showTab('setup',this)">
@@ -389,7 +409,7 @@ tr:hover td{background:var(--gray-50)}
         <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Pengaturan Harga & Transport</h2>
         <p style="font-size:14px;color:var(--gray-400);margin-bottom:24px">Perubahan harga langsung berlaku di halaman <a href="order.html" target="_blank" style="color:var(--primary)">order.html</a> setelah disimpan.</p>
 
-        <div class="settings-grid">
+        <div class="settings-grid" id="settingsMainGrid">
           <!-- HARGA LAYANAN -->
           <div class="settings-card">
             <h3>💰 Harga Layanan</h3>
@@ -437,6 +457,20 @@ tr:hover td{background:var(--gray-50)}
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- ── FOTO LAYANAN (inside settings) ── -->
+      <div class="img-section" id="imgSection" style="display:none">
+        <div style="background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)">
+          <h3>🖼️ Foto Layanan</h3>
+          <p class="sc-sub">Upload foto untuk setiap layanan. Foto tampil di kartu layanan halaman order.html. Ukuran maks 5MB, otomatis dikompres.</p>
+          <div class="img-grid" id="imgGrid"></div>
+          <button class="save-btn" id="saveImgBtn" onclick="saveAllImages()" style="margin-top:20px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Simpan Semua Foto ke Website
+          </button>
+          <div id="imgSaveStatus" style="margin-top:10px;font-size:13px;color:var(--gray-400)"></div>
         </div>
       </div>
 
@@ -790,15 +824,26 @@ function doLogout() {
 }
 
 // ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
-const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Harga & Transport', setup:'Setup Google Sheets'};
+const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Harga & Transport', images:'Foto Layanan', setup:'Setup Google Sheets'};
 function showTab(tab, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
+  // Handle images tab as part of settings tab-content
+  if (tab === 'images') {
+    document.getElementById('tab-settings').classList.add('active');
+    document.getElementById('imgSection').style.display = 'block';
+    document.getElementById('settingsMainGrid').style.display = 'none';
+  } else {
+    if (document.getElementById('imgSection')) document.getElementById('imgSection').style.display = 'none';
+    if (document.getElementById('settingsMainGrid')) document.getElementById('settingsMainGrid').style.display = '';
+    const el = document.getElementById('tab-'+tab);
+    if (el) el.classList.add('active');
+  }
   if (btn) btn.classList.add('active');
   document.getElementById('topbarTitle').textContent = tabTitles[tab] || tab;
   if (tab === 'today') renderToday();
   if (tab === 'settings') { renderPriceFields(); loadTransportSettings(); }
+  if (tab === 'images') { renderImageGrid(); }
 }
 
 // ─── LOAD ORDERS ──────────────────────────────────────────────────────────────
@@ -1075,6 +1120,147 @@ function saveTransport() {
   localStorage.setItem('aclean_transport_fee', fee);
   localStorage.setItem('aclean_free_min', min);
   showToast('✅ Pengaturan transport disimpan!', 'success');
+}
+
+// ─── FOTO LAYANAN ─────────────────────────────────────────────────────────────
+const IMG_SERVICES = [
+  {id:'cuci-kecil',   name:'Cuci AC Split 0,5PK – 1PK',    icon:'🌀'},
+  {id:'cuci-besar',   name:'Cuci AC Split 1,5PK – 2,5PK',  icon:'🌀'},
+  {id:'cuci-ducting', name:'Cuci AC Ducting / Cassette',    icon:'🌀'},
+  {id:'diagnosa',     name:'Diagnosa & Cek Unit AC',         icon:'🔧'},
+  {id:'perbaikan',    name:'Perbaikan AC Split',             icon:'🔧'},
+  {id:'pasang-baru',  name:'Pasang AC Baru',                 icon:'📦'},
+  {id:'bongkar-pasang',name:'Bongkar Pasang (Pindah Unit)', icon:'🔄'},
+  {id:'freon-r22',    name:'Isi Freon R22',                  icon:'❄️'},
+  {id:'freon-r32',    name:'Isi Freon R32',                  icon:'❄️'},
+  {id:'freon-r410',   name:'Isi Freon R410A',               icon:'❄️'},
+  {id:'vacuum-freon', name:'Vacuum + Full Freon',            icon:'❄️'},
+];
+
+let imgStore = {}; // {service_id: base64_string}
+
+async function renderImageGrid() {
+  const grid = document.getElementById('imgGrid');
+  grid.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat foto...</div>`;
+
+  // Load existing images from Supabase
+  try {
+    const rows = await supaRpc('get_website_settings', {});
+    rows.forEach(r => {
+      if (r.key.startsWith('img_')) {
+        const id = r.key.replace('img_', '');
+        imgStore[id] = r.value;
+      }
+    });
+  } catch(e) { console.warn('Could not load settings:', e); }
+
+  grid.innerHTML = IMG_SERVICES.map(s => {
+    const hasImg = !!imgStore[s.id];
+    const previewHtml = hasImg
+      ? `<img src="${imgStore[s.id]}" class="img-preview" alt="${s.name}"/>`
+      : `<div class="img-preview-ph">${s.icon}</div>`;
+    return `
+      <div class="img-item" id="imgitem-${s.id}">
+        ${previewHtml}
+        <div class="img-info">
+          <div class="img-name">${s.name}</div>
+          <label class="img-upload-btn ${hasImg ? 'has-img' : ''}" for="imgfile-${s.id}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            ${hasImg ? '✅ Ganti Foto' : 'Upload Foto'}
+          </label>
+          <input type="file" class="img-file-input" id="imgfile-${s.id}" accept="image/*" onchange="handleImgSelect('${s.id}', this)"/>
+          <div class="img-status" id="imgstatus-${s.id}">${hasImg ? 'Foto sudah diupload' : ''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function handleImgSelect(serviceId, input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('❌ Ukuran file maks 5MB', 'error'); return;
+  }
+  const status = document.getElementById('imgstatus-'+serviceId);
+  status.textContent = 'Memproses...';
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      // Compress via canvas — max 800x600, JPEG 75%
+      const canvas = document.createElement('canvas');
+      const MAX_W = 800, MAX_H = 600;
+      let w = img.width, h = img.height;
+      if (w > MAX_W) { h = Math.round(h * MAX_W / w); w = MAX_W; }
+      if (h > MAX_H) { w = Math.round(w * MAX_H / h); h = MAX_H; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const compressed = canvas.toDataURL('image/jpeg', 0.75);
+
+      imgStore[serviceId] = compressed;
+
+      // Update preview
+      const item = document.getElementById('imgitem-'+serviceId);
+      const existing = item.querySelector('.img-preview, .img-preview-ph');
+      const newImg = document.createElement('img');
+      newImg.src = compressed;
+      newImg.className = 'img-preview';
+      newImg.alt = serviceId;
+      existing.replaceWith(newImg);
+
+      // Update label
+      const lbl = item.querySelector('.img-upload-btn');
+      lbl.classList.add('has-img');
+      lbl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> ✅ Ganti Foto`;
+
+      const kb = Math.round(compressed.length * 0.75 / 1024);
+      status.textContent = `Siap disimpan (~${kb}KB)`;
+      status.style.color = 'var(--green)';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveAllImages() {
+  const btn = document.getElementById('saveImgBtn');
+  const statusEl = document.getElementById('imgSaveStatus');
+  const ids = Object.keys(imgStore);
+  if (!ids.length) { showToast('Belum ada foto yang dipilih', 'error'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = `<div class="spinner" style="width:16px;height:16px;border-width:2px"></div> Menyimpan...`;
+  statusEl.textContent = `Menyimpan ${ids.length} foto ke Supabase...`;
+
+  let saved = 0, failed = 0;
+  for (const id of ids) {
+    try {
+      await supaRpc('save_website_setting', {
+        p_key: 'img_' + id,
+        p_value: imgStore[id],
+        admin_pass: ADMIN_PASS
+      });
+      saved++;
+      statusEl.textContent = `Menyimpan ${saved}/${ids.length}...`;
+    } catch(e) {
+      failed++;
+      console.error('Save img failed for', id, e);
+    }
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Simpan Semua Foto ke Website`;
+
+  if (failed === 0) {
+    showToast(`✅ ${saved} foto berhasil disimpan! Tampil di halaman order.html`, 'success');
+    statusEl.textContent = `✅ ${saved} foto tersimpan — langsung aktif di halaman order customer.`;
+    statusEl.style.color = 'var(--green)';
+  } else {
+    showToast(`⚠️ ${saved} berhasil, ${failed} gagal`, 'error');
+    statusEl.textContent = `${saved} berhasil, ${failed} gagal. Coba lagi.`;
+  }
 }
 
 // Apps Script sudah digantikan oleh Supabase — tidak diperlukan lagi

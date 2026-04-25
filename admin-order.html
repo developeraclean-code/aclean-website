@@ -1111,6 +1111,7 @@ function savePrices() {
     return {...s, price: el ? Number(el.value) : s.price};
   });
   localStorage.setItem('aclean_services', JSON.stringify(updated));
+  localStorage.setItem('aclean_services_ver', 'v2');
   showToast('✅ Harga berhasil disimpan!', 'success');
 }
 

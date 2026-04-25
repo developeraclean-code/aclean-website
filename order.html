@@ -653,10 +653,18 @@ const DEFAULT_SERVICES = [
 ];
 
 // Load harga override dari admin panel jika ada (localStorage)
+// v2 = format baru dengan variants — localStorage lama (v1) diabaikan
+const CATALOG_VERSION = 'v2';
 function getBaseServices() {
   try {
-    const saved = localStorage.getItem('aclean_services');
-    if (saved) return JSON.parse(saved);
+    const ver = localStorage.getItem('aclean_services_ver');
+    if (ver === CATALOG_VERSION) {
+      const saved = localStorage.getItem('aclean_services');
+      if (saved) return JSON.parse(saved);
+    } else {
+      // Hapus data lama agar tidak konflik
+      localStorage.removeItem('aclean_services');
+    }
   } catch(e) {}
   return DEFAULT_SERVICES.map(s => ({...s}));
 }

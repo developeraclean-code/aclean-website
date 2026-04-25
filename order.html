@@ -187,6 +187,52 @@ nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark-700);color:var(--white);padding:12px 22px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s;z-index:9000;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* ADD-TO-CART BUTTON */
+.svc-add-row{display:flex;align-items:center;gap:8px;margin-top:auto}
+.svc-btn-add{flex:1;padding:10px;border-radius:9px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.svc-btn-add:hover{background:var(--primary-light)}
+.svc-btn-add.in-cart{background:var(--green)}
+.svc-qty-ctrl{display:flex;align-items:center;gap:6px;background:var(--gray-100);border-radius:9px;padding:4px}
+.svc-qty-ctrl button{width:28px;height:28px;border-radius:7px;border:none;background:var(--white);color:var(--primary);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.svc-qty-ctrl button:hover{background:var(--primary-50)}
+.svc-qty-ctrl .qv{font-size:14px;font-weight:700;color:var(--dark);min-width:22px;text-align:center}
+
+/* VARIANT MODAL */
+.v-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
+.v-overlay.open{opacity:1;pointer-events:all}
+.v-sheet{background:var(--white);border-radius:20px 20px 0 0;padding:24px 24px 36px;width:100%;max-width:560px;transform:translateY(100%);transition:.3s cubic-bezier(.4,0,.2,1);max-height:85vh;overflow-y:auto}
+.v-overlay.open .v-sheet{transform:translateY(0)}
+.v-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.v-title{font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--dark)}
+.v-close{width:32px;height:32px;border-radius:50%;border:none;background:var(--gray-100);color:var(--dark-600);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.v-option{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:2px solid var(--gray-200);border-radius:12px;margin-bottom:10px;cursor:pointer;transition:.2s}
+.v-option:hover{border-color:var(--primary-100);background:var(--primary-50)}
+.v-option.selected{border-color:var(--primary);background:var(--primary-50)}
+.v-opt-name{font-size:14px;font-weight:600;color:var(--dark);line-height:1.4}
+.v-opt-price{font-family:var(--font-heading);font-size:15px;font-weight:800;color:var(--primary);white-space:nowrap;margin-left:12px}
+.v-add-btn{width:100%;padding:15px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:var(--white);font-family:var(--font-heading);font-size:15px;font-weight:700;border:none;cursor:pointer;margin-top:16px;transition:.2s}
+.v-add-btn:hover{opacity:.9}
+.v-add-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* CART FLOATING BAR (mobile) */
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--gray-200);padding:12px 20px;display:none;align-items:center;justify-content:space-between;z-index:800;box-shadow:0 -4px 20px rgba(0,0,0,.1)}
+.cart-bar.visible{display:flex}
+.cart-bar-left{display:flex;align-items:center;gap:10px}
+.cart-bar-count{background:var(--primary);color:var(--white);font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px}
+.cart-bar-info{font-size:13px;font-weight:600;color:var(--dark)}
+.cart-bar-sub{font-size:12px;color:var(--gray-400)}
+.cart-bar-btn{padding:11px 20px;border-radius:10px;background:linear-gradient(135deg,#128C7E,#25D366);color:var(--white);font-family:var(--font-heading);font-size:14px;font-weight:700;border:none;cursor:pointer;white-space:nowrap}
+
+/* CART SUMMARY ITEMS */
+.sum-item-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px dashed var(--gray-200)}
+.sum-item-row:last-of-type{border-bottom:none}
+.sum-item-main{flex:1;min-width:0}
+.sum-item-name{font-size:13px;font-weight:600;color:var(--dark);line-height:1.4}
+.sum-item-meta{font-size:11px;color:var(--gray-400);margin-top:2px}
+.sum-item-subtotal{font-size:13px;font-weight:700;color:var(--dark);white-space:nowrap}
+.sum-remove{background:none;border:none;color:var(--gray-300);cursor:pointer;font-size:16px;padding:2px;line-height:1;transition:.2s;flex-shrink:0;margin-top:1px}
+.sum-remove:hover{color:var(--red)}
+
 /* WA FLOAT */
 .wa-float{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);z-index:900;transition:transform .2s;text-decoration:none}
 .wa-float:hover{transform:scale(1.1)}
@@ -326,18 +372,10 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
       <p class="sub">Field bertanda <span style="color:var(--red)">*</span> wajib diisi. Pembayaran dilakukan setelah pengerjaan selesai.</p>
 
       <form id="orderForm" novalidate>
-        <input type="hidden" id="fSvcId"/>
-        <input type="hidden" id="fSvcName"/>
-        <input type="hidden" id="fSvcPrice"/>
         <input type="hidden" id="fKoordinat"/>
 
-        <!-- SELECTED SERVICE DISPLAY -->
-        <div class="sel-svc-box" id="selSvcBox">
-          <div class="sel-svc-label">Layanan Dipilih</div>
-          <div class="sel-svc-name" id="selSvcName"></div>
-          <div class="sel-svc-price" id="selSvcPrice"></div>
-          <button type="button" class="change-btn" onclick="clearService()">↑ Ganti layanan</button>
-        </div>
+        <!-- KERANJANG RINGKASAN (dinamis dari cart) -->
+        <div id="cartSummaryInForm"></div>
 
         <!-- NAMA -->
         <div class="field">
@@ -399,15 +437,6 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
               <option>Belum tahu</option>
             </select>
           </div>
-          <div class="field">
-            <label>Jumlah Unit <span class="req">*</span></label>
-            <div class="qty-row">
-              <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
-              <span class="qty-val" id="qtyVal">1</span>
-              <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
-            </div>
-            <div class="qty-hint" id="qtyHint" style="margin-top:6px;color:var(--red)">1 unit: transport +Rp 20.000</div>
-          </div>
         </div>
 
         <!-- TANGGAL -->
@@ -454,7 +483,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
 
     <!-- SUMMARY SIDEBAR -->
     <div class="summary-card" id="summaryCard">
-      <h3>🧾 Ringkasan Order</h3>
+      <h3>🧾 Keranjang Order</h3>
       <div id="sumContent">
         <div class="sum-empty">
           <div class="ic">🛒</div>
@@ -510,6 +539,32 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
   </div>
 </div></footer>
 
+<!-- VARIANT MODAL -->
+<div class="v-overlay" id="variantOverlay" onclick="closeVariantModal(event)">
+  <div class="v-sheet" id="variantSheet">
+    <div class="v-header">
+      <div class="v-title" id="variantTitle">Pilih Opsi</div>
+      <button class="v-close" onclick="closeVariantModal()">✕</button>
+    </div>
+    <div id="variantOptions"></div>
+    <button class="v-add-btn" id="variantAddBtn" onclick="confirmVariant()" disabled>Tambah ke Keranjang</button>
+  </div>
+</div>
+
+<!-- CART FLOATING BAR (mobile) -->
+<div class="cart-bar" id="cartBar">
+  <div class="cart-bar-left">
+    <span class="cart-bar-count" id="cartBarCount">0</span>
+    <div>
+      <div class="cart-bar-info" id="cartBarTotal">Rp 0</div>
+      <div class="cart-bar-sub" id="cartBarItems">Belum ada layanan</div>
+    </div>
+  </div>
+  <button class="cart-bar-btn" onclick="document.getElementById('form-order').scrollIntoView({behavior:'smooth'})">
+    Pesan Sekarang →
+  </button>
+</div>
+
 <!-- WA FLOAT -->
 <a href="https://wa.me/6281289898937?text=Halo%20AClean%2C%20saya%20ingin%20pesan%20layanan%20AC" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.24 0-4.326-.693-6.05-1.876l-.424-.3-2.644.886.886-2.644-.3-.424A9.96 9.96 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
@@ -519,52 +574,65 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px
 
 <script>
 // ─── KONFIGURASI ───────────────────────────────────────────────────────────────
-const WA_NUMBER     = '6281289898937';
-const TRANSPORT_FEE = 20000;
+const WA_NUMBER          = '6281289898937';
+const TRANSPORT_FEE      = Number(localStorage.getItem('aclean_transport_fee') || 20000);
+const FREE_TRANSPORT_MIN = Number(localStorage.getItem('aclean_free_min') || 2);
 
 // Supabase — sudah terhubung otomatis
 const SUPA_URL  = 'https://apsbeppcmsxeldnejibz.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwc2JlcHBjbXN4ZWxkbmVqaWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjI5OTAsImV4cCI6MjA4ODQzODk5MH0.ougABivpskSoQyFCOagV7GYah0yNV3-sGuc5ErplRo4';
 
 // ─── DATA LAYANAN ──────────────────────────────────────────────────────────────
-// Harga bisa di-override dari admin panel (tersimpan di localStorage)
 const DEFAULT_SERVICES = [
   // CUCI AC
-  {id:'cuci-kecil',cat:'cuci',name:'Cuci AC Split Wall 0,5PK – 1PK',
-   desc:'Pembersihan menyeluruh evaporator, blower & filter. Cocok untuk ruangan ≤ 18m². Include: buka-pasang cover, semprot evaporator, cuci filter.',
+  {id:'cuci-kecil',cat:'cuci',name:'Cuci AC Split 0,5PK – 1PK',
+   desc:'Pembersihan menyeluruh evaporator, blower & filter. Cocok untuk ruangan ≤ 18m².',
    price:85000,img:'images/service-cuci-ac.jpg',popular:true,icon:'🌀'},
-  {id:'cuci-besar',cat:'cuci',name:'Cuci AC Split Wall 1,5PK – 2,5PK',
-   desc:'Pembersihan mendalam untuk AC berkapasitas menengah-besar. Ruangan 18–36m². Prosedur sama dengan unit kecil namun lebih intensif.',
+  {id:'cuci-besar',cat:'cuci',name:'Cuci AC Split 1,5PK – 2,5PK',
+   desc:'Pembersihan mendalam AC kapasitas menengah-besar. Ruangan 18–36m².',
    price:90000,img:'images/service-cuci-ac.jpg',icon:'🌀'},
-  {id:'cuci-ducting',cat:'cuci',name:'Cuci AC Ducting / Cassette / Ceiling',
-   desc:'Service pembersihan menyeluruh untuk AC tipe Ducting, Cassette & Ceiling. Teknik khusus sesuai tipe unit. Harga per unit.',
+  {id:'cuci-ducting',cat:'cuci',name:'Cuci AC Ducting / Cassette',
+   desc:'Service pembersihan AC tipe Ducting, Cassette & Ceiling. Teknik khusus per unit.',
    price:250000,img:'images/service-ac-central.jpg',icon:'🌀'},
   // PERBAIKAN
   {id:'diagnosa',cat:'perbaikan',name:'Diagnosa & Cek Unit AC',
-   desc:'Pengecekan menyeluruh kondisi AC, identifikasi kerusakan & rekomendasi solusi. Biaya diagnosa terpisah dari sparepart.',
+   desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan. Biaya sparepart terpisah.',
    price:100000,img:'images/service-cuci-ac.jpg',icon:'🔧'},
   {id:'perbaikan',cat:'perbaikan',name:'Perbaikan AC Split',
-   desc:'Perbaikan kerusakan umum AC Split: kapasitor, motor fan, PCB, dll. Harga jasa saja — sparepart dihitung terpisah.',
+   desc:'Perbaikan kerusakan umum: kapasitor, motor fan, PCB. Harga jasa — sparepart terpisah.',
    price:100000,img:'images/service-cuci-ac.jpg',icon:'🔧'},
-  // PASANG
-  {id:'pasang-baru',cat:'pasang',name:'Pasang AC Baru (Instalasi)',
-   desc:'Instalasi unit AC baru lengkap: pipa copper, kabel listrik, bracket, vacuum & test run. Bahan standard sudah include.',
-   price:350000,img:'images/service-pasang-ac.jpg',popular:true,icon:'📦'},
+  // PASANG — dengan variants sub-opsi
+  {id:'pasang-baru',cat:'pasang',name:'Pasang AC Baru',
+   desc:'Instalasi unit AC baru. Pilih kapasitas & paket sesuai kebutuhan.',
+   img:'images/service-pasang-ac.jpg',popular:true,icon:'📦',
+   variants:[
+     {id:'pasang-kecil',      name:'Pasang AC 1/2PK – 1PK (Tanpa Vacum)',      price:350000},
+     {id:'pasang-besar',      name:'Pasang AC 1,5PK – 2,5PK (Tanpa Vacum)',    price:400000},
+     {id:'pasang-kecil-vac',  name:'Pasang AC 1/2PK – 1PK + Vacum Unit',       price:450000},
+     {id:'pasang-besar-vac',  name:'Pasang AC 1,5PK – 2,5PK + Vacum Unit',     price:500000},
+     {id:'bongkar-saja',      name:'Bongkar Unit Saja (Tanpa Reinstalasi)',      price:150000},
+   ]},
   {id:'bongkar-pasang',cat:'pasang',name:'Bongkar Pasang (Pindah Unit)',
-   desc:'Bongkar AC dari lokasi lama, reinstalasi di lokasi baru. Termasuk vacuum refrigerant & test run setelah pemasangan.',
-   price:400000,img:'images/service-bongkar-pasang.jpg',icon:'🔄'},
+   desc:'Bongkar dari lokasi lama, reinstalasi di lokasi baru. Pilih opsi sesuai kebutuhan.',
+   img:'images/service-bongkar-pasang.jpg',icon:'🔄',
+   variants:[
+     {id:'bp-kecil',     name:'Bongkar Pasang AC 1/2PK – 1PK',               price:400000},
+     {id:'bp-besar',     name:'Bongkar Pasang AC 1,5PK – 2,5PK',             price:450000},
+     {id:'bp-kecil-vac', name:'Bongkar Pasang + Vacum AC 1/2PK – 1PK',       price:500000},
+     {id:'bp-besar-vac', name:'Bongkar Pasang + Vacum AC 1,5PK – 2,5PK',    price:550000},
+   ]},
   // FREON
   {id:'freon-r22',cat:'freon',name:'Isi Freon R22',
-   desc:'Pengisian refrigerant R22 untuk unit AC lama. Termasuk pengecekan tekanan sistem sebelum & sesudah pengisian.',
+   desc:'Pengisian refrigerant R22 untuk unit AC lama. Termasuk cek tekanan sistem.',
    price:350000,img:'images/service-isi-freon.jpg',icon:'❄️'},
   {id:'freon-r32',cat:'freon',name:'Isi Freon R32',
-   desc:'Pengisian refrigerant R32. Ramah lingkungan (GWP rendah), efisiensi tinggi. Standar AC modern inverter masa kini.',
+   desc:'Refrigerant R32 — ramah lingkungan, efisiensi tinggi. Standar AC modern inverter.',
    price:450000,img:'images/service-isi-freon.jpg',popular:true,icon:'❄️'},
   {id:'freon-r410',cat:'freon',name:'Isi Freon R410A',
-   desc:'Pengisian refrigerant R410A untuk unit AC inverter berperforma tinggi. Tekanan lebih tinggi dari R32.',
+   desc:'Refrigerant R410A untuk AC inverter performa tinggi.',
    price:450000,img:'images/service-isi-freon.jpg',icon:'❄️'},
   {id:'vacuum-freon',cat:'freon',name:'Vacuum + Full Freon',
-   desc:'Vacuum sistem AC hingga bersih + isi freon penuh. Solusi terbaik untuk AC yang sama sekali kehabisan refrigerant.',
+   desc:'Vacuum sistem + isi freon penuh. Solusi AC yang sama sekali kehabisan refrigerant.',
    price:500000,img:'images/service-isi-freon.jpg',icon:'❄️'},
 ];
 
@@ -598,11 +666,13 @@ async function loadServiceImages() {
 }
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
-let selectedSvc  = null;
-let qty          = 1;
+let cart         = [];   // [{cartId, svcId, svcName, price, qty}]
+let cartSeq      = 0;
 let gpsCoords    = null;
 let selectedTime = 'Pagi (08:00 – 12:00)';
 let currentCat   = 'cuci';
+let variantTarget = null; // service being picked in modal
+let variantSelected = null; // chosen variant obj
 
 // ─── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -621,30 +691,51 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nb').classList.toggle('scrolled', window.scrollY > 20));
 
   document.getElementById('orderForm').addEventListener('submit', submitOrder);
-  updateSummary();
+  renderCart();
 });
 
 // ─── RENDER LAYANAN ────────────────────────────────────────────────────────────
 function renderServices(cat) {
   currentCat = cat;
   const list = cat === 'all' ? SERVICES : SERVICES.filter(s => s.cat === cat);
-  document.getElementById('serviceGrid').innerHTML = list.map(s => `
-    <div class="svc-card${selectedSvc?.id===s.id?' chosen':''}" id="card-${s.id}" onclick="pickService('${s.id}')">
+  document.getElementById('serviceGrid').innerHTML = list.map(s => {
+    const cartItems = cart.filter(c => c.svcId === s.id);
+    const inCart = cartItems.length > 0;
+    const totalQtyInCart = cartItems.reduce((sum, c) => sum + c.qty, 0);
+    const hasVariants = s.variants && s.variants.length > 0;
+    const priceDisplay = hasVariants
+      ? `Mulai Rp ${fmtRp(Math.min(...s.variants.map(v=>v.price)))}`
+      : `Rp ${fmtRp(s.price)}`;
+    const priceUnit = hasVariants ? '' : '/unit';
+
+    return `
+    <div class="svc-card${inCart?' chosen':''}" id="card-${s.id}">
       ${s.popular ? '<div class="svc-badge">⭐ Terpopuler</div>' : ''}
       <img src="${s.img}" alt="${s.name}" class="svc-img" loading="lazy"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
       <div class="svc-img-ph" style="display:none">${s.icon}</div>
       <div class="svc-body">
         <div class="svc-price-row">
-          <span class="svc-price">Rp ${fmtRp(s.price)}</span>
-          <span class="svc-unit">/unit</span>
+          <span class="svc-price">${priceDisplay}</span>
+          <span class="svc-unit">${priceUnit}</span>
         </div>
         <div class="svc-name">${s.name}</div>
         <div class="svc-desc">${s.desc}</div>
-        <button class="svc-btn">${selectedSvc?.id===s.id ? '✅ Dipilih' : '🛒 Pesan Ini'}</button>
+        ${hasVariants ? `<div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:10px">${s.variants.length} pilihan opsi tersedia →</div>` : ''}
+        <div class="svc-add-row">
+          <button class="svc-btn-add${inCart?' in-cart':''}" onclick="${hasVariants?`showVariantModal('${s.id}')`:`addSimpleToCart('${s.id}')`}">
+            ${hasVariants ? '📋 Pilih Opsi' : (inCart ? `✅ +Tambah Lagi` : '🛒 Tambah')}
+          </button>
+          ${inCart && !hasVariants ? `
+          <div class="svc-qty-ctrl">
+            <button onclick="decreaseLastCartItem('${s.id}')">−</button>
+            <span class="qv">${totalQtyInCart}</span>
+            <button onclick="increaseLastCartItem('${s.id}')">+</button>
+          </div>` : ''}
+        </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function filterTab(cat, btn) {
@@ -653,55 +744,172 @@ function filterTab(cat, btn) {
   renderServices(cat);
 }
 
-// ─── PILIH LAYANAN ─────────────────────────────────────────────────────────────
-function pickService(id) {
-  selectedSvc = SERVICES.find(s => s.id === id);
-  document.getElementById('fSvcId').value    = id;
-  document.getElementById('fSvcName').value  = selectedSvc.name;
-  document.getElementById('fSvcPrice').value = selectedSvc.price;
+// ─── CART FUNCTIONS ────────────────────────────────────────────────────────────
+function getTotalQty() { return cart.reduce((s,c) => s+c.qty, 0); }
+function getTransportFee() { return getTotalQty() >= FREE_TRANSPORT_MIN ? 0 : TRANSPORT_FEE; }
+function getSubtotal() { return cart.reduce((s,c) => s + c.price * c.qty, 0); }
 
-  // Update UI card
-  renderServices(currentCat);
-
-  // Tampilkan box layanan terpilih di form
-  const box = document.getElementById('selSvcBox');
-  box.style.display = 'block';
-  document.getElementById('selSvcName').textContent  = selectedSvc.name;
-  document.getElementById('selSvcPrice').textContent = `Rp ${fmtRp(selectedSvc.price)}/unit`;
-
-  // Step indicator
-  document.getElementById('step2').classList.add('done');
-
-  updateSummary();
-  showToast(`✅ Dipilih: ${selectedSvc.name}`);
-
-  setTimeout(() =>
-    document.getElementById('form-order').scrollIntoView({behavior:'smooth', block:'start'}), 250);
-}
-
-function clearService() {
-  selectedSvc = null;
-  document.getElementById('selSvcBox').style.display = 'none';
-  document.getElementById('fSvcId').value = '';
-  document.getElementById('step2').classList.remove('done');
-  renderServices(currentCat);
-  updateSummary();
-  document.getElementById('katalog').scrollIntoView({behavior:'smooth'});
-}
-
-// ─── QTY CONTROL ──────────────────────────────────────────────────────────────
-function changeQty(delta) {
-  qty = Math.max(1, Math.min(20, qty + delta));
-  document.getElementById('qtyVal').textContent = qty;
-  const hint = document.getElementById('qtyHint');
-  if (qty >= 2) {
-    hint.textContent = '🎉 2+ unit: biaya transportasi GRATIS!';
-    hint.style.color = 'var(--green)';
+function addSimpleToCart(svcId) {
+  const svc = SERVICES.find(s => s.id === svcId);
+  if (!svc || svc.variants) return;
+  // Find existing simple entry for this svcId
+  const existing = cart.find(c => c.svcId === svcId);
+  if (existing) {
+    existing.qty++;
   } else {
-    hint.textContent = '1 unit: transport +Rp 20.000';
-    hint.style.color = 'var(--red)';
+    cart.push({cartId: 'c'+(++cartSeq), svcId, svcName: svc.name, price: svc.price, qty: 1});
   }
-  updateSummary();
+  afterCartChange(svcId);
+}
+
+function increaseLastCartItem(svcId) {
+  const items = cart.filter(c => c.svcId === svcId);
+  if (items.length) { items[items.length-1].qty++; afterCartChange(svcId); }
+}
+
+function decreaseLastCartItem(svcId) {
+  const items = cart.filter(c => c.svcId === svcId);
+  if (!items.length) return;
+  const last = items[items.length-1];
+  last.qty--;
+  if (last.qty <= 0) cart = cart.filter(c => c.cartId !== last.cartId);
+  afterCartChange(svcId);
+}
+
+function removeFromCart(cartId) {
+  cart = cart.filter(c => c.cartId !== cartId);
+  afterCartChange();
+}
+
+function updateCartQty(cartId, delta) {
+  const item = cart.find(c => c.cartId === cartId);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  afterCartChange();
+}
+
+function afterCartChange(svcId) {
+  renderServices(currentCat);
+  renderCart();
+  updateCartFormSummary();
+  updateCartBar();
+  if (cart.length > 0) document.getElementById('step2').classList.add('done');
+  else document.getElementById('step2').classList.remove('done');
+  if (svcId) showToast('✅ Ditambahkan ke keranjang');
+}
+
+// ─── VARIANT MODAL ─────────────────────────────────────────────────────────────
+function showVariantModal(svcId) {
+  const svc = SERVICES.find(s => s.id === svcId);
+  if (!svc || !svc.variants) return;
+  variantTarget = svc;
+  variantSelected = null;
+  document.getElementById('variantTitle').textContent = svc.name;
+  document.getElementById('variantOptions').innerHTML = svc.variants.map(v => `
+    <div class="v-option" id="vopt-${v.id}" onclick="selectVariant('${v.id}')">
+      <div class="v-opt-name">${v.name}</div>
+      <div class="v-opt-price">Rp ${fmtRp(v.price)}</div>
+    </div>
+  `).join('');
+  document.getElementById('variantAddBtn').disabled = true;
+  document.getElementById('variantOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectVariant(variantId) {
+  if (!variantTarget) return;
+  variantSelected = variantTarget.variants.find(v => v.id === variantId);
+  document.querySelectorAll('.v-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('vopt-'+variantId).classList.add('selected');
+  document.getElementById('variantAddBtn').disabled = false;
+}
+
+function confirmVariant() {
+  if (!variantTarget || !variantSelected) return;
+  cart.push({
+    cartId: 'c'+(++cartSeq),
+    svcId: variantTarget.id,
+    svcName: variantSelected.name,
+    price: variantSelected.price,
+    qty: 1
+  });
+  closeVariantModal();
+  afterCartChange(variantTarget.id);
+}
+
+function closeVariantModal(e) {
+  if (e && e.target !== document.getElementById('variantOverlay')) return;
+  document.getElementById('variantOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  variantTarget = null;
+  variantSelected = null;
+}
+
+// ─── RENDER CART SIDEBAR ───────────────────────────────────────────────────────
+function renderCart() {
+  const c = document.getElementById('sumContent');
+  if (!cart.length) {
+    c.innerHTML = `<div class="sum-empty"><div class="ic">🛒</div><p>Pilih layanan di atas<br/>untuk melihat total harga</p></div>`;
+    return;
+  }
+  const subtotal  = getSubtotal();
+  const transport = getTransportFee();
+  const totalQty  = getTotalQty();
+  const total     = subtotal + transport;
+
+  c.innerHTML = `
+    ${cart.map(item => `
+    <div class="sum-item-row">
+      <button class="sum-remove" onclick="removeFromCart('${item.cartId}')" title="Hapus">✕</button>
+      <div class="sum-item-main">
+        <div class="sum-item-name">${item.svcName}</div>
+        <div class="sum-item-meta" style="display:flex;align-items:center;gap:8px;margin-top:4px">
+          <button onclick="updateCartQty('${item.cartId}',-1)" style="width:22px;height:22px;border-radius:6px;border:1.5px solid var(--gray-200);background:var(--white);cursor:pointer;font-size:13px;font-weight:700;color:var(--primary);display:flex;align-items:center;justify-content:center">−</button>
+          <span style="font-size:13px;font-weight:700;color:var(--dark)">${item.qty} unit</span>
+          <button onclick="updateCartQty('${item.cartId}',1)" style="width:22px;height:22px;border-radius:6px;border:1.5px solid var(--gray-200);background:var(--white);cursor:pointer;font-size:13px;font-weight:700;color:var(--primary);display:flex;align-items:center;justify-content:center">+</button>
+        </div>
+      </div>
+      <div class="sum-item-subtotal">Rp ${fmtRp(item.price * item.qty)}</div>
+    </div>`).join('')}
+    <div class="sum-row" style="margin-top:8px"><span class="lbl">Subtotal</span><span class="val">Rp ${fmtRp(subtotal)}</span></div>
+    <div class="sum-row">
+      <span class="lbl">Transport</span>
+      <span class="val">${transport === 0
+        ? '<span class="free-badge">✓ GRATIS</span>'
+        : 'Rp '+fmtRp(transport)
+      }</span>
+    </div>
+    ${transport === 0 ? `<div class="transport-hint">🎉 Gratis untuk total ≥ ${FREE_TRANSPORT_MIN} unit!</div>` : `<div style="font-size:11px;color:var(--gray-400);padding-bottom:4px">Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit</div>`}
+    <div class="sum-row total"><span class="lbl">TOTAL</span><span class="val">Rp ${fmtRp(total)}</span></div>
+  `;
+}
+
+function updateCartFormSummary() {
+  const el = document.getElementById('cartSummaryInForm');
+  if (!cart.length) { el.innerHTML = ''; return; }
+  const totalQty = getTotalQty();
+  const transport = getTransportFee();
+  el.innerHTML = `
+    <div style="margin-bottom:20px;padding:14px 16px;background:var(--primary-50);border:2px solid var(--primary-100);border-radius:12px">
+      <div style="font-size:11px;color:var(--primary);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px">Keranjang (${cart.length} layanan, ${totalQty} unit)</div>
+      ${cart.map(item => `<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="color:var(--dark-600)">${item.qty}× ${item.svcName}</span><span style="font-weight:700;color:var(--dark)">Rp ${fmtRp(item.price*item.qty)}</span></div>`).join('')}
+      <div style="border-top:1px dashed var(--primary-100);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--primary)">
+        <span>Total Layanan</span><span>Rp ${fmtRp(getSubtotal() + transport)}</span>
+      </div>
+      <button type="button" onclick="document.getElementById('katalog').scrollIntoView({behavior:'smooth'})" style="margin-top:8px;font-size:12px;color:var(--gray-400);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0">↑ Tambah / ubah layanan</button>
+    </div>
+  `;
+}
+
+function updateCartBar() {
+  const bar = document.getElementById('cartBar');
+  if (!cart.length) { bar.classList.remove('visible'); return; }
+  bar.classList.add('visible');
+  const total = getSubtotal() + getTransportFee();
+  const totalQty = getTotalQty();
+  document.getElementById('cartBarCount').textContent = cart.length;
+  document.getElementById('cartBarTotal').textContent = `Rp ${fmtRp(total)}`;
+  document.getElementById('cartBarItems').textContent = `${totalQty} unit · ${cart.length} layanan`;
 }
 
 // ─── WAKTU ─────────────────────────────────────────────────────────────────────
@@ -711,34 +919,7 @@ function pickTime(el, val) {
   selectedTime = val;
 }
 
-// ─── RINGKASAN ─────────────────────────────────────────────────────────────────
-function updateSummary() {
-  const c = document.getElementById('sumContent');
-  if (!selectedSvc) {
-    c.innerHTML = `<div class="sum-empty"><div class="ic">🛒</div><p>Pilih layanan di atas<br/>untuk melihat total harga</p></div>`;
-    return;
-  }
-  const subtotal = selectedSvc.price * qty;
-  const transport = qty >= 2 ? 0 : TRANSPORT_FEE;
-  const total = subtotal + transport;
-
-  c.innerHTML = `
-    <div class="sum-item">
-      <div class="sum-item-name">${selectedSvc.name}</div>
-      <div class="sum-item-meta">Rp ${fmtRp(selectedSvc.price)} × ${qty} unit</div>
-    </div>
-    <div class="sum-row"><span class="lbl">Subtotal</span><span class="val">Rp ${fmtRp(subtotal)}</span></div>
-    <div class="sum-row">
-      <span class="lbl">Biaya Transport</span>
-      <span class="val">${qty >= 2
-        ? '<span class="free-badge">✓ GRATIS</span>'
-        : 'Rp '+fmtRp(transport)
-      }</span>
-    </div>
-    ${qty >= 2 ? '<div class="transport-hint">🎉 Gratis untuk pemesanan ≥ 2 unit!</div>' : '<div style="font-size:11px;color:var(--gray-400);padding-bottom:4px">Gratis jika pesan 2 unit atau lebih</div>'}
-    <div class="sum-row total"><span class="lbl">TOTAL</span><span class="val">Rp ${fmtRp(total)}</span></div>
-  `;
-}
+// (updateSummary replaced by renderCart + updateCartFormSummary + updateCartBar)
 
 // ─── GPS LOCATION ──────────────────────────────────────────────────────────────
 function getLocation() {
@@ -780,10 +961,11 @@ function fmtDate(str) {
   return `${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-// ─── FORMAT WHATSAPP ───────────────────────────────────────────────────────────
+// ─── FORMAT WHATSAPP (multi-item) ──────────────────────────────────────────────
 function buildWAMsg(o) {
-  const transport = o.qty >= 2 ? 0 : TRANSPORT_FEE;
-  const subtotal  = o.price * o.qty;
+  const subtotal  = getSubtotal();
+  const transport = getTransportFee();
+  const totalQty  = getTotalQty();
   const total     = subtotal + transport;
   const mapsUrl   = o.koordinat
     ? `https://maps.google.com/?q=${o.koordinat}`
@@ -794,16 +976,18 @@ function buildWAMsg(o) {
   m += `━━━━━━━━━━━━━━━━━━━━\n`;
   m += `*No. Order: #${o.orderId}*\n\n`;
   m += `📋 *DETAIL LAYANAN:*\n`;
-  m += `*${o.qty}x* ${o.svcName}\n`;
-  m += `     Rp ${fmtRp(o.price)}/unit × ${o.qty} unit\n`;
-  m += `*Subtotal: Rp ${fmtRp(subtotal)}*\n\n`;
+  cart.forEach((item, i) => {
+    m += `${i+1}. *${item.qty}× ${item.svcName}*\n`;
+    m += `   Rp ${fmtRp(item.price)}/unit × ${item.qty} = Rp ${fmtRp(item.price*item.qty)}\n`;
+  });
+  m += `\n*Subtotal: Rp ${fmtRp(subtotal)}*\n\n`;
   m += `🚗 *Biaya Transportasi: `;
   if (transport === 0) {
     m += `GRATIS* ✅\n`;
-    m += `   _(Gratis untuk pemesanan ≥ 2 unit)_\n\n`;
+    m += `   _(Gratis — total ${totalQty} unit ≥ ${FREE_TRANSPORT_MIN} unit)_\n\n`;
   } else {
     m += `Rp ${fmtRp(transport)}*\n`;
-    m += `   _(1 unit dikenakan biaya transport Rp ${fmtRp(TRANSPORT_FEE)}, gratis jika ≥ 2 unit)_\n\n`;
+    m += `   _(Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit)_\n\n`;
   }
   m += `💰 *TOTAL: Rp ${fmtRp(total)}*\n`;
   m += `━━━━━━━━━━━━━━━━━━━━\n`;
@@ -820,9 +1004,7 @@ function buildWAMsg(o) {
   m += `Area: *${o.area}*\n\n`;
   m += `💳 *PEMBAYARAN:*\n`;
   m += `Pembayaran Setelah Pengerjaan ✅\n`;
-  if (o.catatan) {
-    m += `\n📝 *CATATAN:*\n${o.catatan}\n`;
-  }
+  if (o.catatan) m += `\n📝 *CATATAN:*\n${o.catatan}\n`;
   m += `━━━━━━━━━━━━━━━━━━━━\n`;
   m += `Terima kasih sudah memesan layanan *AClean Service*! 🙏\n`;
   m += `Tim kami akan segera menghubungi Anda untuk konfirmasi jadwal.`;
@@ -856,72 +1038,58 @@ function validate() {
 async function submitOrder(e) {
   e.preventDefault();
 
-  if (!selectedSvc) {
-    showToast('❌ Pilih layanan terlebih dahulu');
+  if (!cart.length) {
+    showToast('❌ Pilih minimal 1 layanan terlebih dahulu');
     document.getElementById('katalog').scrollIntoView({behavior:'smooth'});
     return;
   }
   if (!validate()) return;
 
-  const orderId = makeOrderId();
-  const orderData = {
-    orderId,
-    svcId:   selectedSvc.id,
-    svcName: selectedSvc.name,
-    price:   selectedSvc.price,
-    qty,
-    nama:      document.getElementById('fNama').value.trim(),
-    wa:        document.getElementById('fWA').value.trim(),
-    area:      document.getElementById('fArea').value,
-    alamat:    document.getElementById('fAlamat').value.trim(),
-    koordinat: gpsCoords || '',
-    ukuran:    document.getElementById('fUkuran').value,
-    tanggal:   document.getElementById('fTanggal').value,
-    waktu:     selectedTime,
-    catatan:   document.getElementById('fCatatan').value.trim(),
-    timestamp: new Date().toISOString(),
-  };
+  const orderId  = makeOrderId();
+  const nama     = document.getElementById('fNama').value.trim();
+  const wa       = document.getElementById('fWA').value.trim();
+  const area     = document.getElementById('fArea').value;
+  const alamat   = document.getElementById('fAlamat').value.trim();
+  const ukuran   = document.getElementById('fUkuran').value;
+  const tanggal  = document.getElementById('fTanggal').value;
+  const catatan  = document.getElementById('fCatatan').value.trim();
+  const koordinat = gpsCoords || '';
+  const transport = getTransportFee();
+  const subtotal  = getSubtotal();
+  const totalQty  = getTotalQty();
 
-  // Simpan ke localStorage (backup lokal)
+  // Supabase: insert satu baris per item cart
+  cart.forEach((item, i) => {
+    const itemTransport = i === 0 ? transport : 0; // transport hanya di baris pertama
+    fetch(`${SUPA_URL}/rest/v1/website_orders`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`,'Prefer':'return=minimal'},
+      body: JSON.stringify({
+        order_ref:    orderId,
+        nama, phone:wa, area, address:alamat, gps_coords:koordinat,
+        service_id:   item.svcId,
+        service_name: item.svcName,
+        service_price:item.price,
+        ac_size:      ukuran,
+        units:        item.qty,
+        schedule_date:tanggal,
+        schedule_time:selectedTime,
+        transport_fee:itemTransport,
+        total:        item.price * item.qty + itemTransport,
+        notes:        catatan || '',
+        source:       'website'
+      })
+    }).catch(()=>{});
+  });
+
+  // localStorage backup
   const prev = JSON.parse(localStorage.getItem('aclean_orders') || '[]');
-  prev.push(orderData);
+  prev.push({orderId, cart:[...cart], nama, wa, area, alamat, ukuran, tanggal, waktu:selectedTime, catatan, timestamp:new Date().toISOString()});
   localStorage.setItem('aclean_orders', JSON.stringify(prev));
 
-  // Simpan ke Supabase (async, tidak blokir WA redirect)
-  fetch(`${SUPA_URL}/rest/v1/website_orders`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SUPA_ANON,
-      'Authorization': `Bearer ${SUPA_ANON}`,
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      order_ref:    orderId,
-      nama:         orderData.nama,
-      phone:        orderData.wa,
-      area:         orderData.area,
-      address:      orderData.alamat,
-      gps_coords:   orderData.koordinat || '',
-      service_id:   orderData.svcId,
-      service_name: orderData.svcName,
-      service_price:orderData.price,
-      ac_size:      orderData.ukuran,
-      units:        orderData.qty,
-      schedule_date:orderData.tanggal,
-      schedule_time:orderData.waktu,
-      transport_fee:orderData.qty >= 2 ? 0 : TRANSPORT_FEE,
-      total:        orderData.price * orderData.qty + (orderData.qty >= 2 ? 0 : TRANSPORT_FEE),
-      notes:        orderData.catatan || '',
-      source:       'website'
-    })
-  }).catch(() => {});
-
-  // Step 3 selesai
   document.getElementById('step3').classList.add('done');
 
-  // Buka WhatsApp
-  const msg = buildWAMsg(orderData);
+  const msg = buildWAMsg({orderId, nama, wa, area, alamat, koordinat, ukuran, tanggal, catatan});
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   showToast('✅ Membuka WhatsApp...');
   setTimeout(() => window.open(waUrl, '_blank'), 600);

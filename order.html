@@ -854,15 +854,16 @@ function selectVariant(variantId) {
 
 function confirmVariant() {
   if (!variantTarget || !variantSelected) return;
+  const svcId = variantTarget.id; // simpan sebelum closeVariantModal null-kan variantTarget
   cart.push({
     cartId: 'c'+(++cartSeq),
-    svcId: variantTarget.id,
+    svcId,
     svcName: variantSelected.name,
     price: variantSelected.price,
     qty: 1
   });
   closeVariantModal();
-  afterCartChange(variantTarget.id);
+  afterCartChange(svcId);
 }
 
 function closeVariantModal(e) {

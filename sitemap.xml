@@ -1,236 +1,355 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Halaman Utama -->
+  <!-- HOMEPAGE -->
   <url>
     <loc>https://aclean.id/</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-teknisi-aclean.jpg</image:loc>
+      <image:title>Teknisi AClean Service AC Profesional Tangerang Selatan</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://aclean.id/og-image.jpg</image:loc>
+      <image:title>AClean Service — Jasa Service AC Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+
+  <!-- HALAMAN ORDER (PRIORITAS TINGGI) -->
+  <url>
+    <loc>https://aclean.id/order.html</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- HALAMAN LAYANAN UTAMA -->
+  <url>
+    <loc>https://aclean.id/cuci-ac.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-cuci-ac.jpg</image:loc>
+      <image:title>Jasa Cuci AC Profesional Tangerang Selatan</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://aclean.id/tentang-kami.html</loc>
-    <lastmod>2026-03-22</lastmod>
+    <loc>https://aclean.id/pasang-ac.html</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-pasang-ac.jpg</image:loc>
+      <image:title>Jasa Pasang AC Baru Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/isi-freon.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-isi-freon.jpg</image:loc>
+      <image:title>Jasa Isi Freon AC Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/bongkar-pasang-ac.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Jasa Bongkar Pasang AC Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+
+  <!-- HALAMAN AREA LAYANAN -->
+  <url>
+    <loc>https://aclean.id/service-ac-alam-sutera.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-alam-sutera.jpg</image:loc>
+      <image:title>Service AC Alam Sutera Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-bsd.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-bsd.jpg</image:loc>
+      <image:title>Service AC BSD City Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-gading-serpong.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-gading-serpong.jpg</image:loc>
+      <image:title>Service AC Gading Serpong Tangerang</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-bintaro.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-graha-raya.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-karawaci.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-tangerang-selatan.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-jakarta.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-central.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-central.jpg</image:loc>
+      <image:title>Service AC Central Tangerang</image:title>
+    </image:image>
+  </url>
+
+  <!-- HALAMAN INFORMASI -->
+  <url>
+    <loc>https://aclean.id/tentang-kami.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://aclean.id/kontak.html</loc>
-    <lastmod>2026-03-22</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://aclean.id/faq.html</loc>
-    <lastmod>2026-04-01</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.75</priority>
   </url>
 
-  <!-- Halaman Layanan -->
+  <!-- BLOG INDEX -->
   <url>
-    <loc>https://aclean.id/cuci-ac.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/isi-freon.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/pasang-ac.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/bongkar-pasang-ac.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-central.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Halaman Area Layanan -->
-  <url>
-    <loc>https://aclean.id/service-ac-tangerang-selatan.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-gading-serpong.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-alam-sutera.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-bsd.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-bintaro.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-karawaci.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-graha-raya.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/service-ac-jakarta.html</loc>
-    <lastmod>2026-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Blog Index -->
-  <url>
-    <loc>https://aclean.id/blog/index.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://aclean.id/blog/</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Artikel Blog -->
+  <!-- BLOG — HARGA & BIAYA (prioritas tinggi utk local search) -->
   <url>
     <loc>https://aclean.id/blog/biaya-service-ac-tangerang-2026.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/biaya-service-ac-tangerang-2026.jpg</image:loc>
+      <image:title>Biaya Service AC Tangerang 2026</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/daftar-harga-service-ac-2026.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/biaya-service-ac.jpg</image:loc>
+      <image:title>Daftar Harga Service AC 2026</image:title>
+    </image:image>
   </url>
+
+  <!-- BLOG — JASA LOKAL (boosts area pages) -->
   <url>
     <loc>https://aclean.id/blog/jasa-service-ac-alam-sutera.html</loc>
-    <lastmod>2026-03-10</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-alam-sutera.jpg</image:loc>
+      <image:title>Jasa Service AC Alam Sutera</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/jasa-service-ac-bsd.html</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-bsd.jpg</image:loc>
+      <image:title>Jasa Service AC BSD City</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/jasa-service-ac-gading-serpong.html</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-profesional-di-gading-serpong.jpg</image:loc>
+      <image:title>Jasa Service AC Gading Serpong</image:title>
+    </image:image>
   </url>
-  <url>
-    <loc>https://aclean.id/blog/cara-merawat-ac-agar-awet.html</loc>
-    <lastmod>2026-02-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/blog/10-tips-merawat-ac-hemat-listrik.html</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/blog/tips-hemat-listrik-ac.html</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aclean.id/blog/kapan-harus-isi-freon-ac.html</loc>
-    <lastmod>2026-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+
+  <!-- BLOG — TIPS & INFO -->
   <url>
     <loc>https://aclean.id/blog/kenapa-ac-tidak-dingin.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.82</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/ac-tidak-dingin-penyebab-dan-solusi.jpg</image:loc>
+      <image:title>Kenapa AC Tidak Dingin</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/ac-tidak-dingin-penyebab-solusi.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.82</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/ac-tidak-dingin.jpg</image:loc>
+      <image:title>AC Tidak Dingin Penyebab dan Solusi</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/ac-bocor-penyebab-solusi.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/teknisi-aclean-memperbaiki-ac-bocor.jpg</image:loc>
+      <image:title>AC Bocor Penyebab dan Solusi</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://aclean.id/blog/ac-berbau-penyebab-cara-mengatasi.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://aclean.id/blog/kapan-harus-isi-freon-ac.html</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/kapan-isi-freon-ac.jpg</image:loc>
+      <image:title>Kapan Harus Isi Freon AC</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/cara-merawat-ac-agar-awet.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/cara-merawat-ac-agar-awet-dan-hemat-listrik.jpg</image:loc>
+      <image:title>Cara Merawat AC Agar Awet</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/10-tips-merawat-ac-hemat-listrik.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/merawat-ac.jpg</image:loc>
+      <image:title>10 Tips Merawat AC Hemat Listrik</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/freon-r32-vs-r410.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/blog-freon-r32-r410.jpg</image:loc>
+      <image:title>Freon R32 vs R410A</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/freon-r32-vs-r410-vs-r22.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/freon-ac-daikin-original.jpg</image:loc>
+      <image:title>Freon R32 vs R410A vs R22</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://aclean.id/blog/jenis-ac-split-window-cassette.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://aclean.id/blog/tips-hemat-listrik-ac.html</loc>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/tips-hemat-listrik-ac-musim-panas.jpg</image:loc>
+      <image:title>Tips Hemat Listrik AC</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/cara-memilih-ac-yang-tepat.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/blog-tips-ac.jpg</image:loc>
+      <image:title>Cara Memilih AC yang Tepat</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/blog/7-tanda-ac-perlu-service.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
   <url>
     <loc>https://aclean.id/blog/tanda-ac-perlu-diganti.html</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/jenis-ac-split-window-cassette.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ac-central.jpg</image:loc>
+      <image:title>Jenis AC Split Window Cassette Central</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/ac-berbau-penyebab-cara-mengatasi.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.73</priority>
   </url>
 
 </urlset>

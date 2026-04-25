@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Admin Panel — AClean Service Orders</title>
+<link rel="icon" type="image/png" href="favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;
+  --primary-50:#EBF0FA;--primary-100:#C6D4F0;
+  --accent:#F59E0B;
+  --green:#16A34A;--green-50:#DCFCE7;
+  --red:#DC2626;--red-50:#FEE2E2;
+  --orange:#EA580C;--orange-50:#FFF7ED;
+  --dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;
+  --gray-50:#F8FAFC;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;
+  --white:#FFFFFF;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --sidebar:240px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--dark);background:var(--gray-50);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* ─── LOGIN SCREEN ─── */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary-dark),var(--primary))}
+.login-box{background:var(--white);border-radius:24px;padding:48px 40px;text-align:center;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.login-logo{width:80px;height:80px;border-radius:20px;background:var(--primary-50);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px}
+.login-box h1{font-family:var(--font);font-size:22px;font-weight:800;color:var(--dark);margin-bottom:4px}
+.login-box .sub{font-size:14px;color:var(--gray-400);margin-bottom:32px}
+.login-divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--gray-400);font-size:13px}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--gray-200)}
+.login-note{font-size:12px;color:var(--gray-400);margin-top:20px;line-height:1.6}
+.login-note strong{color:var(--dark-600)}
+
+/* Google button override */
+.g_id_signin{display:flex;justify-content:center}
+
+/* ─── APP LAYOUT ─── */
+.app{display:none;min-height:100vh}
+.app.visible{display:flex}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--dark);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100}
+.sb-brand{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-brand-name{font-family:var(--font);font-size:16px;font-weight:700;color:var(--white)}
+.sb-brand-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+.sb-user{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--white);flex-shrink:0;overflow:hidden}
+.sb-avatar img{width:100%;height:100%;object-fit:cover}
+.sb-uname{font-size:12px;font-weight:600;color:var(--white);line-height:1.3}
+.sb-uemail{font-size:10px;color:rgba(255,255,255,.4)}
+.sb-nav{flex:1;padding:12px 0}
+.sb-section{font-size:10px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.8px;text-transform:uppercase;padding:8px 20px 4px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:14px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;transition:.2s;text-decoration:none;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--white);background:rgba(255,255,255,.05)}
+.sb-link.active{color:var(--white);background:rgba(255,255,255,.1);border-left:3px solid var(--primary-light)}
+.sb-link .ic{font-size:16px;width:20px;text-align:center}
+.sb-badge{margin-left:auto;background:var(--red);color:var(--white);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;min-width:20px;text-align:center}
+.sb-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,.08)}
+.sb-logout{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;width:100%;padding:0;transition:.2s}
+.sb-logout:hover{color:var(--red)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;min-width:0}
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-family:var(--font);font-size:18px;font-weight:700;color:var(--dark)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-date{font-size:13px;color:var(--gray-400)}
+.btn-refresh{padding:8px 16px;border-radius:8px;border:1.5px solid var(--gray-200);background:var(--white);font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dark-600);cursor:pointer;display:flex;align-items:center;gap:6px;transition:.2s}
+.btn-refresh:hover{border-color:var(--primary-100);color:var(--primary);background:var(--primary-50)}
+.content{padding:28px}
+
+/* TABS CONTENT */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* STAT CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:var(--white);border-radius:14px;padding:20px;border:1px solid var(--gray-200)}
+.stat-label{font-size:12px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.stat-val{font-family:var(--font);font-size:28px;font-weight:800;color:var(--dark);line-height:1}
+.stat-sub{font-size:12px;color:var(--gray-400);margin-top:4px}
+.stat-card.highlight{background:var(--primary);border-color:var(--primary)}
+.stat-card.highlight .stat-label{color:rgba(255,255,255,.6)}
+.stat-card.highlight .stat-val{color:var(--white)}
+.stat-card.highlight .stat-sub{color:rgba(255,255,255,.5)}
+
+/* FILTERS */
+.filter-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.filter-search{flex:1;min-width:200px;padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark);outline:none;transition:.2s}
+.filter-search:focus{border-color:var(--primary)}
+.filter-select{padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark-600);background:var(--white);outline:none;cursor:pointer}
+
+/* ORDERS TABLE */
+.table-wrap{background:var(--white);border-radius:14px;border:1px solid var(--gray-200);overflow:hidden}
+.table-header{padding:16px 20px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between}
+.table-header h3{font-family:var(--font);font-size:15px;font-weight:700;color:var(--dark)}
+.table-count{font-size:13px;color:var(--gray-400)}
+table{width:100%;border-collapse:collapse}
+th{padding:12px 16px;text-align:left;font-size:12px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;background:var(--gray-50);white-space:nowrap}
+td{padding:14px 16px;border-top:1px solid var(--gray-100);font-size:13px;color:var(--dark-600);vertical-align:top}
+tr:hover td{background:var(--gray-50)}
+.order-id{font-family:monospace;font-size:12px;font-weight:700;color:var(--primary);background:var(--primary-50);padding:2px 8px;border-radius:6px}
+.customer-name{font-weight:600;color:var(--dark)}
+.customer-wa{font-size:12px;color:var(--gray-400)}
+.service-name{font-size:12px;font-weight:600;color:var(--dark);max-width:160px;line-height:1.4}
+.service-detail{font-size:11px;color:var(--gray-400);margin-top:2px}
+.price-total{font-weight:700;color:var(--dark);font-size:14px}
+.date-val{font-size:12px;color:var(--dark-600);white-space:nowrap}
+.area-tag{background:var(--gray-100);color:var(--gray-500);font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px}
+
+/* STATUS BADGE */
+.status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.status-pending{background:#FEF3C7;color:#92400E}
+.status-confirmed{background:var(--primary-50);color:var(--primary)}
+.status-inprogress{background:var(--orange-50);color:var(--orange)}
+.status-done{background:var(--green-50);color:var(--green)}
+.status-cancelled{background:var(--red-50);color:var(--red)}
+
+/* ACTION BUTTONS */
+.actions{display:flex;flex-direction:column;gap:6px;min-width:100px}
+.act-btn{padding:6px 10px;border-radius:7px;font-family:var(--font-body);font-size:12px;font-weight:600;border:1.5px solid transparent;cursor:pointer;transition:.2s;text-align:center;white-space:nowrap}
+.act-confirm{background:var(--primary-50);border-color:var(--primary-100);color:var(--primary)}
+.act-confirm:hover{background:var(--primary);color:var(--white)}
+.act-done{background:var(--green-50);border-color:var(--green-100);color:var(--green)}
+.act-done:hover{background:var(--green);color:var(--white)}
+.act-cancel{background:var(--red-50);border-color:#FECACA;color:var(--red)}
+.act-cancel:hover{background:var(--red);color:var(--white)}
+.act-wa{background:var(--green-50);border-color:var(--green-100);color:var(--green)}
+.act-wa:hover{background:#25D366;border-color:#25D366;color:var(--white)}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 24px}
+.empty-state .ic{font-size:56px;margin-bottom:16px}
+.empty-state h3{font-family:var(--font);font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px}
+.empty-state p{font-size:14px;color:var(--gray-400)}
+
+/* SETTINGS */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.settings-card{background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)}
+.settings-card h3{font-family:var(--font);font-size:15px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.settings-card .sc-sub{font-size:13px;color:var(--gray-400);margin-bottom:20px}
+.sf-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-100)}
+.sf-row:last-child{border-bottom:none}
+.sf-label{flex:1;font-size:13px;font-weight:500;color:var(--dark-600)}
+.sf-sub{font-size:11px;color:var(--gray-400);margin-top:2px}
+.sf-input{width:140px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:13px;color:var(--dark);outline:none;text-align:right;transition:.2s}
+.sf-input:focus{border-color:var(--primary)}
+.save-btn{display:flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:.2s;margin-top:20px}
+.save-btn:hover{background:var(--primary-light)}
+.save-btn:disabled{opacity:.6;cursor:not-allowed}
+.transport-card{background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)}
+.transport-card h3{font-family:var(--font);font-size:15px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.transport-settings{margin-top:20px}
+.ts-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--gray-100)}
+.ts-row:last-child{border-bottom:none}
+.ts-label{font-size:13px;font-weight:600;color:var(--dark-600)}
+.ts-desc{font-size:11px;color:var(--gray-400);margin-top:2px}
+
+/* SETUP GUIDE */
+.setup-steps{display:flex;flex-direction:column;gap:20px;max-width:760px}
+.setup-step{background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)}
+.ss-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.ss-num{width:36px;height:36px;border-radius:50%;background:var(--primary);color:var(--white);font-family:var(--font);font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ss-title{font-family:var(--font);font-size:16px;font-weight:700;color:var(--dark)}
+.ss-sub{font-size:13px;color:var(--gray-400)}
+.ss-list{list-style:none;padding:0}
+.ss-list li{display:flex;gap:10px;font-size:13px;color:var(--dark-600);padding:6px 0;border-bottom:1px solid var(--gray-100);line-height:1.5}
+.ss-list li:last-child{border-bottom:none}
+.ss-list li::before{content:'→';color:var(--primary);font-weight:700;flex-shrink:0}
+.code-block{background:var(--dark-700);color:#A5F3FC;font-family:'Courier New',monospace;font-size:12px;line-height:1.7;padding:20px;border-radius:12px;overflow-x:auto;white-space:pre;position:relative;margin-top:12px}
+.copy-btn{position:absolute;top:10px;right:10px;padding:6px 12px;border-radius:6px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:11px;font-weight:600;border:none;cursor:pointer;transition:.2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:var(--white)}
+.ss-alert{display:flex;gap:10px;padding:12px 14px;background:var(--orange-50);border:1.5px solid #FED7AA;border-radius:10px;font-size:13px;color:var(--orange);line-height:1.5;margin-top:12px}
+.ss-alert svg{flex-shrink:0;margin-top:1px}
+.ss-success{display:flex;gap:10px;padding:12px 14px;background:var(--green-50);border:1.5px solid var(--green-100);border-radius:10px;font-size:13px;color:var(--green);line-height:1.5;margin-top:12px}
+
+/* URL INPUT */
+.url-input-wrap{display:flex;gap:8px;margin-top:12px}
+.url-input{flex:1;padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:13px;color:var(--dark);outline:none;transition:.2s}
+.url-input:focus{border-color:var(--primary)}
+.url-save-btn{padding:10px 18px;border-radius:9px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:13px;font-weight:600;border:none;cursor:pointer;white-space:nowrap;transition:.2s}
+.url-save-btn:hover{background:var(--primary-light)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:var(--white);padding:12px 20px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s;z-index:9000;pointer-events:none;transform:translateY(8px)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+
+/* LOADER */
+.loader{display:flex;align-items:center;justify-content:center;padding:60px;gap:12px;color:var(--gray-400);font-size:14px}
+.spinner{width:24px;height:24px;border:3px solid var(--gray-200);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .settings-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:.3s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .table-wrap{overflow-x:auto}
+  table{min-width:700px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════════════ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🔐</div>
+    <h1>Admin Panel</h1>
+    <p class="sub">AClean Service — Order Management</p>
+
+    <div id="loginError" style="display:none;padding:10px 14px;background:var(--red-50);border:1.5px solid #FECACA;border-radius:10px;color:var(--red);font-size:13px;margin-bottom:16px;text-align:left"></div>
+
+    <!-- Google Sign-In Button (rendered here) -->
+    <div id="g_id_onload"
+         data-client_id="GANTI_DENGAN_GOOGLE_CLIENT_ID_ANDA"
+         data-callback="handleGoogleLogin"
+         data-auto_prompt="false">
+    </div>
+    <div id="googleBtnWrap">
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="filled_blue"
+           data-text="signin_with"
+           data-shape="rectangular"
+           data-width="320"
+           data-logo_alignment="left">
+      </div>
+    </div>
+
+    <div class="login-divider">atau</div>
+
+    <!-- Fallback PIN login (digunakan sebelum Google Client ID dikonfigurasi) -->
+    <div id="pinLoginWrap">
+      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Login dengan PIN sementara</div>
+      <input type="password" id="pinInput" placeholder="Masukkan PIN admin"
+             style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:10px"
+             onkeydown="if(event.key==='Enter')checkPin()"/>
+      <button onclick="checkPin()"
+              style="width:100%;padding:12px;border-radius:10px;background:var(--primary);color:var(--white);font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-body)">
+        Masuk
+      </button>
+    </div>
+
+    <p class="login-note">
+      Akses admin hanya untuk <strong>developer.aclean@gmail.com</strong><br/>
+      Halaman ini tidak dapat diakses oleh customer.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN APP
+════════════════════════════════════════════════ -->
+<div class="app" id="appShell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-name">🧊 AClean Admin</div>
+      <div class="sb-brand-sub">Order Management Panel</div>
+    </div>
+
+    <div class="sb-user">
+      <div class="sb-avatar" id="sbAvatar">A</div>
+      <div>
+        <div class="sb-uname" id="sbName">Admin</div>
+        <div class="sb-uemail" id="sbEmail">developer.aclean@gmail.com</div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section">Menu Utama</div>
+      <button class="sb-link active" onclick="showTab('orders',this)">
+        <span class="ic">📋</span> Semua Order
+        <span class="sb-badge" id="pendingBadge" style="display:none">0</span>
+      </button>
+      <button class="sb-link" onclick="showTab('today',this)">
+        <span class="ic">📅</span> Hari Ini
+      </button>
+
+      <div class="sb-section">Pengaturan</div>
+      <button class="sb-link" onclick="showTab('settings',this)">
+        <span class="ic">💰</span> Harga & Transport
+      </button>
+
+      <div class="sb-section">Panduan</div>
+      <button class="sb-link" onclick="showTab('setup',this)">
+        <span class="ic">🔧</span> Setup Google Sheets
+      </button>
+      <a class="sb-link" href="order.html" target="_blank">
+        <span class="ic">🛒</span> Lihat Halaman Order
+      </a>
+    </nav>
+
+    <div class="sb-footer">
+      <button class="sb-logout" onclick="doLogout()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Keluar
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Semua Order</div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="topbarDate"></span>
+        <button class="btn-refresh" onclick="loadOrders()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── TAB: SEMUA ORDER ── -->
+      <div class="tab-content active" id="tab-orders">
+        <div class="stats-row" id="statsRow">
+          <div class="stat-card highlight">
+            <div class="stat-label">Total Order</div>
+            <div class="stat-val" id="statTotal">—</div>
+            <div class="stat-sub">Semua waktu</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pending</div>
+            <div class="stat-val" id="statPending" style="color:var(--accent)">—</div>
+            <div class="stat-sub">Menunggu konfirmasi</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Selesai</div>
+            <div class="stat-val" id="statDone" style="color:var(--green)">—</div>
+            <div class="stat-sub">Order completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Revenue Est.</div>
+            <div class="stat-val" id="statRevenue" style="color:var(--primary);font-size:18px">—</div>
+            <div class="stat-sub">Order selesai</div>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <input type="text" class="filter-search" id="searchInput" placeholder="🔍 Cari nama, WA, area, layanan..." oninput="applyFilter()"/>
+          <select class="filter-select" id="statusFilter" onchange="applyFilter()">
+            <option value="">Semua Status</option>
+            <option value="PENDING">⏳ Pending</option>
+            <option value="CONFIRMED">✅ Confirmed</option>
+            <option value="IN_PROGRESS">🔧 In Progress</option>
+            <option value="DONE">🎉 Done</option>
+            <option value="CANCELLED">❌ Cancelled</option>
+          </select>
+        </div>
+
+        <div class="table-wrap" id="ordersTableWrap">
+          <div class="loader"><div class="spinner"></div> Memuat data order...</div>
+        </div>
+      </div>
+
+      <!-- ── TAB: HARI INI ── -->
+      <div class="tab-content" id="tab-today">
+        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:20px">Order Hari Ini</h2>
+        <div class="table-wrap" id="todayTableWrap">
+          <div class="loader"><div class="spinner"></div> Memuat...</div>
+        </div>
+      </div>
+
+      <!-- ── TAB: SETTINGS ── -->
+      <div class="tab-content" id="tab-settings">
+        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Pengaturan Harga & Transport</h2>
+        <p style="font-size:14px;color:var(--gray-400);margin-bottom:24px">Perubahan harga langsung berlaku di halaman <a href="order.html" target="_blank" style="color:var(--primary)">order.html</a> setelah disimpan.</p>
+
+        <div class="settings-grid">
+          <!-- HARGA LAYANAN -->
+          <div class="settings-card">
+            <h3>💰 Harga Layanan</h3>
+            <p class="sc-sub">Harga per unit — edit lalu klik Simpan</p>
+            <div id="priceFields"></div>
+            <button class="save-btn" onclick="savePrices()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Simpan Harga
+            </button>
+          </div>
+
+          <!-- TRANSPORT & KONFIGURASI -->
+          <div>
+            <div class="transport-card">
+              <h3>🚗 Biaya Transportasi</h3>
+              <div class="transport-settings">
+                <div class="ts-row">
+                  <div>
+                    <div class="ts-label">Biaya Transport (1 unit)</div>
+                    <div class="ts-desc">Dikenakan jika hanya pesan 1 unit</div>
+                  </div>
+                  <input type="number" class="sf-input" id="transportFeeInput" value="20000" min="0" step="1000"/>
+                </div>
+                <div class="ts-row">
+                  <div>
+                    <div class="ts-label">Gratis Transport mulai</div>
+                    <div class="ts-desc">Minimum unit untuk transport gratis</div>
+                  </div>
+                  <input type="number" class="sf-input" id="freeTransportMinInput" value="2" min="1" max="10"/>
+                </div>
+              </div>
+              <button class="save-btn" onclick="saveTransport()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Simpan Transport
+              </button>
+            </div>
+
+            <div class="transport-card" style="margin-top:20px;border:2px solid var(--green-100);background:var(--green-50)">
+              <h3 style="color:var(--green)">✅ Supabase Terhubung</h3>
+              <p style="font-size:13px;color:var(--green);margin-top:8px">Order dari halaman website sudah otomatis tersimpan ke database Supabase AClean. Tidak perlu setup tambahan.</p>
+              <div style="margin-top:12px;font-size:12px;color:var(--gray-500)">
+                Project: <strong>Superbase Webapps AClean</strong><br/>
+                Tabel: <strong>website_orders</strong><br/>
+                Region: <strong>ap-northeast-1 (Tokyo)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: SETUP ── -->
+      <div class="tab-content" id="tab-setup">
+        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Setup Google Sheets</h2>
+        <p style="font-size:14px;color:var(--gray-400);margin-bottom:28px">Ikuti langkah berikut untuk menghubungkan sistem order ke Google Sheets milik Anda. <strong>Cukup dilakukan 1 kali.</strong></p>
+
+        <div class="setup-steps">
+
+          <div class="setup-step">
+            <div class="ss-header">
+              <div class="ss-num">1</div>
+              <div>
+                <div class="ss-title">Buat Google Spreadsheet baru</div>
+                <div class="ss-sub">Buka Google Drive → New → Google Sheets</div>
+              </div>
+            </div>
+            <ul class="ss-list">
+              <li>Buka <strong>drive.google.com</strong> → klik tombol <strong>+ New</strong></li>
+              <li>Pilih <strong>Google Sheets</strong> → beri nama: <em>"AClean Orders"</em></li>
+              <li>Biarkan spreadsheet kosong — Apps Script akan membuat kolom otomatis</li>
+            </ul>
+          </div>
+
+          <div class="setup-step">
+            <div class="ss-header">
+              <div class="ss-num">2</div>
+              <div>
+                <div class="ss-title">Buka Apps Script Editor</div>
+                <div class="ss-sub">Di dalam spreadsheet tadi</div>
+              </div>
+            </div>
+            <ul class="ss-list">
+              <li>Di Google Sheets, klik menu <strong>Extensions</strong> → <strong>Apps Script</strong></li>
+              <li>Hapus semua kode yang ada (biasanya ada <code>function myFunction(){}</code>)</li>
+              <li>Paste kode di bawah ini, lalu klik <strong>💾 Save (Ctrl+S)</strong></li>
+            </ul>
+
+            <div class="code-block" id="appsScriptCode"><button class="copy-btn" onclick="copyCode()">Copy</button>// ─── ACLEAN SERVICE — Google Apps Script ────────────────────────────
+// Paste ke Apps Script Editor, lalu Deploy sebagai Web App
+
+const SHEET_NAME   = 'Orders';
+const SECRET_TOKEN = 'aclean-secret-2026'; // Ganti sesuai keinginan Anda
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+
+    // Update status order
+    if (data.action === 'updateStatus') {
+      if (data.token !== SECRET_TOKEN) return deny();
+      const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+      if (!sheet) return ok({updated: false});
+      sheet.getRange(data.rowIndex, 17).setValue(data.status);
+      sheet.getRange(data.rowIndex, 18).setValue(new Date().toLocaleString('id-ID'));
+      return ok({updated: true});
+    }
+
+    // Simpan settings harga
+    if (data.action === 'saveSettings') {
+      if (data.token !== SECRET_TOKEN) return deny();
+      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      let s = ss.getSheetByName('Settings') || ss.insertSheet('Settings');
+      s.clearContents();
+      s.appendRow(['Key', 'Value', 'Updated']);
+      s.appendRow(['services', JSON.stringify(data.services), new Date().toISOString()]);
+      s.appendRow(['transportFee', data.transportFee, '']);
+      s.appendRow(['freeTransportMin', data.freeTransportMin, '']);
+      return ok({saved: true});
+    }
+
+    // Default: Simpan order baru
+    const sheet = getOrCreateSheet();
+    const transport = data.qty >= (data.freeTransportMin || 2)
+      ? 0 : (data.transportFee || 20000);
+    const total = (data.price * data.qty) + transport;
+
+    sheet.appendRow([
+      new Date().toLocaleString('id-ID'),  // A: Timestamp
+      data.orderId,                         // B: Order ID
+      data.nama,                            // C: Nama
+      data.wa,                              // D: WhatsApp
+      data.area,                            // E: Area
+      data.alamat,                          // F: Alamat
+      data.koordinat || '',                 // G: Koordinat GPS
+      data.svcName,                         // H: Layanan
+      data.ukuran,                          // I: Ukuran AC
+      data.qty,                             // J: Jumlah Unit
+      data.tanggal,                         // K: Tanggal
+      data.waktu,                           // L: Waktu
+      data.price,                           // M: Harga/unit
+      transport,                            // N: Transport
+      total,                                // O: Total
+      data.catatan || '-',                  // P: Catatan
+      'Pending',                            // Q: Status
+      ''                                    // R: Updated At
+    ]);
+    return ok({orderId: data.orderId, total: total});
+
+  } catch(err) {
+    return err_r(err.toString());
+  }
+}
+
+function doGet(e) {
+  if (e.parameter.token !== SECRET_TOKEN) return deny();
+
+  // Ambil settings
+  if (e.parameter.action === 'settings') {
+    const s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings');
+    if (!s) return ok({services: null, transportFee: 20000, freeTransportMin: 2});
+    const rows = s.getDataRange().getValues().slice(1);
+    const cfg = {};
+    rows.forEach(r => { if(r[0]) cfg[r[0]] = r[1]; });
+    return ok(cfg);
+  }
+
+  // Ambil data order
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  if (!sheet) return ok({orders: []});
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length < 2) return ok({orders: []});
+  const headers = rows[0];
+  const orders = rows.slice(1).map((row, i) => {
+    const o = {rowIndex: i + 2};
+    headers.forEach((h, j) => { o[h] = row[j]; });
+    return o;
+  });
+  return ok({orders: orders.reverse()}); // terbaru di atas
+}
+
+function getOrCreateSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let s = ss.getSheetByName(SHEET_NAME);
+  if (!s) {
+    s = ss.insertSheet(SHEET_NAME);
+    s.appendRow(['Timestamp','Order ID','Nama','WhatsApp','Area','Alamat',
+                 'Koordinat','Layanan','Ukuran AC','Jumlah Unit','Tanggal',
+                 'Waktu','Harga/Unit','Transport','Total','Catatan','Status','Updated At']);
+    s.setFrozenRows(1);
+    s.getRange('1:1').setBackground('#1B3A7B').setFontColor('#FFFFFF').setFontWeight('bold');
+  }
+  return s;
+}
+
+function ok(data)   { return res(JSON.stringify({success:true,...data})); }
+function deny()     { return res(JSON.stringify({success:false,error:'Unauthorized'})); }
+function err_r(msg) { return res(JSON.stringify({success:false,error:msg})); }
+function res(body)  {
+  return ContentService.createTextOutput(body).setMimeType(ContentService.MimeType.JSON);
+}</div>
+            <div class="ss-alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>
+              Ganti <strong>SECRET_TOKEN</strong> dengan token rahasia pilihan Anda. Token ini juga harus dimasukkan di pengaturan admin panel.
+            </div>
+          </div>
+
+          <div class="setup-step">
+            <div class="ss-header">
+              <div class="ss-num">3</div>
+              <div>
+                <div class="ss-title">Deploy sebagai Web App</div>
+                <div class="ss-sub">Ini menghasilkan URL untuk menerima data order</div>
+              </div>
+            </div>
+            <ul class="ss-list">
+              <li>Klik tombol <strong>Deploy</strong> (kanan atas) → pilih <strong>New deployment</strong></li>
+              <li>Klik ikon ⚙️ di samping "Select type" → pilih <strong>Web app</strong></li>
+              <li>Description: <em>"AClean Order API"</em></li>
+              <li>Execute as: <strong>Me (developer.aclean@gmail.com)</strong></li>
+              <li>Who has access: <strong>Anyone</strong> (agar form order bisa mengirim data)</li>
+              <li>Klik <strong>Deploy</strong> → klik <strong>Authorize access</strong> → pilih akun Google Anda</li>
+              <li>Kopi <strong>Web app URL</strong> yang muncul (format: <code>https://script.google.com/macros/s/.../exec</code>)</li>
+            </ul>
+          </div>
+
+          <div class="setup-step">
+            <div class="ss-header">
+              <div class="ss-num">4</div>
+              <div>
+                <div class="ss-title">Pasang URL di Admin Panel</div>
+                <div class="ss-sub">Agar order tersimpan ke Google Sheets</div>
+              </div>
+            </div>
+            <ul class="ss-list">
+              <li>Buka tab <strong>Harga &amp; Transport</strong> di sidebar kiri</li>
+              <li>Scroll ke bagian <strong>URL Apps Script</strong></li>
+              <li>Paste URL yang tadi dikopi, klik <strong>Simpan</strong></li>
+              <li>URL akan otomatis tersimpan dan dipakai di halaman order</li>
+            </ul>
+            <div class="ss-success">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Setelah setup selesai, setiap order dari halaman order.html akan otomatis tersimpan ke Google Sheets Anda!
+            </div>
+          </div>
+
+          <div class="setup-step">
+            <div class="ss-header">
+              <div class="ss-num">5</div>
+              <div>
+                <div class="ss-title">(Opsional) Setup Google Sign-In</div>
+                <div class="ss-sub">Untuk login admin dengan akun Google</div>
+              </div>
+            </div>
+            <ul class="ss-list">
+              <li>Buka <strong>console.cloud.google.com</strong> → buat project baru: "AClean"</li>
+              <li>Cari <strong>APIs &amp; Services</strong> → <strong>Credentials</strong> → <strong>+ Create Credentials</strong> → <strong>OAuth 2.0 Client ID</strong></li>
+              <li>Application type: <strong>Web application</strong></li>
+              <li>Authorized JavaScript origins: <code>https://aclean.id</code></li>
+              <li>Kopi <strong>Client ID</strong> yang muncul</li>
+              <li>Buka file <code>admin-order.html</code> → cari teks <code>GANTI_DENGAN_GOOGLE_CLIENT_ID_ANDA</code> → ganti dengan Client ID Anda</li>
+            </ul>
+            <div class="ss-alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>
+              Sebelum Google Client ID dikonfigurasi, gunakan <strong>PIN login</strong> di halaman login (PIN default: <code>aclean2026</code>). Bisa diganti di konfigurasi bawah.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- end .content -->
+  </div><!-- end .main -->
+
+</div><!-- end .app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── KONFIGURASI ───────────────────────────────────────────────────────────────
+const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
+const ADMIN_PIN       = 'aclean2026';       // PIN login sementara
+const ADMIN_PASS      = 'aclean-admin-2026'; // Password Supabase functions
+
+// Supabase
+const SUPA_URL  = 'https://apsbeppcmsxeldnejibz.supabase.co';
+const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwc2JlcHBjbXN4ZWxkbmVqaWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjI5OTAsImV4cCI6MjA4ODQzODk5MH0.ougABivpskSoQyFCOagV7GYah0yNV3-sGuc5ErplRo4';
+
+async function supaRpc(fn, params) {
+  const res = await fetch(`${SUPA_URL}/rest/v1/rpc/${fn}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPA_ANON,
+      'Authorization': `Bearer ${SUPA_ANON}`
+    },
+    body: JSON.stringify(params)
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+// ─── STATE ─────────────────────────────────────────────────────────────────────
+let allOrders    = [];
+let filteredOrds = [];
+let isLoggedIn   = false;
+let userInfo     = null;
+
+// ─── INIT ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Set tanggal di topbar
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('id-ID',{
+    weekday:'long', year:'numeric', month:'long', day:'numeric'
+  });
+
+  // Cek session tersimpan
+  const savedSession = sessionStorage.getItem('aclean_admin_session');
+  if (savedSession) {
+    const s = JSON.parse(savedSession);
+    showApp(s.name, s.email, s.avatar);
+  }
+
+  // Load Apps Script URL tersimpan
+  if (appsScriptUrl) {
+    const el = document.getElementById('appsScriptUrlInput');
+    if (el) el.value = appsScriptUrl;
+    document.getElementById('urlStatus').textContent = '✅ URL sudah tersimpan';
+  }
+
+  // Load harga tersimpan ke settings tab
+  renderPriceFields();
+  loadTransportSettings();
+});
+
+// ─── GOOGLE LOGIN ──────────────────────────────────────────────────────────────
+function handleGoogleLogin(response) {
+  try {
+    const payload = parseJWT(response.credential);
+    const email = payload.email;
+    if (!ALLOWED_EMAILS.includes(email)) {
+      showLoginError(`Akses ditolak. Email ${email} tidak terdaftar sebagai admin.`);
+      return;
+    }
+    sessionStorage.setItem('aclean_admin_session', JSON.stringify({
+      name: payload.name, email: email, avatar: payload.picture
+    }));
+    showApp(payload.name, email, payload.picture);
+  } catch(e) {
+    showLoginError('Login gagal: ' + e.message);
+  }
+}
+
+function parseJWT(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  ).join('')));
+}
+
+// ─── PIN LOGIN ─────────────────────────────────────────────────────────────────
+function checkPin() {
+  const pin = document.getElementById('pinInput').value.trim();
+  if (pin === ADMIN_PIN) {
+    sessionStorage.setItem('aclean_admin_session', JSON.stringify({
+      name: 'Admin AClean', email: 'developer.aclean@gmail.com', avatar: null
+    }));
+    showApp('Admin AClean', 'developer.aclean@gmail.com', null);
+  } else {
+    showLoginError('PIN salah. Silakan coba lagi.');
+    document.getElementById('pinInput').value = '';
+  }
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// ─── SHOW APP ──────────────────────────────────────────────────────────────────
+function showApp(name, email, avatar) {
+  isLoggedIn = true;
+  userInfo = {name, email, avatar};
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').classList.add('visible');
+  document.getElementById('sbName').textContent = name || 'Admin';
+  document.getElementById('sbEmail').textContent = email || '';
+  if (avatar) {
+    document.getElementById('sbAvatar').innerHTML = `<img src="${avatar}" alt="${name}"/>`;
+  } else {
+    document.getElementById('sbAvatar').textContent = (name||'A')[0].toUpperCase();
+  }
+  loadOrders();
+}
+
+function doLogout() {
+  sessionStorage.removeItem('aclean_admin_session');
+  location.reload();
+}
+
+// ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
+const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Harga & Transport', setup:'Setup Google Sheets'};
+function showTab(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('topbarTitle').textContent = tabTitles[tab] || tab;
+  if (tab === 'today') renderToday();
+  if (tab === 'settings') { renderPriceFields(); loadTransportSettings(); }
+}
+
+// ─── LOAD ORDERS ──────────────────────────────────────────────────────────────
+async function loadOrders() {
+  const wrap = document.getElementById('ordersTableWrap');
+  wrap.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat data dari Supabase...</div>`;
+
+  try {
+    const [orders, stats] = await Promise.all([
+      supaRpc('get_website_orders', {admin_pass: ADMIN_PASS}),
+      supaRpc('get_website_order_stats', {admin_pass: ADMIN_PASS})
+    ]);
+    allOrders = Array.isArray(orders) ? orders : [];
+    renderOrders(allOrders);
+    updateStatsFromSupabase(stats);
+  } catch(e) {
+    // Fallback ke localStorage
+    console.warn('Supabase fetch failed, fallback localStorage:', e);
+    const local = JSON.parse(localStorage.getItem('aclean_orders') || '[]');
+    allOrders = local.map((o, i) => ({
+      id: 'local-'+i,
+      order_ref: o.orderId || '',
+      nama: o.nama, phone: o.wa, area: o.area,
+      address: o.alamat, gps_coords: o.koordinat || '',
+      service_name: o.svcName, ac_size: o.ukuran,
+      units: o.qty, schedule_date: o.tanggal, schedule_time: o.waktu,
+      total: (o.price * o.qty) + (o.qty >= 2 ? 0 : 20000),
+      notes: o.catatan || '', status: o.status || 'PENDING',
+      created_at: o.timestamp
+    })).reverse();
+    renderOrders(allOrders);
+    updateStats(allOrders);
+    if (allOrders.length === 0) showToast('Tidak ada data — Supabase & localStorage kosong', 'error');
+  }
+}
+
+// ─── RENDER ORDERS TABLE ──────────────────────────────────────────────────────
+function renderOrders(orders) {
+  filteredOrds = orders;
+  const wrap = document.getElementById('ordersTableWrap');
+  if (!orders.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="ic">📭</div><h3>Belum ada order</h3><p>Order dari customer di halaman order.html akan muncul di sini secara otomatis.</p></div>`;
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="table-header">
+      <h3>Daftar Order Website</h3>
+      <span class="table-count">${orders.length} order</span>
+    </div>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th>Order Ref</th><th>Customer</th><th>Layanan</th>
+        <th>Jadwal</th><th>Area</th><th>Total</th>
+        <th>Status</th><th>Aksi</th>
+      </tr></thead>
+      <tbody>${orders.map(o => orderRow(o)).join('')}</tbody>
+    </table>
+    </div>
+  `;
+}
+
+function orderRow(o) {
+  const statusMap = {
+    'PENDING':'status-pending','CONFIRMED':'status-confirmed',
+    'IN_PROGRESS':'status-inprogress','DONE':'status-done','CANCELLED':'status-cancelled'
+  };
+  const sClass = statusMap[o.status] || 'status-pending';
+  const statusLabel = {PENDING:'⏳ Pending',CONFIRMED:'✅ Confirmed',IN_PROGRESS:'🔧 In Progress',DONE:'🎉 Done',CANCELLED:'❌ Cancelled'};
+  const totalFmt = o.total ? `Rp ${Number(o.total).toLocaleString('id-ID')}` : '-';
+  const phone = (o.phone||'').replace(/\D/g,'');
+  const waNum = phone.startsWith('0') ? '62'+phone.slice(1) : phone.startsWith('62') ? phone : '62'+phone;
+  const waLink = phone ? `https://wa.me/${waNum}` : '#';
+  const mapsUrl = o.gps_coords
+    ? `https://maps.google.com/?q=${o.gps_coords}`
+    : `https://maps.google.com/?q=${encodeURIComponent(o.address||'')}`;
+  const ref = o.order_ref || o.id || '-';
+
+  return `<tr>
+    <td>
+      <span class="order-id">#${ref}</span>
+      <div style="font-size:11px;color:var(--gray-400);margin-top:4px">${fmtTimestamp(o.created_at)}</div>
+    </td>
+    <td>
+      <div class="customer-name">${o.nama||'-'}</div>
+      <div class="customer-wa">${o.phone||'-'}</div>
+    </td>
+    <td>
+      <div class="service-name">${o.service_name||'-'}</div>
+      <div class="service-detail">${o.ac_size||'-'} — ${o.units||1} unit</div>
+      ${o.notes && o.notes !== '-' ? `<div style="font-size:11px;color:var(--orange);margin-top:3px">📝 ${o.notes}</div>` : ''}
+    </td>
+    <td>
+      <div class="date-val">${o.schedule_date||'-'}</div>
+      <div style="font-size:11px;color:var(--gray-400)">${o.schedule_time||'-'}</div>
+    </td>
+    <td>
+      <span class="area-tag">${o.area||'-'}</span>
+      <div style="font-size:11px;margin-top:4px">
+        <a href="${mapsUrl}" target="_blank" style="color:var(--primary);text-decoration:none">📍 Maps</a>
+      </div>
+    </td>
+    <td><div class="price-total">${totalFmt}</div></td>
+    <td><span class="status ${sClass}">${statusLabel[o.status]||o.status}</span></td>
+    <td>
+      <div class="actions">
+        ${o.status === 'PENDING'      ? `<button class="act-btn act-confirm"  onclick="updateStatus('${ref}','CONFIRMED')">✅ Konfirmasi</button>` : ''}
+        ${['PENDING','CONFIRMED'].includes(o.status) ? `<button class="act-btn act-done" onclick="updateStatus('${ref}','IN_PROGRESS')">🔧 Proses</button>` : ''}
+        ${o.status === 'IN_PROGRESS'  ? `<button class="act-btn act-done"     onclick="updateStatus('${ref}','DONE')">🎉 Selesai</button>` : ''}
+        <a class="act-btn act-wa" href="${waLink}" target="_blank">💬 WA</a>
+        ${!['CANCELLED','DONE'].includes(o.status) ? `<button class="act-btn act-cancel" onclick="updateStatus('${ref}','CANCELLED')">❌ Batal</button>` : ''}
+      </div>
+    </td>
+  </tr>`;
+}
+
+function fmtTimestamp(ts) {
+  if (!ts) return '';
+  try { return new Date(ts).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
+  catch(e) { return ts; }
+}
+
+// ─── UPDATE STATUS ────────────────────────────────────────────────────────────
+async function updateStatus(orderRef, status) {
+  const labels = {CONFIRMED:'Confirmed',IN_PROGRESS:'In Progress',DONE:'Selesai',CANCELLED:'Dibatalkan'};
+  if (!confirm(`Ubah status ke "${labels[status]||status}"?`)) return;
+
+  // Optimistic update di UI
+  const order = allOrders.find(o => (o.order_ref||o.id) === orderRef);
+  if (order) order.status = status;
+  renderOrders(filteredOrds.length < allOrders.length ? filteredOrds : allOrders);
+  updateStats(allOrders);
+
+  try {
+    await supaRpc('update_website_order_status', {
+      p_order_ref: orderRef,
+      p_status:    status,
+      admin_pass:  ADMIN_PASS
+    });
+    showToast(`✅ Status diubah ke "${labels[status]||status}"`, 'success');
+  } catch(e) {
+    showToast('❌ Gagal update status: ' + e.message, 'error');
+    loadOrders(); // reload untuk sync
+  }
+}
+
+// ─── STATS ────────────────────────────────────────────────────────────────────
+function updateStatsFromSupabase(stats) {
+  if (!stats) return;
+  document.getElementById('statTotal').textContent   = stats.total   || 0;
+  document.getElementById('statPending').textContent = stats.pending  || 0;
+  document.getElementById('statDone').textContent    = stats.done    || 0;
+  document.getElementById('statRevenue').textContent = stats.revenue
+    ? `Rp ${Number(stats.revenue).toLocaleString('id-ID')}` : 'Rp 0';
+  const badge = document.getElementById('pendingBadge');
+  if ((stats.pending||0) > 0) { badge.style.display = ''; badge.textContent = stats.pending; }
+  else badge.style.display = 'none';
+}
+
+function updateStats(orders) {
+  const pending = orders.filter(o => o.status === 'PENDING').length;
+  const done    = orders.filter(o => o.status === 'DONE').length;
+  const revenue = orders.filter(o => o.status === 'DONE').reduce((s,o) => s + Number(o.total||0), 0);
+  document.getElementById('statTotal').textContent   = orders.length;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statDone').textContent    = done;
+  document.getElementById('statRevenue').textContent = `Rp ${revenue.toLocaleString('id-ID')}`;
+  const badge = document.getElementById('pendingBadge');
+  if (pending > 0) { badge.style.display = ''; badge.textContent = pending; }
+  else badge.style.display = 'none';
+}
+
+// ─── TODAY ────────────────────────────────────────────────────────────────────
+function renderToday() {
+  const today = new Date().toISOString().slice(0,10);
+  const todayOrders = allOrders.filter(o => (o.schedule_date||'').slice(0,10) === today);
+  const wrap = document.getElementById('todayTableWrap');
+  if (!todayOrders.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="ic">✅</div><h3>Tidak ada jadwal hari ini</h3><p>Order dengan jadwal hari ini akan tampil di sini.</p></div>`;
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="table-header"><h3>Jadwal Hari Ini</h3><span class="table-count">${todayOrders.length} order</span></div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Order Ref</th><th>Customer</th><th>Layanan</th><th>Waktu</th><th>Area</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
+      <tbody>${todayOrders.map(o => orderRow(o)).join('')}</tbody>
+    </table></div>
+  `;
+}
+
+// ─── FILTER ───────────────────────────────────────────────────────────────────
+function applyFilter() {
+  const q      = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  filteredOrds = allOrders.filter(o => {
+    const matchQ = !q || [o.nama, o.phone, o.area, o.service_name, o.order_ref]
+      .some(v => (v||'').toLowerCase().includes(q));
+    const matchS = !status || o.status === status;
+    return matchQ && matchS;
+  });
+  renderOrders(filteredOrds);
+}
+
+// ─── SETTINGS — HARGA ─────────────────────────────────────────────────────────
+function getStoredServices() {
+  try {
+    const s = localStorage.getItem('aclean_services');
+    return s ? JSON.parse(s) : null;
+  } catch(e) { return null; }
+}
+
+function renderPriceFields() {
+  const savedSvcs = getStoredServices();
+  const DEFAULT_SERVICES = [
+    {id:'cuci-kecil',   name:'Cuci AC Split 0,5PK – 1PK',          price:85000},
+    {id:'cuci-besar',   name:'Cuci AC Split 1,5PK – 2,5PK',         price:90000},
+    {id:'cuci-ducting', name:'Cuci AC Ducting / Cassette',           price:250000},
+    {id:'diagnosa',     name:'Diagnosa & Cek Unit AC',               price:100000},
+    {id:'perbaikan',    name:'Perbaikan AC Split',                   price:100000},
+    {id:'pasang-baru',  name:'Pasang AC Baru',                       price:350000},
+    {id:'bongkar-pasang',name:'Bongkar Pasang (Pindah Unit)',        price:400000},
+    {id:'freon-r22',    name:'Isi Freon R22',                        price:350000},
+    {id:'freon-r32',    name:'Isi Freon R32',                        price:450000},
+    {id:'freon-r410',   name:'Isi Freon R410A',                      price:450000},
+    {id:'vacuum-freon', name:'Vacuum + Full Freon',                  price:500000},
+  ];
+  const svcs = savedSvcs || DEFAULT_SERVICES.map(s => ({...s}));
+  const container = document.getElementById('priceFields');
+  container.innerHTML = svcs.map(s => `
+    <div class="sf-row">
+      <div>
+        <div class="sf-label">${s.name}</div>
+        <div class="sf-sub">ID: ${s.id}</div>
+      </div>
+      <input type="number" class="sf-input" id="price-${s.id}" value="${s.price}" min="0" step="1000"/>
+    </div>
+  `).join('');
+}
+
+function savePrices() {
+  const savedSvcs = getStoredServices();
+  const DEFAULT_SERVICES = [
+    {id:'cuci-kecil',name:'Cuci AC Split 0,5PK – 1PK',price:85000,cat:'cuci',popular:true,icon:'🌀',img:'images/service-cuci-ac.jpg',desc:'Pembersihan menyeluruh evaporator, blower & filter.'},
+    {id:'cuci-besar',name:'Cuci AC Split 1,5PK – 2,5PK',price:90000,cat:'cuci',icon:'🌀',img:'images/service-cuci-ac.jpg',desc:'Pembersihan mendalam untuk AC berkapasitas menengah-besar.'},
+    {id:'cuci-ducting',name:'Cuci AC Ducting / Cassette',price:250000,cat:'cuci',icon:'🌀',img:'images/service-ac-central.jpg',desc:'Service pembersihan AC tipe Ducting, Cassette & Ceiling.'},
+    {id:'diagnosa',name:'Diagnosa & Cek Unit AC',price:100000,cat:'perbaikan',icon:'🔧',img:'images/service-cuci-ac.jpg',desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan.'},
+    {id:'perbaikan',name:'Perbaikan AC Split',price:100000,cat:'perbaikan',icon:'🔧',img:'images/service-cuci-ac.jpg',desc:'Perbaikan kerusakan umum AC Split.'},
+    {id:'pasang-baru',name:'Pasang AC Baru',price:350000,cat:'pasang',popular:true,icon:'📦',img:'images/service-pasang-ac.jpg',desc:'Instalasi AC baru lengkap: pipa, kabel, bracket, vacuum & test.'},
+    {id:'bongkar-pasang',name:'Bongkar Pasang (Pindah Unit)',price:400000,cat:'pasang',icon:'🔄',img:'images/service-bongkar-pasang.jpg',desc:'Bongkar dari lokasi lama, reinstalasi di lokasi baru.'},
+    {id:'freon-r22',name:'Isi Freon R22',price:350000,cat:'freon',icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Pengisian refrigerant R22 untuk unit AC lama.'},
+    {id:'freon-r32',name:'Isi Freon R32',price:450000,cat:'freon',popular:true,icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Pengisian refrigerant R32. Ramah lingkungan, efisiensi tinggi.'},
+    {id:'freon-r410',name:'Isi Freon R410A',price:450000,cat:'freon',icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Pengisian refrigerant R410A untuk AC inverter modern.'},
+    {id:'vacuum-freon',name:'Vacuum + Full Freon',price:500000,cat:'freon',icon:'❄️',img:'images/service-isi-freon.jpg',desc:'Vacuum sistem AC + isi freon penuh.'},
+  ];
+  const base = savedSvcs || DEFAULT_SERVICES;
+  const updated = base.map(s => {
+    const el = document.getElementById('price-'+s.id);
+    return {...s, price: el ? Number(el.value) : s.price};
+  });
+  localStorage.setItem('aclean_services', JSON.stringify(updated));
+  showToast('✅ Harga berhasil disimpan!', 'success');
+}
+
+function loadTransportSettings() {
+  const fee = localStorage.getItem('aclean_transport_fee');
+  const min = localStorage.getItem('aclean_free_min');
+  if (fee) document.getElementById('transportFeeInput').value = fee;
+  if (min) document.getElementById('freeTransportMinInput').value = min;
+}
+
+function saveTransport() {
+  const fee = document.getElementById('transportFeeInput').value;
+  const min = document.getElementById('freeTransportMinInput').value;
+  localStorage.setItem('aclean_transport_fee', fee);
+  localStorage.setItem('aclean_free_min', min);
+  showToast('✅ Pengaturan transport disimpan!', 'success');
+}
+
+// Apps Script sudah digantikan oleh Supabase — tidak diperlukan lagi
+
+// ─── COPY CODE ────────────────────────────────────────────────────────────────
+function copyCode() {
+  const code = document.getElementById('appsScriptCode');
+  const lines = code.textContent.replace(/^Copy\n/, '').trim();
+  navigator.clipboard.writeText(lines).then(() => {
+    showToast('✅ Kode Apps Script dikopi!', 'success');
+  });
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>

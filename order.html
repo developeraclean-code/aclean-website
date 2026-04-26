@@ -433,22 +433,6 @@ body.cart-open{padding-bottom:72px}
           </div>
         </div>
 
-        <!-- UKURAN + QTY -->
-        <div class="field-row">
-          <div class="field">
-            <label for="fUkuran">Ukuran AC <span class="req">*</span></label>
-            <select id="fUkuran" required>
-              <option value="">— Pilih PK —</option>
-              <option>0,5 PK</option>
-              <option>3/4 PK</option>
-              <option>1 PK</option>
-              <option>1,5 PK</option>
-              <option>2 PK</option>
-              <option>2,5 PK</option>
-              <option>Belum tahu</option>
-            </select>
-          </div>
-        </div>
 
         <!-- TANGGAL -->
         <div class="field">
@@ -1070,7 +1054,6 @@ function buildWAMsg(o) {
   m += `📅 *JADWAL:*\n`;
   m += `Tanggal: *${fmtDate(o.tanggal)}*\n`;
   m += `Waktu: *${o.waktu}*\n`;
-  m += `Ukuran AC: *${o.ukuran}*\n`;
   m += `Area: *${o.area}*\n\n`;
   m += `💳 *PEMBAYARAN:*\n`;
   m += `Pembayaran Setelah Pengerjaan ✅\n`;
@@ -1095,7 +1078,6 @@ function validate() {
     {id:'fWA',     label:'Nomor WhatsApp'},
     {id:'fArea',   label:'Area Layanan'},
     {id:'fAlamat', label:'Alamat Lengkap'},
-    {id:'fUkuran', label:'Ukuran AC'},
   ];
   fields.forEach(f => {
     const el = document.getElementById(f.id);
@@ -1130,7 +1112,6 @@ async function submitOrder(e) {
   const wa       = document.getElementById('fWA').value.trim();
   const area     = document.getElementById('fArea').value;
   const alamat   = document.getElementById('fAlamat').value.trim();
-  const ukuran   = document.getElementById('fUkuran').value;
   const tanggal  = getTanggalValue();
   const catatan  = document.getElementById('fCatatan').value.trim();
   const koordinat = gpsCoords || '';
@@ -1150,7 +1131,6 @@ async function submitOrder(e) {
         service_id:   item.svcId,
         service_name: item.svcName,
         service_price:item.price,
-        ac_size:      ukuran,
         units:        item.qty,
         schedule_date:tanggal,
         schedule_time:selectedTime,
@@ -1164,12 +1144,12 @@ async function submitOrder(e) {
 
   // localStorage backup
   const prev = JSON.parse(localStorage.getItem('aclean_orders') || '[]');
-  prev.push({orderId, cart:[...cart], nama, wa, area, alamat, ukuran, tanggal, waktu:selectedTime, catatan, timestamp:new Date().toISOString()});
+  prev.push({orderId, cart:[...cart], nama, wa, area, alamat, tanggal, waktu:selectedTime, catatan, timestamp:new Date().toISOString()});
   localStorage.setItem('aclean_orders', JSON.stringify(prev));
 
   document.getElementById('step3').classList.add('done');
 
-  const msg = buildWAMsg({orderId, nama, wa, area, alamat, koordinat, ukuran, tanggal, catatan});
+  const msg = buildWAMsg({orderId, nama, wa, area, alamat, koordinat, tanggal, catatan});
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   showToast('✅ Membuka WhatsApp...');
   setTimeout(() => window.open(waUrl, '_blank'), 600);

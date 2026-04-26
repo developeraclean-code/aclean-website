@@ -673,6 +673,18 @@ function getBaseServices() {
 let SERVICES = getBaseServices();
 
 // Fetch foto layanan dari Supabase dan override img
+const IMG_CACHE_KEY = 'aclean_img_cache';
+
+// Apply cached images synchronously before first render — no flash
+function applyCachedImages() {
+  try {
+    const cached = localStorage.getItem(IMG_CACHE_KEY);
+    if (!cached) return;
+    const imgMap = JSON.parse(cached);
+    SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
+  } catch(e) {}
+}
+
 async function loadServiceImages() {
   try {
     const res = await fetch(`${SUPA_URL}/rest/v1/rpc/get_website_settings`, {
@@ -686,9 +698,11 @@ async function loadServiceImages() {
     const imgMap = {};
     rows.forEach(r => { if (r.key && r.key.startsWith('img_')) imgMap[r.key.replace('img_','')] = r.value; });
     if (Object.keys(imgMap).length === 0) return;
+    // Simpan ke cache agar render berikutnya langsung pakai gambar admin
+    try { localStorage.setItem(IMG_CACHE_KEY, JSON.stringify(imgMap)); } catch(e) {}
     SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
-    renderServices(currentCat); // re-render dengan foto baru
-  } catch(e) { /* silent fail — pakai foto default */ }
+    renderServices(currentCat); // re-render jika ada update dari Supabase
+  } catch(e) { /* silent fail — pakai foto cache/default */ }
 }
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
@@ -702,8 +716,9 @@ let variantSelected = null; // chosen variant obj
 
 // ─── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  applyCachedImages();  // sync — pakai cache sebelum render pertama
   renderServices('cuci');
-  loadServiceImages(); // async — update foto kalau ada di Supabase
+  loadServiceImages();  // async — update cache & re-render jika ada perubahan
 
   // Default date = besok
   const d = new Date(); d.setDate(d.getDate()+1);
@@ -773,7 +788,16 @@ function filterTab(cat, btn) {
 
 // ─── CART FUNCTIONS ────────────────────────────────────────────────────────────
 function getTotalQty() { return cart.reduce((s,c) => s+c.qty, 0); }
-function getTransportFee() { return getTotalQty() >= FREE_TRANSPORT_MIN ? 0 : TRANSPORT_FEE; }
+// Transport hanya berlaku untuk Service Cleaning AC Split (cuci-kecil: 0,5PK–2,5PK)
+const TRANSPORT_ELIGIBLE_SVC_IDS = ['cuci-kecil'];
+function getEligibleQty() {
+  return cart.filter(c => TRANSPORT_ELIGIBLE_SVC_IDS.includes(c.svcId)).reduce((s,c) => s+c.qty, 0);
+}
+function getTransportFee() {
+  const eligible = getEligibleQty();
+  if (eligible === 0) return 0;
+  return eligible >= FREE_TRANSPORT_MIN ? 0 : TRANSPORT_FEE;
+}
 function getSubtotal() { return cart.reduce((s,c) => s + c.price * c.qty, 0); }
 
 function addSimpleToCart(svcId) {
@@ -883,10 +907,11 @@ function renderCart() {
     c.innerHTML = `<div class="sum-empty"><div class="ic">🛒</div><p>Pilih layanan di atas<br/>untuk melihat total harga</p></div>`;
     return;
   }
-  const subtotal  = getSubtotal();
-  const transport = getTransportFee();
-  const totalQty  = getTotalQty();
-  const total     = subtotal + transport;
+  const subtotal    = getSubtotal();
+  const transport   = getTransportFee();
+  const totalQty    = getTotalQty();
+  const eligibleQty = getEligibleQty();
+  const total       = subtotal + transport;
 
   c.innerHTML = `
     ${cart.map(item => `
@@ -910,7 +935,12 @@ function renderCart() {
         : 'Rp '+fmtRp(transport)
       }</span>
     </div>
-    ${transport === 0 ? `<div class="transport-hint">🎉 Gratis untuk total ≥ ${FREE_TRANSPORT_MIN} unit!</div>` : `<div style="font-size:11px;color:var(--gray-400);padding-bottom:4px">Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit</div>`}
+    ${eligibleQty === 0
+      ? `<div style="font-size:11px;color:var(--gray-400);padding-bottom:4px">Tidak berlaku untuk layanan yang dipilih</div>`
+      : transport === 0
+        ? `<div class="transport-hint">🎉 Gratis untuk total ≥ ${FREE_TRANSPORT_MIN} unit!</div>`
+        : `<div style="font-size:11px;color:var(--gray-400);padding-bottom:4px">Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit</div>`
+    }
     <div class="sum-row total"><span class="lbl">TOTAL</span><span class="val">Rp ${fmtRp(total)}</span></div>
   `;
 }
@@ -999,10 +1029,11 @@ function fmtDate(str) {
 
 // ─── FORMAT WHATSAPP (multi-item) ──────────────────────────────────────────────
 function buildWAMsg(o) {
-  const subtotal  = getSubtotal();
-  const transport = getTransportFee();
-  const totalQty  = getTotalQty();
-  const total     = subtotal + transport;
+  const subtotal    = getSubtotal();
+  const transport   = getTransportFee();
+  const totalQty    = getTotalQty();
+  const eligibleQty = getEligibleQty();
+  const total       = subtotal + transport;
   const mapsUrl   = o.koordinat
     ? `https://maps.google.com/?q=${o.koordinat}`
     : `https://maps.google.com/?q=${encodeURIComponent(o.alamat)}`;
@@ -1018,12 +1049,15 @@ function buildWAMsg(o) {
   });
   m += `\n*Subtotal: Rp ${fmtRp(subtotal)}*\n\n`;
   m += `🚗 *Biaya Transportasi: `;
-  if (transport === 0) {
+  if (eligibleQty === 0) {
     m += `GRATIS* ✅\n`;
-    m += `   _(Gratis — total ${totalQty} unit ≥ ${FREE_TRANSPORT_MIN} unit)_\n\n`;
+    m += `   _(Tidak berlaku untuk layanan yang dipilih)_\n\n`;
+  } else if (transport === 0) {
+    m += `GRATIS* ✅\n`;
+    m += `   _(Gratis — total ${eligibleQty} unit ≥ ${FREE_TRANSPORT_MIN} unit)_\n\n`;
   } else {
     m += `Rp ${fmtRp(transport)}*\n`;
-    m += `   _(Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit)_\n\n`;
+    m += `   _(Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit cleaning AC split)_\n\n`;
   }
   m += `💰 *TOTAL: Rp ${fmtRp(total)}*\n`;
   m += `━━━━━━━━━━━━━━━━━━━━\n`;

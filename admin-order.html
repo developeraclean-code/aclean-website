@@ -1429,7 +1429,10 @@ function saveCustomServices(arr) {
   localStorage.setItem('aclean_custom_services', JSON.stringify(arr));
 }
 function getAllServices() {
-  return [...ADMIN_CATALOG, ...getCustomServices()];
+  const customs = getCustomServices();
+  const customIds = new Set(customs.map(s => s.id));
+  const builtIn = ADMIN_CATALOG.filter(s => !customIds.has(s.id));
+  return [...builtIn, ...customs];
 }
 function getCatLabel(cat) {
   return CAT_LABELS[cat] || ('🏷️ ' + cat.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()));
@@ -1496,10 +1499,8 @@ function renderServiceCard(svc, isCustom) {
   }
   const catLabel = `<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--primary-50);color:var(--primary);display:inline-block;margin-top:4px">${getCatLabel(svc.cat)}</span>`;
   const subcatLabel = svc.subcat ? `<span style="font-size:10px;color:var(--gray-400);margin-left:4px">${svc.subcat}</span>` : '';
-  const actions = isCustom
-    ? `<button class="svc-act-edit" onclick="openEditModal('${svc.id}')">✏️ Edit</button>
-       <button class="svc-act-del" onclick="deleteCustomService('${svc.id}')">🗑️ Hapus</button>`
-    : `<span class="built-in-tag">Layanan bawaan</span>`;
+  const actions = `<button class="svc-act-edit" onclick="openEditModal('${svc.id}')">✏️ Edit</button>`
+    + (isCustom ? ` <button class="svc-act-del" onclick="deleteCustomService('${svc.id}')">🗑️ Hapus</button>` : '');
 
   return `<div class="svc-card ${isCustom?'custom':'built-in'}">
     <div class="svc-card-head">
@@ -1530,10 +1531,11 @@ function openAddModal() {
 }
 
 function openEditModal(id) {
-  const svc = getCustomServices().find(s => s.id === id);
+  const svc = getAllServices().find(s => s.id === id);
   if (!svc) return;
   editingServiceId = id;
-  document.getElementById('modalTitle').textContent = 'Edit Layanan';
+  const isBuiltIn = !!ADMIN_CATALOG.find(b => b.id === id);
+  document.getElementById('modalTitle').textContent = isBuiltIn ? 'Edit Layanan Bawaan' : 'Edit Layanan';
   resetModalForm();
 
   const knownCats = Object.keys(CAT_LABELS);
@@ -1663,6 +1665,7 @@ function saveNewService() {
 
   const customs = getCustomServices();
   if (editingServiceId) {
+    // Cari di custom dulu, kalau tidak ada berarti layanan bawaan — push sebagai override
     const idx = customs.findIndex(s => s.id === editingServiceId);
     if (idx >= 0) customs[idx] = svc; else customs.push(svc);
   } else {
@@ -1670,8 +1673,9 @@ function saveNewService() {
   }
   saveCustomServices(customs);
 
-  // Update aclean_services agar order.html langsung membaca layanan baru
-  const allSvcs = [...ADMIN_CATALOG, ...customs];
+  // Update aclean_services agar order.html langsung membaca (custom override built-in)
+  const customIds = new Set(customs.map(s => s.id));
+  const allSvcs = [...ADMIN_CATALOG.filter(s => !customIds.has(s.id)), ...customs];
   localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
   localStorage.setItem('aclean_services_ver', 'v2');
 
@@ -1684,7 +1688,8 @@ function deleteCustomService(id) {
   if (!confirm('Hapus layanan ini? Tindakan tidak bisa dibatalkan.')) return;
   const customs = getCustomServices().filter(s => s.id !== id);
   saveCustomServices(customs);
-  const allSvcs = [...ADMIN_CATALOG, ...customs];
+  const customIds = new Set(customs.map(s => s.id));
+  const allSvcs = [...ADMIN_CATALOG.filter(s => !customIds.has(s.id)), ...customs];
   localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
   localStorage.setItem('aclean_services_ver', 'v2');
   renderCatalogManager();

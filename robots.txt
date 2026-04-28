@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin-order.html
 Disallow: /admin-images.html
+Disallow: /staff-panel.html
 
 Sitemap: https://aclean.id/sitemap.xml

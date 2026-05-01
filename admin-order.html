@@ -97,6 +97,10 @@ body{font-family:var(--font-body);color:var(--dark);background:var(--gray-50);li
 .filter-search{flex:1;min-width:200px;padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark);outline:none;transition:.2s}
 .filter-search:focus{border-color:var(--primary)}
 .filter-select{padding:10px 14px;border-radius:9px;border:1.5px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark-600);background:var(--white);outline:none;cursor:pointer}
+.filter-label{font-size:13px;font-weight:600;color:var(--dark-600);white-space:nowrap}
+.dl-btn{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:9px;background:var(--primary);color:#fff;border:none;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.15s}
+.dl-btn:hover{opacity:.88}
+.dl-btn svg{flex-shrink:0}
 
 /* ORDERS TABLE */
 .table-wrap{background:var(--white);border-radius:14px;border:1px solid var(--gray-200);overflow:hidden}
@@ -482,6 +486,17 @@ tr:hover td{background:var(--gray-50)}
             <option value="DONE">🎉 Done</option>
             <option value="CANCELLED">❌ Cancelled</option>
           </select>
+          <span class="filter-label">Filter Tanggal:</span>
+          <select class="filter-select" id="dateFilter" onchange="applyFilter()">
+            <option value="">Semua</option>
+            <option value="today">Hari Ini</option>
+            <option value="month">Bulan Ini</option>
+            <option value="year">Tahun Ini</option>
+          </select>
+          <button class="dl-btn" onclick="downloadCSV()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CSV
+          </button>
         </div>
 
         <div class="table-wrap" id="ordersTableWrap">
@@ -1251,16 +1266,94 @@ function renderToday() {
 }
 
 // ─── FILTER ───────────────────────────────────────────────────────────────────
+function getDateRange(period) {
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const today = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  if (period === 'today') return { from: today, to: today };
+  if (period === 'month') return {
+    from: `${now.getFullYear()}-${pad(now.getMonth()+1)}-01`,
+    to: today
+  };
+  if (period === 'year') return { from: `${now.getFullYear()}-01-01`, to: today };
+  return null;
+}
+
 function applyFilter() {
   const q      = document.getElementById('searchInput').value.toLowerCase();
   const status = document.getElementById('statusFilter').value;
+  const period = document.getElementById('dateFilter').value;
+  const range  = getDateRange(period);
   filteredOrds = allOrders.filter(o => {
     const matchQ = !q || [o.nama, o.phone, o.area, o.service_name, o.order_ref]
       .some(v => (v||'').toLowerCase().includes(q));
     const matchS = !status || o.status === status;
-    return matchQ && matchS;
+    const d = (o.schedule_date || '').slice(0,10);
+    const matchD = !range || (d >= range.from && d <= range.to);
+    return matchQ && matchS && matchD;
   });
   renderOrders(filteredOrds);
+}
+
+function downloadCSV() {
+  const period  = document.getElementById('dateFilter').value;
+  const status  = document.getElementById('statusFilter').value;
+  const q       = document.getElementById('searchInput').value.toLowerCase();
+  const range   = getDateRange(period);
+
+  const data = allOrders.filter(o => {
+    const matchQ = !q || [o.nama, o.phone, o.area, o.service_name, o.order_ref]
+      .some(v => (v||'').toLowerCase().includes(q));
+    const matchS = !status || o.status === status;
+    const d = (o.schedule_date || '').slice(0,10);
+    const matchD = !range || (d >= range.from && d <= range.to);
+    return matchQ && matchS && matchD;
+  });
+
+  if (data.length === 0) { showToast('⚠️ Tidak ada data untuk didownload', 'warning'); return; }
+
+  const headers = ['No','Ref Order','Tanggal Order','Nama','WhatsApp','Area','Alamat',
+    'Layanan','Jumlah Unit','Tanggal Jadwal','Waktu','Harga/Unit','Transport','Total','Catatan','Status'];
+
+  const escape = v => {
+    const s = (v === null || v === undefined) ? '' : String(v);
+    return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g,'""')}"` : s;
+  };
+
+  const rows = data.map((o, i) => [
+    i+1,
+    o.order_ref || '',
+    o.created_at ? new Date(o.created_at).toLocaleDateString('id-ID') : '',
+    o.nama || '',
+    o.phone || '',
+    o.area || '',
+    o.address || '',
+    o.service_name || '',
+    o.units || '',
+    o.schedule_date || '',
+    o.schedule_time || '',
+    o.service_price || '',
+    o.transport_fee || '',
+    o.total || '',
+    o.notes || '',
+    o.status || ''
+  ].map(escape).join(','));
+
+  const csv = '﻿' + [headers.join(','), ...rows].join('\r\n');
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const label = period === 'today' ? `hari-ini-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`
+              : period === 'month' ? `bulan-${now.getFullYear()}${pad(now.getMonth()+1)}`
+              : period === 'year'  ? `tahun-${now.getFullYear()}`
+              : `semua-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
+  const filename = `aclean-orders-${label}.csv`;
+
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+  showToast(`✅ ${data.length} order berhasil didownload`, 'success');
 }
 
 // ─── SETTINGS — HARGA ─────────────────────────────────────────────────────────

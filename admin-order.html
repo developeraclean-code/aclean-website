@@ -1059,7 +1059,7 @@ function showTab(tab, btn) {
   if (tab === 'today') renderToday();
   if (tab === 'settings') { loadCatalogFromSupabase().then(() => { renderPriceFields(); loadTransportSettings(); }); }
   if (tab === 'images') { renderImageGrid(); }
-  if (tab === 'catalog') { activeCatTab = 'all'; renderCatalogManager(); }
+  if (tab === 'catalog') { activeCatTab = 'all'; loadCatalogFromSupabase().then(() => renderCatalogManager()); }
 }
 
 // ─── LOAD ORDERS ──────────────────────────────────────────────────────────────
@@ -1281,7 +1281,17 @@ async function loadCatalogFromSupabase() {
     if (!Array.isArray(catalog) || catalog.length === 0) return;
     localStorage.setItem('aclean_services', JSON.stringify(catalog));
     localStorage.setItem('aclean_services_ver', 'v2');
+    // Rebuild custom services cache — semua yang bukan id bawaan ADMIN_CATALOG
+    const builtInIds = new Set(ADMIN_CATALOG.map(s => s.id));
+    const customs = catalog.filter(s => !builtInIds.has(s.id));
+    localStorage.setItem('aclean_custom_services', JSON.stringify(customs));
   } catch(e) { console.warn('loadCatalogFromSupabase:', e); }
+}
+
+async function pushCatalogToSupabase(allSvcs) {
+  try {
+    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(allSvcs), admin_pass: ADMIN_PASS});
+  } catch(e) { console.warn('pushCatalogToSupabase:', e); throw e; }
 }
 
 // Catalog v2 — sinkron dengan order.html DEFAULT_SERVICES
@@ -1645,7 +1655,7 @@ function addVariantRow(name='', price='', origPrice='') {
   document.getElementById('variantList').appendChild(row);
 }
 
-function saveNewService() {
+async function saveNewService() {
   let cat = document.getElementById('svcCat').value;
   if (cat === '__new__') {
     cat = document.getElementById('svcNewCat').value.trim().toLowerCase().replace(/\s+/g,'-');
@@ -1708,10 +1718,16 @@ function saveNewService() {
 
   closeAddModal();
   renderCatalogManager();
-  showToast(editingServiceId ? '✅ Layanan berhasil diperbarui!' : '✅ Layanan baru berhasil ditambahkan!', 'success');
+  showToast('⏳ Menyimpan ke Supabase...', 'info');
+  try {
+    await pushCatalogToSupabase(allSvcs);
+    showToast(editingServiceId ? '✅ Layanan diperbarui & tersimpan ke Supabase!' : '✅ Layanan baru tersimpan ke Supabase!', 'success');
+  } catch(e) {
+    showToast('⚠️ Disimpan lokal saja (Supabase gagal: ' + e.message + ')', 'warning');
+  }
 }
 
-function deleteCustomService(id) {
+async function deleteCustomService(id) {
   if (!confirm('Hapus layanan ini? Tindakan tidak bisa dibatalkan.')) return;
   const customs = getCustomServices().filter(s => s.id !== id);
   saveCustomServices(customs);
@@ -1720,7 +1736,13 @@ function deleteCustomService(id) {
   localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
   localStorage.setItem('aclean_services_ver', 'v2');
   renderCatalogManager();
-  showToast('🗑️ Layanan dihapus', 'success');
+  showToast('⏳ Menghapus dari Supabase...', 'info');
+  try {
+    await pushCatalogToSupabase(allSvcs);
+    showToast('🗑️ Layanan dihapus & diperbarui di Supabase!', 'success');
+  } catch(e) {
+    showToast('⚠️ Dihapus lokal saja (Supabase gagal: ' + e.message + ')', 'warning');
+  }
 }
 
 // ─── FOTO LAYANAN ─────────────────────────────────────────────────────────────

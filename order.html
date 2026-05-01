@@ -621,6 +621,8 @@ const DEFAULT_SERVICES = [
      {id:'pasang-besar',     name:'Pemasangan AC 1,5PK – 2,5PK Tanpa Vacum Unit',        price:400000, originalPrice:450000},
      {id:'bp-kecil-vac',     name:'Jasa Bongkar Pasang AC 1/2PK – 1PK Dengan Vacum Unit',  price:500000, originalPrice:600000},
      {id:'bp-besar-vac',     name:'Jasa Bongkar Pasang AC 1,5PK – 2,5PK Dengan Vacum Unit',price:550000, originalPrice:650000},
+     {id:'bp-outdoor-saja',  name:'Jasa Bongkar Pasang Outdoor Saja',                      price:250000, originalPrice:300000},
+     {id:'bp-indoor-saja',   name:'Jasa Bongkar Pasang Indoor Saja',                       price:300000, originalPrice:350000},
      {id:'bongkar-saja',     name:'Jasa Bongkar Unit Saja',                                price:150000, originalPrice:200000},
    ]},
   // FREON
@@ -679,14 +681,46 @@ async function loadServiceImages() {
     if (!res.ok) return;
     const rows = await res.json();
     if (!Array.isArray(rows)) return;
+
+    // Terapkan harga dari Supabase (services_catalog) — override hardcoded defaults
+    const catalogRow = rows.find(r => r.key === 'services_catalog');
+    if (catalogRow) {
+      try {
+        const catalog = JSON.parse(catalogRow.value);
+        if (Array.isArray(catalog) && catalog.length > 0) {
+          // Simpan ke localStorage sebagai cache lokal
+          try { localStorage.setItem('aclean_services', JSON.stringify(catalog)); localStorage.setItem('aclean_services_ver', 'v2'); } catch(e) {}
+          // Terapkan ke SERVICES: update price, originalPrice, name, label per id
+          const catalogMap = {};
+          catalog.forEach(c => { catalogMap[c.id] = c; });
+          SERVICES = SERVICES.map(s => {
+            const c = catalogMap[s.id];
+            if (!c) return s;
+            const merged = { ...s, label: c.label ?? s.label, name: c.name ?? s.name, price: c.price ?? s.price };
+            if (s.variants && c.variants) {
+              const vMap = {};
+              c.variants.forEach(v => { vMap[v.id] = v; });
+              merged.variants = s.variants.map(v => {
+                const cv = vMap[v.id];
+                return cv ? { ...v, name: cv.name ?? v.name, price: cv.price ?? v.price, originalPrice: cv.originalPrice ?? v.originalPrice } : v;
+              });
+            }
+            return merged;
+          });
+        }
+      } catch(e) { /* pakai DEFAULT_SERVICES jika parse gagal */ }
+    }
+
+    // Terapkan foto dari Supabase
     const imgMap = {};
     rows.forEach(r => { if (r.key && r.key.startsWith('img_')) imgMap[r.key.replace('img_','')] = r.value; });
-    if (Object.keys(imgMap).length === 0) return;
-    // Simpan ke cache agar render berikutnya langsung pakai gambar admin
-    try { localStorage.setItem(IMG_CACHE_KEY, JSON.stringify(imgMap)); } catch(e) {}
-    SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
-    renderServices(currentCat); // re-render jika ada update dari Supabase
-  } catch(e) { /* silent fail — pakai foto cache/default */ }
+    if (Object.keys(imgMap).length > 0) {
+      try { localStorage.setItem(IMG_CACHE_KEY, JSON.stringify(imgMap)); } catch(e) {}
+      SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
+    }
+
+    renderServices(currentCat); // re-render dengan harga & foto terbaru
+  } catch(e) { /* silent fail — pakai data cache/default */ }
 }
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────

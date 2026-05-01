@@ -211,6 +211,8 @@ tr:hover td{background:var(--gray-50)}
 .toast.show{opacity:1;transform:translateY(0)}
 .toast.success{background:var(--green)}
 .toast.error{background:var(--red)}
+.toast.info{background:#2563eb}
+.toast.warning{background:#d97706}
 
 /* LOADER */
 .loader{display:flex;align-items:center;justify-content:center;padding:60px;gap:12px;color:var(--gray-400);font-size:14px}
@@ -1055,7 +1057,7 @@ function showTab(tab, btn) {
   if (btn) btn.classList.add('active');
   document.getElementById('topbarTitle').textContent = tabTitles[tab] || tab;
   if (tab === 'today') renderToday();
-  if (tab === 'settings') { renderPriceFields(); loadTransportSettings(); }
+  if (tab === 'settings') { loadCatalogFromSupabase().then(() => { renderPriceFields(); loadTransportSettings(); }); }
   if (tab === 'images') { renderImageGrid(); }
   if (tab === 'catalog') { activeCatTab = 'all'; renderCatalogManager(); }
 }
@@ -1269,6 +1271,19 @@ function getStoredServices() {
   } catch(e) { return null; }
 }
 
+async function loadCatalogFromSupabase() {
+  try {
+    const rows = await supaRpc('get_website_settings', {});
+    if (!Array.isArray(rows)) return;
+    const row = rows.find(r => r.key === 'services_catalog');
+    if (!row) return;
+    const catalog = JSON.parse(row.value);
+    if (!Array.isArray(catalog) || catalog.length === 0) return;
+    localStorage.setItem('aclean_services', JSON.stringify(catalog));
+    localStorage.setItem('aclean_services_ver', 'v2');
+  } catch(e) { console.warn('loadCatalogFromSupabase:', e); }
+}
+
 // Catalog v2 — sinkron dengan order.html DEFAULT_SERVICES
 const ADMIN_CATALOG = [
   // CUCI
@@ -1312,6 +1327,8 @@ const ADMIN_CATALOG = [
      {id:'pasang-besar',  name:'Pasang 1,5PK – 2,5PK Tanpa Vacum',         price:400000, originalPrice:450000},
      {id:'bp-kecil-vac',  name:'Bongkar Pasang 1/2PK – 1PK + Vacum',       price:500000, originalPrice:600000},
      {id:'bp-besar-vac',  name:'Bongkar Pasang 1,5PK – 2,5PK + Vacum',     price:550000, originalPrice:650000},
+     {id:'bp-outdoor-saja', name:'Bongkar Pasang Outdoor Saja',             price:250000, originalPrice:300000},
+     {id:'bp-indoor-saja',  name:'Bongkar Pasang Indoor Saja',              price:300000, originalPrice:350000},
      {id:'bongkar-saja',  name:'Bongkar Unit Saja',                          price:150000, originalPrice:200000},
    ]},
   // FREON
@@ -1323,8 +1340,10 @@ const ADMIN_CATALOG = [
 
 function renderPriceFields() {
   const container = document.getElementById('priceFields');
+  const stored = getStoredServices();
+  const catalog = stored && stored.length ? stored : ADMIN_CATALOG;
   let html = '';
-  ADMIN_CATALOG.forEach(svc => {
+  catalog.forEach(svc => {
     const svcName = svc.label.replace(/^[^\s]+\s/, '');
     html += `<div class="svc-edit-block">
       <div class="svc-icon-row">
@@ -1352,8 +1371,10 @@ function renderPriceFields() {
   container.innerHTML = html;
 }
 
-function savePrices() {
-  const updated = ADMIN_CATALOG.map(svc => {
+async function savePrices() {
+  const stored = getStoredServices();
+  const catalog = stored && stored.length ? stored : ADMIN_CATALOG;
+  const updated = catalog.map(svc => {
     const nameEl   = document.getElementById('svcname-'+svc.id);
     const newName  = nameEl ? nameEl.value.trim() : svc.label.replace(/^[^\s]+ /,'');
     const newLabel = `${svc.icon} ${newName}`;
@@ -1381,7 +1402,13 @@ function savePrices() {
   });
   localStorage.setItem('aclean_services', JSON.stringify(updated));
   localStorage.setItem('aclean_services_ver', 'v2');
-  showToast('✅ Nama & harga berhasil disimpan! Berlaku di halaman order.', 'success');
+  showToast('⏳ Menyimpan ke Supabase...', 'info');
+  try {
+    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(updated), admin_pass: ADMIN_PASS});
+    showToast('✅ Harga disimpan ke Supabase! Berlaku langsung di semua perangkat.', 'success');
+  } catch(e) {
+    showToast('⚠️ Disimpan lokal saja (Supabase gagal: ' + e.message + ')', 'warning');
+  }
 }
 
 function loadTransportSettings() {

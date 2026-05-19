@@ -2047,21 +2047,21 @@ function acInput(id, f, val, w){ return `<input class="form-input" style="paddin
 function acRowHtml(u){
   const id = u.id;
   return `<tr data-row="${id}">
-    <td>${acInput(id,'brand',u.brand,'90px')}</td>
-    <td>${acInput(id,'seri',u.seri,'110px')}</td>
-    <td>${acInput(id,'nama_varian',u.nama_varian,'150px')}</td>
-    <td>${acInput(id,'tipe',u.tipe,'120px')}</td>
-    <td>${acInput(id,'kapasitas',u.kapasitas,'75px')}
+    <td>${acInput(id,'brand',u.brand,'70px')}</td>
+    <td>${acInput(id,'seri',u.seri,'85px')}</td>
+    <td>${acInput(id,'nama_varian',u.nama_varian,'115px')}</td>
+    <td>${acInput(id,'tipe',u.tipe,'95px')}</td>
+    <td>${acInput(id,'kapasitas',u.kapasitas,'58px')}
         <input type="hidden" data-id="${id}" data-f="keterangan_inc_pasang" value="${acEsc(u.keterangan_inc_pasang)}"/></td>
-    <td>${acInput(id,'harga_unit',u.harga_unit,'105px')}</td>
-    <td>${acInput(id,'harga_inc_pasang',u.harga_inc_pasang,'105px')}</td>
+    <td>${acInput(id,'harga_unit',u.harga_unit,'90px')}</td>
+    <td>${acInput(id,'harga_inc_pasang',u.harga_inc_pasang,'90px')}</td>
     <td style="text-align:center">
-      <button type="button" onclick="toggleAcActive('${id}')" style="padding:6px 12px;border-radius:999px;font-family:var(--font-body);font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;${u.is_active?'background:#DCFCE7;color:#16A34A;border:1.5px solid #BBF7D0':'background:#F1F5F9;color:#94A3B8;border:1.5px solid #E2E8F0'}">${u.is_active?'🟢 Aktif':'⚪ Nonaktif'}</button>
+      <button type="button" onclick="toggleAcActive('${id}')" style="padding:5px 9px;border-radius:999px;font-family:var(--font-body);font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;${u.is_active?'background:#DCFCE7;color:#16A34A;border:1.5px solid #BBF7D0':'background:#F1F5F9;color:#94A3B8;border:1.5px solid #E2E8F0'}">${u.is_active?'🟢 Aktif':'⚪ Nonaktif'}</button>
       <input type="hidden" data-id="${id}" data-f="is_active" value="${u.is_active?'true':'false'}"/>
     </td>
     <td style="white-space:nowrap">
-      <button class="btn-refresh" style="padding:6px 11px;background:var(--primary);color:#fff;border-color:var(--primary)" onclick="saveAcRow('${id}')">💾 Simpan</button>
-      <button class="btn-refresh" style="padding:6px 9px;background:var(--red-50);color:var(--red);border-color:#fecaca" onclick="deleteAcRow('${id}')">🗑</button>
+      <button class="btn-refresh" style="padding:5px 9px;font-size:11px;background:var(--primary);color:#fff;border-color:var(--primary)" onclick="saveAcRow('${id}')">💾 Simpan</button>
+      <button class="btn-refresh" style="padding:5px 8px;font-size:11px;background:var(--red-50);color:var(--red);border-color:#fecaca" onclick="deleteAcRow('${id}')">🗑</button>
     </td>
   </tr>`;
 }
@@ -2075,11 +2075,16 @@ function renderAcUnits(){
   }
   const rows = list.map(acRowHtml).join('');
   document.getElementById('acUnitsWrap').innerHTML = `
+    <style>
+      #acUnitsWrap td,#acUnitsWrap th{padding:8px 8px!important;font-size:12px}
+      #acUnitsWrap .form-input{padding:6px 7px!important;font-size:12px!important}
+      #acUnitsWrap table{min-width:0;width:100%}
+    </style>
     <div class="table-header"><h3>Daftar Unit AC</h3><span class="table-count">${list.length} unit</span></div>
     <div style="overflow-x:auto"><table>
       <thead><tr>
         <th>Merek</th><th>Seri</th><th>Nama Varian</th><th>Tipe</th><th>Kapasitas</th>
-        <th>Harga Unit</th><th>Harga + Pasang</th><th>Aktif</th><th>Aksi</th>
+        <th>Harga Unit</th><th>Harga&nbsp;+&nbsp;Pasang</th><th>Aktif</th><th>Aksi</th>
       </tr></thead>
       <tbody>${rows || `<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray-400)">Tidak ada unit</td></tr>`}</tbody>
     </table></div>`;

@@ -416,6 +416,9 @@ tr:hover td{background:var(--gray-50)}
       <button class="sb-link" onclick="showTab('catalog',this)">
         <span class="ic">⚙️</span> Kelola Layanan
       </button>
+      <button class="sb-link" onclick="showTab('jualac',this)">
+        <span class="ic">❄️</span> Jual Unit AC
+      </button>
 
       <div class="sb-section">Lainnya</div>
       <a class="sb-link" href="order.html" target="_blank">
@@ -603,6 +606,33 @@ tr:hover td{background:var(--gray-50)}
         </div>
         <div class="cat-tabs" id="catalogCatTabs"></div>
         <div id="catalogGrid"></div>
+      </div>
+
+      <!-- ── TAB: JUAL UNIT AC ── -->
+      <div class="tab-content" id="tab-jualac">
+        <div class="catalog-toolbar">
+          <div>
+            <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:4px">Jual Unit AC — Harga &amp; Data</h2>
+            <p style="font-size:14px;color:var(--gray-400)">Edit nama varian &amp; harga unit AC. Perubahan langsung tersimpan ke Supabase dan otomatis tampil di <a href="jual-ac.html" target="_blank" style="color:var(--primary)">halaman Jual AC</a> (real-time).</p>
+          </div>
+          <button class="add-svc-btn" onclick="addAcUnit()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Unit
+          </button>
+        </div>
+        <div class="filter-row">
+          <input type="text" class="filter-search" id="acSearchInput" placeholder="🔍 Cari merek, seri, varian, kapasitas..." oninput="acSearch=this.value;renderAcUnits()"/>
+          <select class="filter-select" id="acBrandFilter" onchange="acBrandFilter=this.value;renderAcUnits()">
+            <option value="all">Semua Merek</option>
+          </select>
+          <button class="btn-refresh" onclick="loadAcUnits()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            Refresh
+          </button>
+        </div>
+        <div class="table-wrap" id="acUnitsWrap">
+          <div class="loader"><div class="spinner"></div> Memuat unit AC...</div>
+        </div>
       </div>
 
       <!-- ── TAB: SETUP (hidden, kept for tab routing) ── -->
@@ -1042,7 +1072,7 @@ function doLogout() {
 }
 
 // ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
-const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan', catalog:'Kelola Layanan'};
+const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan', catalog:'Kelola Layanan', jualac:'Jual Unit AC'};
 function toggleSidebar() {
   const sb = document.getElementById('sidebar');
   const ov = document.getElementById('sidebarOverlay');
@@ -1075,6 +1105,7 @@ function showTab(tab, btn) {
   if (tab === 'settings') { loadCatalogFromSupabase().then(() => { renderPriceFields(); loadTransportSettings(); }); }
   if (tab === 'images') { renderImageGrid(); }
   if (tab === 'catalog') { activeCatTab = 'all'; loadCatalogFromSupabase().then(() => renderCatalogManager()); }
+  if (tab === 'jualac') loadAcUnits();
 }
 
 // ─── LOAD ORDERS ──────────────────────────────────────────────────────────────
@@ -1990,6 +2021,121 @@ function copyCode() {
 }
 
 // ─── TOAST ────────────────────────────────────────────────────────────────────
+// ─── JUAL UNIT AC ─────────────────────────────────────────────────────────────
+let acUnits = [];
+let acBrandFilter = 'all';
+let acSearch = '';
+
+async function loadAcUnits() {
+  const wrap = document.getElementById('acUnitsWrap');
+  wrap.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat unit AC dari Supabase...</div>`;
+  try {
+    acUnits = await supaRpc('admin_list_ac_units', {admin_pass: ADMIN_PASS});
+    const sel = document.getElementById('acBrandFilter');
+    const brands = [...new Set(acUnits.map(u => u.brand).filter(Boolean))].sort();
+    sel.innerHTML = `<option value="all">Semua Merek</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join('');
+    sel.value = acBrandFilter;
+    renderAcUnits();
+  } catch(e) {
+    wrap.innerHTML = `<div class="loader" style="color:var(--red)">❌ Gagal memuat: ${e.message}</div>`;
+  }
+}
+
+function acEsc(v){ return (v==null?'':String(v)).replace(/"/g,'&quot;'); }
+function acInput(id, f, val, w){ return `<input class="form-input" style="padding:7px 9px;font-size:12px;width:${w}" data-id="${id}" data-f="${f}" value="${acEsc(val)}"/>`; }
+
+function acRowHtml(u){
+  const id = u.id;
+  return `<tr data-row="${id}">
+    <td>${acInput(id,'brand',u.brand,'90px')}</td>
+    <td>${acInput(id,'seri',u.seri,'110px')}</td>
+    <td>${acInput(id,'nama_varian',u.nama_varian,'150px')}</td>
+    <td>${acInput(id,'tipe',u.tipe,'120px')}</td>
+    <td>${acInput(id,'kapasitas',u.kapasitas,'75px')}
+        <input type="hidden" data-id="${id}" data-f="keterangan_inc_pasang" value="${acEsc(u.keterangan_inc_pasang)}"/></td>
+    <td>${acInput(id,'harga_unit',u.harga_unit,'105px')}</td>
+    <td>${acInput(id,'harga_inc_pasang',u.harga_inc_pasang,'105px')}</td>
+    <td style="text-align:center"><input type="checkbox" data-id="${id}" data-f="is_active" ${u.is_active?'checked':''} style="width:18px;height:18px;cursor:pointer"/></td>
+    <td style="white-space:nowrap">
+      <button class="btn-refresh" style="padding:6px 11px;background:var(--primary);color:#fff;border-color:var(--primary)" onclick="saveAcRow('${id}')">💾 Simpan</button>
+      <button class="btn-refresh" style="padding:6px 9px;background:var(--red-50);color:var(--red);border-color:#fecaca" onclick="deleteAcRow('${id}')">🗑</button>
+    </td>
+  </tr>`;
+}
+
+function renderAcUnits(){
+  let list = acUnits.slice();
+  if (acBrandFilter !== 'all') list = list.filter(u => u.brand === acBrandFilter);
+  if (acSearch) {
+    const q = acSearch.toLowerCase();
+    list = list.filter(u => [u.brand,u.seri,u.nama_varian,u.tipe,u.kapasitas].join(' ').toLowerCase().includes(q));
+  }
+  const rows = list.map(acRowHtml).join('');
+  document.getElementById('acUnitsWrap').innerHTML = `
+    <div class="table-header"><h3>Daftar Unit AC</h3><span class="table-count">${list.length} unit</span></div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr>
+        <th>Merek</th><th>Seri</th><th>Nama Varian</th><th>Tipe</th><th>Kapasitas</th>
+        <th>Harga Unit</th><th>Harga + Pasang</th><th>Aktif</th><th>Aksi</th>
+      </tr></thead>
+      <tbody>${rows || `<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--gray-400)">Tidak ada unit</td></tr>`}</tbody>
+    </table></div>`;
+}
+
+function acRowValues(key){
+  const sc = document.querySelector(`[data-row="${key}"]`);
+  const get = f => { const el = sc.querySelector(`[data-f="${f}"]`); return el ? el.value.trim() : ''; };
+  const num = f => { const v = get(f).replace(/[^\d]/g,''); return v ? parseInt(v,10) : null; };
+  const chk = sc.querySelector(`[data-f="is_active"]`);
+  return {
+    brand:get('brand'), seri:get('seri'), nama_varian:get('nama_varian'),
+    tipe:get('tipe'), kapasitas:get('kapasitas'),
+    harga_unit:num('harga_unit'), harga_inc_pasang:num('harga_inc_pasang'),
+    keterangan_inc_pasang:get('keterangan_inc_pasang') || null,
+    is_active: chk ? chk.checked : true
+  };
+}
+
+function addAcUnit(){
+  const tbody = document.querySelector('#acUnitsWrap tbody');
+  if (!tbody) { showToast('Muat data dulu', 'warning'); return; }
+  if (document.querySelector('[data-row="new"]')) { showToast('Selesaikan baris baru dulu', 'warning'); return; }
+  const u = {id:'new', brand:(acBrandFilter!=='all'?acBrandFilter:'Daikin'), seri:'', nama_varian:'',
+             tipe:'Split Inverter', kapasitas:'1 PK', harga_unit:'', harga_inc_pasang:'', keterangan_inc_pasang:'', is_active:true};
+  tbody.insertAdjacentHTML('afterbegin', acRowHtml(u));
+}
+
+async function saveAcRow(key){
+  const v = acRowValues(key);
+  if (!v.brand || !v.kapasitas) { showToast('Merek & Kapasitas wajib diisi', 'error'); return; }
+  if (v.harga_unit == null)     { showToast('Harga Unit wajib berupa angka', 'error'); return; }
+  try {
+    const pid = key === 'new' ? null : Number(key);
+    await supaRpc('save_ac_unit', {
+      p_id:pid, p_brand:v.brand, p_seri:v.seri, p_nama_varian:v.nama_varian,
+      p_tipe:v.tipe, p_kapasitas:v.kapasitas, p_harga_unit:v.harga_unit,
+      p_harga_inc_pasang:v.harga_inc_pasang, p_keterangan_inc_pasang:v.keterangan_inc_pasang,
+      p_is_active:v.is_active, admin_pass:ADMIN_PASS
+    });
+    showToast('✅ Tersimpan — halaman Jual AC otomatis terupdate', 'success');
+    await loadAcUnits();
+  } catch(e) {
+    showToast('Gagal simpan: ' + e.message, 'error');
+  }
+}
+
+async function deleteAcRow(id){
+  if (id === 'new') { await loadAcUnits(); return; }
+  if (!confirm('Hapus unit ini? Tindakan tidak bisa dibatalkan.')) return;
+  try {
+    await supaRpc('delete_ac_unit', {p_id:Number(id), admin_pass:ADMIN_PASS});
+    showToast('🗑 Unit dihapus', 'success');
+    await loadAcUnits();
+  } catch(e) {
+    showToast('Gagal hapus: ' + e.message, 'error');
+  }
+}
+
 function showToast(msg, type) {
   const t = document.getElementById('toast');
   t.textContent = msg;

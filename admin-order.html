@@ -2055,7 +2055,10 @@ function acRowHtml(u){
         <input type="hidden" data-id="${id}" data-f="keterangan_inc_pasang" value="${acEsc(u.keterangan_inc_pasang)}"/></td>
     <td>${acInput(id,'harga_unit',u.harga_unit,'105px')}</td>
     <td>${acInput(id,'harga_inc_pasang',u.harga_inc_pasang,'105px')}</td>
-    <td style="text-align:center"><input type="checkbox" data-id="${id}" data-f="is_active" ${u.is_active?'checked':''} style="width:18px;height:18px;cursor:pointer"/></td>
+    <td style="text-align:center">
+      <button type="button" onclick="toggleAcActive('${id}')" style="padding:6px 12px;border-radius:999px;font-family:var(--font-body);font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;${u.is_active?'background:#DCFCE7;color:#16A34A;border:1.5px solid #BBF7D0':'background:#F1F5F9;color:#94A3B8;border:1.5px solid #E2E8F0'}">${u.is_active?'🟢 Aktif':'⚪ Nonaktif'}</button>
+      <input type="hidden" data-id="${id}" data-f="is_active" value="${u.is_active?'true':'false'}"/>
+    </td>
     <td style="white-space:nowrap">
       <button class="btn-refresh" style="padding:6px 11px;background:var(--primary);color:#fff;border-color:var(--primary)" onclick="saveAcRow('${id}')">💾 Simpan</button>
       <button class="btn-refresh" style="padding:6px 9px;background:var(--red-50);color:var(--red);border-color:#fecaca" onclick="deleteAcRow('${id}')">🗑</button>
@@ -2086,13 +2089,13 @@ function acRowValues(key){
   const sc = document.querySelector(`[data-row="${key}"]`);
   const get = f => { const el = sc.querySelector(`[data-f="${f}"]`); return el ? el.value.trim() : ''; };
   const num = f => { const v = get(f).replace(/[^\d]/g,''); return v ? parseInt(v,10) : null; };
-  const chk = sc.querySelector(`[data-f="is_active"]`);
+  const av = sc.querySelector(`[data-f="is_active"]`);
   return {
     brand:get('brand'), seri:get('seri'), nama_varian:get('nama_varian'),
     tipe:get('tipe'), kapasitas:get('kapasitas'),
     harga_unit:num('harga_unit'), harga_inc_pasang:num('harga_inc_pasang'),
     keterangan_inc_pasang:get('keterangan_inc_pasang') || null,
-    is_active: chk ? chk.checked : true
+    is_active: av ? (av.value === 'true') : true
   };
 }
 
@@ -2121,6 +2124,35 @@ async function saveAcRow(key){
     await loadAcUnits();
   } catch(e) {
     showToast('Gagal simpan: ' + e.message, 'error');
+  }
+}
+
+// Toggle Aktif/Nonaktif instan (1 klik) — pakai data tersimpan, tidak terpengaruh edit yang belum disimpan
+async function toggleAcActive(key){
+  if (key === 'new') {
+    const sc = document.querySelector(`[data-row="new"]`);
+    const hv = sc.querySelector(`[data-f="is_active"]`);
+    const nv = hv.value !== 'true';
+    hv.value = nv ? 'true' : 'false';
+    const btn = sc.querySelector('button[onclick^="toggleAcActive"]');
+    btn.textContent = nv ? '🟢 Aktif' : '⚪ Nonaktif';
+    btn.style.cssText = `padding:6px 12px;border-radius:999px;font-family:var(--font-body);font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;${nv?'background:#DCFCE7;color:#16A34A;border:1.5px solid #BBF7D0':'background:#F1F5F9;color:#94A3B8;border:1.5px solid #E2E8F0'}`;
+    return;
+  }
+  const u = acUnits.find(x => String(x.id) === String(key));
+  if (!u) { showToast('Data tidak ditemukan, refresh dulu', 'error'); return; }
+  const newState = !u.is_active;
+  try {
+    await supaRpc('save_ac_unit', {
+      p_id:Number(key), p_brand:u.brand, p_seri:u.seri, p_nama_varian:u.nama_varian,
+      p_tipe:u.tipe, p_kapasitas:u.kapasitas, p_harga_unit:u.harga_unit,
+      p_harga_inc_pasang:u.harga_inc_pasang, p_keterangan_inc_pasang:u.keterangan_inc_pasang,
+      p_is_active:newState, admin_pass:ADMIN_PASS
+    });
+    showToast(newState ? '🟢 Unit diaktifkan — tampil di website' : '⚪ Unit disembunyikan dari website', 'success');
+    await loadAcUnits();
+  } catch(e) {
+    showToast('Gagal mengubah status: ' + e.message, 'error');
   }
 }
 

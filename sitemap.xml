@@ -101,37 +101,49 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-bintaro.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Bintaro Jaya Tangerang Selatan</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-graha-raya.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Graha Raya Bintaro Tangerang</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-karawaci.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Lippo Karawaci Tangerang</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-tangerang-selatan.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-jakarta.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-central.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
     <image:image>

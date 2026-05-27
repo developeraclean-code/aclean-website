@@ -2,5 +2,22 @@ User-agent: *
 Allow: /
 Disallow: /admin-order.html
 Disallow: /admin-images.html
+Disallow: /*.json$
 
+# Allow all major crawlers full access to area pages
+User-agent: Googlebot
+Allow: /service-ac-*.html
+Allow: /blog/
+Allow: /cuci-ac.html
+Allow: /pasang-ac.html
+Allow: /isi-freon.html
+Allow: /bongkar-pasang-ac.html
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap
 Sitemap: https://aclean.id/sitemap.xml

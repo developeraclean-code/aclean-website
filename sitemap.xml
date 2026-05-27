@@ -152,6 +152,88 @@
     </image:image>
   </url>
 
+  <!-- HALAMAN KLASTER HYPERLOCAL -->
+  <url>
+    <loc>https://aclean.id/service-ac-discovery-bintaro.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Discovery Bintaro Sektor 9</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-the-green-bsd.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC The Green BSD City</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-klaster-imperial-karawaci.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Klaster Imperial Karawaci Lippo Village</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-paramount-gading-serpong.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Paramount Residence Gading Serpong</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-foresta-bsd.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Foresta BSD City Natural Loft</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-graha-raya-kencana.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Graha Raya Kencana Bintaro</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-toscana-alam-sutera.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Klaster Toscana Alam Sutera</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/service-ac-summarecon-serpong.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/hero-ac-service.jpg</image:loc>
+      <image:title>Service AC Summarecon Serpong Grand Serpong</image:title>
+    </image:image>
+  </url>
+
   <!-- HALAMAN INFORMASI -->
   <url>
     <loc>https://aclean.id/tentang-kami.html</loc>

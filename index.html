@@ -439,7 +439,7 @@ section{padding:48px 16px}
 </div>
 <a href="#layanan">Layanan</a><a href="#testimoni">Testimoni</a><a href="#area">Area</a><a href="tentang-kami.html">Tentang</a><a href="kontak.html">Kontak</a><a href="faq.html">FAQ</a>
 <a href="#blog">Blog</a>
-<a href="maintenance-korporat.html" style="color:var(--primary);font-weight:700;border:1.5px solid var(--primary-100);border-radius:8px;padding:7px 14px;background:var(--primary-50)">🏢 Korporat</a>
+<a href="maintenance-korporat.html" style="color:var(--primary);font-weight:700;border:1.5px solid var(--primary-100);border-radius:8px;padding:7px 14px;background:var(--primary-50)">🏢 B2B Service</a>
 <a href="order.html" class="nav-cta" style="background:#16A34A!important;box-shadow:0 2px 8px rgba(22,163,74,.3)">🛒 Pesan Sekarang</a>
 </div>
 <button class="mob-btn" onclick="document.getElementById('mm').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -453,7 +453,7 @@ section{padding:48px 16px}
 <a href="#area" onclick="document.getElementById('mm').classList.remove('open')">Area Layanan</a>
 <a href="tentang-kami.html" onclick="document.getElementById('mm').classList.remove('open')">Tentang</a>
 <a href="kontak.html" onclick="document.getElementById('mm').classList.remove('open')">Kontak</a>
-<a href="maintenance-korporat.html" onclick="document.getElementById('mm').classList.remove('open')" style="color:var(--primary);font-weight:700">🏢 Maintenance Korporat</a>
+<a href="maintenance-korporat.html" onclick="document.getElementById('mm').classList.remove('open')" style="color:var(--primary);font-weight:700">🏢 B2B Service</a>
 <a href="order.html" onclick="document.getElementById('mm').classList.remove('open')" style="color:#16A34A;font-weight:700">🛒 Pesan Sekarang</a>
 <a href="faq.html" onclick="document.getElementById('mm').classList.remove('open')">FAQ</a>
 <a href="#blog" onclick="document.getElementById('mm').classList.remove('open')">Blog</a>
@@ -538,6 +538,242 @@ section{padding:48px 16px}
 <article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/daikin-training-teknisi.jpg" alt="Teknisi bersertifikat Daikin untuk perawatan berkala AC" /></div><div class="sc-con"><h3>Perawatan Berkala</h3><p>Kontrak maintenance rutin untuk AC kantor, gedung, dan pabrik demi performa optimal.</p><div class="sc-price"><span class="amt">Rp 100.000</span><span class="un">/PK (Central)</span></div><ul class="sc-feat"><li>Jadwal maintenance teratur</li><li>Laporan kondisi unit</li><li>Prioritas penanganan</li><li>Diskon sparepart</li></ul><a href="https://wa.me/+6281289898937?text=Halo%20AClean,%20saya%20ingin%20info%20kontrak%20maintenance" class="sc-cta" target="_blank" rel="noopener">Info Kontrak Maintenance →</a></div></article>
 </div>
 </div></section>
+
+<!-- B2B SERVICE SECTION -->
+<style>
+.b2b-hook{background:var(--primary-50);border-top:3px solid var(--primary);padding:32px 24px}
+.b2b-hook-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.b2b-hook-badge{background:var(--primary);color:var(--white);padding:5px 12px;border-radius:7px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;flex-shrink:0}
+.b2b-hook-q{font-family:var(--font-heading);font-size:19px;font-weight:700;color:var(--primary-dark);line-height:1.4;flex:1;margin:0 16px}
+.b2b-hook-q em{font-style:normal;color:var(--primary);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
+.b2b-hook-cta{display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:var(--white);padding:11px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.b2b-hook-cta:hover{background:var(--primary-light);transform:translateY(-1px)}
+
+.b2b-interest{background:var(--white);padding:72px 24px 64px;border-bottom:1px solid var(--gray-200)}
+.b2b-interest-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.pain-pills{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.pain-pill{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px}
+.pain-pill-ic{font-size:17px;flex-shrink:0;margin-top:1px}
+.pain-pill-tx{font-size:13px;color:#7F1D1D;line-height:1.55}
+.pain-pill-tx strong{display:block;font-weight:700;font-family:var(--font-heading);font-size:13px;margin-bottom:2px}
+.b2b-after{background:var(--primary-50);border:1.5px solid var(--primary-100);border-radius:20px;padding:26px 22px}
+.b2b-after-label{font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.after-item{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid rgba(27,58,123,.08)}
+.after-item:last-of-type{border-bottom:none;padding-bottom:0}
+.after-ic{width:34px;height:34px;border-radius:9px;background:var(--primary-50);border:1px solid var(--primary-100);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.after-tx strong{display:block;font-family:var(--font-heading);font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:2px}
+.after-tx span{font-size:12px;color:var(--primary-light);line-height:1.5}
+.b2b-mini-testi{background:var(--white);border-radius:12px;padding:14px 16px;margin-top:16px;border:1px solid var(--gray-200)}
+.b2b-mini-testi-stars{color:var(--accent);font-size:12px;margin-bottom:5px}
+.b2b-mini-testi blockquote{font-size:12px;color:var(--dark-600);line-height:1.65;font-style:italic;margin-bottom:8px}
+.b2b-mini-testi-author{font-size:11px;font-weight:700;color:var(--primary)}
+.b2b-mini-testi-author span{color:var(--gray-400);font-weight:400}
+
+.b2b-desire{background:linear-gradient(180deg,var(--white) 0%,var(--primary-50) 100%);padding:72px 24px}
+.b2b-desire-in{max-width:1200px;margin:0 auto}
+.b2b-desire-head{text-align:center;margin-bottom:44px}
+.b2b-desire-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.b2b-proof-col{display:flex;flex-direction:column;gap:14px}
+.b2b-proof-card{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:18px 20px;display:flex;gap:14px;transition:all .3s}
+.b2b-proof-card:hover{border-color:var(--primary-100);box-shadow:0 4px 16px rgba(27,58,123,.08);transform:translateX(4px)}
+.b2b-proof-ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.b2b-proof-card h3{font-family:var(--font-heading);font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.b2b-proof-card p{font-size:12px;color:var(--gray-500);line-height:1.6}
+.b2b-proof-tag{display:inline-block;font-size:11px;font-weight:700;color:#059669;background:#D1FAE5;padding:2px 8px;border-radius:5px;margin-top:7px}
+.b2b-portal-label{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;text-align:center}
+.b2b-portal-mock{background:var(--white);border-radius:18px;box-shadow:0 16px 48px rgba(27,58,123,.12);border:1px solid var(--gray-200);overflow:hidden}
+.bpm-bar{background:var(--gray-100);padding:9px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-200)}
+.bpm-dots{display:flex;gap:5px}.bpm-dot{width:11px;height:11px;border-radius:50%}
+.bpm-url{flex:1;background:var(--white);border-radius:5px;padding:4px 10px;font-size:10px;color:var(--gray-400);border:1px solid var(--gray-200);font-family:monospace}
+.bpm-body{padding:14px}
+.bpm-header{display:flex;align-items:center;gap:9px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--gray-100)}
+.bpm-logo{width:28px;height:28px;background:var(--primary);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:800;font-size:12px;color:var(--white)}
+.bpm-co{font-family:var(--font-heading);font-size:12px;font-weight:700;color:var(--dark)}
+.bpm-co span{display:block;font-size:10px;color:var(--gray-400);font-weight:400}
+.bpm-badge{margin-left:auto;background:#D1FAE5;color:#059669;padding:2px 9px;border-radius:18px;font-size:10px;font-weight:700}
+.bpm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:11px}
+.bpm-stat{background:var(--gray-100);border-radius:8px;padding:8px;text-align:center}
+.bpm-stat .n{font-family:var(--font-heading);font-size:17px;font-weight:800;color:var(--primary)}
+.bpm-stat .l{font-size:9px;color:var(--gray-400);margin-top:1px}
+.bpm-alert{background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:8px 11px;font-size:10px;color:#92400E;margin-bottom:10px;display:flex;gap:6px;align-items:center}
+.bpm-row{border:1px solid var(--gray-200);border-radius:8px;padding:8px 11px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.bpm-row-ic{width:26px;height:26px;background:var(--primary-50);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.bpm-row-info{flex:1}
+.bpm-row-code{font-family:var(--font-heading);font-size:10px;font-weight:700;color:var(--dark)}
+.bpm-row-loc{font-size:9px;color:var(--gray-400)}
+.bpm-chip{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px}
+.bpm-chip.ok{background:#D1FAE5;color:#059669}
+.bpm-chip.warn{background:#FEF3C7;color:#92400E}
+.bpm-chip.late{background:#FEE2E2;color:#DC2626}
+.bpm-more{text-align:center;font-size:10px;color:var(--gray-400);padding-top:7px;border-top:1px solid var(--gray-100);margin-top:3px}
+
+.b2b-action-strip{background:var(--primary);padding:56px 24px;text-align:center;position:relative;overflow:hidden}
+.b2b-action-strip::before{content:'';position:absolute;top:50%;left:50%;width:700px;height:700px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%)}
+.b2b-action-in{max-width:640px;margin:0 auto;position:relative;z-index:1}
+.b2b-action-strip h2{font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--white);margin-bottom:10px;line-height:1.3}
+.b2b-action-strip p{font-size:14px;color:rgba(255,255,255,.68);margin-bottom:24px;line-height:1.7}
+.b2b-action-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--dark);padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:800;font-size:14px;transition:all .3s;box-shadow:0 4px 16px rgba(245,158,11,.3)}
+.b2b-action-btn:hover{background:#E89B05;transform:translateY(-2px)}
+.b2b-action-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.38)}
+.b2b-client-pills{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:20px}
+.b2b-client-pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.55)}
+
+@media(max-width:1024px){
+.b2b-interest-in,.b2b-desire-wrap{grid-template-columns:1fr;gap:32px}
+.b2b-hook-q{margin:8px 0}
+.b2b-hook-in{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:768px){
+.b2b-hook{padding:24px 16px}
+.b2b-hook-cta{width:100%;justify-content:center}
+.b2b-interest,.b2b-desire{padding:56px 16px}
+.b2b-action-strip{padding:44px 16px}
+.b2b-action-strip h2{font-size:20px}
+.b2b-desire-wrap{grid-template-columns:1fr}
+.b2b-portal-col{display:none}
+}
+</style>
+
+<!-- ZONA 1: HOOK — satu kalimat tajam, warna biru muda -->
+<div class="b2b-hook anim">
+  <div class="b2b-hook-in">
+    <div class="b2b-hook-badge">🏢 Untuk Perusahaan</div>
+    <div class="b2b-hook-q">Punya 10+ unit AC di kantor? Tahu <em>kondisi masing-masing unit sekarang</em> tanpa telepon teknisi?</div>
+    <a href="maintenance-korporat.html" class="b2b-hook-cta">Pelajari B2B Service →</a>
+  </div>
+</div>
+
+<!-- ZONA 2: INTEREST — pain dulu, baru solusi -->
+<section class="b2b-interest">
+  <div class="b2b-interest-in">
+    <div class="anim">
+      <div class="sec-label">Masalah yang Umum Terjadi</div>
+      <h2 class="sec-title">Vendor AC Biasa Tidak Bisa <span style="color:var(--primary)">Buktikan</span> Apa yang Dikerjakan</h2>
+      <p class="sec-desc">Sebagian besar perusahaan di Tangerang menghadapi masalah yang sama dengan vendor maintenance AC mereka.</p>
+      <div class="pain-pills">
+        <div class="pain-pill">
+          <span class="pain-pill-ic">😕</span>
+          <div class="pain-pill-tx"><strong>Servis diklaim selesai, tapi tidak ada buktinya</strong>Teknisi datang, bilang sudah beres — tidak ada foto, tidak ada catatan. Anda percaya begitu saja.</div>
+        </div>
+        <div class="pain-pill">
+          <span class="pain-pill-ic">📋</span>
+          <div class="pain-pill-tx"><strong>Invoice datang tanpa rincian yang bisa diverifikasi</strong>Tagihan "12 unit AC — Rp 4.800.000" tapi tidak tahu unit mana, kapan, material apa.</div>
+        </div>
+        <div class="pain-pill">
+          <span class="pain-pill-ic">🔄</span>
+          <div class="pain-pill-tx"><strong>Teknisi ganti, semua riwayat unit hilang</strong>Informasi kondisi tiap unit hanya di kepala teknisi. Ganti vendor = mulai dari nol.</div>
+        </div>
+      </div>
+    </div>
+    <div class="b2b-after anim">
+      <div class="b2b-after-label">✓ Dengan AClean, ini berubah</div>
+      <div class="after-item">
+        <div class="after-ic">📸</div>
+        <div class="after-tx"><strong>Foto dokumentasi setiap pekerjaan</strong><span>Kondisi unit sebelum & sesudah, nama teknisi, tanggal — tersimpan dan bisa dibuka kapanpun.</span></div>
+      </div>
+      <div class="after-item">
+        <div class="after-ic">🧾</div>
+        <div class="after-tx"><strong>Tagihan yang bisa diaudit baris per baris</strong><span>Setiap baris invoice terhubung ke log servis nyata. Finance Anda bisa cross-check sendiri.</span></div>
+      </div>
+      <div class="after-item">
+        <div class="after-ic">♾️</div>
+        <div class="after-tx"><strong>Riwayat unit tidak pernah hilang</strong><span>Data tersimpan permanen. Ganti teknisi sekalipun, semua histori tetap utuh.</span></div>
+      </div>
+      <div class="after-item">
+        <div class="after-ic">🔗</div>
+        <div class="after-tx"><strong>Pantau semua unit tanpa telepon siapapun</strong><span>Portal real-time — scan QR di unit, langsung lihat riwayatnya kapanpun.</span></div>
+      </div>
+      <div class="b2b-mini-testi">
+        <div class="b2b-mini-testi-stars">★★★★★</div>
+        <blockquote>"Dulu kami tidak tahu unit mana yang sudah diservis bulan ini. Sekarang staf kami cukup buka link portal dan semuanya terlihat jelas."</blockquote>
+        <div class="b2b-mini-testi-author">Manajer Fasilitas · <span>Perusahaan Distribusi, Karawaci</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZONA 3: DESIRE — tunjukkan portal, buat mereka ingin punya -->
+<section class="b2b-desire">
+  <div class="b2b-desire-in">
+    <div class="b2b-desire-head anim">
+      <div class="sec-label">Yang Anda Dapatkan</div>
+      <h2 class="sec-title">Visibilitas Penuh atas Aset AC Perusahaan —<br/>Real-time, Tanpa Perlu Tanya ke Kami</h2>
+      <p class="sec-desc" style="margin:0 auto">Klien AClean mendapat akses portal eksklusif yang bisa dibagikan ke manajer fasilitas, tim finance, hingga direksi — satu link, semua informasi.</p>
+    </div>
+    <div class="b2b-desire-wrap">
+      <div class="b2b-proof-col">
+        <div class="b2b-proof-card anim">
+          <div class="b2b-proof-ic" style="background:#FEF3C7">📊</div>
+          <div><h3>Data Keputusan Management</h3><p>Lihat unit mana paling sering rusak & total biaya perbaikannya. Putuskan ganti atau servis berdasarkan angka, bukan asumsi.</p><div class="b2b-proof-tag">Hemat anggaran jangka panjang</div></div>
+        </div>
+        <div class="b2b-proof-card anim">
+          <div class="b2b-proof-ic" style="background:#D1FAE5">🗓️</div>
+          <div><h3>PM Terjadwal & Terbukti</h3><p>Jadwal Preventive Maintenance otomatis tercatat. Sistem beri peringatan saat unit mendekati jadwal — bukan PM yang diklaim tapi tidak dilakukan.</p><div class="b2b-proof-tag">Tidak ada PM yang terlewat</div></div>
+        </div>
+        <div class="b2b-proof-card anim">
+          <div class="b2b-proof-ic" style="background:#EDE9FE">👷</div>
+          <div><h3>Teknisi Teridentifikasi</h3><p>Setiap log mencatat nama teknisi yang mengerjakan. Anda tahu siapa yang masuk area perusahaan Anda — ada akuntabilitasnya.</p><div class="b2b-proof-tag">Standar keamanan gedung terjaga</div></div>
+        </div>
+      </div>
+      <div class="b2b-portal-col anim">
+        <div class="b2b-portal-label">📱 Tampilan portal klien Anda</div>
+        <div class="b2b-portal-mock">
+          <div class="bpm-bar">
+            <div class="bpm-dots"><div class="bpm-dot" style="background:#FF5F57"></div><div class="bpm-dot" style="background:#FFBD2E"></div><div class="bpm-dot" style="background:#28CA41"></div></div>
+            <div class="bpm-url">aclean.id/m/mtk_perusahaan-anda</div>
+          </div>
+          <div class="bpm-body">
+            <div class="bpm-header">
+              <div class="bpm-logo">P</div>
+              <div class="bpm-co">PT. Perusahaan Anda<span>42 unit · Portal Aktif</span></div>
+              <div class="bpm-badge">✓ Aktif</div>
+            </div>
+            <div class="bpm-stats">
+              <div class="bpm-stat"><div class="n">42</div><div class="l">Total Unit</div></div>
+              <div class="bpm-stat"><div class="n" style="color:#059669">39</div><div class="l">Normal</div></div>
+              <div class="bpm-stat"><div class="n" style="color:#DC2626">3</div><div class="l">PM Late</div></div>
+            </div>
+            <div class="bpm-alert">⚠️ 3 unit melewati jadwal Preventive Maintenance</div>
+            <div class="bpm-row">
+              <div class="bpm-row-ic">❄️</div>
+              <div class="bpm-row-info"><div class="bpm-row-code">AC-LT2-01 · Daikin 2PK · Servis: 2 Mei 2026</div><div class="bpm-row-loc">Lantai 2 — Ruang Rapat · 3 foto dokumentasi</div></div>
+              <span class="bpm-chip ok">✓ Normal</span>
+            </div>
+            <div class="bpm-row">
+              <div class="bpm-row-ic">❄️</div>
+              <div class="bpm-row-info"><div class="bpm-row-code">AC-LBY-01 · Gree 1.5PK · 7× servis tahun ini</div><div class="bpm-row-loc">Lobby Utama · ⚡ Biaya total Rp 3,2jt</div></div>
+              <span class="bpm-chip late">PM Terlambat</span>
+            </div>
+            <div class="bpm-row">
+              <div class="bpm-row-ic">❄️</div>
+              <div class="bpm-row-info"><div class="bpm-row-code">AC-SVR-01 · Daikin 1PK · PM: 9 Jun 2026</div><div class="bpm-row-loc">Server Room · Freon R32</div></div>
+              <span class="bpm-chip warn">Due 5 hari</span>
+            </div>
+            <div class="bpm-more">+ 39 unit lainnya · QR Code tersedia di setiap unit →</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--gray-400)">📱 Scan QR di unit → langsung buka detail unit ini</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZONA 4: ACTION — satu CTA yang kuat -->
+<div class="b2b-action-strip">
+  <div class="b2b-action-in">
+    <h2 class="anim">Sudah 20 Perusahaan di Tangerang<br/>Memilih AClean sebagai Vendor Maintenance AC</h2>
+    <p class="anim">Konsultasi gratis, survey lokasi tanpa biaya, portal klien aktif dalam 3 hari kerja.</p>
+    <a href="maintenance-korporat.html" class="b2b-action-btn anim">🏢 Lihat Selengkapnya — B2B Service AClean</a>
+    <div class="b2b-action-note anim">Atau hubungi langsung: <strong style="color:rgba(255,255,255,.6)">0812-8989-8937</strong> · Senin–Sabtu 08.00–18.00</div>
+    <div class="b2b-client-pills anim">
+      <div class="b2b-client-pill">Gedung Perkantoran</div>
+      <div class="b2b-client-pill">Hotel & Properti</div>
+      <div class="b2b-client-pill">Rumah Sakit</div>
+      <div class="b2b-client-pill">Pabrik & Gudang</div>
+      <div class="b2b-client-pill">Sekolah & Kampus</div>
+    </div>
+  </div>
+</div>
 
 <!-- PROCESS -->
 <section class="proc"><div class="sec-in">

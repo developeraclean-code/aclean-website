@@ -958,7 +958,8 @@ function res(body)  {
 <script>
 // ─── KONFIGURASI ───────────────────────────────────────────────────────────────
 const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
-const ADMIN_PIN       = 'Aclean123456';
+// PIN tidak disimpan plaintext — hanya hash SHA-256 nya (input dicocokkan via hash)
+const ADMIN_PIN_HASH  = 'fefa166b1f41030c7190408f9fd447491f8d188021752c844fcb9c22ff2ce410';
 const ADMIN_PASS      = 'Aclean123456';
 
 // Supabase
@@ -1031,9 +1032,14 @@ function parseJWT(token) {
 }
 
 // ─── PIN LOGIN ─────────────────────────────────────────────────────────────────
-function checkPin() {
+async function sha256Hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPin() {
   const pin = document.getElementById('pinInput').value.trim();
-  if (pin === ADMIN_PIN) {
+  if (await sha256Hex(pin) === ADMIN_PIN_HASH) {
     sessionStorage.setItem('aclean_admin_session', JSON.stringify({
       name: 'Admin AClean', email: 'developer.aclean@gmail.com', avatar: null
     }));

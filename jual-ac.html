@@ -144,7 +144,7 @@ footer{background:var(--primary-dark);color:rgba(255,255,255,.7);text-align:cent
 footer a{color:var(--accent-light);text-decoration:none}
 
 @media(max-width:768px){
-  .nav-links{display:none}.mob-btn{display:flex}
+  .nav-links{display:none}.mob-btn{display:block}.mob-btn{display:flex}
   .controls{position:static;flex-direction:column;align-items:stretch}
   .seg{justify-content:center}
 }
@@ -165,6 +165,15 @@ footer a{color:var(--accent-light);text-decoration:none}
   <button class="mob-btn" aria-label="Menu"><span></span><span></span><span></span></button>
 </div>
 </nav>
+
+<div class="mob-menu" id="mm">
+<a href="index.html" onclick="document.getElementById('mm').classList.remove('open')">Beranda</a>
+<a href="cuci-ac.html" onclick="document.getElementById('mm').classList.remove('open')">Cleaning AC</a>
+<a href="order.html" onclick="document.getElementById('mm').classList.remove('open')">Pesan Service</a>
+<a href="faq.html" onclick="document.getElementById('mm').classList.remove('open')">FAQ</a>
+<a href="#katalog" onclick="document.getElementById('mm').classList.remove('open')">🛒 Beli Unit AC</a>
+</div>
+
 
 <div class="page-wrap">
 

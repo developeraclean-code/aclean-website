@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /admin-order.html
 Disallow: /admin-images.html
+Disallow: /index-b2b-section-preview.html
+Disallow: /maintenance-b2b-preview.html
 Disallow: /*.json$
 
 # Allow all major crawlers full access to area pages

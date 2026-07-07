@@ -5,7 +5,7 @@
   <!-- HOMEPAGE -->
   <url>
     <loc>https://aclean.id/</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -21,7 +21,7 @@
   <!-- HALAMAN ORDER (PRIORITAS TINGGI) -->
   <url>
     <loc>https://aclean.id/order.html</loc>
-    <lastmod>2026-04-25</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -29,7 +29,7 @@
   <!-- HALAMAN LAYANAN UTAMA -->
   <url>
     <loc>https://aclean.id/cuci-ac.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -39,7 +39,7 @@
   </url>
   <url>
     <loc>https://aclean.id/pasang-ac.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -49,7 +49,7 @@
   </url>
   <url>
     <loc>https://aclean.id/isi-freon.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -59,7 +59,7 @@
   </url>
   <url>
     <loc>https://aclean.id/bongkar-pasang-ac.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -71,7 +71,7 @@
   <!-- HALAMAN AREA LAYANAN -->
   <url>
     <loc>https://aclean.id/service-ac-alam-sutera.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -81,7 +81,7 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-bsd.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -91,7 +91,7 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-gading-serpong.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -101,7 +101,7 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-bintaro.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -111,7 +111,7 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-graha-raya.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -121,7 +121,7 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-karawaci.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
     <image:image>
@@ -131,19 +131,19 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-tangerang-selatan.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-jakarta.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://aclean.id/service-ac-central.html</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -155,7 +155,7 @@
   <!-- HALAMAN KLASTER HYPERLOCAL -->
   <url>
     <loc>https://aclean.id/service-ac-discovery-bintaro.html</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -165,7 +165,7 @@
   </url>
   <url>
     <loc>https://aclean.id/service-ac-the-green-bsd.html</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-07-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -388,16 +388,6 @@
     </image:image>
   </url>
   <url>
-    <loc>https://aclean.id/blog/freon-r32-vs-r410-vs-r22.html</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-    <image:image>
-      <image:loc>https://aclean.id/images/freon-ac-daikin-original.jpg</image:loc>
-      <image:title>Freon R32 vs R410A vs R22</image:title>
-    </image:image>
-  </url>
-  <url>
     <loc>https://aclean.id/blog/tips-hemat-listrik-ac.html</loc>
     <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
@@ -444,6 +434,26 @@
     <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.73</priority>
+  </url>
+
+  <!-- HALAMAN TAMBAHAN -->
+  <url>
+    <loc>https://aclean.id/jual-ac.html</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/maintenance-korporat.html</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/</loc>
+    <lastmod>2026-07-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

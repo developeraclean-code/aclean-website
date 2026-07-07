@@ -958,9 +958,11 @@ function res(body)  {
 <script>
 // ─── KONFIGURASI ───────────────────────────────────────────────────────────────
 const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
-// PIN tidak disimpan plaintext — hanya hash SHA-256 nya (input dicocokkan via hash)
+// PIN tidak disimpan plaintext — hanya hash SHA-256 nya (input dicocokkan via hash).
+// ADMIN_PASS (kode akses RPC) tidak lagi hardcoded: diisi dari PIN yang diketik
+// saat login (nilainya sama), disimpan per-tab di sessionStorage.
 const ADMIN_PIN_HASH  = 'fefa166b1f41030c7190408f9fd447491f8d188021752c844fcb9c22ff2ce410';
-const ADMIN_PASS      = 'Aclean123456';
+let   ADMIN_PASS      = null;
 
 // Supabase
 const SUPA_URL  = 'https://apsbeppcmsxeldnejibz.supabase.co';
@@ -997,6 +999,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedSession = sessionStorage.getItem('aclean_admin_session');
   if (savedSession) {
     const s = JSON.parse(savedSession);
+    ADMIN_PASS = s.k || null;
     showApp(s.name, s.email, s.avatar);
   }
 
@@ -1006,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ─── GOOGLE LOGIN ──────────────────────────────────────────────────────────────
-function handleGoogleLogin(response) {
+async function handleGoogleLogin(response) {
   try {
     const payload = parseJWT(response.credential);
     const email = payload.email;
@@ -1014,8 +1017,15 @@ function handleGoogleLogin(response) {
       showLoginError(`Akses ditolak. Email ${email} tidak terdaftar sebagai admin.`);
       return;
     }
+    // RPC butuh kode akses — minta sekali, verifikasi via hash (tidak hardcoded)
+    const kode = (prompt('Masukkan kode akses admin:') || '').trim();
+    if (await sha256Hex(kode) !== ADMIN_PIN_HASH) {
+      showLoginError('Kode akses salah.');
+      return;
+    }
+    ADMIN_PASS = kode;
     sessionStorage.setItem('aclean_admin_session', JSON.stringify({
-      name: payload.name, email: email, avatar: payload.picture
+      name: payload.name, email: email, avatar: payload.picture, k: kode
     }));
     showApp(payload.name, email, payload.picture);
   } catch(e) {
@@ -1040,8 +1050,9 @@ async function sha256Hex(str) {
 async function checkPin() {
   const pin = document.getElementById('pinInput').value.trim();
   if (await sha256Hex(pin) === ADMIN_PIN_HASH) {
+    ADMIN_PASS = pin;
     sessionStorage.setItem('aclean_admin_session', JSON.stringify({
-      name: 'Admin AClean', email: 'developer.aclean@gmail.com', avatar: null
+      name: 'Admin AClean', email: 'developer.aclean@gmail.com', avatar: null, k: pin
     }));
     showApp('Admin AClean', 'developer.aclean@gmail.com', null);
   } else {

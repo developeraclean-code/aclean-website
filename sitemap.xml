@@ -436,6 +436,122 @@
     <priority>0.73</priority>
   </url>
 
+  <!-- HALAMAN LAYANAN DUCTING AC -->
+  <url>
+    <loc>https://aclean.id/ducting-ac.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.92</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ducting-ac.jpg</image:loc>
+      <image:title>Jasa Ducting AC PU Board Design Build Install Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/ducting-ac-bsd.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ducting-ac.jpg</image:loc>
+      <image:title>Jasa Ducting AC BSD City Serpong Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/ducting-ac-bintaro-alam-sutera.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ducting-ac.jpg</image:loc>
+      <image:title>Jasa Ducting AC Bintaro Alam Sutera Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/biaya-ducting-ac-2026.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.87</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ducting-ac.jpg</image:loc>
+      <image:title>Biaya Ducting AC 2026 Harga per Meter per Ruangan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/ducting-ac-pu-board-vs-galvanis.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-ducting-ac.jpg</image:loc>
+      <image:title>Ducting AC PU Board vs Galvanis Perbandingan Material</image:title>
+    </image:image>
+  </url>
+
+  <!-- HALAMAN AREA — BONGKAR PASANG AC -->
+  <url>
+    <loc>https://aclean.id/bongkar-pasang-ac-bsd.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Bongkar Pasang AC BSD City Serpong Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/bongkar-pasang-ac-alam-sutera.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Bongkar Pasang AC Alam Sutera Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/bongkar-pasang-ac-bintaro.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Bongkar Pasang AC Bintaro Tangerang Selatan</image:title>
+    </image:image>
+  </url>
+
+  <!-- BLOG — BONGKAR PASANG AC (prioritas tinggi) -->
+  <url>
+    <loc>https://aclean.id/blog/biaya-bongkar-pasang-ac-2026.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Biaya Bongkar Pasang AC 2026</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/tips-bongkar-pasang-ac-pindahan.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Tips Bongkar Pasang AC Saat Pindahan Rumah</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://aclean.id/blog/bongkar-ac-untuk-renovasi.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://aclean.id/images/service-bongkar-pasang.jpg</image:loc>
+      <image:title>Bongkar AC untuk Renovasi Rumah</image:title>
+    </image:image>
+  </url>
+
   <!-- HALAMAN TAMBAHAN -->
   <url>
     <loc>https://aclean.id/jual-ac.html</loc>

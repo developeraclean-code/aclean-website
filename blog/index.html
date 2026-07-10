@@ -70,8 +70,23 @@ a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-light)}
 <h1>Blog AClean Service</h1>
 <p>Tips merawat AC, panduan service, dan informasi dari teknisi profesional kami.</p>
 </header>
-<main class="blog-list">
-
+<div style="max-width:900px;margin:0 auto;padding:24px 24px 0;display:flex;gap:8px;flex-wrap:wrap">
+  <button class="blog-filter active" data-cat="all">Semua</button>
+  <button class="blog-filter" data-cat="tips">Tips & Info</button>
+  <button class="blog-filter" data-cat="area">Area / Lokasi</button>
+  <button class="blog-filter" data-cat="panduan">Panduan</button>
+  <button class="blog-filter" data-cat="bongkar-pasang">Bongkar Pasang</button>
+  <button class="blog-filter" data-cat="ducting">Ducting AC</button>
+</div>
+<style>
+.blog-filter{padding:6px 14px;border-radius:20px;border:1px solid var(--gray-300);background:var(--white);color:var(--gray-500);cursor:pointer;font-size:13px;font-family:var(--font-body);transition:.2s}
+.blog-filter.active,.blog-filter:hover{background:var(--primary);color:var(--white);border-color:var(--primary)}
+#blogListLoader{padding:48px;text-align:center;color:var(--gray-400);font-size:15px}
+</style>
+<main class="blog-list" id="blogList">
+<div id="blogListLoader">Memuat artikel...</div>
+<!-- artikel diisi via JS dari Supabase -->
+<noscript>
 <a href="biaya-service-ac-tangerang-2026.html" class="blog-card">
 <img loading="lazy" src="../images/biaya-service-ac-tangerang-2026.jpg" alt="Biaya service AC Tangerang 2026" />
 <div class="blog-card-con">
@@ -292,7 +307,73 @@ a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-light)}
 </a>
 
 
+</noscript>
 </main>
+<script>
+(function(){
+  var SB='https://apsbeppcmsxeldnejibz.supabase.co',KEY='sb_publishable_b_A7xDVy9UG6oLCRqHhVFA_NFw3Yv3_';
+  var CAT_LABELS={'tips':'Tips & Info','area':'Area / Lokasi','panduan':'Panduan','bongkar-pasang':'Bongkar Pasang','ducting':'Ducting AC'};
+  var allArticles=[];
+  var activeCat='all';
+
+  function fmtDate(d){
+    if(!d)return '';
+    var m=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    var parts=d.split('-');
+    return parseInt(parts[2])+' '+m[parseInt(parts[1])-1]+' '+parts[0];
+  }
+
+  function renderArticles(items){
+    var list=document.getElementById('blogList');
+    document.getElementById('blogListLoader').style.display='none';
+    var old=list.querySelectorAll('a.blog-card,div.blog-empty');
+    old.forEach(function(el){el.remove();});
+    var visible=activeCat==='all'?items:items.filter(function(a){return a.category===activeCat;});
+    if(!visible.length){
+      var empty=document.createElement('div');
+      empty.className='blog-empty';
+      empty.style.cssText='padding:48px;text-align:center;color:var(--gray-400);font-size:15px';
+      empty.textContent='Belum ada artikel untuk kategori ini.';
+      list.appendChild(empty);
+      return;
+    }
+    visible.forEach(function(a){
+      var card=document.createElement('a');
+      card.href=a.slug+'.html';
+      card.className='blog-card';
+      var cat=CAT_LABELS[a.category]||a.category||'';
+      var badge=cat?'<span style="display:inline-block;padding:2px 8px;border-radius:4px;background:#EBF0FA;color:#1B3A7B;font-size:11px;font-weight:700;margin-bottom:6px">'+cat+'</span><br>':'';
+      card.innerHTML=(a.cover_image_url?'<img loading="lazy" src="'+a.cover_image_url+'" alt="'+a.title+'" />':'<div style="width:300px;min-height:220px;background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:40px">📄</div>')+
+        '<div class="blog-card-con">'+badge+
+        '<div class="blog-card-date">'+(a.published_at?fmtDate(a.published_at):'')+' &bull; '+(a.read_minutes||7)+' menit baca</div>'+
+        '<h2>'+a.title+'</h2>'+
+        (a.excerpt?'<p>'+a.excerpt+'</p>':'')+
+        '<span class="read-more">Baca Selengkapnya &rarr;</span></div>';
+      list.appendChild(card);
+    });
+  }
+
+  fetch(SB+'/rest/v1/website_blog_meta?is_published=eq.true&order=sort_order.asc,published_at.desc',
+    {headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+  .then(function(r){return r.json();})
+  .then(function(items){
+    allArticles=items||[];
+    renderArticles(allArticles);
+  })
+  .catch(function(){
+    document.getElementById('blogListLoader').textContent='Gagal memuat artikel. Silakan refresh halaman.';
+  });
+
+  document.querySelectorAll('.blog-filter').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.blog-filter').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      activeCat=btn.dataset.cat;
+      renderArticles(allArticles);
+    });
+  });
+})();
+</script>
 <footer class="footer">
 <div class="footer-logo"><img loading="lazy" src="../images/aclean.png" alt="AClean" /></div>
 <p>&copy; 2026 AClean Service &mdash; Jasa Service AC Profesional Tangerang Selatan</p>

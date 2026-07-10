@@ -476,6 +476,36 @@ section{padding:48px 16px}
   </div>
 </section>
 
+<!-- PORTFOLIO -->
+<section style="background:var(--gray-100);padding:64px 16px">
+  <div class="sec-in">
+    <div style="text-align:center;margin-bottom:36px">
+      <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--primary);text-transform:uppercase;margin-bottom:8px">Portofolio</div>
+      <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:800;color:var(--dark);margin-bottom:10px">Hasil Pemasangan AC oleh Teknisi AClean</h2>
+      <p style="color:var(--gray-500);font-size:15px">Dokumentasi proyek pasang AC baru dari pelanggan kami di Tangerang Selatan.</p>
+    </div>
+    <div id="portfolioGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--gray-400)">Memuat foto...</div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var SB='https://apsbeppcmsxeldnejibz.supabase.co',KEY='sb_publishable_b_A7xDVy9UG6oLCRqHhVFA_NFw3Yv3_';
+  fetch(SB+'/rest/v1/website_portfolio?category=eq.pasang-ac&is_active=eq.true&order=sort_order.asc',
+    {headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+  .then(function(r){return r.json();})
+  .then(function(items){
+    var g=document.getElementById('portfolioGrid');
+    if(!items||!items.length){g.style.display='none';return;}
+    g.innerHTML=items.map(function(it){
+      return '<div style="border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3;background:#e2e8f0"><img src="'+it.image_url+'" alt="'+(it.title||'Pasang AC AClean')+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.6));padding:12px 14px"><span style="color:#fff;font-size:13px;font-weight:600">'+(it.title||'Pasang AC')+'</span></div></div>';
+    }).join('');
+  })
+  .catch(function(){document.getElementById('portfolioGrid').style.display='none';});
+})();
+</script>
+
 <!-- CTA -->
 <section class="cta-sec"><div class="sec-in">
   <h2>Siap Pasang AC Sekarang?</h2>

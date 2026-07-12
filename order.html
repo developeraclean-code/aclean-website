@@ -1195,7 +1195,7 @@ async function submitOrder(e) {
 
   document.getElementById('step3').classList.add('done');
 
-  const msg = buildWAMsg({orderId, nama, wa, area, alamat, koordinat, tanggal, catatan});
+  const msg = buildWAMsg({orderId, nama, wa, area, alamat, koordinat, tanggal, waktu:selectedTime, catatan});
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   showToast('✅ Membuka WhatsApp...');
   setTimeout(() => window.open(waUrl, '_blank'), 600);

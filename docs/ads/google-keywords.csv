@@ -1,0 +1,68 @@
+Campaign,Ad Group,Keyword,Criterion Type,Max CPC
+SRV - Service AC,Cuci & Service AC,service ac,Phrase,5000
+SRV - Service AC,Cuci & Service AC,jasa service ac,Phrase,5000
+SRV - Service AC,Cuci & Service AC,cuci ac,Phrase,4500
+SRV - Service AC,Cuci & Service AC,cuci ac panggilan,Phrase,4500
+SRV - Service AC,Cuci & Service AC,service ac terdekat,Phrase,5500
+SRV - Service AC,Cuci & Service AC,tukang service ac,Phrase,4000
+SRV - Service AC,Cuci & Service AC,harga service ac,Phrase,3500
+SRV - Service AC,Cuci & Service AC,biaya cuci ac,Phrase,3500
+SRV - Service AC,Cuci & Service AC,service ac bsd,Phrase,5500
+SRV - Service AC,Cuci & Service AC,service ac alam sutera,Phrase,5500
+SRV - Service AC,Cuci & Service AC,service ac gading serpong,Phrase,5500
+SRV - Service AC,Cuci & Service AC,service ac bintaro,Phrase,5500
+SRV - Service AC,Cuci & Service AC,service ac tangerang selatan,Phrase,5000
+SRV - Service AC,Cuci & Service AC,cuci ac bsd,Phrase,5000
+SRV - Service AC,Cuci & Service AC,service ac bsd,Exact,6000
+SRV - Service AC,Cuci & Service AC,cuci ac bsd,Exact,5500
+SRV - Service AC,Cuci & Service AC,jasa service ac tangerang selatan,Exact,5500
+SRV - Service AC,Isi Freon,isi freon ac,Phrase,4500
+SRV - Service AC,Isi Freon,tambah freon ac,Phrase,4000
+SRV - Service AC,Isi Freon,isi freon ac bsd,Phrase,4500
+SRV - Service AC,Isi Freon,harga isi freon ac,Phrase,3500
+RPR - Perbaikan AC,Perbaikan AC,perbaikan ac,Phrase,6000
+RPR - Perbaikan AC,Perbaikan AC,jasa perbaikan ac,Phrase,6000
+RPR - Perbaikan AC,Perbaikan AC,service ac rusak,Phrase,5500
+RPR - Perbaikan AC,Perbaikan AC,tukang ac panggilan,Phrase,5000
+RPR - Perbaikan AC,Perbaikan AC,perbaikan ac tangerang,Phrase,5500
+RPR - Perbaikan AC,Perbaikan AC,perbaikan ac alam sutera,Exact,6000
+RPR - Perbaikan AC,Perbaikan AC,ganti kompresor ac,Phrase,5000
+RPR - Perbaikan AC,AC Tidak Dingin,ac tidak dingin,Phrase,6000
+RPR - Perbaikan AC,AC Tidak Dingin,ac kurang dingin,Phrase,5500
+RPR - Perbaikan AC,AC Tidak Dingin,ac panas tidak dingin,Phrase,5500
+RPR - Perbaikan AC,AC Tidak Dingin,ac tidak dingin bsd,Exact,6500
+RPR - Perbaikan AC,AC Bocor & Mati,ac bocor,Phrase,5000
+RPR - Perbaikan AC,AC Bocor & Mati,ac keluar air,Phrase,5000
+RPR - Perbaikan AC,AC Bocor & Mati,ac mati total,Phrase,5500
+RPR - Perbaikan AC,AC Bocor & Mati,ac bunyi berisik,Phrase,4500
+BPS - Bongkar Pasang,Bongkar Pasang,bongkar pasang ac,Phrase,5500
+BPS - Bongkar Pasang,Bongkar Pasang,jasa bongkar pasang ac,Phrase,5500
+BPS - Bongkar Pasang,Bongkar Pasang,biaya bongkar pasang ac,Phrase,4500
+BPS - Bongkar Pasang,Bongkar Pasang,bongkar pasang ac bsd,Phrase,5500
+BPS - Bongkar Pasang,Bongkar Pasang,bongkar pasang ac bintaro,Exact,6000
+BPS - Bongkar Pasang,Bongkar Pasang,bongkar pasang ac alam sutera,Exact,6000
+BPS - Bongkar Pasang,Pindah AC,pindah ac,Phrase,5000
+BPS - Bongkar Pasang,Pindah AC,jasa pindah ac,Phrase,5000
+BPS - Bongkar Pasang,Pindah AC,pindah ac panggilan,Phrase,4500
+BPS - Bongkar Pasang,Pindah AC,bongkar ac pindahan,Phrase,4500
+INS - Pasang AC,Pasang AC Baru,pasang ac,Phrase,5000
+INS - Pasang AC,Pasang AC Baru,jasa pasang ac,Phrase,5000
+INS - Pasang AC,Pasang AC Baru,pasang ac baru,Phrase,5000
+INS - Pasang AC,Pasang AC Baru,pasang ac panggilan,Phrase,4500
+INS - Pasang AC,Pasang AC Baru,biaya pasang ac,Phrase,4000
+INS - Pasang AC,Pasang AC Baru,tukang pasang ac,Phrase,4500
+INS - Pasang AC,Pasang AC Baru,instalasi ac,Phrase,4500
+INS - Pasang AC,Pasang AC Baru,pasang ac bsd,Phrase,5500
+INS - Pasang AC,Pasang AC Baru,pasang ac gading serpong,Phrase,5500
+INS - Pasang AC,Pasang AC Baru,pasang ac baru bsd,Exact,6000
+DCT - Ducting AC,Ducting AC,ducting ac,Phrase,4500
+DCT - Ducting AC,Ducting AC,jasa ducting ac,Phrase,4500
+DCT - Ducting AC,Ducting AC,instalasi ducting ac,Phrase,4000
+DCT - Ducting AC,Ducting AC,ducting ac pu board,Phrase,4000
+DCT - Ducting AC,Ducting AC,kontraktor ducting ac,Phrase,4500
+DCT - Ducting AC,Ducting AC,biaya ducting ac,Phrase,3500
+DCT - Ducting AC,Ducting AC,ducting ac bsd,Phrase,4500
+DCT - Ducting AC,Ducting AC,jasa ducting ac tangerang,Exact,5000
+DCT - Ducting AC,Ducting AC Komersial,ducting ac kantor,Phrase,4000
+DCT - Ducting AC,Ducting AC Komersial,ducting ac cafe restoran,Phrase,4000
+DCT - Ducting AC,Ducting AC Komersial,ducting ac gedung,Phrase,4000

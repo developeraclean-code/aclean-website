@@ -1,0 +1,62 @@
+# AClean — Negative Keyword List (Google Ads)
+# Buat 1 "Negative keyword list" di Shared Library → pasang ke SEMUA kampanye.
+# Match type: Phrase (kecuali ditandai). Tinjau Search Terms Report tiap minggu untuk menambah.
+
+# --- Pencari info / non-beli ---
+gratis
+cara
+tutorial
+diy
+sendiri
+adalah
+arti
+pengertian
+wikipedia
+pdf
+skripsi
+makalah
+modul
+materi
+
+# --- Pencari kerja ---
+lowongan
+loker
+kerja
+gaji
+karir
+magang
+training
+kursus
+sekolah
+
+# --- Barang / sparepart eceran (bukan jasa) ---
+bekas
+second
+seken
+jual sparepart
+harga sparepart
+part number
+remote ac
+kapasitor ac beli
+dinamo ac
+kompresor bekas
+freon eceran
+manual book
+
+# --- Merek/produk yang tidak dijual (sesuaikan) ---
+ac mobil
+service ac mobil
+kulkas
+mesin cuci
+kipas angin
+
+# --- Kota di luar jangkauan (sesuaikan area layanan) ---
+surabaya
+bandung
+semarang
+yogyakarta
+medan
+bali
+bekasi
+depok
+bogor

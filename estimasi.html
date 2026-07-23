@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<title>Kalkulator Estimasi Biaya Pasang & Bongkar Pasang AC | AClean Service</title>
+<meta name="description" content="Hitung sendiri estimasi kasar biaya pasang AC baru & bongkar pasang AC di Tangerang Selatan, BSD, Alam Sutera & Gading Serpong. Termasuk pipa, kabel, breket, duct tape & jasa vacum. Harga real-time dari AClean." />
+<meta name="keywords" content="estimasi biaya pasang ac, kalkulator pasang ac, biaya bongkar pasang ac, harga pasang ac tangerang selatan, hitung biaya instalasi ac" />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="Kalkulator Estimasi Biaya Pasang & Bongkar Pasang AC | AClean Service" />
+<meta property="og:description" content="Hitung sendiri estimasi kasar biaya pasang & bongkar pasang AC. Termasuk pipa, kabel, breket & jasa vacum. Harga real-time dari AClean." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://aclean.id/estimasi.html" />
+<meta property="og:image" content="https://aclean.id/og-image.jpg" />
+<meta property="og:locale" content="id_ID" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Kalkulator Estimasi Biaya Pasang & Bongkar Pasang AC | AClean" />
+<meta name="twitter:description" content="Hitung sendiri estimasi kasar biaya pasang & bongkar pasang AC di Tangsel, BSD & sekitarnya." />
+<meta name="twitter:image" content="https://aclean.id/og-image.jpg" />
+<link rel="canonical" href="https://aclean.id/estimasi.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;
+--primary-50:#EBF0FA;--primary-100:#C6D4F0;
+--accent:#F59E0B;--accent-light:#FCD34D;
+--dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;
+--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;
+--white:#FFFFFF;--green:#16A34A;
+--font-heading:'Plus Jakarta Sans',sans-serif;--font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--dark);background:var(--gray-100);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-heading)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 20px rgba(15,23,42,.06)}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 24px}
+.nav-logo{display:flex;align-items:center;gap:4px;text-decoration:none}
+.nav-logo img{height:44px}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{text-decoration:none;color:var(--dark-600);font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .2s}
+.nav-links a:hover{color:var(--primary);background:var(--primary-50)}
+.nav-cta{background:var(--primary)!important;color:var(--white)!important;padding:10px 20px!important;border-radius:10px!important;font-weight:600!important;box-shadow:0 2px 8px rgba(27,58,123,.25)}
+.nav-cta:hover{background:var(--primary-light)!important;transform:translateY(-1px)}
+.mob-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.mob-btn span{display:block;width:22px;height:2px;background:var(--dark);margin:5px 0;border-radius:2px;transition:all .3s}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--white);z-index:999;padding:24px;flex-direction:column;gap:4px}
+.mob-menu.open{display:flex}
+.mob-menu a{display:block;padding:14px 16px;text-decoration:none;color:var(--dark);font-size:16px;font-weight:500;border-radius:10px}
+.mob-menu .mc{margin-top:12px;background:var(--primary);color:var(--white);text-align:center;border-radius:12px;font-weight:600}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--primary-dark),var(--primary) 55%,var(--primary-light));color:#fff;padding:56px 24px 40px}
+.hero-in{max-width:900px;margin:0 auto;text-align:center}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:16px}
+.hero h1{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.15;margin-bottom:14px}
+.hero h1 .hl{color:var(--accent-light)}
+.hero p{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.9);max-width:640px;margin:0 auto}
+
+/* CALC */
+.wrap{max-width:960px;margin:-24px auto 0;padding:0 20px 60px}
+.calc{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+.card{background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid var(--gray-200)}
+.card-pad{padding:26px}
+.card h2{font-size:19px;font-weight:700;color:var(--primary-dark);margin-bottom:4px}
+.card .sub{font-size:13px;color:var(--gray-500);margin-bottom:20px}
+.field{margin-bottom:20px}
+.field>label{display:block;font-size:14px;font-weight:600;color:var(--dark-700);margin-bottom:8px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{font-family:var(--font-body);border:1.5px solid var(--gray-200);background:#fff;color:var(--dark-600);padding:12px 10px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+.seg button.on{border-color:var(--primary);background:var(--primary-50);color:var(--primary);box-shadow:0 2px 8px rgba(27,58,123,.12)}
+select,input[type=number]{width:100%;font-family:var(--font-body);font-size:15px;color:var(--dark);padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:12px;background:#fff;outline:none;transition:border .18s}
+select:focus,input[type=number]:focus{border-color:var(--primary)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stepwrap{position:relative}
+.hint{font-size:12px;color:var(--gray-400);margin-top:6px}
+.checks{display:flex;flex-direction:column;gap:10px}
+.chk{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .18s}
+.chk.on{border-color:var(--primary-100);background:var(--primary-50)}
+.chk input{width:18px;height:18px;accent-color:var(--primary);cursor:pointer}
+.chk .t{font-size:14px;font-weight:600;color:var(--dark-700)}
+.chk .t small{display:block;font-size:12px;font-weight:400;color:var(--gray-400);margin-top:1px}
+.chk .p{margin-left:auto;font-size:13px;color:var(--gray-500);font-weight:600;white-space:nowrap}
+.subgroup{font-size:13px;font-weight:700;color:var(--dark-700);margin:18px 0 10px}
+.subgroup span{font-weight:400;color:var(--gray-400)}
+
+/* RESULT */
+.result{position:sticky;top:84px;align-self:start}
+.result h2{color:var(--primary-dark)}
+.brk{list-style:none;margin:6px 0 0}
+.brk li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--gray-200);font-size:14px}
+.brk li .lbl{color:var(--dark-600)}
+.brk li .lbl small{display:block;color:var(--gray-400);font-size:12px;font-weight:400}
+.brk li .amt{font-weight:600;color:var(--dark-700);white-space:nowrap}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-top:16px;border-top:2px solid var(--gray-200)}
+.total .k{font-size:15px;font-weight:700;color:var(--dark-700)}
+.total .v{font-size:26px;font-weight:800;color:var(--primary);font-family:var(--font-heading)}
+.disc{font-size:12px;color:var(--gray-500);background:var(--gray-100);border-radius:10px;padding:11px 13px;margin-top:16px;line-height:1.5}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;background:var(--green);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(22,163,74,.28);transition:transform .18s}
+.wa-btn:hover{transform:translateY(-1px)}
+.tel-btn{display:block;text-align:center;margin-top:10px;color:var(--primary);font-weight:600;text-decoration:none;font-size:14px}
+
+/* INFO */
+.info{max-width:960px;margin:36px auto 0;padding:0 20px}
+.info h2{font-size:22px;color:var(--primary-dark);margin-bottom:16px;text-align:center}
+.faq{background:#fff;border-radius:14px;border:1px solid var(--gray-200);padding:6px 22px}
+.faq details{border-bottom:1px solid var(--gray-200);padding:14px 0}
+.faq details:last-child{border-bottom:none}
+.faq summary{font-weight:600;color:var(--dark-700);cursor:pointer;font-size:15px;list-style:none;display:flex;justify-content:space-between}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--primary);font-weight:700;font-size:20px}
+.faq details[open] summary::after{content:'–'}
+.faq p{margin-top:10px;font-size:14px;color:var(--gray-500)}
+
+/* FOOTER */
+footer{background:var(--dark);color:var(--gray-300);padding:48px 24px 28px;margin-top:56px}
+.ft-in{max-width:1200px;margin:0 auto}
+.ft-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px}
+.ft-brand img{height:40px;margin-bottom:14px}
+.ft-brand p{font-size:13px;line-height:1.7}
+.ft-col h4{color:#fff;font-size:15px;margin-bottom:14px}
+.ft-col a{display:block;color:var(--gray-400);text-decoration:none;font-size:13px;padding:5px 0;transition:color .2s}
+.ft-col a:hover{color:#fff}
+.ft-div{height:1px;background:rgba(255,255,255,.1);margin:32px 0 20px}
+.ft-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--gray-500)}
+
+/* WA FLOAT */
+.wa{position:fixed;right:24px;bottom:24px;z-index:1000;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(37,211,102,.4)}
+.wa svg{width:30px;height:30px;fill:#fff}
+
+@media(max-width:820px){
+.nav-links{display:none}.mob-btn{display:block}
+.calc{grid-template-columns:1fr}
+.result{position:static}
+.ft-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+.nav-in{padding:8px 16px}.nav-logo img{height:36px}
+.card-pad{padding:20px}
+.ft-grid{grid-template-columns:1fr}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Kalkulator Estimasi Biaya Pasang AC AClean",
+  "applicationCategory":"BusinessApplication",
+  "operatingSystem":"Web",
+  "url":"https://aclean.id/estimasi.html",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"},
+  "provider":{"@type":"LocalBusiness","name":"AClean Service","telephone":"+6281289898937"}
+}
+</script>
+<script src="/js/analytics.js" defer></script>
+</head>
+<body>
+<nav id="nb"><div class="nav-in">
+<a href="/" class="nav-logo"><img loading="eager" src="./images/logo-aclean.jpg" alt="AClean Service Logo" /></a>
+<div class="nav-links">
+<a href="/">Beranda</a><a href="/#layanan">Layanan</a><a href="pasang-ac.html">Pasang AC</a><a href="bongkar-pasang-ac.html">Bongkar Pasang</a><a href="estimasi.html">Estimasi</a><a href="tentang-kami.html">Tentang</a><a href="kontak.html">Kontak</a><a href="faq.html">FAQ</a>
+<a href="https://wa.me/6281289898937" class="nav-cta" target="_blank" rel="noopener">💬 Hubungi Kami</a>
+</div>
+<button class="mob-btn" onclick="document.getElementById('mm').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></nav>
+
+<div class="mob-menu" id="mm">
+<a href="/" onclick="document.getElementById('mm').classList.remove('open')">Beranda</a>
+<a href="/#layanan" onclick="document.getElementById('mm').classList.remove('open')">Layanan</a>
+<a href="pasang-ac.html" onclick="document.getElementById('mm').classList.remove('open')">Pasang AC</a>
+<a href="bongkar-pasang-ac.html" onclick="document.getElementById('mm').classList.remove('open')">Bongkar Pasang</a>
+<a href="estimasi.html" onclick="document.getElementById('mm').classList.remove('open')">Estimasi Biaya</a>
+<a href="tentang-kami.html" onclick="document.getElementById('mm').classList.remove('open')">Tentang</a>
+<a href="kontak.html" onclick="document.getElementById('mm').classList.remove('open')">Kontak</a>
+<a href="faq.html" onclick="document.getElementById('mm').classList.remove('open')">FAQ</a>
+<a href="https://wa.me/6281289898937" class="mc" target="_blank" rel="noopener">💬 Hubungi Kami</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-in">
+    <div class="badge">🧮 Kalkulator Estimasi</div>
+    <h1>Hitung Sendiri <span class="hl">Estimasi Biaya</span><br/>Pasang & Bongkar Pasang AC</h1>
+    <p>Perkiraan kasar biaya di awal — sudah termasuk pipa, kabel, breket, duct tape & jasa vacum. Harga diambil langsung dari daftar harga resmi AClean.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="calc">
+    <!-- INPUT -->
+    <div class="card"><div class="card-pad">
+      <h2>Detail Pekerjaan</h2>
+      <p class="sub">Isi sesuai kebutuhan, hasil terhitung otomatis.</p>
+
+      <div class="field">
+        <label>Jenis Pekerjaan</label>
+        <div class="seg" id="segJob">
+          <button type="button" data-job="pasang" class="on">Pasang AC Baru</button>
+          <button type="button" data-job="bongkar">Bongkar Pasang AC</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pk">Ukuran AC (PK)</label>
+        <select id="pk">
+          <option value="1">0,5 – 1 PK</option>
+          <option value="2">1,5 – 2 PK</option>
+          <option value="3">2,5 PK</option>
+          <option value="cassette">AC Cassette</option>
+          <option value="standing">AC Standing</option>
+          <option value="splitduct">AC Split Duct</option>
+        </select>
+        <p class="hint">AC 3 PK ke atas → estimasi via survei.</p>
+      </div>
+
+      <div id="detailFields">
+      <div class="row2">
+        <div class="field">
+          <label for="qty">Jumlah Unit</label>
+          <input type="number" id="qty" min="1" max="50" step="1" value="1" />
+        </div>
+        <div class="field">
+          <label for="pipa">Panjang Pipa (m) / unit</label>
+          <input type="number" id="pipa" min="0" max="50" step="0.5" value="4" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="kabel">Panjang Kabel (m) / unit</label>
+        <input type="number" id="kabel" min="0" max="50" step="0.5" value="5" />
+        <p class="hint">Otomatis = panjang pipa + 1 m. Bisa diubah manual bila unit outdoor jauh.</p>
+      </div>
+
+      <div class="field">
+        <label>Material &amp; Jasa Terpakai</label>
+        <div class="checks" id="checks">
+          <label class="chk on"><input type="checkbox" id="cVacum" checked><span class="t">Jasa Vacum</span><span class="p" data-p="vacum"></span></label>
+          <label class="chk on"><input type="checkbox" id="cBreket" checked><span class="t">Breket Outdoor + Dinabolt</span><span class="p" data-p="breket"></span></label>
+          <label class="chk on"><input type="checkbox" id="cDuct" checked><span class="t">Duct Tape (pembungkus pipa)</span><span class="p" data-p="duct"></span></label>
+        </div>
+        <p class="hint">💡 Duct tape bisa terpakai lebih dari 1 pcs tergantung panjang pipa — angka ini hanya estimasi 1 pcs.</p>
+
+        <div class="subgroup">Freon <span>(opsional — centang bila diperlukan)</span></div>
+        <div class="checks" id="checksFreon">
+          <label class="chk"><input type="checkbox" id="cFreon1"><span class="t">Penambahan Freon — AC 0,5–1,5 PK<small>Bila diperlukan</small></span><span class="p" data-p="freon1"></span></label>
+          <label class="chk"><input type="checkbox" id="cKuras1"><span class="t">Kuras Vacum Freon — AC 0,5–1,5 PK<small>Bila freon dari 0 psi</small></span><span class="p" data-p="kuras1"></span></label>
+          <label class="chk"><input type="checkbox" id="cFreon2"><span class="t">Penambahan Freon — AC 2–2,5 PK<small>Bila diperlukan</small></span><span class="p" data-p="freon2"></span></label>
+          <label class="chk"><input type="checkbox" id="cKuras2"><span class="t">Kuras Vacum Freon — AC 2–2,5 PK<small>Bila freon dari 0 psi</small></span><span class="p" data-p="kuras2"></span></label>
+        </div>
+      </div>
+      </div>
+    </div></div>
+
+    <!-- RESULT -->
+    <div class="card result"><div class="card-pad">
+      <h2>Estimasi Biaya</h2>
+      <p class="sub" id="rsub">Untuk 1 unit · Pasang AC Baru</p>
+      <div id="normalResult">
+        <ul class="brk" id="brk"></ul>
+        <div class="total"><span class="k">Perkiraan Total</span><span class="v" id="total">Rp 0</span></div>
+        <div class="disc">⚠️ Ini <strong>estimasi kasar</strong>, bukan penawaran final. Harga pasti ditentukan setelah teknisi kami survei kondisi lokasi (jarak pipa, jalur kabel, tinggi bangunan, dsb).</div>
+      </div>
+      <div id="specialResult" style="display:none">
+        <div class="disc" style="background:var(--primary-50);color:var(--dark-700)">🏢 Untuk <strong id="spName">AC Cassette</strong>, biaya sangat bergantung pada kondisi unit, jumlah titik &amp; akses lokasi — estimasi kasar kurang akurat untuk tipe ini. Tim kami akan bantu hitung penawaran khusus langsung via WhatsApp.</div>
+      </div>
+      <a href="#" id="waCta" class="wa-btn" target="_blank" rel="noopener">💬 Kirim Estimasi ke WhatsApp</a>
+      <a href="tel:+6281289898937" class="tel-btn">atau telepon 0812-8989-8937</a>
+    </div></div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info">
+    <h2>Pertanyaan Umum</h2>
+    <div class="faq">
+      <details open><summary>Apakah harga ini pasti?</summary><p>Belum. Angka di kalkulator adalah perkiraan awal berdasarkan daftar harga resmi AClean. Harga final baru fix setelah teknisi mengecek kondisi lokasi — misalnya panjang pipa aktual, jalur kabel, atau kebutuhan bobok tembok.</p></details>
+      <details><summary>Kenapa pipa & kabel dihitung per meter?</summary><p>Karena kebutuhannya beda-beda tiap lokasi. Semakin jauh jarak unit indoor ke outdoor, semakin panjang pipa & kabel yang dipakai. Default 10 meter kami pakai sebagai gambaran umum — silakan sesuaikan.</p></details>
+      <details><summary>Apa itu jasa vacum?</summary><p>Proses mengosongkan udara & uap air dari jalur pipa sebelum freon dialirkan. Wajib pada setiap pemasangan/bongkar pasang agar AC dingin maksimal dan kompresor awet.</p></details>
+      <details><summary>Sudah termasuk unit AC-nya?</summary><p>Belum. Estimasi ini hanya jasa pemasangan + material instalasi. Untuk pembelian unit AC baru (Daikin, Gree, dll) lihat halaman <a href="jual-ac.html" style="color:var(--primary);font-weight:600">Jual AC</a>.</p></details>
+    </div>
+  </div>
+</div>
+
+<footer><div class="ft-in">
+<div class="ft-grid">
+<div class="ft-brand">
+<img loading="lazy" src="./images/logo-aclean-icon.png" alt="AClean Service" />
+<p>Jasa service, pasang & bongkar pasang AC profesional di Tangerang Selatan, BSD, Alam Sutera, dan Gading Serpong. Teknisi berpengalaman, sparepart original, garansi resmi.</p>
+<p style="margin-top:10px;font-size:13px"><strong style="color:var(--gray-300)">Jam Operasional:</strong><br/>Senin - Sabtu: 09:00 - 17:00 WIB</p>
+</div>
+<div class="ft-col"><h4>Layanan</h4><a href="pasang-ac.html">Pemasangan AC Baru</a><a href="bongkar-pasang-ac.html">Bongkar Pasang AC</a><a href="cuci-ac.html">Cuci / Cleaning AC</a><a href="isi-freon.html">Isi Freon</a><a href="perbaikan-ac.html">Perbaikan AC</a><a href="estimasi.html">Kalkulator Estimasi</a></div>
+<div class="ft-col"><h4>Area Layanan</h4><a href="/#area">Alam Sutera</a><a href="/#area">Gading Serpong</a><a href="/#area">BSD City</a><a href="/#area">Karawaci</a><a href="/#area">Graha Raya</a><a href="/#area">Jakarta</a></div>
+<div class="ft-col"><h4>Hubungi Kami</h4><a href="https://wa.me/6281289898937" target="_blank" rel="noopener">WA: 0812-8989-8937</a><a href="mailto:info@aclean.id">Email: info@aclean.id</a><a href="/#area">Indomaret Alam Sutera</a><a href="/#area">Tangerang Selatan, Banten</a></div>
+</div>
+<div class="ft-div"></div>
+<div class="ft-bot">
+<p>© 2026 AClean Service. Hak Cipta Dilindungi.</p>
+<p>Jasa Service AC Tangerang Selatan — BSD — Alam Sutera — Gading Serpong</p>
+</div>
+</div></footer>
+
+<a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20tanya%20tentang%20pasang%20AC" class="wa" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.24 0-4.326-.693-6.05-1.876l-.424-.3-2.644.886.886-2.644-.3-.424A9.96 9.96 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+</a>
+
+<script>
+window.addEventListener('scroll',function(){document.getElementById('nb').classList.toggle('scrolled',window.scrollY>20)});
+</script>
+
+<!-- KALKULATOR -->
+<script>
+(function(){
+  // Harga default = snapshot daftar harga AClean (fallback bila fetch gagal).
+  var P = {
+    pasang_kecil:400000, pasang_besar:450000,
+    bongkar_pasang_indoor:200000, bongkar_pasang_outdoor:200000,
+    bongkar_unit_kecil:150000, bongkar_unit_besar:200000,
+    vacum_kecil:50000, freon_r32:500000,
+    pipa_1pk:150000, pipa_2pk:170000, pipa_2_5pk:240000,
+    kabel_15:30000, kabel_25:40000,
+    duct_tape:20000, breket_outdoor:150000
+  };
+
+  // Konfigurasi per ukuran PK → material & jasa yang dipakai.
+  // 0,5-1PK: kabel 3x1,5 · 1,5-2,5PK: kabel 3x2,5 · bongkar unit sesuai tarif pricelist.
+  var TIER = {
+    '1':{label:'0,5 – 1 PK', pipa:'pipa_1pk',   kabel:'kabel_15', pasang:'pasang_kecil', bongkar:'bongkar_unit_kecil'},
+    '2':{label:'1,5 – 2 PK', pipa:'pipa_2pk',   kabel:'kabel_25', pasang:'pasang_besar', bongkar:'bongkar_unit_besar'},
+    '3':{label:'2,5 PK',     pipa:'pipa_2_5pk', kabel:'kabel_25', pasang:'pasang_besar', bongkar:'bongkar_unit_besar'}
+  };
+
+  // Tipe yang tidak dihitung otomatis → arahkan ke WhatsApp.
+  var SPECIAL = { cassette:'AC Cassette', standing:'AC Standing', splitduct:'AC Split Duct' };
+
+  var job = 'pasang';
+  var kabelAuto = true;
+  var fmt = function(n){ return 'Rp ' + Math.round(n).toLocaleString('id-ID'); };
+  var $ = function(id){ return document.getElementById(id); };
+
+  // Ambil harga live dari RPC (sumber kebenaran = database webapps AClean).
+  var SURL='https://apsbeppcmsxeldnejibz.supabase.co',
+      SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwc2JlcHBjbXN4ZWxkbmVqaWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjI5OTAsImV4cCI6MjA4ODQzODk5MH0.ougABivpskSoQyFCOagV7GYah0yNV3-sGuc5ErplRo4';
+  fetch(SURL+'/rest/v1/rpc/get_website_pricing',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SKEY,'Authorization':'Bearer '+SKEY},
+    body:'{}'
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d && typeof d==='object'){ for(var k in P){ if(d[k]!=null) P[k]=Number(d[k]); } }
+    render();
+  }).catch(function(){ render(); });
+
+  function calc(){
+    var t = TIER[$('pk').value] || TIER['1'];
+    var qty  = Math.max(1, parseInt($('qty').value,10)||1);
+    var lPipa = Math.max(0, parseFloat($('pipa').value)||0);
+    var lKabel= Math.max(0, parseFloat($('kabel').value)||0);
+    var items = [];
+
+    if(job==='pasang'){
+      items.push({lbl:'Jasa Pasang AC Baru', sub:t.label+' × '+qty+' unit', amt:P[t.pasang]*qty});
+    } else {
+      items.push({lbl:'Jasa Bongkar Unit AC', sub:t.label+' × '+qty+' unit', amt:P[t.bongkar]*qty});
+      var bp = P.bongkar_pasang_indoor + P.bongkar_pasang_outdoor;
+      items.push({lbl:'Jasa Pasang Kembali', sub:'Indoor + Outdoor × '+qty+' unit', amt:bp*qty});
+    }
+    if(lPipa>0) items.push({lbl:'Pipa AC', sub:lPipa+' m × '+qty+' unit @ '+fmt(P[t.pipa])+'/m', amt:P[t.pipa]*lPipa*qty});
+    if(lKabel>0) items.push({lbl:'Kabel Listrik', sub:lKabel+' m × '+qty+' unit @ '+fmt(P[t.kabel])+'/m', amt:P[t.kabel]*lKabel*qty});
+    if($('cVacum').checked)  items.push({lbl:'Jasa Vacum', sub:qty+' unit @ '+fmt(P.vacum_kecil), amt:P.vacum_kecil*qty});
+    if($('cBreket').checked) items.push({lbl:'Breket Outdoor + Dinabolt', sub:qty+' set @ '+fmt(P.breket_outdoor), amt:P.breket_outdoor*qty});
+    if($('cDuct').checked)   items.push({lbl:'Duct Tape', sub:qty+' pcs @ '+fmt(P.duct_tape), amt:P.duct_tape*qty});
+
+    // Freon (opsional) — tarif tambah freon; AC 2–2,5 PK dikali 2.
+    var fb = P.freon_r32;
+    if($('cFreon1').checked) items.push({lbl:'Penambahan Freon (0,5–1,5 PK)', sub:qty+' unit @ '+fmt(fb),   amt:fb*qty});
+    if($('cKuras1').checked) items.push({lbl:'Kuras Vacum Freon (0,5–1,5 PK)', sub:qty+' unit @ '+fmt(fb),   amt:fb*qty});
+    if($('cFreon2').checked) items.push({lbl:'Penambahan Freon (2–2,5 PK)',   sub:qty+' unit @ '+fmt(fb*2), amt:fb*2*qty});
+    if($('cKuras2').checked) items.push({lbl:'Kuras Vacum Freon (2–2,5 PK)',   sub:qty+' unit @ '+fmt(fb*2), amt:fb*2*qty});
+
+    var total = items.reduce(function(s,i){return s+i.amt;},0);
+    return {items:items, total:total, qty:qty, tier:t};
+  }
+
+  function render(){
+    // Update label harga di checkbox
+    $('checks').querySelector('[data-p="vacum"]').textContent  = fmt(P.vacum_kecil);
+    $('checks').querySelector('[data-p="breket"]').textContent = fmt(P.breket_outdoor);
+    $('checks').querySelector('[data-p="duct"]').textContent   = fmt(P.duct_tape);
+    var fb = P.freon_r32; // tarif tambah freon R-32/R-410A/R-22 (harga sama)
+    document.querySelector('[data-p="freon1"]').textContent = fmt(fb);
+    document.querySelector('[data-p="kuras1"]').textContent = fmt(fb);
+    document.querySelector('[data-p="freon2"]').textContent = fmt(fb*2);
+    document.querySelector('[data-p="kuras2"]').textContent = fmt(fb*2);
+
+    var jobLabel = job==='pasang' ? 'Pasang AC Baru' : 'Bongkar Pasang AC';
+    var pkVal = $('pk').value;
+
+    // Mode khusus: Cassette / Standing / Split Duct → arahkan ke WhatsApp.
+    if(SPECIAL[pkVal]){
+      $('detailFields').style.display = 'none';
+      $('normalResult').style.display = 'none';
+      $('specialResult').style.display = 'block';
+      $('spName').textContent = SPECIAL[pkVal];
+      $('rsub').textContent = SPECIAL[pkVal]+' · '+jobLabel;
+      $('waCta').textContent = '💬 Konsultasi & Minta Penawaran';
+      var mS = 'Halo AClean, saya mau tanya biaya *'+jobLabel+'* untuk *'+SPECIAL[pkVal]+'*. Mohon dibantu penawarannya. Terima kasih.';
+      $('waCta').href = 'https://wa.me/6281289898937?text='+encodeURIComponent(mS);
+      return;
+    }
+    $('detailFields').style.display = '';
+    $('normalResult').style.display = '';
+    $('specialResult').style.display = 'none';
+    $('waCta').textContent = '💬 Kirim Estimasi ke WhatsApp';
+
+    var r = calc();
+    $('rsub').textContent = 'Untuk '+r.qty+' unit · '+jobLabel;
+
+    var html='';
+    r.items.forEach(function(i){
+      html += '<li><span class="lbl">'+i.lbl+'<small>'+i.sub+'</small></span><span class="amt">'+fmt(i.amt)+'</span></li>';
+    });
+    $('brk').innerHTML = html;
+    $('total').textContent = fmt(r.total);
+
+    // WhatsApp prefilled
+    var lines = ['Halo AClean, saya mau estimasi *'+jobLabel+'*:'];
+    lines.push('• Ukuran: '+r.tier.label+' × '+r.qty+' unit');
+    lines.push('• Pipa: '+($('pipa').value||0)+' m/unit · Kabel: '+($('kabel').value||0)+' m/unit');
+    r.items.forEach(function(i){ lines.push('- '+i.lbl+': '+fmt(i.amt)); });
+    lines.push('*Perkiraan Total: '+fmt(r.total)+'*');
+    lines.push('Mohon dijadwalkan survei ya. Terima kasih.');
+    $('waCta').href = 'https://wa.me/6281289898937?text='+encodeURIComponent(lines.join('\n'));
+  }
+
+  // Events
+  $('segJob').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    job = b.getAttribute('data-job');
+    [].forEach.call(this.children, function(c){ c.classList.toggle('on', c===b); });
+    render();
+  });
+  $('pk').addEventListener('change', render);
+  $('qty').addEventListener('input', render);
+  // Kabel mengikuti pipa + 1 m, sampai user mengubah kabel secara manual.
+  $('pipa').addEventListener('input', function(){
+    if(kabelAuto){
+      var v = parseFloat($('pipa').value);
+      $('kabel').value = isNaN(v) ? '' : (v + 1);
+    }
+    render();
+  });
+  $('kabel').addEventListener('input', function(){ kabelAuto = false; render(); });
+  ['cVacum','cBreket','cDuct','cFreon1','cKuras1','cFreon2','cKuras2'].forEach(function(id){
+    $(id).addEventListener('change', function(){
+      this.closest('.chk').classList.toggle('on', this.checked);
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

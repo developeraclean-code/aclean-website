@@ -90,6 +90,21 @@ select:focus,input[type=number]:focus{border-color:var(--primary)}
 .subgroup{font-size:13px;font-weight:700;color:var(--dark-700);margin:18px 0 10px}
 .subgroup span{font-weight:400;color:var(--gray-400)}
 
+/* GROUPS */
+.group{border:1.5px solid var(--gray-200);border-radius:14px;padding:18px;margin-bottom:14px;background:var(--white)}
+.group-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.group-title{font-weight:700;color:var(--primary-dark);font-size:14px}
+.group .rm{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:15px;line-height:1;padding:5px 9px;border-radius:8px;transition:all .15s}
+.group .rm:hover{background:#FEE2E2;color:#DC2626}
+.addbtn{width:100%;border:1.5px dashed var(--gray-300);background:var(--gray-100);color:var(--primary);font-family:var(--font-body);font-weight:700;font-size:14px;padding:13px;border-radius:12px;cursor:pointer;transition:all .18s}
+.addbtn:hover{border-color:var(--primary);background:var(--primary-50)}
+.notecard{margin-top:16px;font-size:13px;color:var(--dark-600);background:var(--primary-50);border-radius:12px;padding:13px 15px;line-height:1.5}
+.notecard a{color:var(--primary);font-weight:700;text-decoration:none}
+.grp-h{font-weight:700;color:var(--primary-dark);font-size:13px;margin:18px 0 2px;padding-top:14px;border-top:1px solid var(--gray-200)}
+.grp-h:first-child{border-top:none;padding-top:0;margin-top:0}
+.grp-sub{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--dark-600);padding:9px 0 2px}
+.grp-sub span{color:var(--primary)}
+
 /* RESULT */
 .result{position:sticky;top:84px;align-self:start}
 .result h2{color:var(--primary-dark)}
@@ -196,7 +211,7 @@ footer{background:var(--dark);color:var(--gray-300);padding:48px 24px 28px;margi
     <!-- INPUT -->
     <div class="card"><div class="card-pad">
       <h2>Detail Pekerjaan</h2>
-      <p class="sub">Isi sesuai kebutuhan, hasil terhitung otomatis.</p>
+      <p class="sub">Punya beberapa ukuran AC? Tambah tiap tipe agar hitungannya akurat.</p>
 
       <div class="field">
         <label>Jenis Pekerjaan</label>
@@ -206,69 +221,20 @@ footer{background:var(--dark);color:var(--gray-300);padding:48px 24px 28px;margi
         </div>
       </div>
 
-      <div class="field">
-        <label for="pk">Ukuran AC (PK)</label>
-        <select id="pk">
-          <option value="1">0,5 – 1 PK</option>
-          <option value="2">1,5 – 2 PK</option>
-          <option value="3">2,5 PK</option>
-          <option value="cassette">AC Cassette</option>
-          <option value="standing">AC Standing</option>
-          <option value="splitduct">AC Split Duct</option>
-        </select>
-        <p class="hint">AC 3 PK ke atas → estimasi via survei.</p>
-      </div>
+      <div id="groups"></div>
 
-      <div id="detailFields">
-      <div class="row2">
-        <div class="field">
-          <label for="qty">Jumlah Unit</label>
-          <input type="number" id="qty" min="1" max="50" step="1" value="1" />
-        </div>
-        <div class="field">
-          <label for="pipa">Panjang Pipa (m) / unit</label>
-          <input type="number" id="pipa" min="0" max="50" step="0.5" value="4" />
-        </div>
-      </div>
+      <button type="button" id="addGroup" class="addbtn">＋ Tambah Tipe AC</button>
 
-      <div class="field">
-        <label for="kabel">Panjang Kabel (m) / unit</label>
-        <input type="number" id="kabel" min="0" max="50" step="0.5" value="5" />
-        <p class="hint">Otomatis = panjang pipa + 1 m. Bisa diubah manual bila unit outdoor jauh.</p>
-      </div>
-
-      <div class="field">
-        <label>Material &amp; Jasa Terpakai</label>
-        <div class="checks" id="checks">
-          <label class="chk on"><input type="checkbox" id="cVacum" checked><span class="t">Jasa Vacum</span><span class="p" data-p="vacum"></span></label>
-          <label class="chk on"><input type="checkbox" id="cBreket" checked><span class="t">Breket Outdoor + Dinabolt</span><span class="p" data-p="breket"></span></label>
-          <label class="chk on"><input type="checkbox" id="cDuct" checked><span class="t">Duct Tape (pembungkus pipa)</span><span class="p" data-p="duct"></span></label>
-        </div>
-        <p class="hint">💡 Duct tape bisa terpakai lebih dari 1 pcs tergantung panjang pipa — angka ini hanya estimasi 1 pcs.</p>
-
-        <div class="subgroup">Freon <span>(opsional — centang bila diperlukan)</span></div>
-        <div class="checks" id="checksFreon">
-          <label class="chk"><input type="checkbox" id="cFreon1"><span class="t">Penambahan Freon — AC 0,5–1,5 PK<small>Bila diperlukan</small></span><span class="p" data-p="freon1"></span></label>
-          <label class="chk"><input type="checkbox" id="cKuras1"><span class="t">Kuras Vacum Freon — AC 0,5–1,5 PK<small>Bila freon dari 0 psi</small></span><span class="p" data-p="kuras1"></span></label>
-          <label class="chk"><input type="checkbox" id="cFreon2"><span class="t">Penambahan Freon — AC 2–2,5 PK<small>Bila diperlukan</small></span><span class="p" data-p="freon2"></span></label>
-          <label class="chk"><input type="checkbox" id="cKuras2"><span class="t">Kuras Vacum Freon — AC 2–2,5 PK<small>Bila freon dari 0 psi</small></span><span class="p" data-p="kuras2"></span></label>
-        </div>
-      </div>
-      </div>
+      <div class="notecard">🏢 Punya <strong>AC Cassette, Standing, atau Split Duct?</strong> Biaya tipe ini bergantung kondisi lokasi — <a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20mau%20tanya%20biaya%20pasang%2Fbongkar%20pasang%20AC%20Cassette%2FStanding%2FSplit%20Duct" target="_blank" rel="noopener">konsultasi via WhatsApp →</a></div>
     </div></div>
 
     <!-- RESULT -->
     <div class="card result"><div class="card-pad">
       <h2>Estimasi Biaya</h2>
-      <p class="sub" id="rsub">Untuk 1 unit · Pasang AC Baru</p>
-      <div id="normalResult">
-        <ul class="brk" id="brk"></ul>
-        <div class="total"><span class="k">Perkiraan Total</span><span class="v" id="total">Rp 0</span></div>
-        <div class="disc">⚠️ Ini <strong>estimasi kasar</strong>, bukan penawaran final. Harga pasti ditentukan setelah teknisi kami survei kondisi lokasi (jarak pipa, jalur kabel, tinggi bangunan, dsb).</div>
-      </div>
-      <div id="specialResult" style="display:none">
-        <div class="disc" style="background:var(--primary-50);color:var(--dark-700)">🏢 Untuk <strong id="spName">AC Cassette</strong>, biaya sangat bergantung pada kondisi unit, jumlah titik &amp; akses lokasi — estimasi kasar kurang akurat untuk tipe ini. Tim kami akan bantu hitung penawaran khusus langsung via WhatsApp.</div>
-      </div>
+      <p class="sub" id="rsub">1 unit · Pasang AC Baru</p>
+      <div id="brk"></div>
+      <div class="total"><span class="k">Perkiraan Total</span><span class="v" id="total">Rp 0</span></div>
+      <div class="disc">⚠️ Ini <strong>estimasi kasar</strong>, bukan penawaran final. Harga pasti ditentukan setelah teknisi kami survei kondisi lokasi (jarak pipa, jalur kabel, tinggi bangunan, dsb).</div>
       <a href="#" id="waCta" class="wa-btn" target="_blank" rel="noopener">💬 Kirim Estimasi ke WhatsApp</a>
       <a href="tel:+6281289898937" class="tel-btn">atau telepon 0812-8989-8937</a>
     </div></div>
@@ -279,7 +245,7 @@ footer{background:var(--dark);color:var(--gray-300);padding:48px 24px 28px;margi
     <h2>Pertanyaan Umum</h2>
     <div class="faq">
       <details open><summary>Apakah harga ini pasti?</summary><p>Belum. Angka di kalkulator adalah perkiraan awal berdasarkan daftar harga resmi AClean. Harga final baru fix setelah teknisi mengecek kondisi lokasi — misalnya panjang pipa aktual, jalur kabel, atau kebutuhan bobok tembok.</p></details>
-      <details><summary>Kenapa pipa & kabel dihitung per meter?</summary><p>Karena kebutuhannya beda-beda tiap lokasi. Semakin jauh jarak unit indoor ke outdoor, semakin panjang pipa & kabel yang dipakai. Default 10 meter kami pakai sebagai gambaran umum — silakan sesuaikan.</p></details>
+      <details><summary>Kenapa pipa & kabel dihitung per meter?</summary><p>Karena kebutuhannya beda-beda tiap lokasi. Semakin jauh jarak unit indoor ke outdoor, semakin panjang pipa & kabel yang dipakai. Default pipa 4 meter (kabel otomatis +1 m) kami pakai sebagai gambaran umum — silakan sesuaikan.</p></details>
       <details><summary>Apa itu jasa vacum?</summary><p>Proses mengosongkan udara & uap air dari jalur pipa sebelum freon dialirkan. Wajib pada setiap pemasangan/bongkar pasang agar AC dingin maksimal dan kompresor awet.</p></details>
       <details><summary>Sudah termasuk unit AC-nya?</summary><p>Belum. Estimasi ini hanya jasa pemasangan + material instalasi. Untuk pembelian unit AC baru (Daikin, Gree, dll) lihat halaman <a href="jual-ac.html" style="color:var(--primary);font-weight:600">Jual AC</a>.</p></details>
     </div>
@@ -328,19 +294,157 @@ window.addEventListener('scroll',function(){document.getElementById('nb').classL
 
   // Konfigurasi per ukuran PK → material & jasa yang dipakai.
   // 0,5-1PK: kabel 3x1,5 · 1,5-2,5PK: kabel 3x2,5 · bongkar unit sesuai tarif pricelist.
+  // fmult = pengali freon (2,5 PK = ×2 sesuai tarif pricelist).
   var TIER = {
-    '1':{label:'0,5 – 1 PK', pipa:'pipa_1pk',   kabel:'kabel_15', pasang:'pasang_kecil', bongkar:'bongkar_unit_kecil'},
-    '2':{label:'1,5 – 2 PK', pipa:'pipa_2pk',   kabel:'kabel_25', pasang:'pasang_besar', bongkar:'bongkar_unit_besar'},
-    '3':{label:'2,5 PK',     pipa:'pipa_2_5pk', kabel:'kabel_25', pasang:'pasang_besar', bongkar:'bongkar_unit_besar'}
+    '1':{label:'0,5 – 1 PK', pipa:'pipa_1pk',   kabel:'kabel_15', pasang:'pasang_kecil', bongkar:'bongkar_unit_kecil', fmult:1},
+    '2':{label:'1,5 – 2 PK', pipa:'pipa_2pk',   kabel:'kabel_25', pasang:'pasang_besar', bongkar:'bongkar_unit_besar', fmult:1},
+    '3':{label:'2,5 PK',     pipa:'pipa_2_5pk', kabel:'kabel_25', pasang:'pasang_besar', bongkar:'bongkar_unit_besar', fmult:2}
   };
 
-  // Tipe yang tidak dihitung otomatis → arahkan ke WhatsApp.
-  var SPECIAL = { cassette:'AC Cassette', standing:'AC Standing', splitduct:'AC Split Duct' };
-
   var job = 'pasang';
-  var kabelAuto = true;
   var fmt = function(n){ return 'Rp ' + Math.round(n).toLocaleString('id-ID'); };
   var $ = function(id){ return document.getElementById(id); };
+  var gi = 0; // penghitung id grup
+
+  // Template satu grup tipe AC.
+  function groupHTML(){
+    return '<div class="group-head"><span class="group-title"></span>'
+      + '<button type="button" class="rm" title="Hapus tipe ini">✕ Hapus</button></div>'
+      + '<div class="field"><label>Ukuran AC (PK)</label>'
+      + '<select class="g-pk"><option value="1">0,5 – 1 PK</option><option value="2">1,5 – 2 PK</option><option value="3">2,5 PK</option></select></div>'
+      + '<div class="row2"><div class="field"><label>Jumlah Unit</label>'
+      + '<input type="number" class="g-qty" min="1" max="50" step="1" value="1" /></div>'
+      + '<div class="field"><label>Panjang Pipa (m) / unit</label>'
+      + '<input type="number" class="g-pipa" min="0" max="50" step="0.5" value="4" /></div></div>'
+      + '<div class="field"><label>Panjang Kabel (m) / unit</label>'
+      + '<input type="number" class="g-kabel" min="0" max="50" step="0.5" value="5" />'
+      + '<p class="hint">Otomatis = panjang pipa + 1 m. Bisa diubah manual.</p></div>'
+      + '<div class="field"><label>Material &amp; Jasa Terpakai</label>'
+      + '<div class="checks">'
+      + '<label class="chk on"><input type="checkbox" class="g-vacum" checked><span class="t">Jasa Vacum</span><span class="p g-p-vacum"></span></label>'
+      + '<label class="chk on"><input type="checkbox" class="g-breket" checked><span class="t">Breket Outdoor + Dinabolt</span><span class="p g-p-breket"></span></label>'
+      + '<label class="chk on"><input type="checkbox" class="g-duct" checked><span class="t">Duct Tape (pembungkus pipa)</span><span class="p g-p-duct"></span></label>'
+      + '</div>'
+      + '<p class="hint">💡 Duct tape bisa terpakai lebih dari 1 pcs tergantung panjang pipa — angka ini estimasi 1 pcs.</p>'
+      + '<div class="subgroup">Freon <span>(opsional — centang bila diperlukan)</span></div>'
+      + '<div class="checks">'
+      + '<label class="chk"><input type="checkbox" class="g-freon"><span class="t">Penambahan Freon<small>bila diperlukan</small></span><span class="p g-p-freon"></span></label>'
+      + '<label class="chk"><input type="checkbox" class="g-kuras"><span class="t">Kuras Vacum Freon<small>bila freon dari 0 psi</small></span><span class="p g-p-kuras"></span></label>'
+      + '</div></div>';
+  }
+
+  function bindGroup(g){
+    var pipa = g.querySelector('.g-pipa'), kabel = g.querySelector('.g-kabel');
+    g._kabelAuto = true;
+    pipa.addEventListener('input', function(){
+      if(g._kabelAuto){ var v = parseFloat(pipa.value); kabel.value = isNaN(v) ? '' : (v + 1); }
+      render();
+    });
+    kabel.addEventListener('input', function(){ g._kabelAuto = false; render(); });
+    g.querySelector('.g-pk').addEventListener('change', render);
+    g.querySelector('.g-qty').addEventListener('input', render);
+    [].forEach.call(g.querySelectorAll('input[type=checkbox]'), function(cb){
+      cb.addEventListener('change', function(){ cb.closest('.chk').classList.toggle('on', cb.checked); render(); });
+    });
+    g.querySelector('.rm').addEventListener('click', function(){ g.remove(); renumber(); render(); });
+  }
+
+  function addGroup(){
+    var g = document.createElement('div');
+    g.className = 'group';
+    g.setAttribute('data-i', ++gi);
+    g.innerHTML = groupHTML();
+    $('groups').appendChild(g);
+    bindGroup(g);
+    renumber();
+    render();
+  }
+
+  function groupEls(){ return [].slice.call(document.querySelectorAll('#groups .group')); }
+
+  function renumber(){
+    var gs = groupEls();
+    gs.forEach(function(g,i){
+      g.querySelector('.group-title').textContent = 'Tipe AC #'+(i+1);
+      g.querySelector('.rm').style.display = gs.length>1 ? '' : 'none';
+    });
+  }
+
+  // Hitung satu grup; sekaligus refresh label harga di dalamnya.
+  function calcGroup(g){
+    var t = TIER[g.querySelector('.g-pk').value] || TIER['1'];
+    var qty   = Math.max(1, parseInt(g.querySelector('.g-qty').value,10)||1);
+    var lPipa = Math.max(0, parseFloat(g.querySelector('.g-pipa').value)||0);
+    var lKabel= Math.max(0, parseFloat(g.querySelector('.g-kabel').value)||0);
+    var fpr   = P.freon_r32 * t.fmult;
+
+    g.querySelector('.g-p-vacum').textContent  = fmt(P.vacum_kecil);
+    g.querySelector('.g-p-breket').textContent = fmt(P.breket_outdoor);
+    g.querySelector('.g-p-duct').textContent   = fmt(P.duct_tape);
+    g.querySelector('.g-p-freon').textContent  = fmt(fpr);
+    g.querySelector('.g-p-kuras').textContent  = fmt(fpr);
+
+    var items = [];
+    if(job==='pasang'){
+      items.push({lbl:'Jasa Pasang AC Baru', sub:qty+' unit @ '+fmt(P[t.pasang]), amt:P[t.pasang]*qty});
+    } else {
+      items.push({lbl:'Jasa Bongkar Unit AC', sub:qty+' unit @ '+fmt(P[t.bongkar]), amt:P[t.bongkar]*qty});
+      var bp = P.bongkar_pasang_indoor + P.bongkar_pasang_outdoor;
+      items.push({lbl:'Jasa Pasang Kembali', sub:'Indoor + Outdoor × '+qty+' unit', amt:bp*qty});
+    }
+    if(lPipa>0)  items.push({lbl:'Pipa AC', sub:lPipa+' m × '+qty+' unit @ '+fmt(P[t.pipa])+'/m', amt:P[t.pipa]*lPipa*qty});
+    if(lKabel>0) items.push({lbl:'Kabel Listrik', sub:lKabel+' m × '+qty+' unit @ '+fmt(P[t.kabel])+'/m', amt:P[t.kabel]*lKabel*qty});
+    if(g.querySelector('.g-vacum').checked)  items.push({lbl:'Jasa Vacum', sub:qty+' unit @ '+fmt(P.vacum_kecil), amt:P.vacum_kecil*qty});
+    if(g.querySelector('.g-breket').checked) items.push({lbl:'Breket Outdoor + Dinabolt', sub:qty+' set @ '+fmt(P.breket_outdoor), amt:P.breket_outdoor*qty});
+    if(g.querySelector('.g-duct').checked)   items.push({lbl:'Duct Tape', sub:qty+' pcs @ '+fmt(P.duct_tape), amt:P.duct_tape*qty});
+    if(g.querySelector('.g-freon').checked)  items.push({lbl:'Penambahan Freon', sub:qty+' unit @ '+fmt(fpr), amt:fpr*qty});
+    if(g.querySelector('.g-kuras').checked)  items.push({lbl:'Kuras Vacum Freon', sub:qty+' unit @ '+fmt(fpr), amt:fpr*qty});
+
+    var sub = items.reduce(function(s,i){return s+i.amt;},0);
+    return {items:items, sub:sub, label:t.label, qty:qty};
+  }
+
+  function render(){
+    var gs = groupEls();
+    if(!gs.length) return;
+    var jobLabel = job==='pasang' ? 'Pasang AC Baru' : 'Bongkar Pasang AC';
+    var multi = gs.length>1;
+    var grand=0, units=0, html='';
+    var waLines = ['Halo AClean, saya mau estimasi *'+jobLabel+'*:'];
+
+    gs.forEach(function(g,i){
+      var r = calcGroup(g);
+      grand += r.sub; units += r.qty;
+      if(multi) html += '<div class="grp-h">Tipe AC #'+(i+1)+' · '+r.label+' × '+r.qty+' unit</div>';
+      html += '<ul class="brk">';
+      r.items.forEach(function(it){
+        html += '<li><span class="lbl">'+it.lbl+'<small>'+it.sub+'</small></span><span class="amt">'+fmt(it.amt)+'</span></li>';
+      });
+      html += '</ul>';
+      if(multi) html += '<div class="grp-sub">Subtotal Tipe #'+(i+1)+' <span>'+fmt(r.sub)+'</span></div>';
+      waLines.push((multi?'— Tipe #'+(i+1)+' ':'• ')+r.label+' × '+r.qty+' unit = '+fmt(r.sub));
+    });
+
+    $('brk').innerHTML = html;
+    $('total').textContent = fmt(grand);
+    $('rsub').textContent = units+' unit · '+jobLabel + (multi ? ' · '+gs.length+' tipe' : '');
+
+    waLines.push('*Perkiraan Total: '+fmt(grand)+'*');
+    waLines.push('Mohon dijadwalkan survei ya. Terima kasih.');
+    $('waCta').href = 'https://wa.me/6281289898937?text='+encodeURIComponent(waLines.join('\n'));
+  }
+
+  // Events global
+  $('addGroup').addEventListener('click', addGroup);
+  $('segJob').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    job = b.getAttribute('data-job');
+    [].forEach.call(this.children, function(c){ c.classList.toggle('on', c===b); });
+    render();
+  });
+
+  // Grup pertama tampil langsung (pakai harga fallback dulu).
+  addGroup();
 
   // Ambil harga live dari RPC (sumber kebenaran = database webapps AClean).
   var SURL='https://apsbeppcmsxeldnejibz.supabase.co',
@@ -352,116 +456,7 @@ window.addEventListener('scroll',function(){document.getElementById('nb').classL
   }).then(function(r){return r.json();}).then(function(d){
     if(d && typeof d==='object'){ for(var k in P){ if(d[k]!=null) P[k]=Number(d[k]); } }
     render();
-  }).catch(function(){ render(); });
-
-  function calc(){
-    var t = TIER[$('pk').value] || TIER['1'];
-    var qty  = Math.max(1, parseInt($('qty').value,10)||1);
-    var lPipa = Math.max(0, parseFloat($('pipa').value)||0);
-    var lKabel= Math.max(0, parseFloat($('kabel').value)||0);
-    var items = [];
-
-    if(job==='pasang'){
-      items.push({lbl:'Jasa Pasang AC Baru', sub:t.label+' × '+qty+' unit', amt:P[t.pasang]*qty});
-    } else {
-      items.push({lbl:'Jasa Bongkar Unit AC', sub:t.label+' × '+qty+' unit', amt:P[t.bongkar]*qty});
-      var bp = P.bongkar_pasang_indoor + P.bongkar_pasang_outdoor;
-      items.push({lbl:'Jasa Pasang Kembali', sub:'Indoor + Outdoor × '+qty+' unit', amt:bp*qty});
-    }
-    if(lPipa>0) items.push({lbl:'Pipa AC', sub:lPipa+' m × '+qty+' unit @ '+fmt(P[t.pipa])+'/m', amt:P[t.pipa]*lPipa*qty});
-    if(lKabel>0) items.push({lbl:'Kabel Listrik', sub:lKabel+' m × '+qty+' unit @ '+fmt(P[t.kabel])+'/m', amt:P[t.kabel]*lKabel*qty});
-    if($('cVacum').checked)  items.push({lbl:'Jasa Vacum', sub:qty+' unit @ '+fmt(P.vacum_kecil), amt:P.vacum_kecil*qty});
-    if($('cBreket').checked) items.push({lbl:'Breket Outdoor + Dinabolt', sub:qty+' set @ '+fmt(P.breket_outdoor), amt:P.breket_outdoor*qty});
-    if($('cDuct').checked)   items.push({lbl:'Duct Tape', sub:qty+' pcs @ '+fmt(P.duct_tape), amt:P.duct_tape*qty});
-
-    // Freon (opsional) — tarif tambah freon; AC 2–2,5 PK dikali 2.
-    var fb = P.freon_r32;
-    if($('cFreon1').checked) items.push({lbl:'Penambahan Freon (0,5–1,5 PK)', sub:qty+' unit @ '+fmt(fb),   amt:fb*qty});
-    if($('cKuras1').checked) items.push({lbl:'Kuras Vacum Freon (0,5–1,5 PK)', sub:qty+' unit @ '+fmt(fb),   amt:fb*qty});
-    if($('cFreon2').checked) items.push({lbl:'Penambahan Freon (2–2,5 PK)',   sub:qty+' unit @ '+fmt(fb*2), amt:fb*2*qty});
-    if($('cKuras2').checked) items.push({lbl:'Kuras Vacum Freon (2–2,5 PK)',   sub:qty+' unit @ '+fmt(fb*2), amt:fb*2*qty});
-
-    var total = items.reduce(function(s,i){return s+i.amt;},0);
-    return {items:items, total:total, qty:qty, tier:t};
-  }
-
-  function render(){
-    // Update label harga di checkbox
-    $('checks').querySelector('[data-p="vacum"]').textContent  = fmt(P.vacum_kecil);
-    $('checks').querySelector('[data-p="breket"]').textContent = fmt(P.breket_outdoor);
-    $('checks').querySelector('[data-p="duct"]').textContent   = fmt(P.duct_tape);
-    var fb = P.freon_r32; // tarif tambah freon R-32/R-410A/R-22 (harga sama)
-    document.querySelector('[data-p="freon1"]').textContent = fmt(fb);
-    document.querySelector('[data-p="kuras1"]').textContent = fmt(fb);
-    document.querySelector('[data-p="freon2"]').textContent = fmt(fb*2);
-    document.querySelector('[data-p="kuras2"]').textContent = fmt(fb*2);
-
-    var jobLabel = job==='pasang' ? 'Pasang AC Baru' : 'Bongkar Pasang AC';
-    var pkVal = $('pk').value;
-
-    // Mode khusus: Cassette / Standing / Split Duct → arahkan ke WhatsApp.
-    if(SPECIAL[pkVal]){
-      $('detailFields').style.display = 'none';
-      $('normalResult').style.display = 'none';
-      $('specialResult').style.display = 'block';
-      $('spName').textContent = SPECIAL[pkVal];
-      $('rsub').textContent = SPECIAL[pkVal]+' · '+jobLabel;
-      $('waCta').textContent = '💬 Konsultasi & Minta Penawaran';
-      var mS = 'Halo AClean, saya mau tanya biaya *'+jobLabel+'* untuk *'+SPECIAL[pkVal]+'*. Mohon dibantu penawarannya. Terima kasih.';
-      $('waCta').href = 'https://wa.me/6281289898937?text='+encodeURIComponent(mS);
-      return;
-    }
-    $('detailFields').style.display = '';
-    $('normalResult').style.display = '';
-    $('specialResult').style.display = 'none';
-    $('waCta').textContent = '💬 Kirim Estimasi ke WhatsApp';
-
-    var r = calc();
-    $('rsub').textContent = 'Untuk '+r.qty+' unit · '+jobLabel;
-
-    var html='';
-    r.items.forEach(function(i){
-      html += '<li><span class="lbl">'+i.lbl+'<small>'+i.sub+'</small></span><span class="amt">'+fmt(i.amt)+'</span></li>';
-    });
-    $('brk').innerHTML = html;
-    $('total').textContent = fmt(r.total);
-
-    // WhatsApp prefilled
-    var lines = ['Halo AClean, saya mau estimasi *'+jobLabel+'*:'];
-    lines.push('• Ukuran: '+r.tier.label+' × '+r.qty+' unit');
-    lines.push('• Pipa: '+($('pipa').value||0)+' m/unit · Kabel: '+($('kabel').value||0)+' m/unit');
-    r.items.forEach(function(i){ lines.push('- '+i.lbl+': '+fmt(i.amt)); });
-    lines.push('*Perkiraan Total: '+fmt(r.total)+'*');
-    lines.push('Mohon dijadwalkan survei ya. Terima kasih.');
-    $('waCta').href = 'https://wa.me/6281289898937?text='+encodeURIComponent(lines.join('\n'));
-  }
-
-  // Events
-  $('segJob').addEventListener('click', function(e){
-    var b = e.target.closest('button'); if(!b) return;
-    job = b.getAttribute('data-job');
-    [].forEach.call(this.children, function(c){ c.classList.toggle('on', c===b); });
-    render();
-  });
-  $('pk').addEventListener('change', render);
-  $('qty').addEventListener('input', render);
-  // Kabel mengikuti pipa + 1 m, sampai user mengubah kabel secara manual.
-  $('pipa').addEventListener('input', function(){
-    if(kabelAuto){
-      var v = parseFloat($('pipa').value);
-      $('kabel').value = isNaN(v) ? '' : (v + 1);
-    }
-    render();
-  });
-  $('kabel').addEventListener('input', function(){ kabelAuto = false; render(); });
-  ['cVacum','cBreket','cDuct','cFreon1','cKuras1','cFreon2','cKuras2'].forEach(function(id){
-    $(id).addEventListener('change', function(){
-      this.closest('.chk').classList.toggle('on', this.checked);
-      render();
-    });
-  });
-
-  render();
+  }).catch(function(){ /* tetap pakai fallback */ });
 })();
 </script>
 </body>

@@ -77,7 +77,6 @@ nav.scrolled{box-shadow:0 4px 20px rgba(15,23,42,.06)}
 .seg button.on{border-color:var(--primary);background:var(--primary-50);color:var(--primary);box-shadow:0 2px 8px rgba(27,58,123,.12)}
 select,input[type=number]{width:100%;font-family:var(--font-body);font-size:15px;color:var(--dark);padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:12px;background:#fff;outline:none;transition:border .18s}
 select:focus,input[type=number]:focus{border-color:var(--primary)}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .stepwrap{position:relative}
 .hint{font-size:12px;color:var(--gray-400);margin-top:6px}
 .field>label.lbl-toggle{display:flex;align-items:center;gap:8px;cursor:pointer}
@@ -427,10 +426,10 @@ window.addEventListener('scroll',function(){document.getElementById('nb').classL
       + '<button type="button" class="rm" title="Hapus tipe ini">✕ Hapus</button></div>'
       + '<div class="field"><label>Ukuran AC (PK)</label>'
       + '<select class="g-pk"><option value="1">0,5 – 1 PK</option><option value="2">1,5 – 2 PK</option><option value="3">2,5 PK</option></select></div>'
-      + '<div class="row2"><div class="field"><label>Jumlah Unit</label>'
+      + '<div class="field"><label>Jumlah Unit</label>'
       + '<input type="number" class="g-qty" min="1" max="50" step="1" value="1" /></div>'
       + '<div class="field"><label class="lbl-toggle"><input type="checkbox" class="g-pipa-on" checked> Panjang Pipa (m) / unit</label>'
-      + '<input type="number" class="g-pipa" min="0" max="50" step="0.5" value="4" /></div></div>'
+      + '<input type="number" class="g-pipa" min="0" max="50" step="0.5" value="4" /></div>'
       + '<div class="field"><label class="lbl-toggle"><input type="checkbox" class="g-kabel-on" checked> Panjang Kabel (m) / unit</label>'
       + '<input type="number" class="g-kabel" min="0" max="50" step="0.5" value="5" />'
       + '<p class="hint">Otomatis = panjang pipa + 1 m. Bisa diubah manual. Uncentang bila pipa/kabel existing dipakai lagi (bongkar pasang saja).</p></div>'

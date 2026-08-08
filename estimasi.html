@@ -80,6 +80,9 @@ select:focus,input[type=number]:focus{border-color:var(--primary)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .stepwrap{position:relative}
 .hint{font-size:12px;color:var(--gray-400);margin-top:6px}
+.field>label.lbl-toggle{display:flex;align-items:center;gap:8px;cursor:pointer}
+.field>label.lbl-toggle input{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+input[type=number]:disabled{opacity:.5;background:var(--gray-100);cursor:not-allowed}
 .checks{display:flex;flex-direction:column;gap:10px}
 .chk{display:flex;align-items:center;gap:11px;padding:11px 14px;border:1.5px solid var(--gray-200);border-radius:12px;cursor:pointer;transition:all .18s}
 .chk.on{border-color:var(--primary-100);background:var(--primary-50)}
@@ -426,11 +429,11 @@ window.addEventListener('scroll',function(){document.getElementById('nb').classL
       + '<select class="g-pk"><option value="1">0,5 – 1 PK</option><option value="2">1,5 – 2 PK</option><option value="3">2,5 PK</option></select></div>'
       + '<div class="row2"><div class="field"><label>Jumlah Unit</label>'
       + '<input type="number" class="g-qty" min="1" max="50" step="1" value="1" /></div>'
-      + '<div class="field"><label>Panjang Pipa (m) / unit</label>'
+      + '<div class="field"><label class="lbl-toggle"><input type="checkbox" class="g-pipa-on" checked> Panjang Pipa (m) / unit</label>'
       + '<input type="number" class="g-pipa" min="0" max="50" step="0.5" value="4" /></div></div>'
-      + '<div class="field"><label>Panjang Kabel (m) / unit</label>'
+      + '<div class="field"><label class="lbl-toggle"><input type="checkbox" class="g-kabel-on" checked> Panjang Kabel (m) / unit</label>'
       + '<input type="number" class="g-kabel" min="0" max="50" step="0.5" value="5" />'
-      + '<p class="hint">Otomatis = panjang pipa + 1 m. Bisa diubah manual.</p></div>'
+      + '<p class="hint">Otomatis = panjang pipa + 1 m. Bisa diubah manual. Uncentang bila pipa/kabel existing dipakai lagi (bongkar pasang saja).</p></div>'
       + '<div class="field"><label>Material &amp; Jasa Terpakai</label>'
       + '<div class="checks">'
       + '<label class="chk on"><input type="checkbox" class="g-vacum" checked><span class="t">Jasa Vacum</span><span class="p g-p-vacum"></span></label>'
@@ -447,15 +450,18 @@ window.addEventListener('scroll',function(){document.getElementById('nb').classL
 
   function bindGroup(g){
     var pipa = g.querySelector('.g-pipa'), kabel = g.querySelector('.g-kabel');
+    var pipaOn = g.querySelector('.g-pipa-on'), kabelOn = g.querySelector('.g-kabel-on');
     g._kabelAuto = true;
     pipa.addEventListener('input', function(){
       if(g._kabelAuto){ var v = parseFloat(pipa.value); kabel.value = isNaN(v) ? '' : (v + 1); }
       render();
     });
     kabel.addEventListener('input', function(){ g._kabelAuto = false; render(); });
+    pipaOn.addEventListener('change', function(){ pipa.disabled = !pipaOn.checked; render(); });
+    kabelOn.addEventListener('change', function(){ kabel.disabled = !kabelOn.checked; render(); });
     g.querySelector('.g-pk').addEventListener('change', render);
     g.querySelector('.g-qty').addEventListener('input', render);
-    [].forEach.call(g.querySelectorAll('input[type=checkbox]'), function(cb){
+    [].forEach.call(g.querySelectorAll('.chk input[type=checkbox]'), function(cb){
       cb.addEventListener('change', function(){ cb.closest('.chk').classList.toggle('on', cb.checked); render(); });
     });
     g.querySelector('.rm').addEventListener('click', function(){ g.remove(); renumber(); render(); });
@@ -486,8 +492,8 @@ window.addEventListener('scroll',function(){document.getElementById('nb').classL
   function calcGroup(g){
     var t = TIER[g.querySelector('.g-pk').value] || TIER['1'];
     var qty   = Math.max(1, parseInt(g.querySelector('.g-qty').value,10)||1);
-    var lPipa = Math.max(0, parseFloat(g.querySelector('.g-pipa').value)||0);
-    var lKabel= Math.max(0, parseFloat(g.querySelector('.g-kabel').value)||0);
+    var lPipa = g.querySelector('.g-pipa-on').checked  ? Math.max(0, parseFloat(g.querySelector('.g-pipa').value)||0)  : 0;
+    var lKabel= g.querySelector('.g-kabel-on').checked ? Math.max(0, parseFloat(g.querySelector('.g-kabel').value)||0) : 0;
     var fTambah = P.freon_r32 * t.fmult;                       // 500rb · 2,5PK 1jt
     var fKuras  = P.kuras_vacum + P.freon_r32 * (t.fmult - 1); // 650rb · 2,5PK 1,15jt
 

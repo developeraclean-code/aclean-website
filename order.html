@@ -662,19 +662,24 @@ function getBaseServices() {
 }
 let SERVICES = getBaseServices();
 
-// Fetch foto layanan dari Supabase dan override img
-const IMG_CACHE_KEY = 'aclean_img_cache';
+// Foto layanan PERMANEN — di-bake lokal dari foto admin terbaru (2026-08-09).
+// Dipakai langsung sebagai default agar tidak ada flash / fetch foto lama saat runtime.
+const ORDER_IMG = {
+  'cuci-kecil':'images/order-cuci-kecil.jpg',
+  'cuci-besar-deep':'images/order-cuci-besar-deep.jpg',
+  'cuci-ducting':'images/order-cuci-ducting.jpg',
+  'diagnosa':'images/order-diagnosa.jpg',
+  'perbaikan':'images/order-perbaikan.jpg',
+  'pasang-baru':'images/order-pasang-baru.jpg',
+  'freon-r22':'images/order-freon-r22.jpg',
+  'freon-r32':'images/order-freon-r32.jpg',
+  'freon-r410':'images/order-freon-r410.jpg',
+  'vacuum-freon':'images/order-vacuum-freon.jpg'
+};
+const IMG_VER = '?v=20260809';
+SERVICES = SERVICES.map(s => ORDER_IMG[s.id] ? {...s, img: ORDER_IMG[s.id] + IMG_VER} : s);
 
-// Apply cached images synchronously before first render — no flash
-function applyCachedImages() {
-  try {
-    const cached = localStorage.getItem(IMG_CACHE_KEY);
-    if (!cached) return;
-    const imgMap = JSON.parse(cached);
-    SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
-  } catch(e) {}
-}
-
+// Sinkronisasi harga/nama layanan dari Supabase (foto sudah permanen lokal).
 async function loadServiceImages() {
   try {
     const res = await fetch(`${SUPA_URL}/rest/v1/rpc/get_website_settings`, {
@@ -717,39 +722,10 @@ async function loadServiceImages() {
       } catch(e) { /* pakai DEFAULT_SERVICES jika parse gagal */ }
     }
 
-    // Terapkan foto dari Supabase — update <img> yang berubah saja, dengan crossfade halus,
-    // supaya tidak ada "flash" gambar default → gambar admin di kartu yang tidak berubah.
-    const imgMap = {};
-    rows.forEach(r => { if (r.key && r.key.startsWith('img_')) imgMap[r.key.replace('img_','')] = r.value; });
-    if (Object.keys(imgMap).length > 0) {
-      try { localStorage.setItem(IMG_CACHE_KEY, JSON.stringify(imgMap)); } catch(e) {}
-      SERVICES = SERVICES.map(s => imgMap[s.id] ? {...s, img: imgMap[s.id]} : s);
-    }
-
-    if (catalogChanged) {
-      renderServices(currentCat); // harga/nama berubah — grid perlu ditulis ulang
-    } else {
-      swapServiceImages(imgMap); // hanya foto — cukup ganti src kartu yang berubah
-    }
+    // Foto layanan sudah PERMANEN (di-bake lokal dari foto admin terbaru) —
+    // tidak lagi menarik/menukar foto base64 dari Supabase, jadi tidak ada flash.
+    if (catalogChanged) renderServices(currentCat); // hanya harga/nama yang mungkin berubah
   } catch(e) { /* silent fail — pakai data cache/default */ }
-}
-
-// Ganti src <img> kartu layanan secara halus (preload dulu, baru crossfade) —
-// dan diamkan kartu yang src-nya sudah sama (mis. sudah dari cache) agar tidak berkedip.
-function swapServiceImages(imgMap) {
-  Object.keys(imgMap).forEach(id => {
-    const card = document.getElementById('card-' + id);
-    if (!card) return;
-    const img = card.querySelector('.svc-img');
-    const newSrc = imgMap[id];
-    if (!img || !newSrc || img.src === newSrc) return;
-    const preload = new Image();
-    preload.onload = () => {
-      img.style.opacity = '0';
-      setTimeout(() => { img.src = newSrc; img.style.opacity = '1'; }, 200);
-    };
-    preload.src = newSrc;
-  });
 }
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
@@ -763,7 +739,7 @@ let variantSelected = null; // chosen variant obj
 
 // ─── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  applyCachedImages();  // sync — pakai cache sebelum render pertama
+  try { localStorage.removeItem('aclean_img_cache'); } catch(e) {}  // buang cache foto base64 lama
   renderServices('cuci');
   loadServiceImages();  // async — update cache & re-render jika ada perubahan
 

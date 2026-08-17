@@ -8,7 +8,19 @@
  * Event yang dikirim:
  *   wa_click    — klik link WhatsApp mana pun (KONVERSI UTAMA)
  *   phone_click — klik link tel:
- * Parameter: service (halaman), cta_position (letak tombol), link_url
+ * Parameter: service (halaman), cta_position (letak tombol), link_url,
+ *            traffic_type (paid/organic), ads_campaign
+ *
+ * PENANDA ASAL PENGUNJUNG
+ * Pengunjung dari Google Ads mendarat dengan parameter gclid (atau
+ * utm_source=google&utm_medium=cpc). Saat itu terdeteksi, penanda seperti
+ * [IKLAN-DCT] disisipkan ke teks WhatsApp, sehingga tim yang membalas
+ * langsung tahu lead ini datang dari iklan berbayar — bukan organik.
+ * Penanda disimpan di sessionStorage agar tetap terbawa saat pengunjung
+ * berpindah halaman sebelum menekan tombol WhatsApp.
+ *
+ * Tombol WhatsApp yang belum punya teks otomatis akan diisi teks default
+ * sesuai nama halaman, jadi tidak ada lagi pesan kosong yang masuk.
  *
  * Tandai wa_click sebagai Key Event di GA4:
  *   Admin > Events > toggle "Mark as key event"
@@ -16,6 +28,8 @@
  */
 (function () {
   var GA_ID = 'G-0HNM9V7R7W';
+  var WA_RE = /(?:wa\.me|api\.whatsapp\.com)/i;
+  var STORAGE_KEY = 'aclean_ads_src';
 
   var s = document.createElement('script');
   s.async = true;
@@ -34,6 +48,79 @@
     return f.replace(/\.html$/, '') || 'home';
   }
 
+  // "dct-ducting" -> "IKLAN-DCT". Tanpa nama campaign, cukup "IKLAN".
+  function campaignTag(name) {
+    if (!name) return 'IKLAN';
+    var first = String(name).split(/[-_\s]/)[0].toUpperCase().replace(/[^A-Z0-9]/g, '');
+    return first ? 'IKLAN-' + first : 'IKLAN';
+  }
+
+  function readStore() {
+    try { return sessionStorage.getItem(STORAGE_KEY) || ''; } catch (e) { return ''; }
+  }
+
+  function writeStore(v) {
+    try { sessionStorage.setItem(STORAGE_KEY, v); } catch (e) {}
+  }
+
+  // Deteksi sekali saat halaman dimuat, lalu diingat selama sesi berlangsung.
+  function detectSource() {
+    var q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return readStore(); }
+    var gclid = q.get('gclid') || q.get('wbraid') || q.get('gbraid');
+    var src = (q.get('utm_source') || '').toLowerCase();
+    var med = (q.get('utm_medium') || '').toLowerCase();
+    var isPaid = !!gclid || (src === 'google' && med === 'cpc');
+    if (isPaid) {
+      var tag = campaignTag(q.get('utm_campaign'));
+      writeStore(tag);
+      return tag;
+    }
+    return readStore();
+  }
+
+  var ADS_SRC = detectSource();
+
+  function defaultText() {
+    var svc = serviceFromPath();
+    if (svc === 'home' || svc === 'index') {
+      return 'Halo AClean, saya mau tanya layanan AC';
+    }
+    return 'Halo AClean, saya mau tanya soal ' + svc.replace(/-/g, ' ');
+  }
+
+  // Isi teks default bila kosong, lalu sisipkan penanda iklan bila ada.
+  function decorateWA(a) {
+    var raw = a.getAttribute('href') || '';
+    if (!WA_RE.test(raw)) return;
+    var u;
+    try { u = new URL(raw, location.href); } catch (e) { return; }
+    var txt = u.searchParams.get('text') || '';
+    if (!txt) txt = defaultText();
+    if (ADS_SRC && txt.indexOf('[IKLAN') === -1) {
+      txt = txt + ' [' + ADS_SRC + ']';
+    }
+    // encodeURIComponent dipakai agar spasi jadi %20, bukan '+'.
+    // WhatsApp menampilkan '+' sebagai karakter literal, bukan spasi.
+    u.searchParams.delete('text');
+    var rest = u.searchParams.toString();
+    var qs = 'text=' + encodeURIComponent(txt) + (rest ? '&' + rest : '');
+    a.setAttribute('href', u.origin + u.pathname + '?' + qs + (u.hash || ''));
+  }
+
+  function decorateAll() {
+    var links = document.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      decorateWA(links[i]);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', decorateAll);
+  } else {
+    decorateAll();
+  }
+
   // Membedakan tombol mana yang menghasilkan lead (hero vs kartu harga vs float).
   function ctaPosition(a) {
     if (a.classList.contains('wa')) return 'float_button';
@@ -46,11 +133,13 @@
   }
 
   function track(a, href) {
-    var isWA = /(?:wa\.me|api\.whatsapp\.com)/i.test(href);
+    var isWA = WA_RE.test(href);
     gtag('event', isWA ? 'wa_click' : 'phone_click', {
       service: serviceFromPath(),
       cta_position: ctaPosition(a),
-      link_url: href
+      link_url: href,
+      traffic_type: ADS_SRC ? 'paid' : 'organic',
+      ads_campaign: ADS_SRC || 'none'
     });
   }
 
@@ -59,7 +148,11 @@
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
     if (!a) return;
     var href = a.getAttribute('href') || '';
-    if (/(?:wa\.me|api\.whatsapp\.com)/i.test(href) || /^tel:/i.test(href)) {
+    if (WA_RE.test(href) || /^tel:/i.test(href)) {
+      if (WA_RE.test(href)) {
+        decorateWA(a);
+        href = a.getAttribute('href') || href;
+      }
       track(a, href);
     }
   }, true);

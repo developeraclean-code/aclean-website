@@ -682,7 +682,10 @@ SERVICES = SERVICES.map(s => ORDER_IMG[s.id] ? {...s, img: ORDER_IMG[s.id] + IMG
 // Sinkronisasi harga/nama layanan dari Supabase (foto sudah permanen lokal).
 async function loadServiceImages() {
   try {
-    const res = await fetch(`${SUPA_URL}/rest/v1/rpc/get_website_settings`, {
+    // Versi "lite": tanpa foto base64. Foto layanan sudah permanen sebagai file
+    // lokal (ORDER_IMG di atas), jadi mengirim base64 ke pengunjung sia-sia —
+    // dulu ±564 KB dari 583 KB payload terbuang.
+    const res = await fetch(`${SUPA_URL}/rest/v1/rpc/get_website_settings_lite`, {
       method: 'POST',
       headers: {'Content-Type':'application/json','apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`},
       body: JSON.stringify({})

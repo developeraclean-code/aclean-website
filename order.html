@@ -662,22 +662,28 @@ function getBaseServices() {
 }
 let SERVICES = getBaseServices();
 
-// Foto layanan PERMANEN — di-bake lokal dari foto admin terbaru (2026-08-09).
-// Dipakai langsung sebagai default agar tidak ada flash / fetch foto lama saat runtime.
-const ORDER_IMG = {
-  'cuci-kecil':'images/order-cuci-kecil.jpg',
-  'cuci-besar-deep':'images/order-cuci-besar-deep.jpg',
-  'cuci-ducting':'images/order-cuci-ducting.jpg',
-  'diagnosa':'images/order-diagnosa.jpg',
-  'perbaikan':'images/order-perbaikan.jpg',
-  'pasang-baru':'images/order-pasang-baru.jpg',
-  'freon-r22':'images/order-freon-r22.jpg',
-  'freon-r32':'images/order-freon-r32.jpg',
-  'freon-r410':'images/order-freon-r410.jpg',
-  'vacuum-freon':'images/order-vacuum-freon.jpg'
-};
-const IMG_VER = '?v=20260809';
-SERVICES = SERVICES.map(s => ORDER_IMG[s.id] ? {...s, img: ORDER_IMG[s.id] + IMG_VER} : s);
+// Foto layanan dikelola dari panel admin (tab Foto Layanan) dan disimpan di
+// Supabase Storage. URL-nya TETAP — admin menimpa objek di path yang sama,
+// jadi HTML ini tidak pernah perlu diubah lagi saat foto diganti.
+// Perubahan tampil dalam <=5 menit (cache-control: max-age=300 dari CDN).
+const MEDIA_BASE = `${SUPA_URL}/storage/v1/object/public/web/layanan`;
+const ORDER_IMG_IDS = ['cuci-kecil','cuci-besar-deep','cuci-ducting','diagnosa',
+  'perbaikan','pasang-baru','freon-r22','freon-r32','freon-r410','vacuum-freon'];
+
+// File lokal tetap disimpan sebagai cadangan kalau Storage tidak terjangkau.
+const ORDER_IMG_LOKAL = '?v=20260809';
+
+SERVICES = SERVICES.map(s => ORDER_IMG_IDS.includes(s.id)
+  ? {...s, img: `${MEDIA_BASE}/${s.id}.jpg`, imgLokal: `images/order-${s.id}.jpg${ORDER_IMG_LOKAL}`}
+  : s);
+
+// Urutan cadangan: Storage -> file lokal -> placeholder ikon.
+function fallbackFoto(el){
+  const lokal = el.getAttribute('data-lokal');
+  if (lokal && !el.src.includes('images/order-')) { el.src = lokal; return; }
+  el.style.display = 'none';
+  if (el.nextElementSibling) el.nextElementSibling.style.display = 'flex';
+}
 
 // Sinkronisasi harga/nama layanan dari Supabase (foto sudah permanen lokal).
 async function loadServiceImages() {
@@ -780,7 +786,7 @@ function renderServices(cat) {
     <div class="svc-card${inCart?' chosen':''}" id="card-${s.id}">
       ${s.popular ? '<div class="svc-badge">⭐ Terpopuler</div>' : ''}
       <img src="${s.img}" alt="${s.name}" class="svc-img" loading="lazy"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+           data-lokal="${s.imgLokal || ''}" onerror="fallbackFoto(this)"/>
       <div class="svc-img-ph" style="display:none">${s.icon}</div>
       <div class="svc-body">
         <div class="svc-price-row">
@@ -1065,43 +1071,43 @@ function buildWAMsg(o) {
     : `https://maps.google.com/?q=${encodeURIComponent(o.alamat)}`;
 
   let m = '';
-  m += `🧊 *ORDER ACLEAN SERVICE*\n`;
+  m += `❄ *ORDER ACLEAN SERVICE*\n`;
   m += `━━━━━━━━━━━━━━━━━━━━\n`;
   m += `*No. Order: #${o.orderId}*\n\n`;
-  m += `📋 *DETAIL LAYANAN:*\n`;
+  m += `▸ *DETAIL LAYANAN:*\n`;
   cart.forEach((item, i) => {
     m += `${i+1}. *${item.qty}× ${item.svcName}*\n`;
     m += `   Rp ${fmtRp(item.price)}/unit × ${item.qty} = Rp ${fmtRp(item.price*item.qty)}\n`;
   });
   m += `\n*Subtotal: Rp ${fmtRp(subtotal)}*\n\n`;
-  m += `🚗 *Biaya Transportasi: `;
+  m += `▸ *Biaya Transportasi: `;
   if (eligibleQty === 0) {
-    m += `GRATIS* ✅\n`;
+    m += `GRATIS* ✓\n`;
     m += `   _(Tidak berlaku untuk layanan yang dipilih)_\n\n`;
   } else if (transport === 0) {
-    m += `GRATIS* ✅\n`;
+    m += `GRATIS* ✓\n`;
     m += `   _(Gratis — total ${eligibleQty} unit ≥ ${FREE_TRANSPORT_MIN} unit)_\n\n`;
   } else {
     m += `Rp ${fmtRp(transport)}*\n`;
     m += `   _(Gratis jika total ≥ ${FREE_TRANSPORT_MIN} unit cleaning AC split)_\n\n`;
   }
-  m += `💰 *TOTAL: Rp ${fmtRp(total)}*\n`;
+  m += `★ *TOTAL: Rp ${fmtRp(total)}*\n`;
   m += `━━━━━━━━━━━━━━━━━━━━\n`;
-  m += `👤 *DATA CUSTOMER:*\n`;
+  m += `▸ *DATA CUSTOMER:*\n`;
   m += `Nama: *${o.nama}*\n`;
   m += `WhatsApp: ${o.wa}\n\n`;
-  m += `📍 *ALAMAT PENGERJAAN:*\n`;
+  m += `▸ *ALAMAT PENGERJAAN:*\n`;
   m += `${o.alamat}\n`;
-  m += `📌 _Lihat Maps: ${mapsUrl}_\n\n`;
-  m += `📅 *JADWAL:*\n`;
+  m += `» _Lihat Maps: ${mapsUrl}_\n\n`;
+  m += `▸ *JADWAL:*\n`;
   m += `Tanggal: *${fmtDate(o.tanggal)}*\n`;
   m += `Waktu: *${o.waktu}*\n`;
   m += `Area: *${o.area}*\n\n`;
-  m += `💳 *PEMBAYARAN:*\n`;
-  m += `Pembayaran Setelah Pengerjaan ✅\n`;
-  if (o.catatan) m += `\n📝 *CATATAN:*\n${o.catatan}\n`;
+  m += `▸ *PEMBAYARAN:*\n`;
+  m += `Pembayaran Setelah Pengerjaan ✓\n`;
+  if (o.catatan) m += `\n▸ *CATATAN:*\n${o.catatan}\n`;
   m += `━━━━━━━━━━━━━━━━━━━━\n`;
-  m += `Terima kasih sudah memesan layanan *AClean Service*! 🙏\n`;
+  m += `Terima kasih sudah memesan layanan *AClean Service*!\n`;
   m += `Tim kami akan segera menghubungi Anda untuk konfirmasi jadwal.`;
   return m;
 }

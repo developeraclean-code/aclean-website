@@ -1906,86 +1906,100 @@ const IMG_SERVICES = [
   {id:'vacuum-freon',    name:'Vacuum + Full Freon',                 icon:'❄️'},
 ];
 
-let imgStore = {}; // {service_id: base64_string}
+// ─── FOTO SITUS ────────────────────────────────────────────────────────────────
+// Sumber daftar: tabel media_slot. Foto disimpan di Supabase Storage bucket
+// "web" pada path tetap, jadi HTML situs tidak perlu diubah saat foto diganti.
+// Menambah kelompok baru (blog, project, dll) cukup menyisipkan baris di
+// media_slot — panel ini otomatis menampilkannya tanpa perubahan kode.
+const MEDIA_PUBLIK = `${SUPA_URL}/storage/v1/object/public/web`;
+const MEDIA_UPLOAD = `${SUPA_URL.replace('.supabase.co', '.supabase.co')}/functions/v1/media-upload`;
+
+let MEDIA_SLOTS = [];
+let imgStore = {};   // {slug: dataURI} — foto terpilih yang belum disimpan
+
+const idAman = slug => 'ms_' + slug.replace(/[^a-zA-Z0-9]/g, '_');
+
+async function supaGet(path) {
+  const res = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+    headers: { 'apikey': SUPA_ANON, 'Authorization': `Bearer ${SUPA_ANON}` }
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
 
 async function renderImageGrid() {
   const grid = document.getElementById('imgGrid');
   grid.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat foto...</div>`;
 
-  // Load existing images from Supabase
   try {
-    const rows = await supaRpc('get_website_settings', {});
-    rows.forEach(r => {
-      if (r.key.startsWith('img_')) {
-        const id = r.key.replace('img_', '');
-        imgStore[id] = r.value;
-      }
-    });
-  } catch(e) { console.warn('Could not load settings:', e); }
+    MEDIA_SLOTS = await supaGet(
+      'media_slot?select=slug,kelompok,judul,keterangan,path,versi&aktif=is.true' +
+      '&order=kelompok.asc,urutan.asc');
+  } catch (e) {
+    grid.innerHTML = `<div class="img-kosong">Gagal memuat daftar foto.<br><small>${e.message}</small></div>`;
+    return;
+  }
+  if (!MEDIA_SLOTS.length) {
+    grid.innerHTML = `<div class="img-kosong">Belum ada slot foto terdaftar.</div>`;
+    return;
+  }
 
-  grid.innerHTML = IMG_SERVICES.map(s => {
-    const hasImg = !!imgStore[s.id];
-    const previewHtml = hasImg
-      ? `<img src="${imgStore[s.id]}" class="img-preview" alt="${s.name}"/>`
-      : `<div class="img-preview-ph">${s.icon}</div>`;
+  grid.innerHTML = MEDIA_SLOTS.map(m => {
+    const nid     = idAman(m.slug);
+    const menunggu = imgStore[m.slug];
+    const src     = menunggu || `${MEDIA_PUBLIK}/${m.path}?v=${m.versi}`;
+    const status  = menunggu ? 'Siap disimpan' : `Aktif di situs (v${m.versi})`;
+    const warna   = menunggu ? 'var(--green)' : '';
     return `
-      <div class="img-item" id="imgitem-${s.id}">
-        ${previewHtml}
+      <div class="img-item" id="imgitem-${nid}">
+        <img src="${src}" class="img-preview" alt="${m.judul}"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-preview-ph',textContent:'🖼️'}))"/>
         <div class="img-info">
-          <div class="img-name">${s.name}</div>
-          <label class="img-upload-btn ${hasImg ? 'has-img' : ''}" for="imgfile-${s.id}">
+          <div class="img-name">${m.judul}</div>
+          <label class="img-upload-btn has-img" for="imgfile-${nid}">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            ${hasImg ? '✅ Ganti Foto' : 'Upload Foto'}
+            Ganti Foto
           </label>
-          <input type="file" class="img-file-input" id="imgfile-${s.id}" accept="image/*" onchange="handleImgSelect('${s.id}', this)"/>
-          <div class="img-status" id="imgstatus-${s.id}">${hasImg ? 'Foto sudah diupload' : ''}</div>
+          <input type="file" class="img-file-input" id="imgfile-${nid}" accept="image/*"
+                 onchange="handleImgSelect('${m.slug}', this)"/>
+          <div class="img-status" id="imgstatus-${nid}" style="color:${warna}">${status}</div>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 }
 
-function handleImgSelect(serviceId, input) {
+function handleImgSelect(slug, input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    showToast('❌ Ukuran file maks 5MB', 'error'); return;
-  }
-  const status = document.getElementById('imgstatus-'+serviceId);
+  if (file.size > 5 * 1024 * 1024) { showToast('❌ Ukuran file maks 5MB', 'error'); return; }
+
+  const nid = idAman(slug);
+  const status = document.getElementById('imgstatus-' + nid);
   status.textContent = 'Memproses...';
 
   const reader = new FileReader();
   reader.onload = e => {
     const img = new Image();
     img.onload = () => {
-      // Compress via canvas — max 800x600, JPEG 75%
+      // Perkecil di browser dulu — maks 1200x900, JPEG 82%.
       const canvas = document.createElement('canvas');
-      const MAX_W = 800, MAX_H = 600;
+      const MAX_W = 1200, MAX_H = 900;
       let w = img.width, h = img.height;
       if (w > MAX_W) { h = Math.round(h * MAX_W / w); w = MAX_W; }
       if (h > MAX_H) { w = Math.round(w * MAX_H / h); h = MAX_H; }
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const compressed = canvas.toDataURL('image/jpeg', 0.75);
+      const kecil = canvas.toDataURL('image/jpeg', 0.82);
 
-      imgStore[serviceId] = compressed;
+      imgStore[slug] = kecil;
 
-      // Update preview
-      const item = document.getElementById('imgitem-'+serviceId);
-      const existing = item.querySelector('.img-preview, .img-preview-ph');
-      const newImg = document.createElement('img');
-      newImg.src = compressed;
-      newImg.className = 'img-preview';
-      newImg.alt = serviceId;
-      existing.replaceWith(newImg);
+      const item = document.getElementById('imgitem-' + nid);
+      const lama = item.querySelector('.img-preview, .img-preview-ph');
+      const baru = document.createElement('img');
+      baru.src = kecil; baru.className = 'img-preview'; baru.alt = slug;
+      lama.replaceWith(baru);
 
-      // Update label
-      const lbl = item.querySelector('.img-upload-btn');
-      lbl.classList.add('has-img');
-      lbl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> ✅ Ganti Foto`;
-
-      const kb = Math.round(compressed.length * 0.75 / 1024);
-      status.textContent = `Siap disimpan (~${kb}KB)`;
+      status.textContent = `Siap disimpan (~${Math.round(kecil.length * 0.75 / 1024)} KB)`;
       status.style.color = 'var(--green)';
     };
     img.src = e.target.result;
@@ -1996,39 +2010,45 @@ function handleImgSelect(serviceId, input) {
 async function saveAllImages() {
   const btn = document.getElementById('saveImgBtn');
   const statusEl = document.getElementById('imgSaveStatus');
-  const ids = Object.keys(imgStore);
-  if (!ids.length) { showToast('Belum ada foto yang dipilih', 'error'); return; }
+  const slugs = Object.keys(imgStore);
+  if (!slugs.length) { showToast('Belum ada foto yang dipilih', 'error'); return; }
 
   btn.disabled = true;
   btn.innerHTML = `<div class="spinner" style="width:16px;height:16px;border-width:2px"></div> Menyimpan...`;
-  statusEl.textContent = `Menyimpan ${ids.length} foto ke Supabase...`;
 
-  let saved = 0, failed = 0;
-  for (const id of ids) {
+  let sukses = 0; const gagal = [];
+  for (const slug of slugs) {
+    statusEl.textContent = `Mengunggah ${sukses + gagal.length + 1}/${slugs.length}...`;
     try {
-      await supaRpc('save_website_setting', {
-        p_key: 'img_' + id,
-        p_value: imgStore[id],
-        admin_pass: ADMIN_PASS
+      const res = await fetch(MEDIA_UPLOAD, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON,
+                   'Authorization': `Bearer ${SUPA_ANON}` },
+        body: JSON.stringify({ kode_akses: ADMIN_PASS, slug,
+                               berkas: imgStore[slug], mime: 'image/jpeg' })
       });
-      saved++;
-      statusEl.textContent = `Menyimpan ${saved}/${ids.length}...`;
-    } catch(e) {
-      failed++;
-      console.error('Save img failed for', id, e);
+      const hasil = await res.json();
+      if (!res.ok || !hasil.ok) throw new Error(hasil.error || ('HTTP ' + res.status));
+      delete imgStore[slug];
+      sukses++;
+    } catch (e) {
+      gagal.push(`${slug}: ${e.message}`);
     }
   }
 
   btn.disabled = false;
   btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Simpan Semua Foto ke Website`;
 
-  if (failed === 0) {
-    showToast(`✅ ${saved} foto berhasil disimpan! Tampil di halaman order.html`, 'success');
-    statusEl.textContent = `✅ ${saved} foto tersimpan — langsung aktif di halaman order customer.`;
+  await renderImageGrid();
+
+  if (!gagal.length) {
+    showToast(`✅ ${sukses} foto tersimpan`, 'success');
+    statusEl.textContent = `✅ ${sukses} foto tersimpan. Perubahan tampil di situs dalam maksimal 5 menit.`;
     statusEl.style.color = 'var(--green)';
   } else {
-    showToast(`⚠️ ${saved} berhasil, ${failed} gagal`, 'error');
-    statusEl.textContent = `${saved} berhasil, ${failed} gagal. Coba lagi.`;
+    showToast(`⚠️ ${sukses} berhasil, ${gagal.length} gagal`, 'error');
+    statusEl.textContent = `${sukses} berhasil, ${gagal.length} gagal — ${gagal[0]}`;
+    statusEl.style.color = 'var(--red, #DC2626)';
   }
 }
 

@@ -235,3 +235,74 @@ sesungguhnya — tidak ada identitas per orang, tidak ada pencabutan akses, dan
 kode itu ada di `sessionStorage`. Perbaikan sebenarnya adalah memakai Supabase
 Auth (login per akun) lalu mengganti pemeriksaan `admin_pass` dengan policy RLS
 berbasis peran. Itu pekerjaan terpisah yang menyentuh kedua repo.
+
+---
+
+# Sistem foto situs (media_slot + Supabase Storage)
+
+Dibangun 18 Agustus 2026, menggantikan penyimpanan base64 di `website_settings`.
+
+## Alurnya
+
+```
+Panel admin (tab Foto Layanan)
+   |  kode akses admin
+   v
+Edge Function media-upload      <- memegang service role
+   |  verifikasi + validasi     <- browser TIDAK boleh menulis ke Storage
+   v
+Supabase Storage bucket "web"   path tetap, mis. layanan/diagnosa.jpg
+   |
+   v
+order.html  <img src=".../public/web/layanan/diagnosa.jpg">
+            URL tidak pernah berubah -> HTML tidak perlu di-deploy ulang
+```
+
+Perubahan foto tampil di situs **maksimal 5 menit** (`cache-control: max-age=300`).
+
+## Kenapa lewat Edge Function
+
+Panel admin memakai anon key, dan anon key itu publik. Kalau bucket diberi izin
+tulis untuk anon, siapa pun bisa menimpa gambar situs. Karena itu semua
+penulisan dipusatkan di Edge Function yang memegang service role dan baru
+bekerja setelah kode akses admin diverifikasi. Sudah diuji: anon yang mencoba
+`POST` langsung ke Storage ditolak `403 row-level security`.
+
+Path juga ditentukan server dari tabel `media_slot`, bukan dari pengirim —
+percobaan mengirim slug `../../rahasia` ditolak `404`.
+
+## Menambah kelompok gambar baru (blog, project, dll)
+
+Tidak perlu mengubah kode. Cukup sisipkan baris — panel admin langsung
+menampilkannya:
+
+```sql
+insert into public.media_slot
+  (slug, kelompok, ref, judul, halaman, keterangan, path, alt, urutan)
+values
+  ('blog/tips-hemat-listrik', 'blog', 'tips-hemat-listrik',
+   'Tips Hemat Listrik AC', 'blog/tips-hemat-listrik.html',
+   'Gambar utama artikel', 'blog/tips-hemat-listrik.jpg',
+   'Ilustrasi tips hemat listrik AC', 10);
+```
+
+Lalu di HTML halamannya, pakai URL tetap:
+
+```html
+<img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/blog/tips-hemat-listrik.jpg"
+     alt="Ilustrasi tips hemat listrik AC" loading="lazy">
+```
+
+## Catatan
+
+- **File lokal tetap disimpan sebagai cadangan.** `order.html` memakai
+  `images/order-*.jpg` kalau Storage tidak terjangkau. Sudah diuji dengan
+  mematikan Storage secara paksa: 10 foto jatuh ke file lokal dan tetap tampil.
+- **Ekstensi path selalu `.jpg`** walau yang diunggah PNG/WebP. Yang menentukan
+  tampilan adalah header `Content-Type`, jadi tetap benar di browser. Ini
+  disengaja supaya URL di HTML tidak pernah berubah.
+- **Baris `img_*` di `website_settings` sudah tidak dipakai** (±564 KB base64).
+  Belum dihapus supaya bisa dikembalikan kalau ada masalah. Hapus dengan:
+  `delete from public.website_settings where key like 'img\_%';`
+- Dua slot lama tanpa layanan (`bongkar-pasang`, `cuci-besar`) tidak ikut
+  dimigrasikan karena layanannya sudah tidak ada di katalog.

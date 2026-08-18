@@ -197,22 +197,36 @@ Catatan teknis: PostgREST menjalankan tiap request dalam satu transaksi, jadi
 hitungannya benar-benar tersimpan. Percobaan pertama menghitung 12 kegagalan
 tanpa efek apa pun sebelum sebabnya ketahuan.
 
-## ⚠️ Rotasi kode akses — masih perlu dilakukan
+## Rotasi kode akses — sudah dilakukan
 
-Kode akses **sengaja belum diubah** supaya aplikasi admin yang lain tidak
-mendadak rusak. Tapi kode yang lama harus dianggap sudah bocor: hash-nya
-terbuka di internet entah sejak kapan.
+Kode akses lama dirotasi pada 18 Agustus 2026 dan sudah tidak berlaku.
 
-Jalankan di SQL Editor Supabase:
+Ternyata kode ini **hanya dipakai `admin-order.html`**. Admin webapp di repo
+`VSC ACleanWebapp` memakai Supabase Auth (`auth.uid()` / `auth.role()`) dan
+tidak memanggil satu pun RPC ber-`admin_pass`, jadi rotasi tidak memutus apa
+pun. Tidak ada file yang perlu diubah — `admin-order.html` membaca kode dari
+yang diketik saat login, bukan dari file.
+
+Untuk mengganti lagi di kemudian hari, jalankan di SQL Editor Supabase:
 
 ```sql
-select public.rotate_admin_pass('AClean123456', 'kode-baru-yang-panjang-dan-acak');
+select public.rotate_admin_pass('kode-lama', 'kode-baru-minimal-12-karakter');
 ```
 
-Syarat: minimal 12 karakter. Pakai yang acak, bukan kata yang bisa ditebak.
+Kalau kode lama terlanjur lupa, setel ulang langsung (perlu akses SQL Editor):
 
-**Setelah rotasi, perbarui juga tempat lain yang memakai kode ini** — terutama
-admin webapp di repo terpisah. Kalau terlewat, aplikasi itu akan gagal login.
+```sql
+update public.admin_credential
+   set pass_hash = extensions.crypt('kode-baru', extensions.gen_salt('bf', 12)),
+       updated_at = now()
+ where id = 1;
+```
+
+Kalau terlanjur terkunci karena salah berkali-kali, hapus penghitungnya:
+
+```sql
+delete from public.rate_limit_counters where bucket_key like 'admin_login:%';
+```
 
 ## Yang belum ditangani
 

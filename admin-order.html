@@ -958,10 +958,10 @@ function res(body)  {
 <script>
 // ─── KONFIGURASI ───────────────────────────────────────────────────────────────
 const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
-// PIN tidak disimpan plaintext — hanya hash SHA-256 nya (input dicocokkan via hash).
-// ADMIN_PASS (kode akses RPC) tidak lagi hardcoded: diisi dari PIN yang diketik
-// saat login (nilainya sama), disimpan per-tab di sessionStorage.
-const ADMIN_PIN_HASH  = '066d4a3b7d1c120d870f10a2d86316920faf57899a152c5153ddd3bff1ef8769';
+// Kode akses TIDAK diverifikasi di sisi klien. File ini dilayani publik, jadi
+// hash apa pun yang ditaruh di sini bisa diunduh lalu dipecahkan offline.
+// Verifikasi dilakukan server lewat RPC admin_login (bcrypt + kunci 15 menit
+// setelah 10 percobaan gagal). ADMIN_PASS hanya ditahan di memori/sessionStorage.
 let   ADMIN_PASS      = null;
 
 // Supabase
@@ -1017,10 +1017,10 @@ async function handleGoogleLogin(response) {
       showLoginError(`Akses ditolak. Email ${email} tidak terdaftar sebagai admin.`);
       return;
     }
-    // RPC butuh kode akses — minta sekali, verifikasi via hash (tidak hardcoded)
+    // Kode akses diverifikasi di server, bukan di browser.
     const kode = (prompt('Masukkan kode akses admin:') || '').trim();
-    if (await sha256Hex(kode) !== ADMIN_PIN_HASH) {
-      showLoginError('Kode akses salah.');
+    if (!await verifyKodeAkses(kode)) {
+      showLoginError('Kode akses salah, atau akses terkunci sementara karena terlalu banyak percobaan.');
       return;
     }
     ADMIN_PASS = kode;
@@ -1042,21 +1042,27 @@ function parseJWT(token) {
 }
 
 // ─── PIN LOGIN ─────────────────────────────────────────────────────────────────
-async function sha256Hex(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+// Verifikasi kode akses ke server. Mengembalikan false untuk kode salah
+// maupun saat akses sedang terkunci — pesan sengaja tidak dibedakan.
+async function verifyKodeAkses(kode) {
+  if (!kode) return false;
+  try {
+    return await supaRpc('admin_login', { p_pass: kode }) === true;
+  } catch (e) {
+    return false;
+  }
 }
 
 async function checkPin() {
   const pin = document.getElementById('pinInput').value.trim();
-  if (await sha256Hex(pin) === ADMIN_PIN_HASH) {
+  if (await verifyKodeAkses(pin)) {
     ADMIN_PASS = pin;
     sessionStorage.setItem('aclean_admin_session', JSON.stringify({
       name: 'Admin AClean', email: 'developer.aclean@gmail.com', avatar: null, k: pin
     }));
     showApp('Admin AClean', 'developer.aclean@gmail.com', null);
   } else {
-    showLoginError('PIN salah. Silakan coba lagi.');
+    showLoginError('PIN salah, atau akses terkunci sementara karena terlalu banyak percobaan.');
     document.getElementById('pinInput').value = '';
   }
 }

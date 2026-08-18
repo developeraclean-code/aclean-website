@@ -68,3 +68,102 @@ bukan teks — jadi tidak bisa di-scrape otomatis dan harus dibaca manual saat
 Daikin merilis spec sheet baru.
 
 Diambil: 17 Agustus 2026.
+
+---
+
+# Skema database (per 18 Agustus 2026)
+
+Website membaca **satu** sumber saja: view `public.ac_katalog`.
+
+```
+ac_price_list  ──┐
+ (identitas unit,│   ac_katalog  ←── dibaca jual-ac.html (anon)
+  harga, aktif)  │   (LEFT JOIN)
+                 │
+ac_spec        ──┘
+ (spesifikasi teknis, opsional)
+```
+
+**Aturan pentingnya:** identitas unit — brand, seri, nama varian, kapasitas, harga —
+hanya ada di `ac_price_list`. `ac_spec` cuma menyimpan `price_list_id` + data
+spesifikasi teknis. Dulu keempat kolom itu disalin ke `ac_spec` dan berisiko basi;
+sekarang sudah dihapus.
+
+| Objek | Fungsi | Akses anon |
+|---|---|---|
+| `ac_katalog` | View gabungan, dibaca website | ✅ baca (hanya unit aktif) |
+| `ac_spec_belum_lengkap` | Daftar unit yang datanya belum lengkap | ❌ ditolak |
+| `ac_price_list` | Identitas + harga unit | ✅ baca (hanya unit aktif) |
+| `ac_spec` | Spesifikasi teknis | ✅ baca (ikut induknya) |
+
+View memakai `security_invoker = true`, jadi RLS tabel asal tetap berlaku —
+pengunjung otomatis hanya melihat unit dengan `is_active = true`.
+Kolom `updated_at` di kedua tabel kini terisi otomatis lewat trigger.
+
+## Cara menambah unit AC baru
+
+**Langkah 1 — tambahkan unitnya** (lewat admin webapp, atau SQL):
+
+```sql
+insert into public.ac_price_list
+  (brand, seri, nama_varian, tipe, kapasitas,
+   harga_unit, harga_inc_pasang, is_active)
+values
+  ('Daikin', 'STKH71YV', 'ALPHA Inverter', 'Split Inverter', '3 PK',
+   14000000, 16500000, true);
+```
+
+Sampai di sini unit **sudah langsung tampil di website** — lengkap dengan harga,
+tombol keranjang, dan masuk ke structured data. Merek baru pun otomatis muncul
+sebagai tombol filter; tidak ada kode yang perlu diubah.
+
+**Langkah 2 — tambahkan spesifikasinya** (opsional, kapan saja menyusul):
+
+```sql
+insert into public.ac_spec
+  (price_list_id, sku, model_indoor, model_outdoor, type_ac, warna,
+   btu, btu_range, daya_watt, daya_watt_range, kapasitas_kw, refrigerant, cspf,
+   dimensi_indoor, berat_indoor_kg, dimensi_outdoor, berat_outdoor_kg,
+   pipa_cair, pipa_gas, pipa_max_panjang_m, pipa_max_tinggi_m,
+   made_in, garansi, luas_ruangan_m2, fitur, sumber, sumber_url, diambil_pada)
+values
+  ((select id from public.ac_price_list where seri = 'STKH71YV'),
+   'FTKH71YV14', 'FTKH71YV14', 'RKH71YV14', 'AC Inverter', 'Putih',
+   24200, '24.200 (4.100 - 25.900) BTU/h', 2140, '2.140 (220 - 2.800) Watt',
+   7.1, 'R-32', 6.41,
+   '110 x 30 x 24 cm', 15, '85 x 60 x 30 cm', 36,
+   '1/4', '1/2', 30, 20,
+   'Indonesia', '5 Tahun Sparepart, 5 Tahun Kompresor, 3 Tahun Jasa', 45,
+   array['Contoh fitur - penjelasannya.']::text[],
+   'daikin.co.id', 'https://www.daikin.co.id/alpha-inverter-ftkh-y', current_date)
+on conflict (price_list_id) do update set
+  btu = excluded.btu, daya_watt = excluded.daya_watt, cspf = excluded.cspf;
+```
+
+Semua kolom boleh `null` kecuali `price_list_id`. Yang kosong otomatis
+disembunyikan di tampilan — tidak akan muncul tanda pengganti.
+
+**Langkah 3 — periksa kelengkapannya:**
+
+```sql
+select * from public.ac_spec_belum_lengkap;
+```
+
+## Structured data (SEO)
+
+`jual-ac.html` membangkitkan JSON-LD `ItemList` berisi `Product` + `Offer`
+langsung dari data katalog, jadi **tidak ada yang perlu dirawat terpisah** —
+unit baru otomatis ikut terbit.
+
+Dua hal yang sengaja diputuskan:
+
+- **Tanpa `aggregateRating` / `review`.** Mencantumkan rating yang tidak
+  benar-benar ada melanggar pedoman Google dan berisiko penalti. Kalau nanti
+  ada ulasan pelanggan sungguhan, barulah bagian ini ditambahkan.
+- **Tanpa `priceValidUntil`.** Google menyarankannya, tapi mengarang tanggal
+  berlaku lebih buruk daripada tidak mencantumkan; ketiadaannya hanya
+  memunculkan peringatan ringan, bukan error.
+
+Harga yang diterbitkan adalah `harga_unit` (Unit Only) — sesuai tampilan
+default halaman. `availability` diisi `InStock` karena katalog hanya memuat
+unit `is_active = true`; ubah kalau ketersediaan stok perlu dibedakan.

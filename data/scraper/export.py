@@ -9,6 +9,16 @@ from datetime import date
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 TANGGAL = date.today().isoformat()
+
+# Kolom yang benar-benar ada di tabel public.ac_spec (untuk INSERT/UPSERT).
+KOLOM_DB = [
+    "price_list_id", "sku", "model_indoor", "model_outdoor", "judul", "type_ac",
+    "warna", "btu", "btu_range", "daya_watt", "daya_watt_range", "kapasitas_kw",
+    "refrigerant", "cspf", "dimensi_indoor", "berat_indoor_kg", "dimensi_outdoor",
+    "berat_outdoor_kg", "pipa_cair", "pipa_gas", "pipa_max_panjang_m",
+    "pipa_max_tinggi_m", "bahan_koil", "made_in", "garansi", "luas_ruangan_m2",
+    "fitur", "deskripsi", "spec_raw", "sumber", "sumber_url", "diambil_pada",
+]
 MATCHED = json.load(open("matched.json"))
 UNITS = json.load(open("units.json"))
 
@@ -227,6 +237,10 @@ def main():
 
     json.dump(rows, open("ac-spec.json", "w"), ensure_ascii=False, indent=1)
 
+    # Catatan skema: kolom brand/seri/nama_varian/kapasitas TIDAK ada di tabel
+    # ac_spec (identitas unit hanya di ac_price_list). Empat kolom itu tetap
+    # ditulis ke JSON/CSV supaya file ini enak dibaca manusia, tapi jangan
+    # dimasukkan saat INSERT ke database — lihat KOLOM_DB.
     kolom = ["price_list_id", "brand", "seri", "nama_varian", "kapasitas", "sku",
              "model_indoor", "model_outdoor", "judul", "type_ac", "warna", "btu",
              "btu_range", "daya_watt", "daya_watt_range", "kapasitas_kw", "refrigerant",

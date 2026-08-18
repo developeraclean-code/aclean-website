@@ -427,7 +427,6 @@ function imgFor(p){
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
 let PRODUCTS = [];           // dari Supabase
-let SPECS    = {};           // spesifikasi detail, dipetakan per id unit
 let mode      = 'unit';      // 'unit' = harga_unit | 'pasang' = harga_inc_pasang
 let brandFilter = 'all';
 let typeFilter  = 'all';   // all | inverter | standard
@@ -443,7 +442,7 @@ function modeLabel(){ return mode==='pasang' ? 'Unit + Pemasangan' : 'Unit Only'
 const esc = s => String(s??'').replace(/[&<>"']/g, m =>
   ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmtNum = n => Number(n).toLocaleString('id-ID');
-function specFor(p){ return SPECS[p.id] || null; }
+function specFor(p){ return p.punya_spec ? p : null; }
 // Data yang tidak tersedia dibiarkan kosong — tidak diisi tanda apa pun.
 const stripCell = (val,label) => val
   ? `<div class="spec-cell"><span class="sv">${val}</span><span class="sl">${label}</span></div>`
@@ -457,27 +456,19 @@ function makeOrderId(){
 }
 
 // ─── LOAD DATA DARI SUPABASE ───────────────────────────────────────────────────
+// Satu sumber: view ac_katalog (gabungan ac_price_list + ac_spec).
+// Tanpa filter merek — unit/merek baru yang ditambahkan otomatis ikut tampil.
 async function loadProducts(){
-  const H = {'apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`};
   try{
-    const url = `${SUPA_URL}/rest/v1/ac_price_list?select=id,brand,seri,nama_varian,tipe,kapasitas,harga_unit,harga_inc_pasang,keterangan_inc_pasang,is_active&is_active=eq.true&brand=in.(Daikin,Gree)&order=brand.asc,harga_unit.asc`;
-    const specUrl = `${SUPA_URL}/rest/v1/ac_spec?select=price_list_id,sku,model_indoor,model_outdoor,type_ac,warna,btu,btu_range,daya_watt,daya_watt_range,kapasitas_kw,refrigerant,cspf,dimensi_indoor,berat_indoor_kg,dimensi_outdoor,berat_outdoor_kg,pipa_cair,pipa_gas,pipa_max_panjang_m,pipa_max_tinggi_m,bahan_koil,made_in,garansi,luas_ruangan_m2,fitur,sumber,sumber_url,diambil_pada`;
-
-    // Spesifikasi bersifat pelengkap — kalau gagal, katalog tetap tampil.
-    const [res, specRes] = await Promise.all([
-      fetch(url,{headers:H}),
-      fetch(specUrl,{headers:H}).catch(()=>null)
-    ]);
+    const url = `${SUPA_URL}/rest/v1/ac_katalog?select=*&order=brand.asc,harga_unit.asc`;
+    const res = await fetch(url,{headers:{'apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`}});
     if(!res.ok) throw new Error('HTTP '+res.status);
     PRODUCTS = await res.json();
     if(!Array.isArray(PRODUCTS)||!PRODUCTS.length){ document.getElementById('grid').innerHTML='<div class="empty">Belum ada data unit AC.</div>'; return; }
-
-    if(specRes && specRes.ok){
-      const rows = await specRes.json();
-      if(Array.isArray(rows)) rows.forEach(s => { SPECS[s.price_list_id] = s; });
-    }
+    buildBrandFilter();
     buildCapFilter();
     render();
+    injectProductSchema();
   }catch(e){
     document.getElementById('grid').innerHTML=`<div class="empty">❌ Gagal memuat data dari Supabase.<br><small>${e.message}</small><br><br><button class="btn-add" style="max-width:200px;margin:0 auto" onclick="loadProducts()">Coba Lagi</button></div>`;
   }
@@ -485,6 +476,17 @@ async function loadProducts(){
 
 // ─── RENDER ────────────────────────────────────────────────────────────────────
 function capOrder(c){ const m={'0.5':1,'0.75':2,'1':3,'1.5':4,'2':5,'2.5':6,'3':7}; return m[(c||'').replace(/\s*PK/i,'').trim()]||99; }
+
+function buildBrandFilter(){
+  const seg = document.getElementById('brandSeg');
+  const brands = [...new Set(PRODUCTS.map(p=>p.brand).filter(Boolean))].sort();
+  seg.innerHTML = `<button data-brand="all">Semua</button>`
+    + brands.map(b=>`<button data-brand="${esc(b)}">${esc(b)}</button>`).join('');
+  if(brandFilter!=='all' && !brands.includes(brandFilter)) brandFilter='all';
+  const aktif = seg.querySelector(`button[data-brand="${brandFilter==='all'?'all':CSS.escape(brandFilter)}"]`)
+             || seg.firstElementChild;
+  aktif.classList.add('active');
+}
 
 function buildCapFilter(){
   const sel=document.getElementById('capFilter');
@@ -525,7 +527,7 @@ function render(){
       ? '✅ Sudah Termasuk jasa pasang + Jasa Vacum + Pipa Hoda 4m + Kabel Listrik 4 Meter + Breket 1 Pcs.'
       : '📦 Unit saja (belum termasuk pemasangan)';
     return `
-    <div class="card${qty?' in-cart':''}">
+    <div class="card${qty?' in-cart':''}" id="unit-${p.id}">
       <div class="card-img">
         <span class="wm"><img src="images/logo-aclean.jpg?v=20260519" alt="AClean" loading="lazy"/></span>
         <span class="brand-tag">${p.brand}</span>
@@ -553,6 +555,81 @@ function render(){
       </div>
     </div>`;
   }).join('');
+}
+
+// ─── STRUCTURED DATA (SEO) ─────────────────────────────────────────────────────
+// Dibangkitkan dari data katalog yang sama, jadi tidak perlu dirawat terpisah.
+// Unit baru yang ditambahkan otomatis ikut terbit di sini.
+// Catatan: rating/ulasan sengaja TIDAK disertakan — mencantumkan rating yang
+// tidak benar-benar ada melanggar pedoman Google dan bisa kena penalti.
+const SITE = 'https://aclean.id';
+
+function productSchema(p){
+  const sp = specFor(p);
+  const nama = `${p.brand} ${p.nama_varian||''} ${p.kapasitas||''}`.replace(/\s+/g,' ').trim();
+  const img = imgFor(p);
+
+  const deskripsi = (sp && sp.deskripsi) ? sp.deskripsi
+    : [`AC ${p.brand} ${p.nama_varian||''} kapasitas ${p.kapasitas||''}`.replace(/\s+/g,' ').trim(),
+       sp && sp.btu ? `${fmtNum(sp.btu)} BTU/h` : null,
+       sp && sp.daya_watt ? `daya ${fmtNum(sp.daya_watt)} watt` : null,
+       sp && sp.refrigerant ? `refrigeran ${sp.refrigerant}` : null
+      ].filter(Boolean).join(', ') + '.';
+
+  const spek = [];
+  const tambah = (n,v,u) => { if(v) spek.push({'@type':'PropertyValue',name:n,value:String(v),...(u?{unitText:u}:{})}); };
+  if(sp){
+    tambah('Kapasitas pendinginan', sp.btu, 'BTU/h');
+    tambah('Daya listrik', sp.daya_watt, 'Watt');
+    tambah('Efisiensi CSPF', sp.cspf);
+    tambah('Refrigeran', sp.refrigerant);
+    tambah('Luas ruangan', sp.luas_ruangan_m2, 'm2');
+    tambah('Garansi', sp.garansi);
+  }
+
+  const o = {
+    '@type':'Product',
+    name: nama,
+    description: deskripsi,
+    category:'Air Conditioner',
+    brand:{'@type':'Brand', name:p.brand},
+    offers:{
+      '@type':'Offer',
+      price: String(p.harga_unit),
+      priceCurrency:'IDR',
+      availability:'https://schema.org/InStock',
+      itemCondition:'https://schema.org/NewCondition',
+      url:`${SITE}/jual-ac.html#unit-${p.id}`,
+      seller:{'@type':'Organization', name:'AClean Service'}
+    }
+  };
+  if(img) o.image = `${SITE}/${img}`;
+  if(sp && sp.sku) o.sku = sp.sku;
+  if(sp && sp.model_indoor) o.model = sp.model_indoor;
+  if(p.seri) o.mpn = p.seri;
+  if(spek.length) o.additionalProperty = spek;
+  return o;
+}
+
+function injectProductSchema(){
+  const data = {
+    '@context':'https://schema.org',
+    '@type':'ItemList',
+    name:'Katalog Unit AC — AClean Service',
+    numberOfItems: PRODUCTS.length,
+    itemListElement: PRODUCTS.map((p,i)=>({
+      '@type':'ListItem', position:i+1, item:productSchema(p)
+    }))
+  };
+  let tag = document.getElementById('productSchema');
+  if(!tag){
+    tag = document.createElement('script');
+    tag.type = 'application/ld+json';
+    tag.id = 'productSchema';
+    document.head.appendChild(tag);
+  }
+  // Escape "<" agar tag penutup di dalam data tidak memutus elemen script.
+  tag.textContent = JSON.stringify(data).replace(/</g,'\\u003c');
 }
 
 // ─── SPEC SHEET ────────────────────────────────────────────────────────────────

@@ -167,3 +167,57 @@ Dua hal yang sengaja diputuskan:
 Harga yang diterbitkan adalah `harga_unit` (Unit Only) — sesuai tampilan
 default halaman. `availability` diisi `InStock` karena katalog hanya memuat
 unit `is_active = true`; ubah kalau ketersediaan stok perlu dibedakan.
+
+---
+
+# Keamanan kode akses admin
+
+Diperbaiki 18 Agustus 2026.
+
+**Masalahnya:** `admin-order.html` dilayani publik dan memuat `ADMIN_PIN_HASH`
+— SHA-256 tanpa salt dari kode akses admin. Siapa pun bisa mengunduh filenya,
+mengambil hash, lalu memecahkannya offline. Kode aksesnya kata umum + angka
+berurutan, jadi pecah dalam hitungan detik. Kode akses itu juga tertulis polos
+di badan fungsi `check_admin_pass`.
+
+**Yang sudah dikerjakan:**
+
+| Lapisan | Sebelum | Sesudah |
+|---|---|---|
+| Penyimpanan | teks polos di badan fungsi | bcrypt cost 12 di `admin_credential` |
+| Akses tabel hash | — | RLS aktif tanpa policy; anon ditolak |
+| Verifikasi | perbandingan `=` teks polos | `crypt()` bcrypt |
+| Percobaan gagal | tanpa batas | kunci 15 menit setelah 10 gagal, per IP |
+| Hash di file publik | ada | dihapus; verifikasi via RPC `admin_login` |
+| Hak anon | bisa panggil semua fungsi | hanya `admin_login` |
+
+Catatan teknis: PostgREST menjalankan tiap request dalam satu transaksi, jadi
+`raise exception` membatalkan pencatatan percobaan gagal. Karena itu
+`admin_login` mengembalikan `false`, bukan melempar exception — supaya
+hitungannya benar-benar tersimpan. Percobaan pertama menghitung 12 kegagalan
+tanpa efek apa pun sebelum sebabnya ketahuan.
+
+## ⚠️ Rotasi kode akses — masih perlu dilakukan
+
+Kode akses **sengaja belum diubah** supaya aplikasi admin yang lain tidak
+mendadak rusak. Tapi kode yang lama harus dianggap sudah bocor: hash-nya
+terbuka di internet entah sejak kapan.
+
+Jalankan di SQL Editor Supabase:
+
+```sql
+select public.rotate_admin_pass('AClean123456', 'kode-baru-yang-panjang-dan-acak');
+```
+
+Syarat: minimal 12 karakter. Pakai yang acak, bukan kata yang bisa ditebak.
+
+**Setelah rotasi, perbarui juga tempat lain yang memakai kode ini** — terutama
+admin webapp di repo terpisah. Kalau terlewat, aplikasi itu akan gagal login.
+
+## Yang belum ditangani
+
+Kode akses tunggal yang dikirim dari browser tetap bukan autentikasi yang
+sesungguhnya — tidak ada identitas per orang, tidak ada pencabutan akses, dan
+kode itu ada di `sessionStorage`. Perbaikan sebenarnya adalah memakai Supabase
+Auth (login per akun) lalu mengganti pemeriksaan `admin_pass` dengan policy RLS
+berbasis peran. Itu pekerjaan terpisah yang menyentuh kedua repo.

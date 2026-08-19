@@ -306,3 +306,46 @@ Lalu di HTML halamannya, pakai URL tetap:
   `delete from public.website_settings where key like 'img\_%';`
 - Dua slot lama tanpa layanan (`bongkar-pasang`, `cuci-besar`) tidak ikut
   dimigrasikan karena layanannya sudah tidak ada di katalog.
+
+---
+
+# Login admin per orang (Supabase Auth)
+
+Ditambahkan 19 Agustus 2026. **Kode akses bersama sengaja masih berfungsi**
+supaya panel tidak mendadak terkunci; cabut setelah login baru terbukti dipakai.
+
+## Yang berubah
+
+| | Kode akses bersama | Login akun |
+|---|---|---|
+| Identitas | tidak ada | email per orang |
+| Jejak siapa berbuat apa | tidak ada | tercatat di `admin_audit` |
+| Cabut akses 1 orang | harus ganti kode semua | `aktif = false` |
+
+## Tabel & fungsi
+
+- `admin_user` — daftar admin. Mencabut akses: `update admin_user set aktif=false where email='...'`.
+  Terverifikasi berlaku **seketika**, bahkan untuk token yang masih hidup.
+- `admin_audit` — jejak login & tindakan. Lihat: `select * from admin_riwayat(50);`
+- `is_admin()` — mengecek email di token sesi ada di `admin_user` dan aktif.
+- `check_admin_pass()` — menerima **sesi yang sah ATAU kode akses lama**.
+
+## Menambah / mengganti admin
+
+Lewat Edge Function `admin-provision` (butuh kode akses bersama):
+
+```bash
+curl -X POST "https://apsbeppcmsxeldnejibz.supabase.co/functions/v1/admin-provision" \
+  -H "apikey: <ANON_KEY>" -H "Authorization: Bearer <ANON_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{"kode_akses":"<kode bersama>","email":"orang@aclean.id",
+       "sandi":"minimal-12-karakter","nama":"Nama Orang","peran":"admin"}'
+```
+
+Peran: `owner`, `admin`, atau `staf`. Email yang sudah ada akan diperbarui sandinya.
+
+## Kalau login baru sudah lancar
+
+Cabut jalur kode bersama dengan menghapus blok "Jalur lama" di
+`check_admin_pass`, lalu hapus kotak PIN di `admin-order.html`.
+Jangan lakukan sebelum yakin — itu satu-satunya jaring pengaman yang tersisa.

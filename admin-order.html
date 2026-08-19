@@ -356,9 +356,25 @@ tr:hover td{background:var(--gray-50)}
 
     <div class="login-divider">atau</div>
 
-    <!-- Fallback PIN login (digunakan sebelum Google Client ID dikonfigurasi) -->
+    <!-- Login akun per orang (Supabase Auth) — identitas tercatat, bisa dicabut -->
+    <div id="akunLoginWrap" style="margin-bottom:18px">
+      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Login dengan akun admin</div>
+      <input type="email" id="akunEmail" placeholder="Email admin" autocomplete="username"
+             style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:8px"/>
+      <input type="password" id="akunSandi" placeholder="Kata sandi" autocomplete="current-password"
+             style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:10px"
+             onkeydown="if(event.key==='Enter')loginAkun()"/>
+      <button onclick="loginAkun()"
+              style="width:100%;padding:12px;border-radius:10px;background:var(--primary);color:var(--white);font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-body)">
+        Masuk
+      </button>
+    </div>
+
+    <div class="login-divider">atau</div>
+
+    <!-- Kode akses bersama — jaring pengaman selama transisi. -->
     <div id="pinLoginWrap">
-      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Login dengan PIN sementara</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Login dengan kode akses bersama</div>
       <input type="password" id="pinInput" placeholder="Masukkan PIN admin"
              style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:10px"
              onkeydown="if(event.key==='Enter')checkPin()"/>
@@ -962,7 +978,43 @@ const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
 // hash apa pun yang ditaruh di sini bisa diunduh lalu dipecahkan offline.
 // Verifikasi dilakukan server lewat RPC admin_login (bcrypt + kunci 15 menit
 // setelah 10 percobaan gagal). ADMIN_PASS hanya ditahan di memori/sessionStorage.
-let   ADMIN_PASS      = null;
+let   ADMIN_PASS      = null;   // kode akses bersama (jalur lama)
+let   AUTH_TOKEN      = null;   // token sesi Supabase Auth (jalur baru)
+
+// Login per orang. Identitas tercatat di jejak audit, dan aksesnya bisa
+// dicabut sewaktu-waktu lewat tabel admin_user tanpa mengganggu orang lain.
+async function loginAkun() {
+  const email = (document.getElementById('akunEmail').value || '').trim();
+  const sandi = document.getElementById('akunSandi').value || '';
+  if (!email || !sandi) { showLoginError('Email dan kata sandi wajib diisi.'); return; }
+  try {
+    const res = await fetch(`${SUPA_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: sandi })
+    });
+    const d = await res.json();
+    if (!res.ok || !d.access_token) {
+      showLoginError('Email atau kata sandi salah.'); return;
+    }
+    AUTH_TOKEN = d.access_token;
+
+    // Pastikan akun ini memang terdaftar sebagai admin yang masih aktif.
+    const boleh = await supaRpc('admin_login', { p_pass: '' });
+    if (boleh !== true) {
+      AUTH_TOKEN = null;
+      showLoginError('Akun ini tidak terdaftar sebagai admin aktif.'); return;
+    }
+
+    const nama = (d.user && d.user.user_metadata && d.user.user_metadata.nama) || email;
+    sessionStorage.setItem('aclean_admin_session', JSON.stringify({
+      name: nama, email, avatar: null, t: d.access_token
+    }));
+    showApp(nama, email, null);
+  } catch (e) {
+    showLoginError('Login gagal: ' + e.message);
+  }
+}
 
 // Supabase
 const SUPA_URL  = 'https://apsbeppcmsxeldnejibz.supabase.co';
@@ -974,7 +1026,9 @@ async function supaRpc(fn, params) {
     headers: {
       'Content-Type': 'application/json',
       'apikey': SUPA_ANON,
-      'Authorization': `Bearer ${SUPA_ANON}`
+      // Kalau sudah login dengan akun, pakai token sesi supaya identitas
+      // orangnya ikut terbaca server (tercatat di jejak audit).
+      'Authorization': `Bearer ${AUTH_TOKEN || SUPA_ANON}`
     },
     body: JSON.stringify(params)
   });
@@ -1000,6 +1054,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedSession) {
     const s = JSON.parse(savedSession);
     ADMIN_PASS = s.k || null;
+    AUTH_TOKEN = s.t || null;
     showApp(s.name, s.email, s.avatar);
   }
 

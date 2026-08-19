@@ -956,6 +956,8 @@ const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
 // di tabel admin_user. Kode akses bersama, PIN, dan login email/sandi sudah
 // dicabut seluruhnya pada 19 Agustus 2026. Yang disimpan hanya token sesi.
 let   AUTH_TOKEN      = null;   // token sesi Supabase Auth (jalur baru)
+let   AUTH_REFRESH    = null;   // token perpanjangan; access_token hanya berlaku ~1 jam
+let   AUTH_EXPIRES    = 0;      // detik epoch saat access_token kedaluwarsa
 
 // Login per orang. Identitas tercatat di jejak audit, dan aksesnya bisa
 // dicabut sewaktu-waktu lewat tabel admin_user tanpa mengganggu orang lain.
@@ -1010,7 +1012,10 @@ async function tangkapSesiGoogle() {
   const q = new URLSearchParams(location.hash.slice(1));
   const token = q.get('access_token');
   if (!token) return false;
-  AUTH_TOKEN = token;
+  AUTH_TOKEN   = token;
+  AUTH_REFRESH = q.get('refresh_token') || null;
+  AUTH_EXPIRES = Number(q.get('expires_at')) ||
+                 (Math.floor(Date.now() / 1000) + (Number(q.get('expires_in')) || 3600));
   history.replaceState(null, '', location.pathname);   // bersihkan URL
   try {
     const boleh = await supaRpc('admin_login', { p_pass: '' });
@@ -1022,9 +1027,7 @@ async function tangkapSesiGoogle() {
     const u = await (await fetch(`${SUPA_URL}/auth/v1/user`, {
       headers: { apikey: SUPA_ANON, Authorization: `Bearer ${token}` } })).json();
     const nama = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email;
-    sessionStorage.setItem('aclean_admin_session', JSON.stringify({
-      name: nama, email: u.email, avatar: (u.user_metadata || {}).avatar_url || null, t: token
-    }));
+    simpanSesi(nama, u.email, (u.user_metadata || {}).avatar_url || null);
     showApp(nama, u.email, (u.user_metadata || {}).avatar_url || null);
     return true;
   } catch (e) {
@@ -1040,6 +1043,7 @@ const SUPA_URL  = 'https://apsbeppcmsxeldnejibz.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwc2JlcHBjbXN4ZWxkbmVqaWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjI5OTAsImV4cCI6MjA4ODQzODk5MH0.ougABivpskSoQyFCOagV7GYah0yNV3-sGuc5ErplRo4';
 
 async function supaRpc(fn, params) {
+  if (AUTH_TOKEN) await pastikanTokenSegar();
   const res = await fetch(`${SUPA_URL}/rest/v1/rpc/${fn}`, {
     method: 'POST',
     headers: {
@@ -1051,7 +1055,13 @@ async function supaRpc(fn, params) {
     },
     body: JSON.stringify(params)
   });
-  if (!res.ok) throw new Error(await res.text());
+  if (!res.ok) {
+    const teks = await res.text();
+    // Sesi habis dan tidak bisa diperpanjang: hentikan di sini supaya tidak
+    // berlanjut jadi rentetan error yang membingungkan.
+    if (res.status === 401 || teks.includes('JWT expired')) { sesiBerakhir(); }
+    throw new Error(teks);
+  }
   return res.json();
 }
 
@@ -1075,7 +1085,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedSession = sessionStorage.getItem('aclean_admin_session');
   if (savedSession) {
     const s = JSON.parse(savedSession);
-    AUTH_TOKEN = s.t || null;
+    AUTH_TOKEN   = s.t || null;
+    AUTH_REFRESH = s.r || null;
+    AUTH_EXPIRES = s.e || 0;
     if (!AUTH_TOKEN) { sessionStorage.removeItem('aclean_admin_session'); return; }
     showApp(s.name, s.email, s.avatar);
   }
@@ -1127,6 +1139,62 @@ function showApp(name, email, avatar) {
 function doLogout() {
   sessionStorage.removeItem('aclean_admin_session');
   location.reload();
+}
+
+// ─── MASA BERLAKU SESI ─────────────────────────────────────────────────────
+// access_token dari Supabase hanya berlaku sekitar satu jam. Tanpa
+// diperpanjang, panel tiba-tiba gagal memuat data dengan pesan "JWT expired"
+// padahal jendelanya masih terbuka. refresh_token dari Google dipakai untuk
+// menukarnya dengan token baru secara diam-diam.
+
+function simpanSesi(nama, email, avatar) {
+  sessionStorage.setItem('aclean_admin_session', JSON.stringify({
+    name: nama, email, avatar,
+    t: AUTH_TOKEN, r: AUTH_REFRESH, e: AUTH_EXPIRES
+  }));
+}
+
+let janjiSegar = null;   // supaya beberapa permintaan sekaligus tidak menukar token berkali-kali
+
+function pastikanTokenSegar() {
+  const sisa = AUTH_EXPIRES - Math.floor(Date.now() / 1000);
+  if (AUTH_EXPIRES && sisa > 120) return Promise.resolve(true);   // masih aman
+  if (!AUTH_REFRESH) return Promise.resolve(false);
+  if (janjiSegar) return janjiSegar;
+
+  janjiSegar = (async () => {
+    try {
+      const res = await fetch(`${SUPA_URL}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SUPA_ANON },
+        body: JSON.stringify({ refresh_token: AUTH_REFRESH })
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const d = await res.json();
+      if (!d.access_token) throw new Error('token kosong');
+      AUTH_TOKEN   = d.access_token;
+      AUTH_REFRESH = d.refresh_token || AUTH_REFRESH;
+      AUTH_EXPIRES = d.expires_at ||
+                     (Math.floor(Date.now() / 1000) + (d.expires_in || 3600));
+      if (userInfo) simpanSesi(userInfo.name, userInfo.email, userInfo.avatar);
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      janjiSegar = null;
+    }
+  })();
+  return janjiSegar;
+}
+
+let sesiSudahBerakhir = false;
+function sesiBerakhir() {
+  if (sesiSudahBerakhir) return;      // cukup sekali walau banyak permintaan gagal
+  sesiSudahBerakhir = true;
+  AUTH_TOKEN = null; AUTH_REFRESH = null; AUTH_EXPIRES = 0;
+  sessionStorage.removeItem('aclean_admin_session');
+  showToast('Sesi berakhir — silakan masuk lagi dengan Google', 'error');
+  setTimeout(() => location.reload(), 1800);
 }
 
 // ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
@@ -2088,6 +2156,7 @@ async function saveAllImages() {
 
   let sukses = 0; const gagal = [];
   for (const slug of slugs) {
+    await pastikanTokenSegar();
     statusEl.textContent = `Mengunggah ${sukses + gagal.length + 1}/${slugs.length}...`;
     try {
       const res = await fetch(MEDIA_UPLOAD, {
@@ -2195,6 +2264,7 @@ async function seedSlotKosong() {
 
   let sukses = 0; const gagal = [];
   for (const m of daftar) {
+    await pastikanTokenSegar();
     st.textContent = `Mengisi ${sukses + gagal.length + 1}/${daftar.length} — ${m.judul}...`;
     try {
       const berkas = await ambilDanKecilkan(m.sumber_lokal);

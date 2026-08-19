@@ -172,6 +172,9 @@ tr:hover td{background:var(--gray-50)}
 .img-section h3{font-family:var(--font);font-size:15px;font-weight:700;color:var(--dark);margin-bottom:4px}
 .img-section .sc-sub{font-size:13px;color:var(--gray-400);margin-bottom:20px}
 .img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.img-kel{grid-column:1/-1;font-size:13px;font-weight:800;color:var(--dark);margin:14px 0 -4px;padding-bottom:7px;border-bottom:1.5px solid var(--gray-200)}
+.img-kel:first-child{margin-top:0}
+.img-kel .n{font-weight:600;color:var(--gray-400);margin-left:6px}
 .img-item{background:var(--white);border:1.5px solid var(--gray-200);border-radius:12px;overflow:hidden;transition:.2s}
 .img-item:hover{border-color:var(--primary-100)}
 .img-preview{width:100%;height:130px;object-fit:cover;display:block;background:var(--gray-100)}
@@ -563,7 +566,17 @@ tr:hover td{background:var(--gray-50)}
       <div class="img-section" id="imgSection" style="display:none">
         <div style="background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)">
           <h3>🖼️ Foto Layanan</h3>
-          <p class="sc-sub">Upload foto untuk setiap layanan. Foto tampil di kartu layanan halaman order.html. Ukuran maks 5MB, otomatis dikompres.</p>
+          <p class="sc-sub">Semua foto situs — beranda, gambar utama, halaman layanan, kartu order, dan artikel blog. Ukuran maks 5MB, otomatis dikompres sebelum diunggah.</p>
+          <div id="seedBar" style="display:none;background:#FFF8E6;border:1.5px solid #F5D98B;border-radius:10px;padding:14px 16px;margin-bottom:18px">
+            <div style="font-size:13px;font-weight:700;color:#7A5A00;margin-bottom:4px">Ada slot yang belum berisi foto</div>
+            <div style="font-size:12.5px;color:#8A6A20;line-height:1.55;margin-bottom:10px">
+              Slot baru ini belum pernah diunggah. Klik untuk mengisinya otomatis memakai foto yang sekarang sudah tampil di situs — setelah itu bisa Anda ganti satu per satu seperti biasa.
+            </div>
+            <button class="save-btn" id="seedBtn" onclick="seedSlotKosong()" style="margin:0">
+              Isi otomatis dari foto situs (<span id="seedJml">0</span> slot)
+            </button>
+            <div id="seedStatus" style="margin-top:8px;font-size:12.5px;color:#8A6A20"></div>
+          </div>
           <div class="img-grid" id="imgGrid"></div>
           <button class="save-btn" id="saveImgBtn" onclick="saveAllImages()" style="margin-top:20px">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1955,7 +1968,7 @@ async function renderImageGrid() {
 
   try {
     MEDIA_SLOTS = await supaGet(
-      'media_slot?select=slug,kelompok,judul,keterangan,path,versi&aktif=is.true' +
+      'media_slot?select=slug,kelompok,judul,keterangan,path,versi,sumber_lokal&aktif=is.true' +
       '&order=kelompok.asc,urutan.asc');
   } catch (e) {
     grid.innerHTML = `<div class="img-kosong">Gagal memuat daftar foto.<br><small>${e.message}</small></div>`;
@@ -1966,12 +1979,16 @@ async function renderImageGrid() {
     return;
   }
 
-  grid.innerHTML = MEDIA_SLOTS.map(m => {
+  // Satu grid untuk 51 slot terlalu padat, jadi dipisah per kelompok.
+  const kartu = m => {
     const nid     = idAman(m.slug);
     const menunggu = imgStore[m.slug];
     const src     = menunggu || `${MEDIA_PUBLIK}/${m.path}?v=${m.versi}`;
-    const status  = menunggu ? 'Siap disimpan' : `Aktif di situs (v${m.versi})`;
-    const warna   = menunggu ? 'var(--green)' : '';
+    const kosong  = !menunggu && m.versi <= 1;   // versi 1 = belum pernah diunggah
+    const status  = menunggu ? 'Siap disimpan'
+                  : kosong   ? 'Belum diisi'
+                             : `Aktif di situs (v${m.versi})`;
+    const warna   = menunggu ? 'var(--green)' : kosong ? '#B07A00' : '';
     return `
       <div class="img-item" id="imgitem-${nid}">
         <img src="${src}" class="img-preview" alt="${m.judul}"
@@ -1987,7 +2004,38 @@ async function renderImageGrid() {
           <div class="img-status" id="imgstatus-${nid}" style="color:${warna}">${status}</div>
         </div>
       </div>`;
+  };
+
+  const urutan = ['beranda', 'hero', 'halaman', 'layanan', 'blog'];
+  const lain   = [...new Set(MEDIA_SLOTS.map(m => m.kelompok))].filter(k => !urutan.includes(k));
+
+  grid.innerHTML = [...urutan, ...lain].map(kel => {
+    const isi = MEDIA_SLOTS.filter(m => m.kelompok === kel);
+    if (!isi.length) return '';
+    return `<div class="img-kel">${NAMA_KELOMPOK[kel] || kel}<span class="n">${isi.length} foto</span></div>`
+         + isi.map(kartu).join('');
   }).join('');
+
+  perbaruiSeedBar();
+}
+
+const NAMA_KELOMPOK = {
+  beranda: '🏠 Beranda — kartu layanan',
+  hero:    '🖼️ Gambar utama — dipakai di banyak halaman sekaligus',
+  halaman: '📄 Halaman layanan & area',
+  layanan: '🧰 Kartu layanan di halaman order',
+  blog:    '📝 Artikel blog',
+};
+
+// Slot yang belum pernah diunggah (versi 1) tapi punya foto bawaan di situs.
+const slotKosong = () => MEDIA_SLOTS.filter(m => m.versi <= 1 && m.sumber_lokal);
+
+function perbaruiSeedBar() {
+  const bar = document.getElementById('seedBar');
+  if (!bar) return;
+  const n = slotKosong().length;
+  bar.style.display = n ? 'block' : 'none';
+  if (n) document.getElementById('seedJml').textContent = n;
 }
 
 function handleImgSelect(slug, input) {
@@ -2071,6 +2119,112 @@ async function saveAllImages() {
     showToast(`⚠️ ${sukses} berhasil, ${gagal.length} gagal`, 'error');
     statusEl.textContent = `${sukses} berhasil, ${gagal.length} gagal — ${gagal[0]}`;
     statusEl.style.color = 'var(--red, #DC2626)';
+  }
+}
+
+// ─── PENGISIAN AWAL SLOT ───────────────────────────────────────────────────
+// Slot baru (versi 1) belum punya file di Storage. Fungsi ini mengambil foto
+// yang sekarang sudah tampil di situs — sumber_lokal, satu origin dengan panel
+// ini — lalu mengunggahnya lewat jalur yang sama dengan tombol "Ganti Foto".
+// Sekali jalan saja; setelah terisi, baris ajakannya hilang sendiri.
+
+function blobKeDataURI(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload  = () => resolve(r.result);
+    r.onerror = () => reject(new Error('Berkas gagal dibaca.'));
+    r.readAsDataURL(blob);
+  });
+}
+
+function ukuranGambar(dataURI) {
+  return new Promise((resolve, reject) => {
+    const i = new Image();
+    i.onload  = () => resolve({ w: i.naturalWidth, h: i.naturalHeight });
+    i.onerror = () => reject(new Error('Gambar tidak terbaca.'));
+    i.src = dataURI;
+  });
+}
+
+async function ambilDanKecilkan(path) {
+  const url = '/' + String(path).replace(/^\/+/, '');
+  let res;
+  try { res = await fetch(url); }
+  catch (e) { throw new Error('Gagal mengambil ' + url + ': ' + e.message); }
+  if (!res.ok) throw new Error('Berkas tidak ada di situs: ' + url + ' (HTTP ' + res.status + ')');
+
+  const blob = await res.blob();
+  const asli = await blobKeDataURI(blob);
+  const { w, h } = await ukuranGambar(asli);
+  if (!w || !h) throw new Error('Ukuran gambar tidak terbaca.');
+
+  const MAX_W = 1200, MAX_H = 900;
+  // Foto yang sudah pas ukurannya dipakai apa adanya. Encode ulang JPEG yang
+  // sudah kecil justru menambah berkas sekaligus menurunkan kualitas.
+  if (w <= MAX_W && h <= MAX_H && blob.type === 'image/jpeg' && blob.size <= 150 * 1024) {
+    return asli;
+  }
+
+  let lw = w, lh = h;
+  if (lw > MAX_W) { lh = Math.round(lh * MAX_W / lw); lw = MAX_W; }
+  if (lh > MAX_H) { lw = Math.round(lw * MAX_H / lh); lh = MAX_H; }
+
+  const img = new Image();
+  await new Promise((resolve, reject) => {
+    img.onload = resolve;
+    img.onerror = () => reject(new Error('Gambar gagal dimuat.'));
+    img.src = asli;
+  });
+
+  const c = document.createElement('canvas');
+  c.width = lw; c.height = lh;
+  c.getContext('2d').drawImage(img, 0, 0, lw, lh);
+  const kecil = c.toDataURL('image/jpeg', 0.82);
+
+  // Kalau hasil olahan malah lebih besar, kembalikan yang asli.
+  return (kecil.length < asli.length || w > MAX_W || h > MAX_H) ? kecil : asli;
+}
+
+async function seedSlotKosong() {
+  const daftar = slotKosong();
+  if (!daftar.length) { showToast('Semua slot sudah berisi foto', 'success'); return; }
+
+  const btn = document.getElementById('seedBtn');
+  const st  = document.getElementById('seedStatus');
+  btn.disabled = true;
+
+  let sukses = 0; const gagal = [];
+  for (const m of daftar) {
+    st.textContent = `Mengisi ${sukses + gagal.length + 1}/${daftar.length} — ${m.judul}...`;
+    try {
+      const berkas = await ambilDanKecilkan(m.sumber_lokal);
+      const res = await fetch(MEDIA_UPLOAD, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON,
+                   'Authorization': `Bearer ${AUTH_TOKEN}` },
+        body: JSON.stringify({ slug: m.slug, berkas,
+                               mime: (berkas.match(/^data:([^;]+)/) || [,'image/jpeg'])[1] })
+      });
+      const hasil = await res.json();
+      if (!res.ok || !hasil.ok) throw new Error(hasil.error || ('HTTP ' + res.status));
+      sukses++;
+    } catch (e) {
+      gagal.push(`${m.judul}: ${e.message}`);
+    }
+  }
+
+  btn.disabled = false;
+  await renderImageGrid();
+
+  if (!gagal.length) {
+    showToast(`✅ ${sukses} slot terisi`, 'success');
+  } else {
+    showToast(`⚠️ ${sukses} berhasil, ${gagal.length} gagal`, 'error');
+    const sisa = document.getElementById('seedStatus');
+    if (sisa) {
+      sisa.textContent = `${sukses} berhasil, ${gagal.length} gagal — ${gagal[0]}`;
+      sisa.style.color = 'var(--red, #DC2626)';
+    }
   }
 }
 

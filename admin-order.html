@@ -985,16 +985,42 @@ async function loginGoogle() {
     const cek = await fetch(`${SUPA_URL}/auth/v1/settings`, { headers: { apikey: SUPA_ANON } });
     const st = await cek.json();
     if (!st.external || !st.external.google) {
-      showLoginError('Login Google belum diaktifkan di Supabase. '
-                   + 'Aktifkan Authentication > Providers > Google terlebih dahulu.');
+      showLoginError('Login Google belum diaktifkan di Supabase. Aktifkan di '
+                   + 'Authentication → Sign In / Providers → Google, lalu isi '
+                   + 'Site URL & Redirect URLs di Authentication → URL Configuration.');
       return;
     }
   } catch (e) { /* kalau pengecekan gagal, tetap coba arahkan */ }
   location.href = url;
 }
 
+// Supabase memulangkan kegagalan OAuth sebagai ?error=... atau #error=...
+// Tanpa penanganan ini, pengguna hanya melihat halaman kosong tanpa penjelasan.
+function tampilkanErrorOAuth() {
+  const q = new URLSearchParams(location.search.slice(1));
+  const h = new URLSearchParams(location.hash.slice(1));
+  const kode = q.get('error_code') || h.get('error_code') || q.get('error') || h.get('error');
+  if (!kode) return false;
+  const ket = q.get('error_description') || h.get('error_description') || '';
+  let pesan;
+  if (/provider.*not.*enabled|unsupported_provider/i.test(kode + ' ' + ket)) {
+    pesan = 'Login Google belum diaktifkan di Supabase '
+          + '(Authentication → Sign In / Providers → Google).';
+  } else if (/bad_oauth_callback|state/i.test(kode + ' ' + ket)) {
+    pesan = 'Alamat pengembalian belum terdaftar di Supabase. Isi '
+          + 'Authentication → URL Configuration: Site URL = https://www.aclean.id, '
+          + 'dan tambahkan https://www.aclean.id/admin-order.html ke Redirect URLs.';
+  } else {
+    pesan = 'Login Google gagal: ' + (ket || kode).replace(/\+/g, ' ');
+  }
+  history.replaceState(null, '', location.pathname);
+  showLoginError(pesan);
+  return true;
+}
+
 // Sepulang dari Google, Supabase mengembalikan token di fragment URL (#...).
 async function tangkapSesiGoogle() {
+  if (tampilkanErrorOAuth()) return false;
   if (!location.hash.includes('access_token')) return false;
   const q = new URLSearchParams(location.hash.slice(1));
   const token = q.get('access_token');

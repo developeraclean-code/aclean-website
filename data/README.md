@@ -349,3 +349,51 @@ Peran: `owner`, `admin`, atau `staf`. Email yang sudah ada akan diperbarui sandi
 Cabut jalur kode bersama dengan menghapus blok "Jalur lama" di
 `check_admin_pass`, lalu hapus kotak PIN di `admin-order.html`.
 Jangan lakukan sebelum yakin — itu satu-satunya jaring pengaman yang tersisa.
+
+---
+
+# Login Google saja (menyusul — perlu tindakan Anda)
+
+Mekanismenya **sudah siap dan sudah diuji**. Yang belum: provider Google di
+Supabase, yang hanya bisa diaktifkan dari dashboard.
+
+## Kondisi saat ini
+
+- Provider aktif di Supabase Auth: **email saja** (`google: false`).
+- Tombol Google lama di panel tidak pernah berfungsi — Client ID-nya masih
+  teks contoh `GANTI_DENGAN_GOOGLE_CLIENT_ID_ANDA`. Sudah dihapus dan diganti
+  tombol yang memakai Supabase OAuth.
+- `handleGoogleLogin` lama juga dihapus: verifikasinya hanya di browser
+  sehingga bisa dilewati.
+
+## Dua langkah yang harus Anda lakukan
+
+**1. Google Cloud Console** — buat OAuth Client ID (tipe: Web application).
+   Authorized redirect URI:
+   `https://apsbeppcmsxeldnejibz.supabase.co/auth/v1/callback`
+
+**2. Supabase Dashboard** — `Authentication → Providers → Google`:
+   aktifkan, lalu isi Client ID & Client Secret dari langkah 1.
+
+## Setelah itu, satu perintah untuk mengunci
+
+```sql
+update public.admin_user
+   set wajib_google = true
+ where email = 'developer.aclean@gmail.com';
+```
+
+Setelah saklar ini menyala, **hanya sesi hasil login Google yang diterima** —
+email/sandi ditolak walau kredensialnya benar. Sudah diuji: dengan saklar
+menyala, sesi `provider=email` langsung ditolak; dimatikan lagi, kembali
+diterima.
+
+⚠️ **Jangan nyalakan sebelum langkah 1–2 selesai**, karena jalur akun akan
+tertutup sementara Google belum bisa dipakai.
+
+## Sekalian ditemukan: pendaftaran mandiri masih terbuka
+
+`/auth/v1/settings` menunjukkan `disable_signup: false` — siapa pun bisa
+membuat akun Supabase Auth di proyek ini. Mereka **tidak** bisa masuk panel
+(harus terdaftar di `admin_user`), tapi sebaiknya ditutup:
+`Authentication → Sign In / Providers → Allow new users to sign up` → matikan.

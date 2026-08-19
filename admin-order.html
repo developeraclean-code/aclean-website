@@ -1087,16 +1087,6 @@ function parseJWT(token) {
 }
 
 // ─── PIN LOGIN ─────────────────────────────────────────────────────────────────
-// Verifikasi kode akses ke server. Mengembalikan false untuk kode salah
-// maupun saat akses sedang terkunci — pesan sengaja tidak dibedakan.
-async function verifyKodeAkses(kode) {
-  if (!kode) return false;
-  try {
-    return await supaRpc('admin_login', { p_pass: kode }) === true;
-  } catch (e) {
-    return false;
-  }
-}
 
 
 function showLoginError(msg) {
@@ -1170,8 +1160,8 @@ async function loadOrders() {
 
   try {
     const [orders, stats] = await Promise.all([
-      supaRpc('get_website_orders', {}),
-      supaRpc('get_website_order_stats', {})
+      supaRpc('get_website_orders', { admin_pass: '' }),
+      supaRpc('get_website_order_stats', { admin_pass: '' })
     ]);
     allOrders = Array.isArray(orders) ? orders : [];
     renderOrders(allOrders);
@@ -1297,7 +1287,8 @@ async function updateStatus(orderRef, status) {
   try {
     await supaRpc('update_website_order_status', {
       p_order_ref: orderRef,
-      p_status:    status
+      p_status:    status,
+      admin_pass: ''
     });
     showToast(`✅ Status diubah ke "${labels[status]||status}"`, 'success');
   } catch(e) {
@@ -1468,7 +1459,7 @@ async function loadCatalogFromSupabase() {
 
 async function pushCatalogToSupabase(allSvcs) {
   try {
-    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(allSvcs)});
+    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(allSvcs), admin_pass: ''});
   } catch(e) { console.warn('pushCatalogToSupabase:', e); throw e; }
 }
 
@@ -1592,7 +1583,7 @@ async function savePrices() {
   localStorage.setItem('aclean_services_ver', 'v2');
   showToast('⏳ Menyimpan ke Supabase...', 'info');
   try {
-    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(updated)});
+    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(updated), admin_pass: ''});
     showToast('✅ Harga disimpan ke Supabase! Berlaku langsung di semua perangkat.', 'success');
   } catch(e) {
     showToast('⚠️ Disimpan lokal saja (Supabase gagal: ' + e.message + ')', 'warning');
@@ -1617,7 +1608,7 @@ async function saveTransport() {
   localStorage.setItem('aclean_max_per_day', mpd);
   // Simpan max_per_day ke Supabase
   try {
-    await supaRpc('save_website_setting', {p_key:'max_per_day', p_value:mpd});
+    await supaRpc('save_website_setting', {p_key:'max_per_day', p_value:mpd, admin_pass:''});
     showToast('✅ Pengaturan transport & kapasitas disimpan!', 'success');
   } catch(e) {
     showToast('✅ Disimpan lokal (Supabase: '+e.message+')', 'success');
@@ -2104,7 +2095,7 @@ async function loadAcUnits() {
   const wrap = document.getElementById('acUnitsWrap');
   wrap.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat unit AC dari Supabase...</div>`;
   try {
-    acUnits = await supaRpc('admin_list_ac_units', {});
+    acUnits = await supaRpc('admin_list_ac_units', { admin_pass: '' });
     const sel = document.getElementById('acBrandFilter');
     const brands = [...new Set(acUnits.map(u => u.brand).filter(Boolean))].sort();
     sel.innerHTML = `<option value="all">Semua Merek</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join('');
@@ -2197,7 +2188,8 @@ async function saveAcRow(key){
       p_id:pid, p_brand:v.brand, p_seri:v.seri, p_nama_varian:v.nama_varian,
       p_tipe:v.tipe, p_kapasitas:v.kapasitas, p_harga_unit:v.harga_unit,
       p_harga_inc_pasang:v.harga_inc_pasang, p_keterangan_inc_pasang:v.keterangan_inc_pasang,
-      p_is_active:v.is_active
+      p_is_active:v.is_active,
+      admin_pass: ''
     });
     showToast('✅ Tersimpan — halaman Jual AC otomatis terupdate', 'success');
     await loadAcUnits();
@@ -2226,7 +2218,8 @@ async function toggleAcActive(key){
       p_id:Number(key), p_brand:u.brand, p_seri:u.seri, p_nama_varian:u.nama_varian,
       p_tipe:u.tipe, p_kapasitas:u.kapasitas, p_harga_unit:u.harga_unit,
       p_harga_inc_pasang:u.harga_inc_pasang, p_keterangan_inc_pasang:u.keterangan_inc_pasang,
-      p_is_active:newState
+      p_is_active:newState,
+      admin_pass: ''
     });
     showToast(newState ? '🟢 Unit diaktifkan — tampil di website' : '⚪ Unit disembunyikan dari website', 'success');
     await loadAcUnits();
@@ -2239,7 +2232,7 @@ async function deleteAcRow(id){
   if (id === 'new') { await loadAcUnits(); return; }
   if (!confirm('Hapus unit ini? Tindakan tidak bisa dibatalkan.')) return;
   try {
-    await supaRpc('delete_ac_unit', {p_id:Number(id)});
+    await supaRpc('delete_ac_unit', {p_id:Number(id), admin_pass:''});
     showToast('🗑 Unit dihapus', 'success');
     await loadAcUnits();
   } catch(e) {

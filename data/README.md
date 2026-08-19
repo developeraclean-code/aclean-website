@@ -397,3 +397,67 @@ tertutup sementara Google belum bisa dipakai.
 membuat akun Supabase Auth di proyek ini. Mereka **tidak** bisa masuk panel
 (harus terdaftar di `admin_user`), tapi sebaiknya ditutup:
 `Authentication → Sign In / Providers → Allow new users to sign up` → matikan.
+
+---
+
+# Akses admin: hanya Google (19 Agustus 2026)
+
+Kode akses bersama, PIN, dan login email/sandi **sudah dicabut seluruhnya**.
+Satu-satunya cara masuk: login Google oleh email yang terdaftar aktif di
+`admin_user`.
+
+## Jebakan yang hampir mengunci pemiliknya
+
+Penguncian versi pertama mensyaratkan `app_metadata.provider = 'google'`.
+Ternyata kolom itu menyimpan metode **pendaftaran pertama**, bukan metode sesi.
+Akun ini dibuat lewat email lalu menautkan Google, sehingga nilainya tetap
+`email` walau login lewat Google — syarat itu akan menolak pemiliknya sendiri.
+
+Yang benar adalah klaim **`amr`**, yang mencatat cara sesi ini dibuat:
+
+```json
+[{"method": "password", "timestamp": 1787104314}]   // login sandi
+[{"method": "oauth",    "timestamp": ...}]          // login Google
+```
+
+`is_admin()` sekarang memakai **daftar-tolak**: sesi dengan metode
+`password` / `otp` / `magiclink` / `email` / `totp` ditolak saat
+`wajib_google = true`. Sengaja tidak mensyaratkan nilai persis untuk Google,
+supaya tidak mengunci pemilik kalau nilainya berbeda dari dugaan.
+
+## Yang sudah dihapus
+
+`rotate_admin_pass`, `admin_pass_cocok`, `admin_is_locked`,
+`admin_record_failure`, `admin_lockout_key`, tabel `admin_credential`,
+serta kotak PIN dan form email/sandi di panel.
+
+`check_admin_pass(p_pass)` masih ada dengan tanda tangan lama karena dipanggil
+7 RPC, tapi parameternya diabaikan — gerbangnya murni `is_admin()`.
+
+## Menambah admin baru
+
+Tidak perlu membuat kata sandi. Cukup:
+
+```sql
+insert into public.admin_user (email, nama, peran)
+values ('orang@aclean.id', 'Nama Orang', 'admin');
+
+update public.admin_user set wajib_google = true where email = 'orang@aclean.id';
+```
+
+Lalu daftarkan emailnya sebagai **test user** di Google Cloud
+(`Google Auth Platform → Audience → Test users`), dan orang tersebut tinggal
+klik "Masuk dengan Google".
+
+Mencabut akses: `update admin_user set aktif = false where email = '...'` —
+berlaku seketika, bahkan untuk sesi yang masih hidup.
+
+**Catatan:** Edge Function `admin-provision` kini tidak berfungsi karena
+bergantung pada kode akses bersama yang sudah dicabut. Sudah tidak diperlukan —
+penambahan admin cukup lewat SQL di atas.
+
+## Sisa yang disarankan
+
+Matikan provider Email di `Authentication → Sign In / Providers → Email`,
+supaya login sandi tidak mungkin dilakukan bahkan di tingkat Auth. Akun ini
+masih menyimpan kata sandi lama yang kini tidak berguna untuk akses admin.

@@ -345,35 +345,9 @@ tr:hover td{background:var(--gray-50)}
       </button>
     </div>
 
-    <div class="login-divider">atau</div>
-
-    <!-- Login akun per orang (Supabase Auth) — identitas tercatat, bisa dicabut -->
-    <div id="akunLoginWrap" style="margin-bottom:18px">
-      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Login dengan akun admin</div>
-      <input type="email" id="akunEmail" placeholder="Email admin" autocomplete="username"
-             style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:8px"/>
-      <input type="password" id="akunSandi" placeholder="Kata sandi" autocomplete="current-password"
-             style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:10px"
-             onkeydown="if(event.key==='Enter')loginAkun()"/>
-      <button onclick="loginAkun()"
-              style="width:100%;padding:12px;border-radius:10px;background:var(--primary);color:var(--white);font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-body)">
-        Masuk
-      </button>
-    </div>
-
-    <div class="login-divider">atau</div>
-
-    <!-- Kode akses bersama — jaring pengaman selama transisi. -->
-    <div id="pinLoginWrap">
-      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Login dengan kode akses bersama</div>
-      <input type="password" id="pinInput" placeholder="Masukkan PIN admin"
-             style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-size:14px;font-family:var(--font-body);outline:none;margin-bottom:10px"
-             onkeydown="if(event.key==='Enter')checkPin()"/>
-      <button onclick="checkPin()"
-              style="width:100%;padding:12px;border-radius:10px;background:var(--primary);color:var(--white);font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:var(--font-body)">
-        Masuk
-      </button>
-    </div>
+    <p style="font-size:12px;color:var(--gray-500);margin-top:16px;line-height:1.6">
+      Masuk hanya bisa lewat akun Google yang terdaftar sebagai admin.
+    </p>
 
     <p class="login-note">
       Akses admin hanya untuk <strong>developer.aclean@gmail.com</strong><br/>
@@ -965,11 +939,9 @@ function res(body)  {
 <script>
 // ─── KONFIGURASI ───────────────────────────────────────────────────────────────
 const ALLOWED_EMAILS  = ['developer.aclean@gmail.com'];
-// Kode akses TIDAK diverifikasi di sisi klien. File ini dilayani publik, jadi
-// hash apa pun yang ditaruh di sini bisa diunduh lalu dipecahkan offline.
-// Verifikasi dilakukan server lewat RPC admin_login (bcrypt + kunci 15 menit
-// setelah 10 percobaan gagal). ADMIN_PASS hanya ditahan di memori/sessionStorage.
-let   ADMIN_PASS      = null;   // kode akses bersama (jalur lama)
+// Satu-satunya cara masuk adalah login Google oleh email yang terdaftar aktif
+// di tabel admin_user. Kode akses bersama, PIN, dan login email/sandi sudah
+// dicabut seluruhnya pada 19 Agustus 2026. Yang disimpan hanya token sesi.
 let   AUTH_TOKEN      = null;   // token sesi Supabase Auth (jalur baru)
 
 // Login per orang. Identitas tercatat di jejak audit, dan aksesnya bisa
@@ -1049,38 +1021,6 @@ async function tangkapSesiGoogle() {
   }
 }
 
-async function loginAkun() {
-  const email = (document.getElementById('akunEmail').value || '').trim();
-  const sandi = document.getElementById('akunSandi').value || '';
-  if (!email || !sandi) { showLoginError('Email dan kata sandi wajib diisi.'); return; }
-  try {
-    const res = await fetch(`${SUPA_URL}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: { 'apikey': SUPA_ANON, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password: sandi })
-    });
-    const d = await res.json();
-    if (!res.ok || !d.access_token) {
-      showLoginError('Email atau kata sandi salah.'); return;
-    }
-    AUTH_TOKEN = d.access_token;
-
-    // Pastikan akun ini memang terdaftar sebagai admin yang masih aktif.
-    const boleh = await supaRpc('admin_login', { p_pass: '' });
-    if (boleh !== true) {
-      AUTH_TOKEN = null;
-      showLoginError('Akun ini tidak terdaftar sebagai admin aktif.'); return;
-    }
-
-    const nama = (d.user && d.user.user_metadata && d.user.user_metadata.nama) || email;
-    sessionStorage.setItem('aclean_admin_session', JSON.stringify({
-      name: nama, email, avatar: null, t: d.access_token
-    }));
-    showApp(nama, email, null);
-  } catch (e) {
-    showLoginError('Login gagal: ' + e.message);
-  }
-}
 
 // Supabase
 const SUPA_URL  = 'https://apsbeppcmsxeldnejibz.supabase.co';
@@ -1122,8 +1062,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedSession = sessionStorage.getItem('aclean_admin_session');
   if (savedSession) {
     const s = JSON.parse(savedSession);
-    ADMIN_PASS = s.k || null;
     AUTH_TOKEN = s.t || null;
+    if (!AUTH_TOKEN) { sessionStorage.removeItem('aclean_admin_session'); return; }
     showApp(s.name, s.email, s.avatar);
   }
 
@@ -1158,19 +1098,6 @@ async function verifyKodeAkses(kode) {
   }
 }
 
-async function checkPin() {
-  const pin = document.getElementById('pinInput').value.trim();
-  if (await verifyKodeAkses(pin)) {
-    ADMIN_PASS = pin;
-    sessionStorage.setItem('aclean_admin_session', JSON.stringify({
-      name: 'Admin AClean', email: 'developer.aclean@gmail.com', avatar: null, k: pin
-    }));
-    showApp('Admin AClean', 'developer.aclean@gmail.com', null);
-  } else {
-    showLoginError('PIN salah, atau akses terkunci sementara karena terlalu banyak percobaan.');
-    document.getElementById('pinInput').value = '';
-  }
-}
 
 function showLoginError(msg) {
   const el = document.getElementById('loginError');
@@ -1243,8 +1170,8 @@ async function loadOrders() {
 
   try {
     const [orders, stats] = await Promise.all([
-      supaRpc('get_website_orders', {admin_pass: ADMIN_PASS}),
-      supaRpc('get_website_order_stats', {admin_pass: ADMIN_PASS})
+      supaRpc('get_website_orders', {}),
+      supaRpc('get_website_order_stats', {})
     ]);
     allOrders = Array.isArray(orders) ? orders : [];
     renderOrders(allOrders);
@@ -1370,8 +1297,7 @@ async function updateStatus(orderRef, status) {
   try {
     await supaRpc('update_website_order_status', {
       p_order_ref: orderRef,
-      p_status:    status,
-      admin_pass:  ADMIN_PASS
+      p_status:    status
     });
     showToast(`✅ Status diubah ke "${labels[status]||status}"`, 'success');
   } catch(e) {
@@ -1542,7 +1468,7 @@ async function loadCatalogFromSupabase() {
 
 async function pushCatalogToSupabase(allSvcs) {
   try {
-    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(allSvcs), admin_pass: ADMIN_PASS});
+    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(allSvcs)});
   } catch(e) { console.warn('pushCatalogToSupabase:', e); throw e; }
 }
 
@@ -1666,7 +1592,7 @@ async function savePrices() {
   localStorage.setItem('aclean_services_ver', 'v2');
   showToast('⏳ Menyimpan ke Supabase...', 'info');
   try {
-    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(updated), admin_pass: ADMIN_PASS});
+    await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(updated)});
     showToast('✅ Harga disimpan ke Supabase! Berlaku langsung di semua perangkat.', 'success');
   } catch(e) {
     showToast('⚠️ Disimpan lokal saja (Supabase gagal: ' + e.message + ')', 'warning');
@@ -1691,7 +1617,7 @@ async function saveTransport() {
   localStorage.setItem('aclean_max_per_day', mpd);
   // Simpan max_per_day ke Supabase
   try {
-    await supaRpc('save_website_setting', {p_key:'max_per_day', p_value:mpd, admin_pass:ADMIN_PASS});
+    await supaRpc('save_website_setting', {p_key:'max_per_day', p_value:mpd});
     showToast('✅ Pengaturan transport & kapasitas disimpan!', 'success');
   } catch(e) {
     showToast('✅ Disimpan lokal (Supabase: '+e.message+')', 'success');
@@ -2128,9 +2054,9 @@ async function saveAllImages() {
       const res = await fetch(MEDIA_UPLOAD, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON,
-                   'Authorization': `Bearer ${SUPA_ANON}` },
-        body: JSON.stringify({ kode_akses: ADMIN_PASS, slug,
-                               berkas: imgStore[slug], mime: 'image/jpeg' })
+                   // Edge Function memverifikasi sesi ini ke admin_user.
+                   'Authorization': `Bearer ${AUTH_TOKEN}` },
+        body: JSON.stringify({ slug, berkas: imgStore[slug], mime: 'image/jpeg' })
       });
       const hasil = await res.json();
       if (!res.ok || !hasil.ok) throw new Error(hasil.error || ('HTTP ' + res.status));
@@ -2178,7 +2104,7 @@ async function loadAcUnits() {
   const wrap = document.getElementById('acUnitsWrap');
   wrap.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat unit AC dari Supabase...</div>`;
   try {
-    acUnits = await supaRpc('admin_list_ac_units', {admin_pass: ADMIN_PASS});
+    acUnits = await supaRpc('admin_list_ac_units', {});
     const sel = document.getElementById('acBrandFilter');
     const brands = [...new Set(acUnits.map(u => u.brand).filter(Boolean))].sort();
     sel.innerHTML = `<option value="all">Semua Merek</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join('');
@@ -2271,7 +2197,7 @@ async function saveAcRow(key){
       p_id:pid, p_brand:v.brand, p_seri:v.seri, p_nama_varian:v.nama_varian,
       p_tipe:v.tipe, p_kapasitas:v.kapasitas, p_harga_unit:v.harga_unit,
       p_harga_inc_pasang:v.harga_inc_pasang, p_keterangan_inc_pasang:v.keterangan_inc_pasang,
-      p_is_active:v.is_active, admin_pass:ADMIN_PASS
+      p_is_active:v.is_active
     });
     showToast('✅ Tersimpan — halaman Jual AC otomatis terupdate', 'success');
     await loadAcUnits();
@@ -2300,7 +2226,7 @@ async function toggleAcActive(key){
       p_id:Number(key), p_brand:u.brand, p_seri:u.seri, p_nama_varian:u.nama_varian,
       p_tipe:u.tipe, p_kapasitas:u.kapasitas, p_harga_unit:u.harga_unit,
       p_harga_inc_pasang:u.harga_inc_pasang, p_keterangan_inc_pasang:u.keterangan_inc_pasang,
-      p_is_active:newState, admin_pass:ADMIN_PASS
+      p_is_active:newState
     });
     showToast(newState ? '🟢 Unit diaktifkan — tampil di website' : '⚪ Unit disembunyikan dari website', 'success');
     await loadAcUnits();
@@ -2313,7 +2239,7 @@ async function deleteAcRow(id){
   if (id === 'new') { await loadAcUnits(); return; }
   if (!confirm('Hapus unit ini? Tindakan tidak bisa dibatalkan.')) return;
   try {
-    await supaRpc('delete_ac_unit', {p_id:Number(id), admin_pass:ADMIN_PASS});
+    await supaRpc('delete_ac_unit', {p_id:Number(id)});
     showToast('🗑 Unit dihapus', 'success');
     await loadAcUnits();
   } catch(e) {

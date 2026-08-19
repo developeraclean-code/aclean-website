@@ -174,6 +174,9 @@ tr:hover td{background:var(--gray-50)}
 .img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .img-kel{grid-column:1/-1;font-size:13px;font-weight:800;color:var(--dark);margin:14px 0 -4px;padding-bottom:7px;border-bottom:1.5px solid var(--gray-200)}
 .img-kel:first-child{margin-top:0}
+.tk-lbl{display:block;font-size:11.5px;font-weight:700;color:var(--gray-400);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.3px}
+.tk-in{width:100%;padding:9px 11px;border:1.5px solid var(--gray-200);border-radius:9px;font-size:13.5px;font-family:inherit;color:var(--dark);background:var(--white);resize:vertical}
+.tk-in:focus{outline:none;border-color:var(--primary)}
 .img-kel .n{font-weight:600;color:var(--gray-400);margin-left:6px}
 .img-item{background:var(--white);border:1.5px solid var(--gray-200);border-radius:12px;overflow:hidden;transition:.2s}
 .img-item:hover{border-color:var(--primary-100)}
@@ -397,6 +400,9 @@ tr:hover td{background:var(--gray-50)}
       <button class="sb-link" onclick="showTab('images',this)">
         <span class="ic">🖼️</span> Foto Layanan
       </button>
+      <button class="sb-link" onclick="showTab('teks',this)">
+        <span class="ic">✏️</span> Teks Beranda
+      </button>
       <button class="sb-link" onclick="showTab('catalog',this)">
         <span class="ic">⚙️</span> Kelola Layanan
       </button>
@@ -584,6 +590,22 @@ tr:hover td{background:var(--gray-50)}
           </button>
           <div id="imgSaveStatus" style="margin-top:10px;font-size:13px;color:var(--gray-400)"></div>
         </div>
+      </div>
+
+      <!-- ── TAB: TEKS BERANDA ── -->
+      <div class="tab-content" id="tab-teks">
+        <h2 style="font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:8px">Teks Kartu Layanan di Beranda</h2>
+        <p style="font-size:14px;color:var(--gray-400);margin-bottom:20px">
+          Judul, keterangan, dan harga yang tampil di enam kartu layanan
+          <a href="index.html" target="_blank" style="color:var(--primary)">halaman beranda</a>.
+          Harga di sini hanya tulisan pajangan — harga yang ditagih tetap dari Katalog &amp; Harga.
+        </p>
+        <div id="teksGrid"></div>
+        <button class="save-btn" id="teksSaveBtn" onclick="simpanTeksBeranda()" style="margin-top:20px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Simpan Teks ke Beranda
+        </button>
+        <div id="teksStatus" style="margin-top:10px;font-size:13px;color:var(--gray-400)"></div>
       </div>
 
       <!-- ── TAB: KELOLA LAYANAN ── -->
@@ -1198,7 +1220,7 @@ function sesiBerakhir() {
 }
 
 // ─── TAB NAVIGATION ───────────────────────────────────────────────────────────
-const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan', catalog:'Kelola Layanan', jualac:'Jual Unit AC'};
+const tabTitles = {orders:'Semua Order', today:'Order Hari Ini', settings:'Katalog & Harga', images:'Foto Layanan', teks:'Teks Beranda', catalog:'Kelola Layanan', jualac:'Jual Unit AC'};
 function toggleSidebar() {
   const sb = document.getElementById('sidebar');
   const ov = document.getElementById('sidebarOverlay');
@@ -1230,6 +1252,7 @@ function showTab(tab, btn) {
   if (tab === 'today') renderToday();
   if (tab === 'settings') { loadCatalogFromSupabase().then(() => { renderPriceFields(); loadTransportSettings(); }); }
   if (tab === 'images') { renderImageGrid(); }
+  if (tab === 'teks')   { renderTeksBeranda(); }
   if (tab === 'catalog') { activeCatTab = 'all'; loadCatalogFromSupabase().then(() => renderCatalogManager()); }
   if (tab === 'jualac') loadAcUnits();
 }
@@ -2074,7 +2097,7 @@ async function renderImageGrid() {
       </div>`;
   };
 
-  const urutan = ['beranda', 'hero', 'halaman', 'layanan', 'blog'];
+  const urutan = ['beranda', 'hero', 'halaman', 'layanan', 'blog', 'umum'];
   const lain   = [...new Set(MEDIA_SLOTS.map(m => m.kelompok))].filter(k => !urutan.includes(k));
 
   grid.innerHTML = [...urutan, ...lain].map(kel => {
@@ -2093,6 +2116,7 @@ const NAMA_KELOMPOK = {
   halaman: '📄 Halaman layanan & area',
   layanan: '🧰 Kartu layanan di halaman order',
   blog:    '📝 Artikel blog',
+  umum:    '🌐 Seluruh situs',
 };
 
 // Slot yang belum pernah diunggah (versi 1) tapi punya foto bawaan di situs.
@@ -2469,6 +2493,85 @@ function showToast(msg, type) {
   t.textContent = msg;
   t.className = 'toast show' + (type ? ' '+type : '');
   setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── TEKS KARTU BERANDA ────────────────────────────────────────────────────
+// Sumbernya website_settings.beranda_kartu. Beranda tetap memuat teks lengkap
+// di HTML-nya (supaya terbaca mesin pencari) dan hanya menimpanya dari sini.
+
+let TEKS_KARTU = [];
+
+async function renderTeksBeranda() {
+  const grid = document.getElementById('teksGrid');
+  grid.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat teks...</div>`;
+  try {
+    const baris = await supaGet('website_settings?key=eq.beranda_kartu&select=value');
+    TEKS_KARTU = baris.length ? JSON.parse(baris[0].value) : [];
+  } catch (e) {
+    grid.innerHTML = `<div class="img-kosong">Gagal memuat teks.<br><small>${e.message}</small></div>`;
+    return;
+  }
+  if (!TEKS_KARTU.length) {
+    grid.innerHTML = `<div class="img-kosong">Belum ada teks kartu tersimpan.</div>`;
+    return;
+  }
+  grid.innerHTML = TEKS_KARTU.map((k, i) => `
+    <div class="settings-card" style="margin-bottom:14px">
+      <h3 style="margin-bottom:10px">${k.judul || k.id}</h3>
+      <label class="tk-lbl">Judul</label>
+      <input class="tk-in" id="tk-judul-${i}" value="${lolos(k.judul)}" maxlength="60"/>
+      <label class="tk-lbl">Keterangan</label>
+      <textarea class="tk-in" id="tk-desk-${i}" rows="2" maxlength="220">${lolos(k.desk)}</textarea>
+      <div style="display:flex;gap:10px">
+        <div style="flex:2">
+          <label class="tk-lbl">Harga (tulisan)</label>
+          <input class="tk-in" id="tk-harga-${i}" value="${lolos(k.harga)}" maxlength="30"/>
+        </div>
+        <div style="flex:1">
+          <label class="tk-lbl">Satuan</label>
+          <input class="tk-in" id="tk-satuan-${i}" value="${lolos(k.satuan)}" maxlength="20"/>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// Nilai masuk ke atribut HTML, jadi tanda kutip dan kurung sudut harus dijinakkan.
+function lolos(t) {
+  return String(t ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function simpanTeksBeranda() {
+  if (!TEKS_KARTU.length) return;
+  const btn = document.getElementById('teksSaveBtn');
+  const st  = document.getElementById('teksStatus');
+  const baru = TEKS_KARTU.map((k, i) => ({
+    ...k,
+    judul:  document.getElementById('tk-judul-'  + i).value.trim(),
+    desk:   document.getElementById('tk-desk-'   + i).value.trim(),
+    harga:  document.getElementById('tk-harga-'  + i).value.trim(),
+    satuan: document.getElementById('tk-satuan-' + i).value.trim(),
+  }));
+  const kosong = baru.find(k => !k.judul);
+  if (kosong) { showToast('Judul tidak boleh kosong', 'error'); return; }
+
+  btn.disabled = true;
+  st.textContent = 'Menyimpan...'; st.style.color = 'var(--gray-400)';
+  try {
+    await supaRpc('save_website_setting',
+      { p_key: 'beranda_kartu', p_value: JSON.stringify(baru), admin_pass: '' });
+    TEKS_KARTU = baru;
+    showToast('✅ Teks beranda tersimpan', 'success');
+    st.textContent = '✅ Tersimpan. Beranda ikut berubah setelah dimuat ulang.';
+    st.style.color = 'var(--green)';
+    await renderTeksBeranda();
+  } catch (e) {
+    showToast('❌ Gagal menyimpan', 'error');
+    st.textContent = 'Gagal: ' + e.message;
+    st.style.color = 'var(--red, #DC2626)';
+  } finally {
+    btn.disabled = false;
+  }
 }
 </script>
 </body>

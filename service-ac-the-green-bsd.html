@@ -14,7 +14,7 @@
 <meta property="og:description" content="Jasa service AC khusus klaster The Green BSD City. Teknisi familiar route, cuci AC Rp 95.000, garansi 30 hari." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aclean.id/service-ac-the-green-bsd.html" />
-<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg" />
+<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg?v=2" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Teknisi AClean service AC di The Green BSD City" />
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Service AC The Green BSD City - AClean | Cuci AC Rp 95.000" />
 <meta name="twitter:description" content="Jasa service AC khusus klaster The Green BSD City. Cuci AC Rp 95.000, garansi 30 hari." />
-<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg" />
+<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg?v=2" />
 <link rel="canonical" href="https://aclean.id/service-ac-the-green-bsd.html" />
 
 <script type="application/ld+json">
@@ -36,7 +36,7 @@
   "url": "https://aclean.id/service-ac-the-green-bsd.html",
   "telephone": "+6281289898937",
   "email": "info@aclean.id",
-  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg",
+  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg?v=2",
   "priceRange": "Rp 95.000 – Rp 500.000",
   "geo": {"@type": "GeoCoordinates", "latitude": -6.3015, "longitude": 106.6480},
   "areaServed": {"@type": "Place", "name": "The Green BSD City, Serpong, Tangerang Selatan"},
@@ -190,6 +190,24 @@ footer{background:var(--dark);color:var(--white);padding:40px 24px 20px}
 .mob-menu a{display:block;padding:14px 16px;text-decoration:none;color:var(--dark,#0F172A);font-size:16px;font-weight:500;border-radius:10px}
 .mob-menu .mc{margin-top:12px;background:var(--primary,#2563EB);color:#fff;text-align:center;border-radius:12px;font-weight:600}
 @media(max-width:768px){.nav-links{display:none}.mob-btn{display:block}.hero{padding:20px 16px 50px}.hero h1{font-size:26px}.hero-img-wrap{display:none}}
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
+}
 </style>
 <script src="/js/analytics.js" defer></script>
 </head>
@@ -231,7 +249,7 @@ footer{background:var(--dark);color:var(--white);padding:40px 24px 20px}
   </div>
 </div>
 <div class="hero-img-wrap">
-  <img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg" alt="Teknisi AClean service AC di The Green BSD City" loading="eager" />
+  <img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/area-bsd.jpg?v=2" alt="Teknisi AClean service AC di The Green BSD City" loading="eager" />
 </div>
 </div>
 </section>

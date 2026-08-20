@@ -13,13 +13,13 @@
 <meta property="og:description" content="Tips lengkap bongkar pasang AC saat pindahan rumah. Cara agar freon tidak terbuang dan kesalahan umum yang harus dihindari." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://aclean.id/blog/tips-bongkar-pasang-ac-pindahan.html" />
-<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/bongkar-pasang-ac.jpg" />
+<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/bongkar-pasang-ac.jpg?v=2" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:locale" content="id_ID" />
 <meta property="og:site_name" content="AClean Service" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/bongkar-pasang-ac.jpg" />
+<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/bongkar-pasang-ac.jpg?v=2" />
 <link rel="canonical" href="https://aclean.id/blog/tips-bongkar-pasang-ac-pindahan.html" />
 <script type="application/ld+json">
 {
@@ -95,6 +95,24 @@ li{font-size:15px;color:var(--dark-600);line-height:1.8;margin-bottom:8px}
 footer{background:var(--dark);color:rgba(255,255,255,.6);text-align:center;padding:28px;font-size:13px}
 footer a{color:var(--accent-light)}
 @media(max-width:600px){.nav-links{display:none}.wrap{padding:32px 16px 60px}h1{font-size:24px}.tip-grid{grid-template-columns:1fr}}
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
+}
 </style>
 <script src="/js/analytics.js" defer></script>
 </head>

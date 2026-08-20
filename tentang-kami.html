@@ -81,6 +81,24 @@ a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-light)}
 .values{grid-template-columns:1fr}.team-img img{height:250px}
 .cta-section{padding:32px 20px;border-radius:16px}
 }
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
+}
 </style>
 <link rel="canonical" href="https://aclean.id/tentang-kami.html" />
 <meta property="og:url" content="https://aclean.id/tentang-kami.html" />
@@ -113,7 +131,7 @@ a{color:var(--primary);text-decoration:none}a:hover{color:var(--primary-light)}
 <p>AClean Service adalah penyedia jasa service AC profesional yang berbasis di <strong>Alam Sutera, Tangerang Selatan</strong>. Didirikan pada tahun 2015, kami memulai perjalanan dengan visi sederhana: memberikan layanan service AC yang <strong>jujur, transparan, dan berkualitas tinggi</strong> kepada masyarakat Tangerang Selatan.</p>
 <p>Selama lebih dari 10 tahun, kami telah berkembang dari tim kecil menjadi penyedia jasa AC terpercaya yang melayani ribuan rumah tangga dan bisnis di area Alam Sutera, BSD City, Gading Serpong, Graha Raya-Bintaro, Karawaci, dan area Serpong lainnya.</p>
 
-<div class="team-img"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/tentang-tim.jpg" alt="Tim teknisi AClean Service"  onerror="if(this.src.indexOf('tim-teknisi-aclean-service.jpg')<0){this.src='./images/tim-teknisi-aclean-service.jpg'}"/></div>
+<div class="team-img"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/tentang-tim.jpg?v=2" alt="Tim teknisi AClean Service"  onerror="if(this.src.indexOf('tim-teknisi-aclean-service.jpg')<0){this.src='./images/tim-teknisi-aclean-service.jpg'}"/></div>
 
 <h2>Nilai-nilai Kami</h2>
 <div class="values">

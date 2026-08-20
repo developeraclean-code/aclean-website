@@ -14,7 +14,7 @@
 <meta property="og:description" content="Jasa service AC Bintaro profesional. Cuci AC, isi freon original Daikin, pasang AC baru. Garansi 30 hari. Teknisi berpengalaman melayani Bintaro Jaya 1-9." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aclean.id/service-ac-bintaro.html" />
-<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg" />
+<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Teknisi AClean service AC di Bintaro Jaya" />
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Service AC Bintaro - AClean | Cuci AC Mulai Rp 95.000" />
 <meta name="twitter:description" content="Jasa service AC Bintaro profesional. Cuci AC mulai Rp 95.000, isi freon, pasang AC baru. Garansi 30 hari. Bintaro Jaya 1-9, Pondok Aren, Rempoa." />
-<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg" />
+<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2" />
 <link rel="canonical" href="https://aclean.id/service-ac-bintaro.html" />
 
 <script type="application/ld+json">
@@ -36,7 +36,7 @@
   "url": "https://aclean.id/service-ac-bintaro.html",
   "telephone": "+6281289898937",
   "email": "info@aclean.id",
-  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg",
+  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2",
   "priceRange": "Rp 95.000 – Rp 500.000",
   "geo": {"@type": "GeoCoordinates", "latitude": -6.2723, "longitude": 106.7066},
   "areaServed": {"@type": "Place", "name": "Bintaro, Pondok Aren, Tangerang Selatan"},
@@ -240,6 +240,30 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
 .mob-menu a{display:block;padding:14px 16px;text-decoration:none;color:var(--dark,#0F172A);font-size:16px;font-weight:500;border-radius:10px}
 .mob-menu .mc{margin-top:12px;background:var(--primary,#2563EB);color:#fff;text-align:center;border-radius:12px;font-weight:600}
 @media(max-width:768px){.nav-links{display:none}.mob-btn{display:block}.hero{padding:100px 16px 60px}.hero h1{font-size:28px}.svc-grid{grid-template-columns:1fr}.area-grid{grid-template-columns:repeat(2,1fr)}.ft-grid{grid-template-columns:1fr}.hero-img-wrap{display:none}.why-grid{grid-template-columns:1fr}}
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
+}
+
+/* Tabel tidak bisa menyusut di bawah lebar isinya. Di layar kecil tabel
+   digulir di dalam kotaknya sendiri, supaya halaman tidak ikut bergeser. */
+@media(max-width:768px){
+  table{display:block;width:100%;max-width:100%;overflow-x:auto}
+}
 </style>
 <script src="/js/analytics.js" defer></script>
 </head>
@@ -287,7 +311,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
   </div>
 </div>
 <div class="hero-img-wrap">
-  <img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg" alt="Teknisi AClean sedang service AC di Bintaro Jaya Tangerang Selatan" loading="eager" />
+  <img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2" alt="Teknisi AClean sedang service AC di Bintaro Jaya Tangerang Selatan" loading="eager" />
 </div>
 </div>
 </section>
@@ -307,7 +331,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
   <p class="sec-desc anim">Kami melayani semua kebutuhan AC di Bintaro Jaya dan sekitarnya — dari perawatan rutin, isi freon, perbaikan, hingga instalasi AC baru untuk perumahan dan perkantoran.</p>
   <div class="svc-grid">
     <div class="sc anim">
-      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/cleaning-ac.jpg" alt="Cleaning AC di Bintaro Jaya" loading="lazy" /></div>
+      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/cleaning-ac.jpg?v=2" alt="Cleaning AC di Bintaro Jaya" loading="lazy" /></div>
       <div class="sc-con">
         <h3>Cuci / Cleaning AC</h3>
         <p>Pembersihan menyeluruh unit indoor & outdoor. Evaporator, kondensor, dan filter AC bersih optimal — AC kembali dingin maksimal.</p>
@@ -325,7 +349,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
       </div>
     </div>
     <div class="sc anim">
-      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/teknisi-aclean.jpg" alt="Pasang AC baru di Bintaro" loading="lazy" /></div>
+      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/teknisi-aclean.jpg?v=2" alt="Pasang AC baru di Bintaro" loading="lazy" /></div>
       <div class="sc-con">
         <h3>Pasang AC Baru</h3>
         <p>Instalasi AC baru untuk rumah, ruko, dan kantor di Bintaro Jaya & Pondok Aren. Termasuk instalasi pipa, kabel, dan bracket outdoor.</p>
@@ -334,7 +358,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
       </div>
     </div>
     <div class="sc anim">
-      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-maintenance.jpg" alt="Service besar AC di Bintaro" loading="lazy"  onerror="if(this.src.indexOf('blog-maintenance.jpg')<0){this.src='images/blog-maintenance.jpg'}"/></div>
+      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-maintenance.jpg?v=3" alt="Service besar AC di Bintaro" loading="lazy"  onerror="if(this.src.indexOf('blog-maintenance.jpg')<0){this.src='images/blog-maintenance.jpg'}"/></div>
       <div class="sc-con">
         <h3>Service Besar AC</h3>
         <p>Bongkar total unit indoor dan outdoor. Cocok untuk AC yang sudah lama tidak diservice atau performa drop signifikan.</p>
@@ -343,7 +367,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
       </div>
     </div>
     <div class="sc anim">
-      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/bongkar.jpg" alt="Bongkar pasang AC pindahan di Bintaro" loading="lazy" /></div>
+      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/bongkar.jpg?v=3" alt="Bongkar pasang AC pindahan di Bintaro" loading="lazy" /></div>
       <div class="sc-con">
         <h3>Bongkar Pasang AC</h3>
         <p>Pindahan rumah atau renovasi? Bongkar pasang AC dengan pemvakuman ulang dan pengecekan freon. Rapi dan aman.</p>
@@ -352,7 +376,7 @@ footer{background:var(--dark);color:var(--white);padding:50px 24px 24px}
       </div>
     </div>
     <div class="sc anim">
-      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-ac-bocor.jpg" alt="Perbaikan AC bocor di Bintaro" loading="lazy"  onerror="if(this.src.indexOf('blog-ac-bocor.jpg')<0){this.src='images/blog-ac-bocor.jpg'}"/></div>
+      <div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-ac-bocor.jpg?v=2" alt="Perbaikan AC bocor di Bintaro" loading="lazy"  onerror="if(this.src.indexOf('blog-ac-bocor.jpg')<0){this.src='images/blog-ac-bocor.jpg'}"/></div>
       <div class="sc-con">
         <h3>Perbaikan AC Bocor</h3>
         <p>AC bocor air di dalam ruangan? Cek penyebab — bisa drain tersumbat, evaporator kotor, atau instalasi miring. Selesai dalam 1 kunjungan.</p>

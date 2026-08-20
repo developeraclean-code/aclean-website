@@ -14,7 +14,7 @@
 <meta property="og:description" content="Jasa service AC khusus Summarecon Serpong (Grand Serpong, Taman Permata, Kota Bunga). Teknisi standby, cuci AC mulai Rp 95.000, garansi 30 hari." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aclean.id/service-ac-summarecon-serpong.html" />
-<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg" />
+<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Teknisi AClean service AC di Summarecon Serpong" />
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Service AC Summarecon Serpong - AClean | Cuci AC Rp 95.000" />
 <meta name="twitter:description" content="Jasa service AC khusus Summarecon Serpong. Cuci AC Rp 95.000, isi freon original, garansi 30 hari." />
-<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg" />
+<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2" />
 <link rel="canonical" href="https://aclean.id/service-ac-summarecon-serpong.html" />
 
 <script type="application/ld+json">
@@ -36,7 +36,7 @@
   "url": "https://aclean.id/service-ac-summarecon-serpong.html",
   "telephone": "+6281289898937",
   "email": "info@aclean.id",
-  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg",
+  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/ac-service.jpg?v=2",
   "priceRange": "Rp 95.000 – Rp 500.000",
   "geo": {"@type": "GeoCoordinates", "latitude": -6.2440, "longitude": 106.6300},
   "areaServed": {"@type": "Place", "name": "Summarecon Serpong, Gading Serpong, Tangerang"},
@@ -157,6 +157,30 @@ footer{background:#0a0f1e;border-top:1px solid #1e293b;padding:30px 20px;text-al
 footer a{color:#38bdf8}
 .anim{opacity:0;transform:translateY(24px);transition:opacity .5s,transform .5s}
 .anim.vis{opacity:1;transform:none}
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
+}
+
+/* Tombol WhatsApp di header masih melebihi layar terkecil; dirampingkan
+   agar muat tanpa menghilangkan tombolnya. */
+@media(max-width:430px){
+  nav .btn-wa{padding:7px 10px!important;font-size:11.5px!important;white-space:nowrap}
+}
 </style>
 <script src="/js/analytics.js" defer></script>
 </head>

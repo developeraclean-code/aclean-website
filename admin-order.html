@@ -1546,7 +1546,8 @@ function getStoredServices() {
 
 async function loadCatalogFromSupabase() {
   try {
-    const rows = await supaRpc('get_website_settings', {});
+    // _lite mengecualikan key img_* (base64 lama, ~570 kB) yang tidak dipakai di sini.
+    const rows = await supaRpc('get_website_settings_lite', {});
     if (!Array.isArray(rows)) return;
     const row = rows.find(r => r.key === 'services_catalog');
     if (!row) return;

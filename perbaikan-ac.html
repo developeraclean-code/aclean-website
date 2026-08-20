@@ -13,7 +13,7 @@
 <meta property="og:description" content="AC tidak dingin, bocor, atau mati? Teknisi ahli AClean datang cepat, diagnosa akurat, biaya jelas sebelum dikerjakan. Melayani Tangerang Selatan, BSD, Alam Sutera & Gading Serpong." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://aclean.id/perbaikan-ac.html" />
-<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/perbaikan-ac.jpg" />
+<meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/perbaikan-ac.jpg?v=2" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:locale" content="id_ID" />
@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Jasa Perbaikan AC Tangerang Selatan | AClean — AC Tidak Dingin, Bocor, Mati" />
 <meta name="twitter:description" content="AC tidak dingin, bocor, atau mati? Teknisi ahli datang cepat, diagnosa akurat, biaya jelas sebelum dikerjakan. Sparepart original bergaransi." />
-<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/perbaikan-ac.jpg" />
+<meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/perbaikan-ac.jpg?v=2" />
 <link rel="canonical" href="https://aclean.id/perbaikan-ac.html" />
 
 <!-- Schema 1: LocalBusiness + Service lengkap -->
@@ -34,7 +34,7 @@
   "url": "https://aclean.id",
   "telephone": "+6281289898937",
   "email": "info@aclean.id",
-  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/perbaikan-ac.jpg",
+  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/perbaikan-ac.jpg?v=2",
   "logo": "https://aclean.id/images/logo-aclean.jpg",
   "priceRange": "Rp 100.000 – Rp 1.500.000",
   "address": {
@@ -395,6 +395,24 @@ section{padding:48px 16px}
 .faq-q{font-size:14px;padding:16px 18px}
 .faq-a{padding:0 18px 16px}
 .mob-menu a{padding:16px;font-size:17px;min-height:52px}
+}
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
 }
 </style>
 <script src="/js/analytics.js" defer></script>

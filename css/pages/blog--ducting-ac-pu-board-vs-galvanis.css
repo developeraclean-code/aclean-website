@@ -1,0 +1,84 @@
+
+:root{--primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;--primary-50:#EBF0FA;--primary-100:#C6D4F0;--accent:#F59E0B;--accent-light:#FCD34D;--green:#16A34A;--green-50:#DCFCE7;--red:#DC2626;--red-50:#FEF2F2;--dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-400:#94A3B8;--gray-500:#64748B;--white:#FFFFFF;--font-heading:'Plus Jakarta Sans',sans-serif;--font-body:'DM Sans',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);color:var(--dark);line-height:1.7;background:var(--white)}
+a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}
+.nav{position:sticky;top:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--gray-200);z-index:100}
+.nav-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--dark-600);transition:.2s}
+.nav-links a:hover{background:var(--primary-50);color:var(--primary)}
+.nav-cta{background:var(--primary)!important;color:var(--white)!important;font-weight:600!important;border-radius:10px!important}
+.wrap{max-width:780px;margin:0 auto;padding:48px 24px 80px}
+.eyebrow{font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+h1{font-family:var(--font-heading);font-size:clamp(26px,4vw,38px);font-weight:800;line-height:1.2;color:var(--dark);margin-bottom:16px;text-wrap:balance}
+.meta{font-size:13px;color:var(--gray-400);margin-bottom:36px;display:flex;gap:16px;flex-wrap:wrap}
+h2{font-family:var(--font-heading);font-size:22px;font-weight:800;color:var(--dark);margin:40px 0 14px}
+h3{font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--dark);margin:28px 0 10px}
+p{font-size:15px;color:var(--dark-600);line-height:1.8;margin-bottom:16px}
+ul,ol{padding-left:20px;margin-bottom:16px}
+li{font-size:15px;color:var(--dark-600);line-height:1.8;margin-bottom:8px}
+.verdict-box{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.verd-card{border-radius:14px;padding:20px}
+.verd-pu{background:var(--green-50);border:1.5px solid #BBF7D0}
+.verd-gal{background:var(--red-50);border:1.5px solid #FECACA}
+.verd-card h4{font-family:var(--font-heading);font-size:14px;font-weight:700;margin-bottom:10px}
+.verd-pu h4{color:var(--green)}
+.verd-gal h4{color:var(--red)}
+.verd-card ul{list-style:none;padding:0;margin:0}
+.verd-card li{font-size:13px;padding:4px 0;display:flex;align-items:flex-start;gap:6px}
+.c-plus::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0}
+.c-minus::before{content:'✗';color:var(--red);font-weight:800;flex-shrink:0}
+.compare-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+.compare-table th{text-align:left;padding:11px 14px;font-family:var(--font-heading);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.compare-table th:first-child{background:var(--gray-100);color:var(--gray-500);border-radius:8px 0 0 0}
+.compare-table th.col-pu{background:var(--primary);color:#fff;border-radius:0}
+.compare-table th.col-gal{background:var(--dark-700);color:#fff;border-radius:0 8px 0 0}
+.compare-table td{padding:11px 14px;border-bottom:1px solid var(--gray-200);vertical-align:middle;font-size:13px}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table td.col-pu{background:var(--primary-50);color:var(--primary);font-weight:600}
+.compare-table td.label{font-weight:600;color:var(--dark);background:var(--gray-100)}
+.info-box{background:var(--primary-50);border-left:4px solid var(--primary);border-radius:0 12px 12px 0;padding:18px 20px;margin:24px 0}
+.info-box p{margin:0;font-size:14px;color:var(--dark-700)}
+.cta-box{background:linear-gradient(135deg,var(--primary-dark),var(--primary));border-radius:16px;padding:32px;text-align:center;margin:40px 0;color:var(--white)}
+.cta-box h3{font-family:var(--font-heading);font-size:22px;margin-bottom:8px;color:var(--white)}
+.cta-box p{color:rgba(255,255,255,.75);margin-bottom:20px;font-size:14px}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--primary-dark);padding:14px 28px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none}
+.cta-btn:hover{background:var(--gray-100);text-decoration:none}
+.related{background:var(--gray-100);border-radius:16px;padding:24px;margin-top:48px}
+.related h4{font-family:var(--font-heading);font-size:15px;font-weight:700;margin-bottom:14px}
+.related a{display:block;padding:10px 0;border-bottom:1px solid var(--gray-200);font-size:14px;color:var(--primary)}
+.related a:last-child{border-bottom:none}
+footer{background:var(--dark);color:rgba(255,255,255,.6);text-align:center;padding:28px;font-size:13px}
+footer a{color:var(--accent-light)}
+@media(max-width:600px){.nav-links{display:none}.wrap{padding:32px 16px 60px}h1{font-size:24px}.verdict-box{grid-template-columns:1fr}.compare-table{font-size:12px}}
+
+/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
+   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
+   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
+   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
+   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
+   isinya tetap terbaca, bukan sekadar tidak luber. */
+@media(max-width:768px){
+  [style*="grid-template-columns:repeat("]>*{min-width:0}
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:560px){
+  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:430px){
+  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
+  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
+}
+
+/* Tabel tidak bisa menyusut di bawah lebar isinya. Di layar kecil tabel
+   digulir di dalam kotaknya sendiri, supaya halaman tidak ikut bergeser. */
+@media(max-width:768px){
+  table{display:block;width:100%;max-width:100%;overflow-x:auto}
+}
+
+
+/* Shared performance safeguards */
+img{max-width:100%;height:auto}
+img[loading="lazy"]{content-visibility:auto}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.anim{opacity:1!important;transform:none!important}}

@@ -3,3 +3,8 @@ images/.DS_Store
 
 # Claude Code local config
 .claude/
+
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example

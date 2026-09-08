@@ -9,300 +9,30 @@
 <meta name="robots" content="index, follow"/>
 <meta property="og:title" content="Pesan Layanan AC Online — AClean Service"/>
 <meta property="og:description" content="Order service AC online, konfirmasi via WhatsApp. Cleaning AC mulai Rp 95.000. Bayar setelah pengerjaan selesai."/>
-<meta property="og:url" content="https://aclean.id/order.html"/>
-<meta property="og:image" content="https://aclean.id/og-aclean.jpg"/>
 <meta property="og:type" content="website"/>
 <meta property="og:locale" content="id_ID"/>
-<meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Pesan Layanan AC Online — AClean Service"/>
-<meta name="twitter:image" content="https://aclean.id/og-aclean.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
-<style>
-.flatpickr-day.unavailable{background:#FEE2E2!important;color:#DC2626!important;border-color:#FECACA!important;cursor:not-allowed!important;text-decoration:line-through}
-.flatpickr-day.unavailable:hover{background:#FEE2E2!important}
-.date-avail-hint{font-size:12px;margin-top:6px;padding:6px 10px;border-radius:8px;display:none}
-.date-avail-hint.full{display:block;background:#FEE2E2;color:#DC2626}
-.date-avail-hint.ok{display:block;background:#DCFCE7;color:#16A34A}
-</style>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;
-  --primary-50:#EBF0FA;--primary-100:#C6D4F0;
-  --accent:#F59E0B;--accent-light:#FCD34D;
-  --green:#16A34A;--green-50:#DCFCE7;--green-100:#BBF7D0;
-  --red:#DC2626;--red-50:#FEE2E2;
-  --dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;
-  --gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;
-  --white:#FFFFFF;
-  --font-heading:'Plus Jakarta Sans',sans-serif;--font-body:'DM Sans',sans-serif;
-  --shadow:0 4px 24px rgba(0,0,0,.08);--shadow-lg:0 12px 40px rgba(0,0,0,.12);
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);color:var(--dark);background:var(--white);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.06);transition:all .3s}
-nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
-.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
-.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
-.nav-logo img{height:40px}
-.nav-links{display:flex;align-items:center;gap:4px}
-.nav-links a{text-decoration:none;color:var(--dark-600);font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .2s}
-.nav-links a:hover{color:var(--primary);background:var(--primary-50)}
-.nav-dropdown{position:relative}
-.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--white);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);padding:8px 0;min-width:200px;z-index:1001;border:1px solid var(--gray-200)}
-.nav-dropdown:hover .nav-dropdown-menu{display:block}
-.nav-dropdown-menu a{display:block;padding:10px 16px;font-size:13px;color:var(--dark-600);transition:.2s}
-.nav-dropdown-menu a:hover{background:var(--primary-50);color:var(--primary)}
-.nav-cta{background:var(--primary)!important;color:var(--white)!important;padding:10px 20px!important;border-radius:10px!important;font-weight:600!important;box-shadow:0 2px 8px rgba(27,58,123,.25)}
-.nav-cta:hover{background:var(--primary-light)!important;transform:translateY(-1px)}
-.mob-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
-.mob-btn span{display:block;width:22px;height:2px;background:var(--dark-600);border-radius:2px;transition:.3s}
-.mob-menu{display:none;position:fixed;top:65px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--gray-200);padding:12px 0;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.1)}
-.mob-menu.open{display:block}
-.mob-menu a{display:block;padding:12px 24px;color:var(--dark-600);font-size:15px;font-weight:500;text-decoration:none;transition:.2s}
-.mob-menu a:hover{background:var(--primary-50);color:var(--primary)}
 
-/* PAGE */
-.page-wrap{padding-top:65px}
-
-/* HERO */
-.order-hero{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 55%,var(--primary-light) 100%);padding:56px 24px 52px;text-align:center;position:relative;overflow:hidden}
-.order-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3C/g%3E%3C/svg%3E")}
-.order-hero-in{max-width:680px;margin:0 auto;position:relative}
-.order-hero h1{font-family:var(--font-heading);font-size:clamp(28px,5vw,46px);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:10px}
-.order-hero h1 span{color:var(--accent-light)}
-.order-hero p{color:rgba(255,255,255,.75);font-size:16px;margin-bottom:36px}
-.steps-row{display:flex;align-items:center;justify-content:center;max-width:480px;margin:0 auto}
-.step-item{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
-.step-num{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:rgba(255,255,255,.7);transition:.3s}
-.step-item.done .step-num{background:var(--accent);border-color:var(--accent);color:var(--white)}
-.step-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-align:center;line-height:1.3}
-.step-item.done .step-label{color:rgba(255,255,255,.9)}
-.step-connector{flex:1;height:2px;background:rgba(255,255,255,.2);margin-bottom:24px}
-
-/* CATALOG */
-.catalog-section{max-width:1200px;margin:0 auto;padding:52px 24px 40px}
-.catalog-title{text-align:center;margin-bottom:36px}
-.catalog-label{display:inline-block;background:var(--primary-50);color:var(--primary);font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
-.catalog-title h2{font-family:var(--font-heading);font-size:clamp(22px,4vw,32px);font-weight:700;color:var(--dark);margin-bottom:8px}
-.catalog-title p{color:var(--gray-500);font-size:15px}
-.tabs{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;justify-content:center}
-.tab-btn{padding:10px 22px;border-radius:50px;border:2px solid var(--gray-200);background:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--gray-500);cursor:pointer;transition:all .2s;white-space:nowrap}
-.tab-btn:hover{border-color:var(--primary-100);color:var(--primary);background:var(--primary-50)}
-.tab-btn.active{background:var(--primary);border-color:var(--primary);color:var(--white);box-shadow:0 4px 14px rgba(27,58,123,.3)}
-.service-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-
-/* SERVICE CARD */
-.svc-card{background:var(--white);border:2px solid var(--gray-200);border-radius:16px;overflow:hidden;transition:all .25s;cursor:pointer;position:relative;display:flex;flex-direction:column}
-.svc-card:hover{border-color:var(--primary-100);box-shadow:0 8px 32px rgba(27,58,123,.1);transform:translateY(-3px)}
-.svc-card.chosen{border-color:var(--primary);box-shadow:0 8px 32px rgba(27,58,123,.15)}
-.svc-badge{position:absolute;top:12px;left:12px;background:var(--accent);color:var(--white);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;z-index:1;letter-spacing:.3px}
-.svc-img{width:100%;height:155px;object-fit:cover;transition:opacity .25s ease}
-.svc-img-ph{width:100%;height:155px;background:linear-gradient(135deg,var(--primary-50),var(--primary-100));display:flex;align-items:center;justify-content:center;font-size:52px}
-.svc-body{padding:16px;flex:1;display:flex;flex-direction:column}
-.svc-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
-.svc-price{font-family:var(--font-heading);font-size:20px;font-weight:800;color:var(--primary)}
-.svc-unit{font-size:12px;color:var(--gray-400);font-weight:500}
-.svc-name{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:6px;line-height:1.4}
-.svc-desc{font-size:12px;color:var(--gray-400);line-height:1.6;flex:1;margin-bottom:16px}
-.svc-btn{width:100%;padding:11px;border-radius:9px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .2s}
-.svc-btn:hover{background:var(--primary-light)}
-.svc-card.chosen .svc-btn{background:var(--green)}
-
-/* FORM SECTION */
-.form-section{background:var(--gray-100);padding:60px 24px 80px}
-.form-wrap{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start}
-
-/* FORM CARD */
-.form-card{background:var(--white);border-radius:20px;padding:32px;box-shadow:var(--shadow)}
-.form-card h2{font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--dark);margin-bottom:6px}
-.form-card .sub{font-size:13px;color:var(--gray-400);margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--gray-100)}
-
-/* SELECTED SERVICE BOX */
-.sel-svc-box{margin-bottom:24px;padding:14px 16px;background:var(--primary-50);border:2px solid var(--primary-100);border-radius:12px;display:none}
-.sel-svc-label{font-size:11px;color:var(--primary);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
-.sel-svc-name{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:2px}
-.sel-svc-price{font-size:13px;color:var(--primary);font-weight:600}
-.change-btn{margin-top:8px;font-size:12px;color:var(--gray-400);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
-
-/* FIELDS */
-.field{margin-bottom:20px}
-.field label{display:block;font-size:13px;font-weight:600;color:var(--dark-600);margin-bottom:6px}
-.field label .req{color:var(--red)}
-.field input,.field select,.field textarea{width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--gray-200);font-family:var(--font-body);font-size:14px;color:var(--dark);background:var(--white);transition:border-color .2s;outline:none;-webkit-appearance:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary)}
-.field input.error,.field select.error,.field textarea.error{border-color:var(--red)!important}
-.field textarea{resize:vertical;min-height:80px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-
-/* LOCATION */
-.loc-wrap{display:flex;flex-direction:column;gap:8px}
-.loc-btn{align-self:flex-start;padding:9px 16px;border-radius:9px;border:2px solid var(--primary-100);background:var(--primary-50);color:var(--primary);font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
-.loc-btn:hover{background:var(--primary-100)}
-.loc-status{font-size:12px;color:var(--gray-400)}
-
-/* QTY */
-.qty-row{display:flex;align-items:center;gap:14px}
-.qty-btn{width:36px;height:36px;border-radius:9px;border:2px solid var(--gray-200);background:var(--white);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--primary);font-family:var(--font-heading);flex-shrink:0}
-.qty-btn:hover{border-color:var(--primary);background:var(--primary-50)}
-.qty-val{font-size:18px;font-weight:700;color:var(--dark);min-width:32px;text-align:center}
-.qty-hint{font-size:11px;color:var(--gray-400)}
-
-/* TIME OPTIONS */
-.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.time-opt{border:2px solid var(--gray-200);border-radius:10px;padding:11px 8px;text-align:center;cursor:pointer;transition:all .2s;user-select:none}
-.time-opt:hover{border-color:var(--primary-100);background:var(--primary-50)}
-.time-opt.active{border-color:var(--primary);background:var(--primary-50)}
-.time-opt input{display:none}
-.t-label{font-size:13px;font-weight:600;color:var(--dark-600);display:block;margin-bottom:2px}
-.t-range{font-size:11px;color:var(--gray-400);display:block}
-.time-opt.active .t-label{color:var(--primary)}
-
-/* SUBMIT */
-.submit-btn{width:100%;padding:16px;border-radius:12px;background:linear-gradient(135deg,#128C7E,#25D366);color:var(--white);font-family:var(--font-heading);font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;box-shadow:0 4px 18px rgba(18,140,126,.35)}
-.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(18,140,126,.45)}
-.submit-btn:active{transform:translateY(0)}
-.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.submit-note{text-align:center;font-size:12px;color:var(--gray-400);margin-top:10px;line-height:1.5}
-
-/* SUMMARY SIDEBAR */
-.summary-card{background:var(--white);border-radius:20px;padding:24px;box-shadow:var(--shadow);position:sticky;top:80px}
-.summary-card h3{font-family:var(--font-heading);font-size:16px;font-weight:700;color:var(--dark);margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid var(--gray-100)}
-.sum-empty{text-align:center;padding:28px 0}
-.sum-empty .ic{font-size:44px;margin-bottom:10px}
-.sum-empty p{font-size:13px;color:var(--gray-400);line-height:1.5}
-.sum-item{padding:12px 0;border-bottom:1px dashed var(--gray-200)}
-.sum-item-name{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:2px;line-height:1.4}
-.sum-item-meta{font-size:12px;color:var(--gray-400)}
-.sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
-.sum-row .lbl{font-size:13px;color:var(--gray-500)}
-.sum-row .val{font-size:13px;font-weight:600;color:var(--dark)}
-.sum-row.total{padding-top:14px;border-top:2px solid var(--gray-100);margin-top:4px}
-.sum-row.total .lbl{font-size:15px;font-weight:700;color:var(--dark)}
-.sum-row.total .val{font-size:20px;font-weight:800;color:var(--primary)}
-.free-badge{display:inline-flex;align-items:center;gap:4px;background:var(--green-50);color:var(--green);font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid var(--green-100)}
-.transport-hint{font-size:11px;color:var(--green);margin-top:2px;margin-bottom:4px}
-.trust-list{margin-top:18px;padding-top:16px;border-top:1px solid var(--gray-100)}
-.trust-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray-500);margin-bottom:9px}
-.trust-row .chk{width:16px;height:16px;border-radius:50%;background:var(--green-50);border:1.5px solid var(--green-100);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.trust-row .chk::after{content:'✓';font-size:9px;color:var(--green);font-weight:800}
-
-/* TOAST */
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark-700);color:var(--white);padding:12px 22px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s;z-index:9000;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ADD-TO-CART BUTTON */
-.svc-add-row{display:flex;align-items:center;gap:8px;margin-top:auto}
-.svc-btn-add{flex:1;padding:10px;border-radius:9px;background:var(--primary);color:var(--white);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
-.svc-btn-add:hover{background:var(--primary-light)}
-.svc-btn-add.in-cart{background:var(--green)}
-.svc-qty-ctrl{display:flex;align-items:center;gap:6px;background:var(--gray-100);border-radius:9px;padding:4px}
-.svc-qty-ctrl button{width:28px;height:28px;border-radius:7px;border:none;background:var(--white);color:var(--primary);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.svc-qty-ctrl button:hover{background:var(--primary-50)}
-.svc-qty-ctrl .qv{font-size:14px;font-weight:700;color:var(--dark);min-width:22px;text-align:center}
-
-/* VARIANT MODAL */
-.v-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
-.v-overlay.open{opacity:1;pointer-events:all}
-.v-sheet{background:var(--white);border-radius:20px 20px 0 0;padding:24px 24px 36px;width:100%;max-width:560px;transform:translateY(100%);transition:.3s cubic-bezier(.4,0,.2,1);max-height:85vh;overflow-y:auto}
-.v-overlay.open .v-sheet{transform:translateY(0)}
-.v-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.v-title{font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--dark)}
-.v-close{width:32px;height:32px;border-radius:50%;border:none;background:var(--gray-100);color:var(--dark-600);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.v-option{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:2px solid var(--gray-200);border-radius:12px;margin-bottom:10px;cursor:pointer;transition:.2s}
-.v-option:hover{border-color:var(--primary-100);background:var(--primary-50)}
-.v-option.selected{border-color:var(--primary);background:var(--primary-50)}
-.v-opt-name{font-size:14px;font-weight:600;color:var(--dark);line-height:1.4}
-.v-opt-price{font-family:var(--font-heading);font-size:15px;font-weight:800;color:var(--primary);white-space:nowrap;margin-left:12px}
-.v-add-btn{width:100%;padding:15px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:var(--white);font-family:var(--font-heading);font-size:15px;font-weight:700;border:none;cursor:pointer;margin-top:16px;transition:.2s}
-.v-add-btn:hover{opacity:.9}
-.v-add-btn:disabled{opacity:.5;cursor:not-allowed}
-
-/* CART FLOATING BAR (mobile) */
-.cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--gray-200);padding:12px 20px;display:none;align-items:center;justify-content:space-between;z-index:800;box-shadow:0 -4px 20px rgba(0,0,0,.1)}
-.cart-bar.visible{display:flex}
-.cart-bar-left{display:flex;align-items:center;gap:10px}
-.cart-bar-count{background:var(--primary);color:var(--white);font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px}
-.cart-bar-info{font-size:13px;font-weight:600;color:var(--dark)}
-.cart-bar-sub{font-size:12px;color:var(--gray-400)}
-.cart-bar-btn{padding:11px 20px;border-radius:10px;background:linear-gradient(135deg,#128C7E,#25D366);color:var(--white);font-family:var(--font-heading);font-size:14px;font-weight:700;border:none;cursor:pointer;white-space:nowrap}
-
-/* CART SUMMARY ITEMS */
-.sum-item-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px dashed var(--gray-200)}
-.sum-item-row:last-of-type{border-bottom:none}
-.sum-item-main{flex:1;min-width:0}
-.sum-item-name{font-size:13px;font-weight:600;color:var(--dark);line-height:1.4}
-.sum-item-meta{font-size:11px;color:var(--gray-400);margin-top:2px}
-.sum-item-subtotal{font-size:13px;font-weight:700;color:var(--dark);white-space:nowrap}
-.sum-remove{background:none;border:none;color:var(--gray-300);cursor:pointer;font-size:16px;padding:2px;line-height:1;transition:.2s;flex-shrink:0;margin-top:1px}
-.sum-remove:hover{color:var(--red)}
-
-/* WA FLOAT */
-.wa-float{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);z-index:900;transition:transform .2s;text-decoration:none}
-.wa-float:hover{transform:scale(1.1)}
-.wa-float svg{width:28px;height:28px;fill:white}
-
-/* FOOTER */
-footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 24px}
-.ft-in{max-width:1200px;margin:0 auto}
-.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-.ft-brand p{font-size:13px;line-height:1.8}
-.ft-brand .ft-name{font-family:var(--font-heading);color:var(--white);font-size:18px;font-weight:700;margin-bottom:8px}
-.ft-col h4{color:var(--white);font-size:13px;font-weight:700;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
-.ft-col a{display:block;font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;margin-bottom:8px;transition:.2s}
-.ft-col a:hover{color:var(--white)}
-.ft-div{border-top:1px solid rgba(255,255,255,.08);margin-bottom:20px}
-.ft-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:rgba(255,255,255,.25)}
-
-@media(max-width:900px){
-  .form-wrap{grid-template-columns:1fr}
-  .summary-card{position:static;order:-1}
-}
-@media(max-width:768px){
-  .nav-links{display:none}
-  .mob-btn{display:flex}
-  .ft-grid{grid-template-columns:1fr 1fr;gap:28px}
-  .field-row{grid-template-columns:1fr}
-  .time-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:480px){
-  .catalog-section{padding:36px 16px 28px}
-  .form-section{padding:40px 16px 60px}
-  .form-card{padding:20px}
-  .tabs{gap:6px}
-  .tab-btn{padding:8px 14px;font-size:13px}
-  .ft-grid{grid-template-columns:1fr}
-  .steps-row{max-width:340px}
-  .service-grid{grid-template-columns:1fr}
-}
-body.cart-open{padding-bottom:72px}
-
-/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
-   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
-   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
-   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
-   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
-   isinya tetap terbaca, bukan sekadar tidak luber. */
-@media(max-width:768px){
-  [style*="grid-template-columns:repeat("]>*{min-width:0}
-  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
-}
-@media(max-width:560px){
-  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
-}
-@media(max-width:430px){
-  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
-  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
-}
-</style>
 <script src="/js/analytics.js" defer></script>
+  <link rel="stylesheet" href="css/pages/order.css">
+  <link rel="preconnect" href="https://apsbeppcmsxeldnejibz.supabase.co">
+
+  <meta property="og:image" content="https://aclean.id/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AClean Service — Jasa Service AC Profesional" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://aclean.id/images/og-image.jpg" />
+
+  <meta property="og:url" content="https://aclean.id/order.html" />
+
 </head>
 <body>
 
@@ -310,7 +40,7 @@ body.cart-open{padding-bottom:72px}
 <nav id="nb">
 <div class="nav-in">
   <a href="index.html" class="nav-logo">
-    <img src="images/logo-aclean.jpg?v=20260428" alt="AClean Service" height="40" loading="eager"/>
+    <img src="images/logo-aclean.jpg?v=20260428" alt="AClean Service" height="40" loading="eager" decoding="async" fetchpriority="high" />
   </a>
   <div class="nav-links">
     <div class="nav-dropdown">
@@ -605,7 +335,7 @@ const DEFAULT_SERVICES = [
   // CUCI AC — Standard
   {id:'cuci-kecil',cat:'cuci',name:'Service Cleaning AC Split',
    desc:'Pembersihan evaporator, blower & filter. Cocok untuk AC ≤ 1PK. Cuci bersih, tidak bongkar unit indoor.',
-   price:95000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/cuci-ac.jpg?v=2',popular:true,icon:'🌀',
+   price:95000,img:'images/service-cuci-ac.webp',popular:true,icon:'🌀',
    variants:[
      {id:'cuci-std-kecil', name:'Kapasitas Unit AC Split 0,5PK – 1PK',   price:95000,  originalPrice:110000},
      {id:'cuci-std-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:100000, originalPrice:120000},
@@ -613,7 +343,7 @@ const DEFAULT_SERVICES = [
   // CUCI AC — Service Besar (Deep Cleaning)
   {id:'cuci-besar-deep',cat:'cuci',name:'Service Besar Unit AC Split',
    desc:'Pengerjaan bongkar unit indoor dan dibersihkan menyeluruh 1-1. Harga sudah termasuk Vacum Unit AC.',
-   img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/cuci-ac.jpg?v=2',icon:'🌀',
+   img:'images/service-cuci-ac.webp',icon:'🌀',
    variants:[
      {id:'deep-kecil', name:'Kapasitas Unit AC Split 1/2PK – 1PK',   price:400000, originalPrice:500000},
      {id:'deep-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:450000, originalPrice:550000},
@@ -621,7 +351,7 @@ const DEFAULT_SERVICES = [
   // CUCI AC — Ducting / Duct
   {id:'cuci-ducting',cat:'cuci',name:'Service Cleaning AC Split Duct / Ducting',
    desc:'Jasa Service Cleaning AC Split Duct/Ducting. Include pengecekan unit, pengambilan data, pembersihan menyeluruh.',
-   img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/service-ac-central.jpg?v=2',icon:'🌀',
+   img:'images/service-ac-central.webp',icon:'🌀',
    variants:[
      {id:'duct-kecil', name:'AC Split Duct Ukuran 1,5PK – 2,5PK', price:250000,  originalPrice:350000},
      {id:'duct-besar', name:'AC Split Duct Ukuran 3PK – 5PK',      price:450000,  originalPrice:550000},
@@ -630,14 +360,14 @@ const DEFAULT_SERVICES = [
   // PERBAIKAN
   {id:'diagnosa',cat:'perbaikan',name:'Diagnosa & Cek Unit AC',
    desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan. Biaya sparepart terpisah.',
-   price:100000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/cuci-ac.jpg?v=2',icon:'🔧'},
+   price:100000,img:'images/service-cuci-ac.webp',icon:'🔧'},
   {id:'perbaikan',cat:'perbaikan',name:'Perbaikan AC Split',
    desc:'Perbaikan kerusakan umum: kapasitor, motor fan, PCB. Harga jasa — sparepart terpisah.',
-   price:100000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/cuci-ac.jpg?v=2',icon:'🔧'},
+   price:100000,img:'images/service-cuci-ac.webp',icon:'🔧'},
   // PASANG — Instalasi Baru
   {id:'pasang-baru',cat:'pasang',name:'Jasa Pemasangan Unit AC Baru',
    desc:'Jasa Pemasangan Unit Indoor & Outdoor Saja. Tidak Termasuk Pipa AC, Kabel Listrik, Breket, dll.',
-   img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/pasang-ac.jpg?v=2',popular:true,icon:'📦',
+   img:'images/service-pasang-ac.webp',popular:true,icon:'📦',
    variants:[
      {id:'pasang-kecil',     name:'Pemasangan AC 1/2PK – 1PK Tanpa Vacum Unit',          price:400000, originalPrice:500000},
      {id:'pasang-besar',     name:'Pemasangan AC 1,5PK – 2,5PK Tanpa Vacum Unit',        price:450000, originalPrice:550000},
@@ -650,16 +380,16 @@ const DEFAULT_SERVICES = [
   // FREON
   {id:'freon-r22',cat:'freon',name:'Isi Freon R22',
    desc:'Pengisian refrigerant R22 untuk unit AC lama. Termasuk cek tekanan sistem.',
-   price:500000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/isi-freon.jpg?v=2',icon:'❄️'},
+   price:500000,img:'images/service-isi-freon.webp',icon:'❄️'},
   {id:'freon-r32',cat:'freon',name:'Isi Freon R32',
    desc:'Refrigerant R32 — ramah lingkungan, efisiensi tinggi. Standar AC modern inverter.',
-   price:500000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/isi-freon.jpg?v=2',popular:true,icon:'❄️'},
+   price:500000,img:'images/service-isi-freon.webp',popular:true,icon:'❄️'},
   {id:'freon-r410',cat:'freon',name:'Isi Freon R410A',
    desc:'Refrigerant R410A untuk AC inverter performa tinggi.',
-   price:500000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/isi-freon.jpg?v=2',icon:'❄️'},
+   price:500000,img:'images/service-isi-freon.webp',icon:'❄️'},
   {id:'vacuum-freon',cat:'freon',name:'Vacuum + Full Freon',
    desc:'Vacuum sistem + isi freon penuh. Solusi AC yang sama sekali kehabisan refrigerant.',
-   price:500000,img:'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/halaman/isi-freon.jpg?v=2',icon:'❄️'},
+   price:500000,img:'images/service-isi-freon.webp',icon:'❄️'},
 ];
 
 // Load harga override dari admin panel jika ada (localStorage)
@@ -804,7 +534,7 @@ function renderServices(cat) {
     <div class="svc-card${inCart?' chosen':''}" id="card-${s.id}">
       ${s.popular ? '<div class="svc-badge">⭐ Terpopuler</div>' : ''}
       <img src="${s.img}" alt="${s.name}" class="svc-img" loading="lazy"
-           data-lokal="${s.imgLokal || ''}" onerror="fallbackFoto(this)"/>
+           data-lokal="${s.imgLokal || ''}" onerror="fallbackFoto(this)" decoding="async" />
       <div class="svc-img-ph" style="display:none">${s.icon}</div>
       <div class="svc-body">
         <div class="svc-price-row">

@@ -14,15 +14,9 @@
 <meta property="og:title" content="AClean Service — Jasa Service AC Profesional Tangerang & BSD" />
 <meta property="og:description" content="Service cleaning AC mulai Rp 95.000. Teknisi profesional, sparepart original, garansi resmi." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://aclean.id/" />
-<meta property="og:image" content="https://aclean.id/og-aclean.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
 <meta property="og:locale" content="id_ID" />
-<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="AClean Service — Jasa Service AC Profesional Tangerang & BSD" />
 <meta name="twitter:description" content="Service cleaning AC mulai Rp 95.000. Teknisi profesional, sparepart original, garansi resmi. Area Tangerang Selatan, BSD, Alam Sutera." />
-<meta name="twitter:image" content="https://aclean.id/og-aclean.jpg" />
 <link rel="canonical" href="https://aclean.id/" />
 <script type="application/ld+json">
 {
@@ -33,7 +27,7 @@
   "url": "https://aclean.id",
   "telephone": "+6281289898937",
   "email": "info@aclean.id",
-  "image": "https://aclean.id/og-aclean.jpg",
+  "image": "https://aclean.id/images/og-image.jpg",
   "logo": "https://aclean.id/images/logo-aclean.webp",
   "address": {
     "@type": "PostalAddress",
@@ -159,271 +153,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
---primary:#1B3A7B;--primary-light:#2B55A8;--primary-dark:#0F2354;
---primary-50:#EBF0FA;--primary-100:#C6D4F0;
---accent:#F59E0B;--accent-light:#FCD34D;
---dark:#0F172A;--dark-700:#1E293B;--dark-600:#334155;
---gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;
---white:#FFFFFF;
---font-heading:'Plus Jakarta Sans',sans-serif;--font-body:'DM Sans',sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);color:var(--dark);background:var(--white);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-@keyframes fadeInUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes pulse-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.5);opacity:0}}
-
-.anim{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}
-.anim.vis{opacity:1;transform:translateY(0)}
-
-/* TOP BAR */
-.top-bar{background:var(--primary-dark);padding:0 24px;height:36px;display:flex;align-items:center;position:relative;z-index:1001}
-.top-bar-in{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
-.top-bar-left{font-size:12px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px}
-.top-bar-left strong{color:rgba(255,255,255,.85);font-weight:600}
-.top-bar-left svg{opacity:.5}
-.top-bar-right{display:flex;align-items:center;gap:4px}
-.top-bar-right a{color:rgba(255,255,255,.6);text-decoration:none;font-size:12px;font-weight:500;padding:4px 10px;border-radius:5px;transition:all .2s;white-space:nowrap}
-.top-bar-right a:hover{color:var(--white);background:rgba(255,255,255,.1)}
-.top-bar-right .tb-div{width:1px;height:12px;background:rgba(255,255,255,.15);margin:0 2px}
-.top-bar-right .tb-cta{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--white)!important;border-radius:6px;font-weight:700}
-.top-bar-right .tb-cta:hover{background:rgba(255,255,255,.2)!important}
-
-/* NAV */
-nav{position:sticky;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05);transition:all .3s}
-nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.06)}
-.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;gap:16px}
-.nav-logo{display:flex;align-items:center;gap:4px;text-decoration:none;flex-shrink:0}
-.nav-logo img{height:44px}
-.nav-links{display:flex;align-items:center;gap:2px;flex:1;justify-content:center}
-.nav-links a{text-decoration:none;color:var(--dark-600);font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px;transition:all .2s;white-space:nowrap}
-.nav-links a:hover{color:var(--primary);background:var(--primary-50)}
-.nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-/* DROPDOWN */
-.nav-dropdown{position:relative}
-.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--white);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.12);padding:8px 0;min-width:200px;z-index:1001;border:1px solid rgba(0,0,0,.06)}
-.nav-dropdown:hover .nav-dropdown-menu{display:block}
-.nav-dropdown-menu a{display:block;padding:10px 16px;font-size:13px;color:var(--dark-600);transition:.2s}
-.nav-dropdown-menu a:hover{background:var(--primary-50);color:var(--primary)}
-.nav-dropdown-menu .dd-div{height:1px;background:var(--gray-100);margin:4px 0}
-.nav-dropdown-menu .dd-highlight{color:var(--primary)!important;font-weight:700}
-.nav-dropdown-menu .dd-highlight:hover{background:var(--primary-50)!important}
-.nav-b2b{background:var(--primary-50)!important;color:var(--primary)!important;border:1.5px solid var(--primary-100)!important;padding:9px 16px!important;border-radius:9px!important;font-weight:700!important;font-size:13px!important}
-.nav-b2b:hover{background:var(--primary-100)!important}
-.nav-cta{background:var(--primary)!important;color:var(--white)!important;padding:9px 18px!important;border-radius:9px!important;font-weight:700!important;font-size:13px!important;box-shadow:0 2px 8px rgba(27,58,123,.25)!important;white-space:nowrap}
-.nav-cta:hover{background:var(--primary-light)!important;transform:translateY(-1px)}
-.mob-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
-.mob-btn span{display:block;width:22px;height:2px;background:var(--dark);margin:5px 0;border-radius:2px;transition:all .3s}
-.mob-menu{display:none;position:fixed;top:100px;left:0;right:0;bottom:0;background:var(--white);z-index:999;padding:20px;flex-direction:column;gap:2px;overflow-y:auto}
-.mob-menu.open{display:flex}
-.mob-menu a{display:block;padding:13px 16px;text-decoration:none;color:var(--dark);font-size:16px;font-weight:500;border-radius:10px;border-bottom:1px solid var(--gray-100)}
-.mob-menu .mc{margin-top:10px;background:var(--primary);color:var(--white)!important;text-align:center;border-radius:12px;font-weight:700;border:none}
-
-/* HERO */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:80px 24px 80px;overflow:hidden;background:linear-gradient(135deg,#EBF0FA 0%,#F8FAFF 50%,#FFF 100%)}
-.hero::before{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(27,58,123,.06) 0%,transparent 70%);border-radius:50%}
-.hero-in{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--primary-100);padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;color:var(--primary);margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);animation:fadeInUp .6s ease both}
-.hero-badge .stars{color:var(--accent)}
-.hero h1{font-family:var(--font-heading);font-size:48px;font-weight:800;line-height:1.12;color:var(--dark);margin-bottom:12px;animation:fadeInUp .6s .1s ease both}
-.hero h1 .hl{background:linear-gradient(135deg,var(--primary),var(--primary-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:17px;color:var(--gray-500);line-height:1.7;margin-bottom:8px;animation:fadeInUp .6s .2s ease both;max-width:520px}
-.hero-price{font-family:var(--font-heading);font-size:15px;color:var(--primary);font-weight:700;margin-bottom:28px;animation:fadeInUp .6s .25s ease both;display:flex;align-items:center;gap:6px}
-.hero-price .tag{background:var(--accent-light);color:#92400E;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeInUp .6s .3s ease both}
-.btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:var(--white);padding:16px 28px;border-radius:14px;text-decoration:none;font-weight:700;font-size:15px;transition:all .3s;box-shadow:0 4px 16px rgba(27,58,123,.3)}
-.btn-p:hover{background:var(--primary-light);transform:translateY(-2px)}
-.btn-s{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--dark);padding:16px 28px;border-radius:14px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--gray-200);transition:all .3s}
-.btn-s:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-2px)}
-.hero-trust{display:flex;align-items:center;gap:16px;margin-top:24px;animation:fadeInUp .6s .4s ease both;flex-wrap:wrap}
-.hero-trust-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-500);font-weight:500}
-.hero-trust-item svg{color:var(--primary);flex-shrink:0}
-.hero-vis{position:relative;animation:scaleIn .8s .3s ease both}
-.hero-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.04)}
-.hero-card img{width:100%;height:300px;object-fit:cover;display:block}
-.hero-card-bot{padding:20px;display:flex;align-items:center;justify-content:space-between;border-top:3px solid var(--primary)}
-.hero-card-bot h3{font-family:var(--font-heading);font-size:15px;font-weight:700}
-.hero-card-bot p{font-size:12px;color:var(--gray-500);margin-top:2px}
-.hero-card-price{font-family:var(--font-heading);font-size:22px;font-weight:800;color:var(--primary)}
-.hero-card-price small{font-size:12px;color:var(--gray-400);font-weight:500}
-.hfb{position:absolute;background:var(--white);border-radius:14px;padding:12px 16px;box-shadow:0 12px 40px rgba(0,0,0,.12);display:flex;align-items:center;gap:10px;animation:float 3s ease-in-out infinite;border:1px solid rgba(0,0,0,.04)}
-.hfb1{top:20px;right:-20px}
-.hfb2{bottom:60px;left:-30px;animation-delay:1.5s}
-.hfb .ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.hfb .tx{font-size:12px;font-weight:600;color:var(--dark)}
-.hfb .tx span{display:block;font-size:11px;color:var(--gray-400);font-weight:400}
-
-/* STATS */
-.stats{background:var(--dark);padding:44px 24px}
-.stats-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
-.stat{text-align:center}
-.stat-n{font-family:var(--font-heading);font-size:38px;font-weight:800;color:var(--white)}
-.stat-n .ac{color:var(--accent)}
-.stat-l{font-size:14px;color:var(--gray-400);margin-top:4px}
-
-/* SECTIONS */
-section{padding:90px 24px}
-.sec-in{max-width:1200px;margin:0 auto}
-.sec-label{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
-.sec-label::before{content:'';width:24px;height:2px;background:var(--primary);border-radius:2px}
-.sec-title{font-family:var(--font-heading);font-size:38px;font-weight:800;line-height:1.2;color:var(--dark);margin-bottom:14px}
-.sec-desc{font-size:16px;color:var(--gray-500);max-width:560px;line-height:1.7}
-
-/* FEATURES */
-.feat{background:var(--gray-100)}
-.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
-.fc{background:var(--white);border-radius:18px;padding:28px 22px;border:1px solid transparent;transition:all .4s}
-.fc:hover{border-color:var(--primary-100);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
-.fc-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px}
-.fc h3{font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:8px}
-.fc p{font-size:13px;color:var(--gray-500);line-height:1.7}
-
-/* SERVICES */
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
-.sc{background:var(--white);border-radius:18px;overflow:hidden;border:1px solid var(--gray-200);transition:all .4s}
-.sc:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.1);border-color:transparent}
-.sc-img{height:190px;overflow:hidden;position:relative}
-.sc-img img{width:100%;height:100%;object-fit:cover}
-.sc-img .badge-ov{position:absolute;top:12px;right:12px;background:var(--primary);color:var(--white);padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700}
-.sc-con{padding:22px}
-.sc-con h3{font-family:var(--font-heading);font-size:17px;font-weight:700;margin-bottom:6px}
-.sc-con>p{font-size:13px;color:var(--gray-500);line-height:1.6;margin-bottom:14px}
-.sc-price{display:flex;align-items:baseline;gap:4px;margin-bottom:14px}
-.sc-price .amt{font-family:var(--font-heading);font-size:24px;font-weight:800;color:var(--primary)}
-.sc-price .un{font-size:13px;color:var(--gray-400)}
-.sc-feat{list-style:none;margin-bottom:18px}
-.sc-feat li{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:13px;color:var(--dark-600)}
-.sc-feat li::before{content:'✓';color:var(--primary);font-weight:700;flex-shrink:0}
-.sc-cta{display:block;text-align:center;padding:12px;border-radius:12px;background:var(--primary-50);color:var(--primary);text-decoration:none;font-weight:700;font-size:14px;transition:all .3s}
-.sc-cta:hover{background:var(--primary);color:var(--white)}
-
-/* PROCESS */
-.proc{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:var(--white);position:relative;overflow:hidden}
-.proc::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
-.proc .sec-label{color:var(--accent)}.proc .sec-label::before{background:var(--accent)}
-.proc .sec-title{color:var(--white)}.proc .sec-desc{color:rgba(255,255,255,.7)}
-.proc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:44px;position:relative;z-index:1}
-.pc{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:24px;display:flex;gap:16px;transition:all .3s}
-.pc:hover{background:rgba(255,255,255,.14);transform:translateY(-3px)}
-.pc .nm{font-family:var(--font-heading);font-size:32px;font-weight:800;color:var(--accent);line-height:1;flex-shrink:0}
-.pc h3{font-family:var(--font-heading);font-size:16px;font-weight:700;margin-bottom:6px}
-.pc p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
-
-/* TESTIMONIALS */
-.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
-.tc{background:var(--white);border-radius:18px;padding:24px;border:1px solid var(--gray-200);transition:all .3s}
-.tc:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:transparent}
-.tc-stars{color:var(--accent);font-size:14px;margin-bottom:10px;letter-spacing:2px}
-.tc blockquote{font-size:13px;color:var(--dark-600);line-height:1.7;margin-bottom:14px;font-style:italic}
-.tc-author{display:flex;align-items:center;gap:10px}
-.tc-av{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--primary-50)}
-.tc-author .nm{font-family:var(--font-heading);font-size:13px;font-weight:700}
-.tc-author .loc{font-size:12px;color:var(--gray-400)}
-
-/* AREA */
-.area-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
-.ac2{background:var(--white);border-radius:14px;padding:18px 20px;border:1px solid var(--gray-200);display:flex;align-items:center;gap:12px;transition:all .3s}
-.ac2:hover{border-color:var(--primary-100);box-shadow:0 1px 3px rgba(0,0,0,.06);transform:translateX(4px)}
-.ac2 .pin{font-size:20px;flex-shrink:0}
-.ac2 h4{font-family:var(--font-heading);font-size:14px;font-weight:700}
-.ac2 p{font-size:12px;color:var(--gray-400)}
-
-/* BLOG */
-.blog{background:var(--gray-100)}
-.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
-.bc{background:var(--white);border-radius:18px;overflow:hidden;border:1px solid var(--gray-200);transition:all .4s;cursor:pointer}
-.bc:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1);border-color:transparent}
-.bc-img{height:180px;overflow:hidden}
-.bc-img img{width:100%;height:100%;object-fit:cover}
-.bc-con{padding:20px}
-.bc-date{font-size:12px;color:var(--gray-400);font-weight:500;margin-bottom:6px}
-.bc-con h3{font-family:var(--font-heading);font-size:15px;font-weight:700;line-height:1.4;margin-bottom:6px}
-.bc-con p{font-size:13px;color:var(--gray-500);line-height:1.6}
-
-/* CTA */
-.cta-sec{background:linear-gradient(135deg,var(--primary-dark),var(--primary));text-align:center;position:relative;overflow:hidden}
-.cta-sec::before{content:'';position:absolute;top:50%;left:50%;width:800px;height:800px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%)}
-.cta-sec h2{font-family:var(--font-heading);font-size:38px;font-weight:800;color:var(--white);margin-bottom:14px;position:relative;z-index:1}
-.cta-sec p{color:rgba(255,255,255,.7);font-size:16px;margin-bottom:32px;position:relative;z-index:1}
-.btn-accent{display:inline-flex;align-items:center;gap:10px;background:var(--white);color:var(--primary-dark);padding:18px 36px;border-radius:14px;text-decoration:none;font-weight:800;font-size:16px;transition:all .3s;position:relative;z-index:1;box-shadow:0 4px 20px rgba(255,255,255,.3)}
-.btn-accent:hover{background:var(--gray-100);transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,255,255,.4)}
-.cta-phone{margin-top:14px;font-size:14px;color:rgba(255,255,255,.5);position:relative;z-index:1}
-
-/* FOOTER */
-footer{background:var(--dark);color:var(--white);padding:72px 24px 28px}
-.ft-in{max-width:1200px;margin:0 auto}
-.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
-.ft-brand img{height:50px;margin-bottom:12px}
-.ft-brand p{color:var(--gray-400);font-size:14px;line-height:1.7;max-width:300px}
-.ft-col h4{font-family:var(--font-heading);font-size:13px;font-weight:700;margin-bottom:14px;color:var(--gray-300);text-transform:uppercase;letter-spacing:1px}
-.ft-col a{display:block;color:var(--gray-400);text-decoration:none;font-size:14px;padding:3px 0;transition:color .2s}
-.ft-col a:hover{color:var(--white)}
-.ft-div{height:1px;background:rgba(255,255,255,.08);margin-bottom:20px}
-.ft-bot{display:flex;justify-content:space-between;align-items:center}
-.ft-bot p{font-size:12px;color:var(--gray-500)}
-
-/* WA FLOAT */
-.wa{position:fixed;bottom:24px;right:24px;z-index:1000;width:60px;height:60px;border-radius:18px;background:#25D366;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:all .3s}
-.wa:hover{transform:scale(1.08)}
-.wa svg{width:28px;height:28px;fill:white}
-.wa::before{content:'';position:absolute;width:100%;height:100%;border-radius:18px;background:#25D366;animation:pulse-ring 2s ease infinite}
-
-/* RESPONSIVE */
-@media(max-width:1024px){
-.hero-in{grid-template-columns:1fr;text-align:center;gap:36px}
-.hero h1{font-size:38px}.hero-sub{margin:0 auto 8px}.hero-actions{justify-content:center}.hero-trust{justify-content:center}
-.hero-vis{max-width:480px;margin:0 auto}
-.feat-grid,.proc-grid{grid-template-columns:repeat(2,1fr)}
-.svc-grid{grid-template-columns:repeat(2,1fr)}
-.stats-in{grid-template-columns:repeat(2,1fr)}
-.ft-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:768px){
-.nav-links{display:none}.mob-btn{display:block}
-section{padding:48px 16px}
-.sec-title{font-size:26px}
-.sec-desc{font-size:14px}
-.hero{padding:88px 16px 40px;min-height:auto}.hero h1{font-size:28px}.hero-sub{font-size:14px}
-.hero-badge{font-size:12px;padding:6px 12px}
-.hero-price{font-size:13px}
-.btn-p,.btn-s{padding:14px 22px;font-size:14px;border-radius:12px;width:100%;justify-content:center}
-.hero-actions{flex-direction:column}
-.hero-trust{gap:10px;flex-direction:column;align-items:center}
-.hero-card img{height:220px}
-.feat-grid,.svc-grid,.test-grid,.area-grid,.blog-grid,.proc-grid{grid-template-columns:1fr;gap:12px}
-.fc{padding:22px 18px}.fc h3{font-size:15px}.fc p{font-size:12px}
-.sc-con{padding:18px}.sc-con h3{font-size:16px}
-.sc-cta{padding:14px;font-size:14px;min-height:48px;display:flex;align-items:center;justify-content:center}
-.pc{padding:20px}.pc .nm{font-size:26px}
-.tc{padding:20px}
-.tc blockquote{font-size:12px}
-.ac2{padding:14px 16px}.ac2 h4{font-size:13px}
-.bc-con{padding:16px}.bc-con h3{font-size:14px}
-.stats-in{grid-template-columns:repeat(2,1fr);gap:16px}.stat-n{font-size:24px}.stat-l{font-size:12px}
-.cta-sec h2{font-size:26px}
-.cta-sec p{font-size:14px}
-.btn-accent{padding:16px 28px;font-size:15px;width:100%;justify-content:center}
-.ft-grid{grid-template-columns:1fr;gap:24px}
-.ft-bot{flex-direction:column;gap:6px;text-align:center}
-.ft-brand p{font-size:13px}
-.ft-col a{padding:6px 0;font-size:13px;min-height:40px;display:flex;align-items:center}
-.hfb{display:none}
-.wa{width:56px;height:56px;bottom:16px;right:16px;border-radius:16px}
-.wa svg{width:26px;height:26px}
-.nav-in{padding:8px 16px}
-.nav-logo img{height:36px}
-.mob-menu a{padding:16px;font-size:17px;min-height:52px}
-.top-bar{display:none}
-.mob-menu{top:64px}
-}
-</style>
 
 <script src="/js/analytics.js" defer></script>
+  <link rel="stylesheet" href="css/pages/index.css">
+  <link rel="preconnect" href="https://apsbeppcmsxeldnejibz.supabase.co">
+
+  <meta property="og:image" content="https://aclean.id/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AClean Service — Jasa Service AC Profesional" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://aclean.id/images/og-image.jpg" />
+
+  <meta property="og:url" content="https://aclean.id/" />
+
+  <link rel="preload" as="image" href="images/hero-teknisi-aclean.webp" fetchpriority="high">
 </head>
 <body>
 
@@ -450,7 +195,7 @@ section{padding:48px 16px}
 
 <!-- MAIN NAV -->
 <nav id="nb"><div class="nav-in">
-  <a href="#beranda" class="nav-logo"><picture><source srcset="images/logo-aclean.webp" type="image/webp"><img loading="eager" src="images/logo-aclean.jpg" alt="AClean Service Logo" /></picture></a>
+  <a href="#beranda" class="nav-logo"><picture><source srcset="images/logo-aclean.webp" type="image/webp"><img loading="eager" src="images/logo-aclean.jpg" alt="AClean Service Logo" decoding="async" fetchpriority="high" /></picture></a>
   <div class="nav-links">
     <a href="#beranda">Beranda</a>
     <div class="nav-dropdown">
@@ -514,7 +259,7 @@ section{padding:48px 16px}
 </div>
 <div class="hero-vis">
 <div class="hero-card">
-<picture><source srcset="images/hero-teknisi-aclean.webp" type="image/webp"><img loading="eager" fetchpriority="high" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/teknisi-aclean.jpg?v=2" alt="Teknisi AClean service cleaning AC profesional Tangerang Selatan" width="600" height="300" /></picture>
+<picture><source srcset="images/hero-teknisi-aclean.webp" type="image/webp"><img loading="eager" fetchpriority="high" src="images/hero-teknisi-aclean.webp" alt="Teknisi AClean service cleaning AC profesional Tangerang Selatan" width="600" height="300" decoding="async" /></picture>
 <div class="hero-card-bot">
 <div><h3>Cleaning AC Split Wall</h3><p>Evaporator + Kondensor + Filter</p></div>
 <div style="text-align:right"><div class="hero-card-price">Rp 95K <small>/unit</small></div></div>
@@ -552,12 +297,12 @@ section{padding:48px 16px}
 <h2 class="sec-title">Layanan Service AC Kami</h2>
 <p class="sec-desc">Solusi lengkap untuk semua kebutuhan AC rumah dan kantor Anda.</p>
 <div class="svc-grid">
-<div class="sc anim" data-kartu="cuci"><div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/cuci.jpg?v=2" alt="Cleaning AC profesional oleh AClean" loading="lazy"/></div><div class="sc-con"><h3><a href="cuci-ac.html" style="color:inherit;text-decoration:none">Cleaning AC</a></h3><p>Pembersihan mendalam indoor & outdoor dengan jet cleaner. Evaporator + filter + kondensor.</p><div class="sc-price"><span class="amt">Rp 95K</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="cuci-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20booking%20cleaning%20AC" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
-<div class="sc anim" data-kartu="service"><div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/service.jpg?v=3" alt="Service & perbaikan AC oleh teknisi AClean" loading="lazy"/></div><div class="sc-con"><h3><a href="service-ac-tangerang-selatan.html" style="color:inherit;text-decoration:none">Service AC</a></h3><p>Perbaikan semua jenis kerusakan AC. Diagnosa lengkap & solusi tepat oleh teknisi berpengalaman.</p><div class="sc-price"><span class="amt">Rp 150K</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="service-ac-tangerang-selatan.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20service%20AC" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
-<div class="sc anim" data-kartu="freon"><div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/freon.jpg?v=2" alt="Isi freon AC R32 & R410A oleh teknisi AClean" loading="lazy"/></div><div class="sc-con"><h3><a href="isi-freon.html" style="color:inherit;text-decoration:none">Isi Freon AC</a></h3><p>Pengisian freon R32 & R410A. Cek kebocoran gratis, freon original, AC kembali dingin optimal.</p><div class="sc-price"><span class="amt">Rp 500K</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="isi-freon.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20isi%20freon" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
-<div class="sc anim" data-kartu="pasang"><div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/pasang.jpg?v=3" alt="Pasang AC baru profesional oleh AClean" loading="lazy"/></div><div class="sc-con"><h3><a href="pasang-ac.html" style="color:inherit;text-decoration:none">Pasang AC Baru</a></h3><p>Pemasangan AC baru profesional semua merk. Termasuk instalasi pipa, kabel & outdoor bracket.</p><div class="sc-price"><span class="amt">Hubungi</span><span class="un">untuk harga</span></div><div style="display:flex;gap:8px"><a href="pasang-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20ingin%20pasang%20AC%20baru" class="sc-cta" style="flex:2">Konsultasi</a></div></div></div>
-<div class="sc anim" data-kartu="bongkar"><div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/bongkar.jpg?v=3" alt="Bongkar pasang AC oleh teknisi AClean" loading="lazy"/></div><div class="sc-con"><h3><a href="bongkar-pasang-ac.html" style="color:inherit;text-decoration:none">Bongkar Pasang AC</a></h3><p>Bongkar & pasang ulang AC untuk pindahan atau renovasi. Rapi, cepat, dan bergaransi.</p><div class="sc-price"><span class="amt">Mulai Rp 250.000</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="bongkar-pasang-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20bongkar%20pasang%20AC" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
-<div class="sc anim" data-kartu="ducting"><div class="sc-img"><img src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/ducting.jpg?v=2" alt="Jasa ducting AC PU Board design build install oleh AClean" loading="lazy"/></div><div class="sc-con"><h3><a href="ducting-ac.html" style="color:inherit;text-decoration:none">Ducting AC PU Board</a></h3><p>Design, fabrikasi & instalasi ducting AC berbahan PU Board. Cocok untuk rumah open-plan, kantor, kafe. Survei gratis.</p><div class="sc-price"><span class="amt">Survei</span><span class="un">Gratis</span></div><div style="display:flex;gap:8px"><a href="ducting-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20konsultasi%20ducting%20AC" class="sc-cta" style="flex:2">Konsultasi</a></div></div></div>
+<div class="sc anim" data-kartu="cuci"><div class="sc-img"><img src="images/home-cleaning.jpg" alt="Cleaning AC profesional oleh AClean" loading="lazy" decoding="async" /></div><div class="sc-con"><h3><a href="cuci-ac.html" style="color:inherit;text-decoration:none">Cleaning AC</a></h3><p>Pembersihan mendalam indoor & outdoor dengan jet cleaner. Evaporator + filter + kondensor.</p><div class="sc-price"><span class="amt">Rp 95K</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="cuci-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20booking%20cleaning%20AC" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
+<div class="sc anim" data-kartu="service"><div class="sc-img"><img src="images/home-service.jpg" alt="Service & perbaikan AC oleh teknisi AClean" loading="lazy" decoding="async" /></div><div class="sc-con"><h3><a href="service-ac-tangerang-selatan.html" style="color:inherit;text-decoration:none">Service AC</a></h3><p>Perbaikan semua jenis kerusakan AC. Diagnosa lengkap & solusi tepat oleh teknisi berpengalaman.</p><div class="sc-price"><span class="amt">Rp 150K</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="service-ac-tangerang-selatan.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20service%20AC" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
+<div class="sc anim" data-kartu="freon"><div class="sc-img"><img src="images/home-freon.jpg" alt="Isi freon AC R32 & R410A oleh teknisi AClean" loading="lazy" decoding="async" /></div><div class="sc-con"><h3><a href="isi-freon.html" style="color:inherit;text-decoration:none">Isi Freon AC</a></h3><p>Pengisian freon R32 & R410A. Cek kebocoran gratis, freon original, AC kembali dingin optimal.</p><div class="sc-price"><span class="amt">Rp 500K</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="isi-freon.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20isi%20freon" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
+<div class="sc anim" data-kartu="pasang"><div class="sc-img"><img src="images/home-pasang.jpg" alt="Pasang AC baru profesional oleh AClean" loading="lazy" decoding="async" /></div><div class="sc-con"><h3><a href="pasang-ac.html" style="color:inherit;text-decoration:none">Pasang AC Baru</a></h3><p>Pemasangan AC baru profesional semua merk. Termasuk instalasi pipa, kabel & outdoor bracket.</p><div class="sc-price"><span class="amt">Hubungi</span><span class="un">untuk harga</span></div><div style="display:flex;gap:8px"><a href="pasang-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20ingin%20pasang%20AC%20baru" class="sc-cta" style="flex:2">Konsultasi</a></div></div></div>
+<div class="sc anim" data-kartu="bongkar"><div class="sc-img"><img src="images/home-bongkar.jpg" alt="Bongkar pasang AC oleh teknisi AClean" loading="lazy" decoding="async" /></div><div class="sc-con"><h3><a href="bongkar-pasang-ac.html" style="color:inherit;text-decoration:none">Bongkar Pasang AC</a></h3><p>Bongkar & pasang ulang AC untuk pindahan atau renovasi. Rapi, cepat, dan bergaransi.</p><div class="sc-price"><span class="amt">Mulai Rp 250.000</span><span class="un">/unit</span></div><div style="display:flex;gap:8px"><a href="bongkar-pasang-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20bongkar%20pasang%20AC" class="sc-cta" style="flex:2">Booking WA</a></div></div></div>
+<div class="sc anim" data-kartu="ducting"><div class="sc-img"><img src="images/home-ducting.jpg" alt="Jasa ducting AC PU Board design build install oleh AClean" loading="lazy" decoding="async" /></div><div class="sc-con"><h3><a href="ducting-ac.html" style="color:inherit;text-decoration:none">Ducting AC PU Board</a></h3><p>Design, fabrikasi & instalasi ducting AC berbahan PU Board. Cocok untuk rumah open-plan, kantor, kafe. Survei gratis.</p><div class="sc-price"><span class="amt">Survei</span><span class="un">Gratis</span></div><div style="display:flex;gap:8px"><a href="ducting-ac.html" style="flex:1;display:block;text-align:center;padding:10px;border-radius:10px;border:1.5px solid var(--primary);color:var(--primary);text-decoration:none;font-weight:600;font-size:13px">Detail</a><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20mau%20konsultasi%20ducting%20AC" class="sc-cta" style="flex:2">Konsultasi</a></div></div></div>
 </div></div></section>
 
 <section class="feat" id="paket"><div class="sec-in">
@@ -565,144 +310,22 @@ section{padding:48px 16px}
 <h2 class="sec-title">Detail Layanan & Paket Perawatan</h2>
 <p class="sec-desc">Rincian pekerjaan, harga, dan cakupan untuk setiap paket layanan AClean.</p>
 <div class="svc-grid">
-<article class="sc anim"><div class="sc-img"><picture><source srcset="images/hero-cleaning-ac.webp" type="image/webp"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/cleaning-ac.jpg?v=2" alt="Jasa cleaning AC profesional AClean" /></picture><div class="badge-ov">Terlaris</div></div><div class="sc-con"><h3>Jasa Cleaning AC</h3><p>Pembersihan menyeluruh unit evaporator, kondensor, dan filter agar AC kembali dingin maksimal.</p><div class="sc-price"><span class="amt">Rp 95.000</span><span class="un">/unit</span></div><ul class="sc-feat"><li>Cleaning unit evaporator</li><li>Cleaning unit kondensor</li><li>Cleaning filter udara</li><li>Pengecekan freon & ampere</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20booking%20cleaning%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Cleaning AC →</a></div></article>
+<article class="sc anim"><div class="sc-img"><picture><source srcset="images/hero-cleaning-ac.webp" type="image/webp"><img loading="lazy" src="images/hero-cleaning-ac.webp" alt="Jasa cleaning AC profesional AClean" decoding="async" / width="800" height="530"></picture><div class="badge-ov">Terlaris</div></div><div class="sc-con"><h3>Jasa Cleaning AC</h3><p>Pembersihan menyeluruh unit evaporator, kondensor, dan filter agar AC kembali dingin maksimal.</p><div class="sc-price"><span class="amt">Rp 95.000</span><span class="un">/unit</span></div><ul class="sc-feat"><li>Cleaning unit evaporator</li><li>Cleaning unit kondensor</li><li>Cleaning filter udara</li><li>Pengecekan freon & ampere</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20booking%20cleaning%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Cleaning AC →</a></div></article>
 
-<article class="sc anim"><div class="sc-img"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/hero/teknisi-aclean.jpg?v=2" alt="Teknisi AClean service besar AC bongkar unit indoor" /></div><div class="sc-con"><h3>Service Besar AC</h3><p>Deep cleaning komprehensif dengan bongkar unit indoor, pembersihan fan blade dan evaporator.</p><div class="sc-price"><span class="amt">Rp 400.000</span><span class="un">/unit</span></div><ul class="sc-feat"><li>Bongkar unit indoor</li><li>Deep cleaning fan blade</li><li>Deep cleaning evaporator</li><li>Free vacuum pipa</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20booking%20service%20besar%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Service Besar →</a></div></article>
+<article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/hero-teknisi-aclean.webp" alt="Teknisi AClean service besar AC bongkar unit indoor" decoding="async" / width="800" height="530"></div><div class="sc-con"><h3>Service Besar AC</h3><p>Deep cleaning komprehensif dengan bongkar unit indoor, pembersihan fan blade dan evaporator.</p><div class="sc-price"><span class="amt">Rp 400.000</span><span class="un">/unit</span></div><ul class="sc-feat"><li>Bongkar unit indoor</li><li>Deep cleaning fan blade</li><li>Deep cleaning evaporator</li><li>Free vacuum pipa</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20booking%20service%20besar%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Service Besar →</a></div></article>
 
-<article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/pengisian-freon-ac-original-daikin.jpg" alt="Pengisian freon original Daikin oleh teknisi AClean" /></div><div class="sc-con"><h3>Pengisian Freon Original</h3><p>Isi ulang freon original Daikin untuk tipe R-32, R-410, dan R-22. Garansi 14 hari.</p><div class="sc-price"><span class="amt">Rp 500.000</span><span class="un">/unit</span></div><ul class="sc-feat"><li>Freon original Daikin</li><li>Jasa pengisian profesional</li><li>Garansi 14 hari</li><li>Kuras vacuum +Rp 150.000</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20isi%20freon%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Isi Freon →</a></div></article>
+<article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/pengisian-freon-ac-original-daikin.jpg" alt="Pengisian freon original Daikin oleh teknisi AClean" decoding="async" /></div><div class="sc-con"><h3>Pengisian Freon Original</h3><p>Isi ulang freon original Daikin untuk tipe R-32, R-410, dan R-22. Garansi 14 hari.</p><div class="sc-price"><span class="amt">Rp 500.000</span><span class="un">/unit</span></div><ul class="sc-feat"><li>Freon original Daikin</li><li>Jasa pengisian profesional</li><li>Garansi 14 hari</li><li>Kuras vacuum +Rp 150.000</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20isi%20freon%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Isi Freon →</a></div></article>
 
-<article class="sc anim"><div class="sc-img"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/pasang.jpg?v=3" alt="Pemasangan AC baru di ruangan oleh AClean" /></div><div class="sc-con"><h3>Pemasangan AC Baru</h3><p>Jasa pemasangan AC baru untuk rumah, kantor, atau ruang komersial dengan instalasi rapi.</p><div class="sc-price"><span class="amt">Hubungi</span><span class="un">untuk harga</span></div><ul class="sc-feat"><li>Survey lokasi gratis</li><li>Instalasi pipa & kabel rapi</li><li>Testing & commissioning</li><li>Garansi pemasangan</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20pasang%20AC%20baru" class="sc-cta" target="_blank" rel="noopener">Konsultasi Pemasangan →</a></div></article>
+<article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/home-pasang.jpg" alt="Pemasangan AC baru di ruangan oleh AClean" decoding="async" /></div><div class="sc-con"><h3>Pemasangan AC Baru</h3><p>Jasa pemasangan AC baru untuk rumah, kantor, atau ruang komersial dengan instalasi rapi.</p><div class="sc-price"><span class="amt">Hubungi</span><span class="un">untuk harga</span></div><ul class="sc-feat"><li>Survey lokasi gratis</li><li>Instalasi pipa & kabel rapi</li><li>Testing & commissioning</li><li>Garansi pemasangan</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20pasang%20AC%20baru" class="sc-cta" target="_blank" rel="noopener">Konsultasi Pemasangan →</a></div></article>
 
-<article class="sc anim"><div class="sc-img"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-maintenance.jpg?v=3" alt="Pengecekan kondisi unit AC sebelum bongkar pasang"  onerror="if(this.src.indexOf('blog-maintenance.jpg')<0){this.src='images/blog-maintenance.jpg'}"/></div><div class="sc-con"><h3>Bongkar Pasang AC</h3><p>Layanan bongkar AC lama dan pasang AC baru atau pindah lokasi unit AC secara profesional.</p><div class="sc-price"><span class="amt">Hubungi</span><span class="un">untuk harga</span></div><ul class="sc-feat"><li>Bongkar unit lama</li><li>Pemasangan di lokasi baru</li><li>Pengecekan kondisi unit</li><li>Garansi pemasangan</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20bongkar%20pasang%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Bongkar Pasang →</a></div></article>
+<article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/blog-maintenance.jpg" alt="Pengecekan kondisi unit AC sebelum bongkar pasang"  onerror="if(this.src.indexOf('blog-maintenance.jpg')<0){this.src='images/blog-maintenance.jpg'}" decoding="async" /></div><div class="sc-con"><h3>Bongkar Pasang AC</h3><p>Layanan bongkar AC lama dan pasang AC baru atau pindah lokasi unit AC secara profesional.</p><div class="sc-price"><span class="amt">Hubungi</span><span class="un">untuk harga</span></div><ul class="sc-feat"><li>Bongkar unit lama</li><li>Pemasangan di lokasi baru</li><li>Pengecekan kondisi unit</li><li>Garansi pemasangan</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20bongkar%20pasang%20AC" class="sc-cta" target="_blank" rel="noopener">Booking Bongkar Pasang →</a></div></article>
 
-<article class="sc anim"><div class="sc-img"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/sertifikasi-daikin.jpg?v=2" alt="Teknisi bersertifikat Daikin untuk perawatan berkala AC"  onerror="if(this.src.indexOf('daikin-training-teknisi.jpg')<0){this.src='images/daikin-training-teknisi.jpg'}"/></div><div class="sc-con"><h3>Perawatan Berkala</h3><p>Kontrak maintenance rutin untuk AC kantor, gedung, dan pabrik demi performa optimal.</p><div class="sc-price"><span class="amt">Rp 100.000</span><span class="un">/PK (Central)</span></div><ul class="sc-feat"><li>Jadwal maintenance teratur</li><li>Laporan kondisi unit</li><li>Prioritas penanganan</li><li>Diskon sparepart</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20info%20kontrak%20maintenance" class="sc-cta" target="_blank" rel="noopener">Info Kontrak Maintenance →</a></div></article>
+<article class="sc anim"><div class="sc-img"><img loading="lazy" src="images/daikin-training-teknisi.jpg" alt="Teknisi bersertifikat Daikin untuk perawatan berkala AC"  onerror="if(this.src.indexOf('daikin-training-teknisi.jpg')<0){this.src='images/daikin-training-teknisi.jpg'}" decoding="async" /></div><div class="sc-con"><h3>Perawatan Berkala</h3><p>Kontrak maintenance rutin untuk AC kantor, gedung, dan pabrik demi performa optimal.</p><div class="sc-price"><span class="amt">Rp 100.000</span><span class="un">/PK (Central)</span></div><ul class="sc-feat"><li>Jadwal maintenance teratur</li><li>Laporan kondisi unit</li><li>Prioritas penanganan</li><li>Diskon sparepart</li></ul><a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20ingin%20info%20kontrak%20maintenance" class="sc-cta" target="_blank" rel="noopener">Info Kontrak Maintenance →</a></div></article>
 </div>
 </div></section>
 
 <!-- B2B SERVICE SECTION -->
-<style>
-.b2b-hook{background:var(--primary-50);border-top:3px solid var(--primary);padding:32px 24px}
-.b2b-hook-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.b2b-hook-badge{background:var(--primary);color:var(--white);padding:5px 12px;border-radius:7px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;flex-shrink:0}
-.b2b-hook-q{font-family:var(--font-heading);font-size:19px;font-weight:700;color:var(--primary-dark);line-height:1.4;flex:1;margin:0 16px}
-.b2b-hook-q em{font-style:normal;color:var(--primary);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
-.b2b-hook-cta{display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:var(--white);padding:11px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;white-space:nowrap;flex-shrink:0;transition:all .2s}
-.b2b-hook-cta:hover{background:var(--primary-light);transform:translateY(-1px)}
 
-.b2b-interest{background:var(--white);padding:72px 24px 64px;border-bottom:1px solid var(--gray-200)}
-.b2b-interest-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
-.pain-pills{display:flex;flex-direction:column;gap:10px;margin-top:20px}
-.pain-pill{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px}
-.pain-pill-ic{font-size:17px;flex-shrink:0;margin-top:1px}
-.pain-pill-tx{font-size:13px;color:#7F1D1D;line-height:1.55}
-.pain-pill-tx strong{display:block;font-weight:700;font-family:var(--font-heading);font-size:13px;margin-bottom:2px}
-.b2b-after{background:var(--primary-50);border:1.5px solid var(--primary-100);border-radius:20px;padding:26px 22px}
-.b2b-after-label{font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.after-item{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid rgba(27,58,123,.08)}
-.after-item:last-of-type{border-bottom:none;padding-bottom:0}
-.after-ic{width:34px;height:34px;border-radius:9px;background:var(--primary-50);border:1px solid var(--primary-100);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.after-tx strong{display:block;font-family:var(--font-heading);font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:2px}
-.after-tx span{font-size:12px;color:var(--primary-light);line-height:1.5}
-.b2b-mini-testi{background:var(--white);border-radius:12px;padding:14px 16px;margin-top:16px;border:1px solid var(--gray-200)}
-.b2b-mini-testi-stars{color:var(--accent);font-size:12px;margin-bottom:5px}
-.b2b-mini-testi blockquote{font-size:12px;color:var(--dark-600);line-height:1.65;font-style:italic;margin-bottom:8px}
-.b2b-mini-testi-author{font-size:11px;font-weight:700;color:var(--primary)}
-.b2b-mini-testi-author span{color:var(--gray-400);font-weight:400}
-
-.b2b-desire{background:linear-gradient(180deg,var(--white) 0%,var(--primary-50) 100%);padding:72px 24px}
-.b2b-desire-in{max-width:1200px;margin:0 auto}
-.b2b-desire-head{text-align:center;margin-bottom:44px}
-.b2b-desire-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-.b2b-proof-col{display:flex;flex-direction:column;gap:14px}
-.b2b-proof-card{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:18px 20px;display:flex;gap:14px;transition:all .3s}
-.b2b-proof-card:hover{border-color:var(--primary-100);box-shadow:0 4px 16px rgba(27,58,123,.08);transform:translateX(4px)}
-.b2b-proof-ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.b2b-proof-card h3{font-family:var(--font-heading);font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px}
-.b2b-proof-card p{font-size:12px;color:var(--gray-500);line-height:1.6}
-.b2b-proof-tag{display:inline-block;font-size:11px;font-weight:700;color:#059669;background:#D1FAE5;padding:2px 8px;border-radius:5px;margin-top:7px}
-.b2b-portal-label{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;text-align:center}
-.b2b-portal-mock{background:var(--white);border-radius:18px;box-shadow:0 16px 48px rgba(27,58,123,.12);border:1px solid var(--gray-200);overflow:hidden}
-.bpm-bar{background:var(--gray-100);padding:9px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-200)}
-.bpm-dots{display:flex;gap:5px}.bpm-dot{width:11px;height:11px;border-radius:50%}
-.bpm-url{flex:1;background:var(--white);border-radius:5px;padding:4px 10px;font-size:10px;color:var(--gray-400);border:1px solid var(--gray-200);font-family:monospace}
-.bpm-body{padding:14px}
-.bpm-header{display:flex;align-items:center;gap:9px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--gray-100)}
-.bpm-logo{width:28px;height:28px;background:var(--primary);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:800;font-size:12px;color:var(--white)}
-.bpm-co{font-family:var(--font-heading);font-size:12px;font-weight:700;color:var(--dark)}
-.bpm-co span{display:block;font-size:10px;color:var(--gray-400);font-weight:400}
-.bpm-badge{margin-left:auto;background:#D1FAE5;color:#059669;padding:2px 9px;border-radius:18px;font-size:10px;font-weight:700}
-.bpm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:11px}
-.bpm-stat{background:var(--gray-100);border-radius:8px;padding:8px;text-align:center}
-.bpm-stat .n{font-family:var(--font-heading);font-size:17px;font-weight:800;color:var(--primary)}
-.bpm-stat .l{font-size:9px;color:var(--gray-400);margin-top:1px}
-.bpm-alert{background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:8px 11px;font-size:10px;color:#92400E;margin-bottom:10px;display:flex;gap:6px;align-items:center}
-.bpm-row{border:1px solid var(--gray-200);border-radius:8px;padding:8px 11px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.bpm-row-ic{width:26px;height:26px;background:var(--primary-50);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.bpm-row-info{flex:1}
-.bpm-row-code{font-family:var(--font-heading);font-size:10px;font-weight:700;color:var(--dark)}
-.bpm-row-loc{font-size:9px;color:var(--gray-400)}
-.bpm-chip{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px}
-.bpm-chip.ok{background:#D1FAE5;color:#059669}
-.bpm-chip.warn{background:#FEF3C7;color:#92400E}
-.bpm-chip.late{background:#FEE2E2;color:#DC2626}
-.bpm-more{text-align:center;font-size:10px;color:var(--gray-400);padding-top:7px;border-top:1px solid var(--gray-100);margin-top:3px}
-
-.b2b-action-strip{background:var(--primary);padding:56px 24px;text-align:center;position:relative;overflow:hidden}
-.b2b-action-strip::before{content:'';position:absolute;top:50%;left:50%;width:700px;height:700px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%)}
-.b2b-action-in{max-width:640px;margin:0 auto;position:relative;z-index:1}
-.b2b-action-strip h2{font-family:var(--font-heading);font-size:26px;font-weight:800;color:var(--white);margin-bottom:10px;line-height:1.3}
-.b2b-action-strip p{font-size:14px;color:rgba(255,255,255,.68);margin-bottom:24px;line-height:1.7}
-.b2b-action-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--dark);padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:800;font-size:14px;transition:all .3s;box-shadow:0 4px 16px rgba(245,158,11,.3)}
-.b2b-action-btn:hover{background:#E89B05;transform:translateY(-2px)}
-.b2b-action-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.38)}
-.b2b-client-pills{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:20px}
-.b2b-client-pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.55)}
-
-@media(max-width:1024px){
-.b2b-interest-in,.b2b-desire-wrap{grid-template-columns:1fr;gap:32px}
-.b2b-hook-q{margin:8px 0}
-.b2b-hook-in{flex-direction:column;align-items:flex-start}
-}
-@media(max-width:768px){
-.b2b-hook{padding:24px 16px}
-.b2b-hook-cta{width:100%;justify-content:center}
-.b2b-interest,.b2b-desire{padding:56px 16px}
-.b2b-action-strip{padding:44px 16px}
-.b2b-action-strip h2{font-size:20px}
-.b2b-desire-wrap{grid-template-columns:1fr}
-.b2b-portal-col{display:none}
-}
-
-/* ── Perbaikan luber di layar kecil ──────────────────────────────────────
-   Grid kolom tetap yang ditulis langsung di atribut style tidak pernah
-   menyusut: track 1fr bertumpu pada lebar min-content isinya, jadi kartu
-   ber-padding tebal memaksa halaman melebar dan bisa digeser ke samping.
-   min-width:0 melepas batas itu; jumlah kolom diturunkan bertahap supaya
-   isinya tetap terbaca, bukan sekadar tidak luber. */
-@media(max-width:768px){
-  [style*="grid-template-columns:repeat("]>*{min-width:0}
-  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
-}
-@media(max-width:560px){
-  [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
-}
-@media(max-width:430px){
-  [style*="repeat(2,1fr)"],[style*="repeat(3,1fr)"],
-  [style*="repeat(4,1fr)"],[style*="repeat(5,1fr)"]{grid-template-columns:1fr!important}
-}
-
-/* Header ponsel: tombol B2B + Pesan Sekarang mendorong tombol menu keluar
-   layar. B2B disembunyikan (tetap ada di menu ponsel), Pesan Sekarang
-   dirampingkan supaya tetap terlihat. */
-@media(max-width:768px){
-  .nav-b2b{display:none!important}
-  .nav-cta{padding:8px 12px!important;font-size:12px!important}
-}
-@media(max-width:430px){
-  .nav-in{gap:8px}
-  .nav-cta{padding:7px 10px!important;font-size:11.5px!important}
-}
-</style>
 
 <!-- ZONA 1: HOOK — satu kalimat tajam, warna biru muda -->
 <div class="b2b-hook anim">
@@ -896,9 +519,9 @@ section{padding:48px 16px}
 <h2 class="sec-title">Tips & Info Seputar AC</h2>
 <p class="sec-desc">Pelajari cara merawat AC agar tetap dingin, awet, dan hemat listrik.</p>
 <div class="blog-grid">
-<a href="blog/kenapa-ac-tidak-dingin.html" class="bc anim" style="text-decoration:none;color:inherit;display:block"><div class="bc-img"><picture><source srcset="images/blog-ac-tidak-dingin.webp" type="image/webp"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-ac-tidak-dingin.jpg?v=2" alt="Mengapa AC tidak dingin"  onerror="if(this.src.indexOf('blog-ac-tidak-dingin.png')<0){this.src='images/blog-ac-tidak-dingin.png'}"/></picture></div><div class="bc-con"><div class="bc-date">17 April 2025</div><h3>Mengapa AC Tidak Dingin? 7 Penyebab dan Solusi Cepat</h3><p>AC menyala tapi tidak dingin? Kenali 7 penyebab utamanya dan cara mengatasinya.</p><span style="color:var(--primary);font-weight:600;font-size:14px">Baca Selengkapnya &rarr;</span></div></a>
-<a href="blog/ac-bocor-penyebab-solusi.html" class="bc anim" style="text-decoration:none;color:inherit;display:block"><div class="bc-img"><picture><source srcset="images/blog-ac-bocor.webp" type="image/webp"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-ac-bocor.jpg?v=2" alt="AC sering bocor penyebab"  onerror="if(this.src.indexOf('blog-ac-bocor.jpg')<0){this.src='images/blog-ac-bocor.jpg'}"/></picture></div><div class="bc-con"><div class="bc-date">17 April 2025</div><h3>Mengapa AC Sering Bocor? Penyebab dan Cara Memperbaiki</h3><p>AC bocor bisa merusak dinding dan lantai. Pelajari penyebab dan perbaikannya.</p><span style="color:var(--primary);font-weight:600;font-size:14px">Baca Selengkapnya &rarr;</span></div></a>
-<a href="blog/freon-r32-vs-r410.html" class="bc anim" style="text-decoration:none;color:inherit;display:block"><div class="bc-img"><picture><source srcset="images/blog-freon-r32-r410.webp" type="image/webp"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-freon.jpg?v=2" alt="Perbandingan freon AC R32 R410"  onerror="if(this.src.indexOf('blog-freon-r32-r410.jpg')<0){this.src='images/blog-freon-r32-r410.jpg'}"/></picture></div><div class="bc-con"><div class="bc-date">17 April 2025</div><h3>Perbandingan Freon R-32 vs R-410: Mana yang Terbaik?</h3><p>Freon R-32 atau R-410A? Ketahui mana yang lebih hemat, aman, dan ramah lingkungan untuk AC Anda.</p><span style="color:var(--primary);font-weight:600;font-size:14px">Baca Selengkapnya &rarr;</span></div></a>
+<a href="blog/kenapa-ac-tidak-dingin.html" class="bc anim" style="text-decoration:none;color:inherit;display:block"><div class="bc-img"><picture><source srcset="images/blog-ac-tidak-dingin.webp" type="image/webp"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-ac-tidak-dingin.jpg?v=2" alt="Mengapa AC tidak dingin"  onerror="if(this.src.indexOf('blog-ac-tidak-dingin.png')<0){this.src='images/blog-ac-tidak-dingin.png'}" decoding="async" /></picture></div><div class="bc-con"><div class="bc-date">17 April 2025</div><h3>Mengapa AC Tidak Dingin? 7 Penyebab dan Solusi Cepat</h3><p>AC menyala tapi tidak dingin? Kenali 7 penyebab utamanya dan cara mengatasinya.</p><span style="color:var(--primary);font-weight:600;font-size:14px">Baca Selengkapnya &rarr;</span></div></a>
+<a href="blog/ac-bocor-penyebab-solusi.html" class="bc anim" style="text-decoration:none;color:inherit;display:block"><div class="bc-img"><picture><source srcset="images/blog-ac-bocor.webp" type="image/webp"><img loading="lazy" src="images/blog-ac-bocor.webp" alt="AC sering bocor penyebab"  onerror="if(this.src.indexOf('blog-ac-bocor.jpg')<0){this.src='images/blog-ac-bocor.jpg'}" decoding="async" /></picture></div><div class="bc-con"><div class="bc-date">17 April 2025</div><h3>Mengapa AC Sering Bocor? Penyebab dan Cara Memperbaiki</h3><p>AC bocor bisa merusak dinding dan lantai. Pelajari penyebab dan perbaikannya.</p><span style="color:var(--primary);font-weight:600;font-size:14px">Baca Selengkapnya &rarr;</span></div></a>
+<a href="blog/freon-r32-vs-r410.html" class="bc anim" style="text-decoration:none;color:inherit;display:block"><div class="bc-img"><picture><source srcset="images/blog-freon-r32-r410.webp" type="image/webp"><img loading="lazy" src="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/beranda/artikel-freon.jpg?v=2" alt="Perbandingan freon AC R32 R410"  onerror="if(this.src.indexOf('blog-freon-r32-r410.jpg')<0){this.src='images/blog-freon-r32-r410.jpg'}" decoding="async" /></picture></div><div class="bc-con"><div class="bc-date">17 April 2025</div><h3>Perbandingan Freon R-32 vs R-410: Mana yang Terbaik?</h3><p>Freon R-32 atau R-410A? Ketahui mana yang lebih hemat, aman, dan ramah lingkungan untuk AC Anda.</p><span style="color:var(--primary);font-weight:600;font-size:14px">Baca Selengkapnya &rarr;</span></div></a>
 </div>
 <div style="text-align:center;margin-top:32px"><a href="blog/index.html" style="display:inline-block;padding:14px 40px;background:var(--primary);color:#fff;border-radius:12px;font-weight:700;font-family:var(--font-heading);font-size:16px;text-decoration:none;transition:.3s">Lihat Semua 19 Artikel Blog &rarr;</a></div>
 </div></section>
@@ -915,7 +538,7 @@ section{padding:48px 16px}
 <footer><div class="ft-in">
 <div class="ft-grid">
 <div class="ft-brand">
-<picture><source srcset="images/logo-aclean-icon.webp" type="image/webp"><img loading="lazy" src="images/logo-aclean-icon.png" alt="AClean Service" /></picture>
+<picture><source srcset="images/logo-aclean-icon.webp" type="image/webp"><img loading="lazy" src="images/logo-aclean-icon.png" alt="AClean Service" decoding="async" /></picture>
 <p>Jasa service cleaning AC profesional di Tangerang Selatan, BSD, Alam Sutera, dan Gading Serpong. Teknisi berpengalaman, sparepart original, garansi resmi.</p>
 <p style="margin-top:10px;font-size:13px"><strong style="color:var(--gray-300)">Jam Operasional:</strong><br/>Senin - Sabtu: 09:00 - 17:00 WIB</p>
 </div>

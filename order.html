@@ -142,14 +142,14 @@
         <!-- NAMA -->
         <div class="field">
           <label for="fNama">Nama Lengkap <span class="req">*</span></label>
-          <input type="text" id="fNama" placeholder="Contoh: Budi Santoso" autocomplete="name" required/>
+          <input type="text" id="fNama" placeholder="Contoh: Budi Santoso" autocomplete="name" maxlength="120" required/>
         </div>
 
         <!-- WA + AREA -->
         <div class="field-row">
           <div class="field">
             <label for="fWA">Nomor WhatsApp <span class="req">*</span></label>
-            <input type="tel" id="fWA" placeholder="08123456789" autocomplete="tel" required/>
+          <input type="tel" id="fWA" placeholder="08123456789" autocomplete="tel" maxlength="30" required/>
           </div>
           <div class="field">
             <label for="fArea">Area Layanan <span class="req">*</span></label>
@@ -175,7 +175,7 @@
         <div class="field">
           <label for="fAlamat">Alamat Lengkap <span class="req">*</span></label>
           <div class="loc-wrap">
-            <textarea id="fAlamat" placeholder="Nama jalan, No. rumah/blok, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos" rows="3" required></textarea>
+          <textarea id="fAlamat" placeholder="Nama jalan, No. rumah/blok, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos" rows="3" maxlength="500" required></textarea>
             <button type="button" class="loc-btn" onclick="getLocation()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="11" r="3"/><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
               Bagikan Lokasi GPS
@@ -217,7 +217,7 @@
         <!-- CATATAN -->
         <div class="field">
           <label for="fCatatan">Catatan Tambahan</label>
-          <textarea id="fCatatan" placeholder="Contoh: AC di kamar tidur lantai 2, remote tidak berfungsi, ada anjing peliharaan, dll." rows="3"></textarea>
+          <textarea id="fCatatan" placeholder="Contoh: AC di kamar tidur lantai 2, remote tidak berfungsi, ada anjing peliharaan, dll." rows="3" maxlength="1000"></textarea>
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtn">
@@ -533,16 +533,16 @@ function renderServices(cat) {
     return `
     <div class="svc-card${inCart?' chosen':''}" id="card-${s.id}">
       ${s.popular ? '<div class="svc-badge">⭐ Terpopuler</div>' : ''}
-      <img src="${s.img}" alt="${s.name}" class="svc-img" loading="lazy"
-           data-lokal="${s.imgLokal || ''}" onerror="fallbackFoto(this)" decoding="async" />
-      <div class="svc-img-ph" style="display:none">${s.icon}</div>
+      <img src="${htmlEsc(s.img)}" alt="${htmlEsc(s.name)}" class="svc-img" loading="lazy"
+           data-lokal="${htmlEsc(s.imgLokal || '')}" onerror="fallbackFoto(this)" decoding="async" />
+      <div class="svc-img-ph" style="display:none">${htmlEsc(s.icon)}</div>
       <div class="svc-body">
         <div class="svc-price-row">
           <span class="svc-price">${priceDisplay}</span>
           <span class="svc-unit">${priceUnit}</span>
         </div>
-        <div class="svc-name">${s.name}</div>
-        <div class="svc-desc">${s.desc}</div>
+        <div class="svc-name">${htmlEsc(s.name)}</div>
+        <div class="svc-desc">${htmlEsc(s.desc)}</div>
         ${hasVariants ? `<div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:10px">${s.variants.length} pilihan opsi tersedia →</div>` : ''}
         <div class="svc-add-row">
           <button class="svc-btn-add${inCart?' in-cart':''}" onclick="${hasVariants?`showVariantModal('${s.id}')`:`addSimpleToCart('${s.id}')`}">
@@ -637,8 +637,8 @@ function showVariantModal(svcId) {
   variantSelected = null;
   document.getElementById('variantTitle').textContent = svc.name;
   document.getElementById('variantOptions').innerHTML = svc.variants.map(v => `
-    <div class="v-option" id="vopt-${v.id}" onclick="selectVariant('${v.id}')">
-      <div class="v-opt-name">${v.name}</div>
+    <div class="v-option" id="vopt-${htmlEsc(v.id)}" onclick="selectVariant(decodeURIComponent('${encodeURIComponent(String(v.id))}'))">
+      <div class="v-opt-name">${htmlEsc(v.name)}</div>
       <div style="text-align:right;flex-shrink:0;margin-left:12px">
         <div class="v-opt-price">Rp ${fmtRp(v.price)}</div>
         ${v.originalPrice ? `<div style="font-size:11px;color:var(--gray-400);text-decoration:line-through">Rp ${fmtRp(v.originalPrice)}</div>` : ''}
@@ -799,6 +799,26 @@ function makeOrderId() {
 // ─── FORMAT ANGKA ──────────────────────────────────────────────────────────────
 function fmtRp(n) { return n.toLocaleString('id-ID'); }
 
+function htmlEsc(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Pembatasan ringan untuk mencegah klik/order berulang dari browser yang sama.
+// Proteksi sebenarnya tetap harus ditegakkan di backend.
+function orderRateLimit() {
+  const key = 'aclean_order_attempts';
+  const now = Date.now();
+  let attempts = [];
+  try { attempts = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) {}
+  attempts = attempts.filter(t => now - t < 60 * 60 * 1000);
+  if (attempts.some(t => now - t < 60 * 1000) || attempts.length >= 3) return false;
+  attempts.push(now);
+  try { localStorage.setItem(key, JSON.stringify(attempts)); } catch (e) {}
+  return true;
+}
+
 // ─── FORMAT TANGGAL ────────────────────────────────────────────────────────────
 function fmtDate(str) {
   const DAYS  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -914,6 +934,25 @@ async function submitOrder(e) {
   const transport = getTransportFee();
   const subtotal  = getSubtotal();
   const totalQty  = getTotalQty();
+
+  // Validasi client membantu UX, tetapi bukan batas keamanan. Harga dan total
+  // harus tetap divalidasi ulang oleh Supabase/Edge Function di server.
+  if (nama.length > 120 || wa.length > 30 || alamat.length > 500 || catatan.length > 1000 ||
+      !/^[-+()\d\s]{8,30}$/.test(wa) || totalQty < 1 || totalQty > 50 ||
+      cart.some(item => !Number.isSafeInteger(item.qty) || item.qty < 1 || item.qty > 50 ||
+                        !Number.isFinite(item.price) || item.price < 0 || (() => {
+                          const svc = SERVICES.find(s => s.id === item.svcId);
+                          const variant = svc && svc.variants && svc.variants.find(v => v.name === item.svcName);
+                          const canonicalPrice = variant ? variant.price : svc && svc.price;
+                          return !svc || item.price !== canonicalPrice;
+                        })())) {
+    showToast('❌ Data pesanan tidak valid. Periksa kembali isian Anda.');
+    return;
+  }
+  if (!orderRateLimit()) {
+    showToast('⏳ Pesanan terlalu sering. Silakan coba lagi beberapa saat lagi.');
+    return;
+  }
 
   // Supabase: insert satu baris per item cart
   cart.forEach((item, i) => {

@@ -834,6 +834,19 @@ function showLoginError(msg) {
   el.style.display = 'block';
 }
 
+// Semua data order/katalog berasal dari database atau input pengguna.
+// Jangan masukkan nilai mentah ke template HTML panel admin.
+function htmlEsc(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function safeMapsUrl(o) {
+  const query = o.gps_coords ? String(o.gps_coords) : String(o.address || '');
+  return 'https://maps.google.com/?q=' + encodeURIComponent(query);
+}
+
 // ─── SHOW APP ──────────────────────────────────────────────────────────────────
 function showApp(name, email, avatar) {
   isLoggedIn = true;
@@ -1020,44 +1033,44 @@ function orderRow(o) {
   const phone = (o.phone||'').replace(/\D/g,'');
   const waNum = phone.startsWith('0') ? '62'+phone.slice(1) : phone.startsWith('62') ? phone : '62'+phone;
   const waLink = phone ? `https://wa.me/${waNum}` : '#';
-  const mapsUrl = o.gps_coords
-    ? `https://maps.google.com/?q=${o.gps_coords}`
-    : `https://maps.google.com/?q=${encodeURIComponent(o.address||'')}`;
+  const mapsUrl = safeMapsUrl(o);
   const ref = o.order_ref || o.id || '-';
+  // Token hanya berisi karakter aman untuk inline handler lama yang masih ada.
+  const refToken = encodeURIComponent(String(ref));
 
   return `<tr>
     <td>
-      <span class="order-id">#${ref}</span>
-      <div style="font-size:11px;color:var(--gray-400);margin-top:4px">${fmtTimestamp(o.created_at)}</div>
+      <span class="order-id">#${htmlEsc(ref)}</span>
+      <div style="font-size:11px;color:var(--gray-400);margin-top:4px">${htmlEsc(fmtTimestamp(o.created_at))}</div>
     </td>
     <td>
-      <div class="customer-name">${o.nama||'-'}</div>
-      <div class="customer-wa">${o.phone||'-'}</div>
+      <div class="customer-name">${htmlEsc(o.nama||'-')}</div>
+      <div class="customer-wa">${htmlEsc(o.phone||'-')}</div>
     </td>
     <td>
-      <div class="service-name">${o.service_name||'-'}</div>
-      <div class="service-detail">${o.ac_size||'-'} — ${o.units||1} unit</div>
-      ${o.notes && o.notes !== '-' ? `<div style="font-size:11px;color:var(--orange);margin-top:3px">📝 ${o.notes}</div>` : ''}
+      <div class="service-name">${htmlEsc(o.service_name||'-')}</div>
+      <div class="service-detail">${htmlEsc(o.ac_size||'-')} — ${htmlEsc(o.units||1)} unit</div>
+      ${o.notes && o.notes !== '-' ? `<div style="font-size:11px;color:var(--orange);margin-top:3px">📝 ${htmlEsc(o.notes)}</div>` : ''}
     </td>
     <td>
-      <div class="date-val">${o.schedule_date||'-'}</div>
-      <div style="font-size:11px;color:var(--gray-400)">${o.schedule_time||'-'}</div>
+      <div class="date-val">${htmlEsc(o.schedule_date||'-')}</div>
+      <div style="font-size:11px;color:var(--gray-400)">${htmlEsc(o.schedule_time||'-')}</div>
     </td>
     <td>
-      <span class="area-tag">${o.area||'-'}</span>
+      <span class="area-tag">${htmlEsc(o.area||'-')}</span>
       <div style="font-size:11px;margin-top:4px">
-        <a href="${mapsUrl}" target="_blank" style="color:var(--primary);text-decoration:none">📍 Maps</a>
+        <a href="${htmlEsc(mapsUrl)}" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:none">📍 Maps</a>
       </div>
     </td>
     <td><div class="price-total">${totalFmt}</div></td>
-    <td><span class="status ${sClass}">${statusLabel[o.status]||o.status}</span></td>
+    <td><span class="status ${sClass}">${htmlEsc(statusLabel[o.status]||o.status||'-')}</span></td>
     <td>
       <div class="actions">
-        ${o.status === 'PENDING'      ? `<button class="act-btn act-confirm"  onclick="updateStatus('${ref}','CONFIRMED')">✅ Konfirmasi</button>` : ''}
-        ${['PENDING','CONFIRMED'].includes(o.status) ? `<button class="act-btn act-done" onclick="updateStatus('${ref}','IN_PROGRESS')">🔧 Proses</button>` : ''}
-        ${o.status === 'IN_PROGRESS'  ? `<button class="act-btn act-done"     onclick="updateStatus('${ref}','DONE')">🎉 Selesai</button>` : ''}
-        <a class="act-btn act-wa" href="${waLink}" target="_blank">💬 WA</a>
-        ${!['CANCELLED','DONE'].includes(o.status) ? `<button class="act-btn act-cancel" onclick="updateStatus('${ref}','CANCELLED')">❌ Batal</button>` : ''}
+        ${o.status === 'PENDING'      ? `<button class="act-btn act-confirm"  onclick="updateStatus(decodeURIComponent('${refToken}'),'CONFIRMED')">✅ Konfirmasi</button>` : ''}
+        ${['PENDING','CONFIRMED'].includes(o.status) ? `<button class="act-btn act-done" onclick="updateStatus(decodeURIComponent('${refToken}'),'IN_PROGRESS')">🔧 Proses</button>` : ''}
+        ${o.status === 'IN_PROGRESS'  ? `<button class="act-btn act-done"     onclick="updateStatus(decodeURIComponent('${refToken}'),'DONE')">🎉 Selesai</button>` : ''}
+        <a class="act-btn act-wa" href="${htmlEsc(waLink)}" target="_blank" rel="noopener noreferrer">💬 WA</a>
+        ${!['CANCELLED','DONE'].includes(o.status) ? `<button class="act-btn act-cancel" onclick="updateStatus(decodeURIComponent('${refToken}'),'CANCELLED')">❌ Batal</button>` : ''}
       </div>
     </td>
   </tr>`;
@@ -1323,23 +1336,23 @@ function renderPriceFields() {
     const svcName = svc.label.replace(/^[^\s]+\s/, '');
     html += `<div class="svc-edit-block">
       <div class="svc-icon-row">
-        <span class="svc-icon-lbl">${svc.icon}</span>
-        <input type="text" class="svc-name-inp" id="svcname-${svc.id}" value="${svcName}" placeholder="Nama layanan"/>
+        <span class="svc-icon-lbl">${htmlEsc(svc.icon)}</span>
+        <input type="text" class="svc-name-inp" id="svcname-${htmlEsc(svc.id)}" value="${htmlEsc(svcName)}" placeholder="Nama layanan"/>
       </div>`;
     if (svc.variants) {
       svc.variants.forEach(v => {
         html += `<div class="sf-row">
           <div style="flex:1;min-width:0">
-            <input type="text" class="var-name-inp" id="varname-${v.id}" value="${v.name}" placeholder="Nama opsi"/>
-            <div class="sf-sub">Coret: <input type="number" id="orig-${v.id}" value="${v.originalPrice||0}" min="0" step="1000" style="width:90px;padding:2px 6px;border-radius:5px;border:1px solid var(--gray-200);font-size:11px"/></div>
+            <input type="text" class="var-name-inp" id="varname-${htmlEsc(v.id)}" value="${htmlEsc(v.name)}" placeholder="Nama opsi"/>
+            <div class="sf-sub">Coret: <input type="number" id="orig-${htmlEsc(v.id)}" value="${htmlEsc(v.originalPrice||0)}" min="0" step="1000" style="width:90px;padding:2px 6px;border-radius:5px;border:1px solid var(--gray-200);font-size:11px"/></div>
           </div>
-          <input type="number" class="sf-input" id="price-${v.id}" value="${v.price}" min="0" step="1000" style="width:110px"/>
+          <input type="number" class="sf-input" id="price-${htmlEsc(v.id)}" value="${htmlEsc(v.price)}" min="0" step="1000" style="width:110px"/>
         </div>`;
       });
     } else {
       html += `<div class="sf-row">
         <div class="sf-label" style="color:var(--gray-400);font-size:12px">Harga</div>
-        <input type="number" class="sf-input" id="price-${svc.id}" value="${svc.price}" min="0" step="1000" style="width:110px"/>
+        <input type="number" class="sf-input" id="price-${htmlEsc(svc.id)}" value="${htmlEsc(svc.price)}" min="0" step="1000" style="width:110px"/>
       </div>`;
     }
     html += `</div>`;
@@ -1448,8 +1461,8 @@ function renderCatalogManager() {
 
   // Category tabs
   document.getElementById('catalogCatTabs').innerHTML = cats.map(c =>
-    `<button class="cat-tab${c===activeCatTab?' active':''}" onclick="setCatTab('${c}')">
-      ${c==='all' ? '📋 Semua ('+all.length+')' : getCatLabel(c)+' ('+all.filter(s=>s.cat===c).length+')'}
+    `<button class="cat-tab${c===activeCatTab?' active':''}" onclick="setCatTab(decodeURIComponent('${encodeURIComponent(String(c))}'))">
+      ${c==='all' ? '📋 Semua ('+all.length+')' : htmlEsc(getCatLabel(c))+' ('+all.filter(s=>s.cat===c).length+')'}
     </button>`
   ).join('');
 
@@ -1494,23 +1507,24 @@ function renderServiceCard(svc, isCustom) {
   if (svc.variants && svc.variants.length) {
     priceHtml = `<div class="svc-variants">` +
       svc.variants.map(v =>
-        `<div class="svc-variant-row"><span>${v.name}</span><span class="svc-variant-price">Rp${(v.price||0).toLocaleString('id')}</span></div>`
+        `<div class="svc-variant-row"><span>${htmlEsc(v.name)}</span><span class="svc-variant-price">Rp${(v.price||0).toLocaleString('id')}</span></div>`
       ).join('') +
       `</div>`;
   } else {
-    priceHtml = `<div class="svc-single-price">Rp${(svc.price||0).toLocaleString('id')}</div>`;
+      priceHtml = `<div class="svc-single-price">Rp${(svc.price||0).toLocaleString('id')}</div>`;
   }
   const catLabel = `<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--primary-50);color:var(--primary);display:inline-block;margin-top:4px">${getCatLabel(svc.cat)}</span>`;
-  const subcatLabel = svc.subcat ? `<span style="font-size:10px;color:var(--gray-400);margin-left:4px">${svc.subcat}</span>` : '';
-  const actions = `<button class="svc-act-edit" onclick="openEditModal('${svc.id}')">✏️ Edit</button>`
-    + (isCustom ? ` <button class="svc-act-del" onclick="deleteCustomService('${svc.id}')">🗑️ Hapus</button>` : '');
+  const subcatLabel = svc.subcat ? `<span style="font-size:10px;color:var(--gray-400);margin-left:4px">${htmlEsc(svc.subcat)}</span>` : '';
+  const svcToken = encodeURIComponent(String(svc.id));
+  const actions = `<button class="svc-act-edit" onclick="openEditModal(decodeURIComponent('${svcToken}'))">✏️ Edit</button>`
+    + (isCustom ? ` <button class="svc-act-del" onclick="deleteCustomService(decodeURIComponent('${svcToken}'))">🗑️ Hapus</button>` : '');
 
   return `<div class="svc-card ${isCustom?'custom':'built-in'}">
     <div class="svc-card-head">
-      <div class="svc-card-icon">${svc.icon||'📋'}</div>
+      <div class="svc-card-icon">${htmlEsc(svc.icon||'📋')}</div>
       <div style="flex:1;min-width:0">
-        <div class="svc-card-name">${name}</div>
-        ${svc.desc ? `<div class="svc-card-desc">${svc.desc}</div>` : ''}
+        <div class="svc-card-name">${htmlEsc(name)}</div>
+        ${svc.desc ? `<div class="svc-card-desc">${htmlEsc(svc.desc)}</div>` : ''}
         <div style="margin-top:4px">${catLabel}${subcatLabel}</div>
         ${svc.popular ? `<span class="svc-card-badge">⭐ Populer</span>` : ''}
       </div>
@@ -1613,7 +1627,7 @@ function addVariantRow(name='', price='', origPrice='') {
   row.className = 'variant-row-form';
   row.id = 'vrow-' + idx;
   row.innerHTML = `
-    <input type="text" placeholder="cth: 1/2PK – 1PK" value="${name}"/>
+    <input type="text" placeholder="cth: 1/2PK – 1PK" value="${htmlEsc(name)}"/>
     <input type="number" placeholder="85000" value="${price||''}" min="0" step="1000"/>
     <input type="number" placeholder="100000" value="${origPrice||''}" min="0" step="1000"/>
     <button type="button" class="variant-del-btn" onclick="document.getElementById('vrow-${idx}').remove()">✕</button>

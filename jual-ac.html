@@ -139,8 +139,8 @@
       <div class="total-line grand"><span>TOTAL</span><span id="sumGrand">Rp 0</span></div>
     </div>
     <form id="orderForm" novalidate>
-      <div class="field"><label>Nama Lengkap *</label><input id="fNama" type="text" placeholder="Nama Anda"/></div>
-      <div class="field"><label>Nomor WhatsApp *</label><input id="fWA" type="tel" placeholder="08xxxxxxxxxx"/></div>
+      <div class="field"><label>Nama Lengkap *</label><input id="fNama" type="text" maxlength="120" placeholder="Nama Anda"/></div>
+      <div class="field"><label>Nomor WhatsApp *</label><input id="fWA" type="tel" maxlength="30" placeholder="08xxxxxxxxxx"/></div>
       <div class="field"><label>Area / Kota *</label>
         <select id="fArea">
           <option value="">— Pilih Area —</option>
@@ -149,9 +149,9 @@
           <option>Jakarta</option><option>Tangerang Kota</option><option>Lainnya</option>
         </select>
       </div>
-      <div class="field"><label>Alamat Lengkap *</label><textarea id="fAlamat" rows="2" placeholder="Jalan, no rumah, RT/RW, patokan"></textarea></div>
+      <div class="field"><label>Alamat Lengkap *</label><textarea id="fAlamat" rows="2" maxlength="500" placeholder="Jalan, no rumah, RT/RW, patokan"></textarea></div>
       <div class="field" id="fieldTanggalWrap"><label>Perkiraan Tanggal Pemasangan</label><input id="fTanggal" type="date"/></div>
-      <div class="field"><label>Catatan (opsional)</label><textarea id="fCatatan" rows="2" placeholder="Mis. lantai 2, butuh pipa tambahan, dll"></textarea></div>
+      <div class="field"><label>Catatan (opsional)</label><textarea id="fCatatan" rows="2" maxlength="1000" placeholder="Mis. lantai 2, butuh pipa tambahan, dll"></textarea></div>
       <div class="field"><label>Metode Pembayaran *</label>
         <select id="fBayar">
           <option value="">— Pilih Metode Pembayaran —</option>
@@ -237,8 +237,19 @@ const fmtNum = n => Number(n).toLocaleString('id-ID');
 function specFor(p){ return p.punya_spec ? p : null; }
 // Data yang tidak tersedia dibiarkan kosong — tidak diisi tanda apa pun.
 const stripCell = (val,label) => val
-  ? `<div class="spec-cell"><span class="sv">${val}</span><span class="sl">${label}</span></div>`
+  ? `<div class="spec-cell"><span class="sv">${esc(val)}</span><span class="sl">${esc(label)}</span></div>`
   : `<div class="spec-cell"></div>`;
+
+function orderRateLimit(){
+  const key='aclean_order_attempts', now=Date.now();
+  let attempts=[];
+  try{ attempts=JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
+  attempts=attempts.filter(t=>now-t<60*60*1000);
+  if(attempts.some(t=>now-t<60*1000)||attempts.length>=3)return false;
+  attempts.push(now);
+  try{localStorage.setItem(key,JSON.stringify(attempts));}catch(e){}
+  return true;
+}
 
 const ACSVG = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm1 2v4h16V8H4zm2 1h8v1H6V9zm0 2h6v1H6v-1zm1 6c.6 1.2.6 2.3 0 3.5M11 17c.6 1.2.6 2.3 0 3.5M15 17c.6 1.2.6 2.3 0 3.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>`;
 
@@ -712,6 +723,14 @@ async function submitOrder(e){
     catatan:document.getElementById('fCatatan').value.trim(),
     bayar:document.getElementById('fBayar').value
   };
+
+  const totalQty=cartQty();
+  if(o.nama.length>120||o.wa.length>30||o.alamat.length>500||o.catatan.length>1000||
+     !/^[-+()\d\s]{8,30}$/.test(o.wa)||totalQty<1||totalQty>50||
+     cart.some(c=>!PRODUCTS.some(p=>p.id===c.id)||!Number.isSafeInteger(c.qty)||c.qty<1||c.qty>50)){
+    toast('❌ Data pesanan tidak valid. Periksa kembali isian Anda.'); return;
+  }
+  if(!orderRateLimit()){ toast('⏳ Pesanan terlalu sering. Silakan coba lagi beberapa saat lagi.'); return; }
 
   // Simpan ke Supabase website_orders (1 baris per item) — untuk tracking
   cart.forEach(c=>{

@@ -12,12 +12,12 @@
   <link rel="stylesheet" href="css/pages/admin-order.css">
   <link rel="preconnect" href="https://apsbeppcmsxeldnejibz.supabase.co">
 
-  <meta property="og:image" content="https://aclean.id/images/og-image.jpg" />
+  <meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="AClean Service — Jasa Service AC Profesional" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://aclean.id/images/og-image.jpg" />
+  <meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg" />
 
 </head>
 <body>
@@ -264,7 +264,7 @@
       <div class="img-section" id="imgSection" style="display:none">
         <div style="background:var(--white);border-radius:14px;padding:24px;border:1px solid var(--gray-200)">
           <h3>🖼️ Foto Layanan</h3>
-          <p class="sc-sub">Semua foto situs — beranda, gambar utama, halaman layanan, kartu order, dan artikel blog. Ukuran maks 5MB, otomatis dikompres sebelum diunggah.</p>
+          <p class="sc-sub">Semua foto situs — beranda, paket perawatan, gambar utama, halaman layanan, kartu order, dan artikel blog. Setiap kartu di situs harus memiliki slot di sini. Ukuran maks 5MB, otomatis dikompres sebelum diunggah.</p>
           <div id="seedBar" style="display:none;background:#FFF8E6;border:1.5px solid #F5D98B;border-radius:10px;padding:14px 16px;margin-bottom:18px">
             <div style="font-size:13px;font-weight:700;color:#7A5A00;margin-bottom:4px">Ada slot yang belum berisi foto</div>
             <div style="font-size:12.5px;color:#8A6A20;line-height:1.55;margin-bottom:10px">
@@ -1747,6 +1747,19 @@ const IMG_SERVICES = [
 const MEDIA_PUBLIK = `${SUPA_URL}/storage/v1/object/public/web`;
 const MEDIA_UPLOAD = `${SUPA_URL.replace('.supabase.co', '.supabase.co')}/functions/v1/media-upload`;
 
+// Registry minimum hasil audit seluruh gambar situs. Saat admin membuka tab
+// Foto Layanan, slot yang belum ada didaftarkan memakai sesi admin yang sah.
+// versi=1 membuat tombol "Isi otomatis" mengambil foto lokal sebagai isi awal.
+const REQUIRED_MEDIA_SLOTS = [
+  {slug:'paket/cleaning', kelompok:'paket', ref:'cleaning', judul:'Paket — Jasa Cleaning AC', halaman:'index.html#paket', keterangan:'Kartu Jasa Cleaning AC pada Detail Layanan & Paket Perawatan', path:'paket/cleaning.jpg', alt:'Jasa cleaning AC profesional AClean', versi:1, urutan:10, aktif:true, sumber_lokal:'images/hero-cleaning-ac.webp'},
+  {slug:'paket/service-besar', kelompok:'paket', ref:'service-besar', judul:'Paket — Service Besar AC', halaman:'index.html#paket', keterangan:'Kartu Service Besar AC pada Detail Layanan & Paket Perawatan', path:'paket/service-besar.jpg', alt:'Teknisi AClean service besar AC', versi:1, urutan:20, aktif:true, sumber_lokal:'images/hero-teknisi-aclean.webp'},
+  {slug:'paket/freon-original', kelompok:'paket', ref:'freon-original', judul:'Paket — Pengisian Freon Original', halaman:'index.html#paket', keterangan:'Kartu Pengisian Freon Original pada Detail Layanan & Paket Perawatan', path:'paket/freon-original.jpg', alt:'Pengisian freon original oleh teknisi AClean', versi:1, urutan:30, aktif:true, sumber_lokal:'images/pengisian-freon-ac-original-daikin.jpg'},
+  {slug:'paket/pasang-baru', kelompok:'paket', ref:'pasang-baru', judul:'Paket — Pemasangan AC Baru', halaman:'index.html#paket', keterangan:'Kartu Pemasangan AC Baru pada Detail Layanan & Paket Perawatan', path:'paket/pasang-baru.jpg', alt:'Pemasangan AC baru oleh AClean', versi:1, urutan:40, aktif:true, sumber_lokal:'images/home-pasang.jpg'},
+  {slug:'paket/bongkar-pasang', kelompok:'paket', ref:'bongkar-pasang', judul:'Paket — Bongkar Pasang AC', halaman:'index.html#paket', keterangan:'Kartu Bongkar Pasang AC pada Detail Layanan & Paket Perawatan', path:'paket/bongkar-pasang.jpg', alt:'Pengecekan AC sebelum bongkar pasang', versi:1, urutan:50, aktif:true, sumber_lokal:'images/blog-maintenance.jpg'},
+  {slug:'paket/perawatan-berkala', kelompok:'paket', ref:'perawatan-berkala', judul:'Paket — Perawatan Berkala', halaman:'index.html#paket', keterangan:'Kartu Perawatan Berkala pada Detail Layanan & Paket Perawatan', path:'paket/perawatan-berkala.jpg', alt:'Teknisi bersertifikat untuk perawatan berkala AC', versi:1, urutan:60, aktif:true, sumber_lokal:'images/daikin-training-teknisi.jpg'},
+  {slug:'halaman/ducting-proses', kelompok:'halaman', ref:'ducting-proses', judul:'Halaman Ducting — Proses Pengerjaan', halaman:'ducting-ac.html', keterangan:'Visual empat tahap survei, fabrikasi, instalasi, dan balancing', path:'halaman/ducting-proses.jpg', alt:'Empat tahap pengerjaan ducting AC AClean', versi:1, urutan:65, aktif:true, sumber_lokal:'images/ducting-aclean-process-v2.jpg'}
+];
+
 let MEDIA_SLOTS = [];
 let imgStore = {};   // {slug: dataURI} — foto terpilih yang belum disimpan
 
@@ -1760,9 +1773,31 @@ async function supaGet(path) {
   return res.json();
 }
 
+async function ensureRequiredMediaSlots() {
+  const sudahAda = new Set(MEDIA_SLOTS.map(m => m.slug));
+  const kurang = REQUIRED_MEDIA_SLOTS.filter(m => !sudahAda.has(m.slug));
+  if (!kurang.length) return 0;
+
+  await pastikanTokenSegar();
+  if (!AUTH_TOKEN) throw new Error('Sesi admin diperlukan untuk mendaftarkan slot yang belum ada.');
+  const res = await fetch(`${SUPA_URL}/rest/v1/media_slot?on_conflict=slug`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPA_ANON,
+      'Authorization': `Bearer ${AUTH_TOKEN}`,
+      'Prefer': 'resolution=merge-duplicates,return=minimal'
+    },
+    body: JSON.stringify(kurang)
+  });
+  if (!res.ok) throw new Error('Slot baru belum dapat didaftarkan: ' + await res.text());
+  return kurang.length;
+}
+
 async function renderImageGrid() {
   const grid = document.getElementById('imgGrid');
   grid.innerHTML = `<div class="loader"><div class="spinner"></div> Memuat foto...</div>`;
+  let registryWarning = '';
 
   try {
     MEDIA_SLOTS = await supaGet(
@@ -1771,6 +1806,19 @@ async function renderImageGrid() {
   } catch (e) {
     grid.innerHTML = `<div class="img-kosong">Gagal memuat daftar foto.<br><small>${e.message}</small></div>`;
     return;
+  }
+
+  try {
+    const ditambah = await ensureRequiredMediaSlots();
+    if (ditambah) {
+      MEDIA_SLOTS = await supaGet(
+        'media_slot?select=slug,kelompok,judul,keterangan,path,versi,sumber_lokal&aktif=is.true' +
+        '&order=kelompok.asc,urutan.asc');
+      showToast(`✅ ${ditambah} slot foto yang tertinggal berhasil ditambahkan`, 'success');
+    }
+  } catch (e) {
+    registryWarning = e.message;
+    console.warn('Registrasi slot media:', e);
   }
   if (!MEDIA_SLOTS.length) {
     grid.innerHTML = `<div class="img-kosong">Belum ada slot foto terdaftar.</div>`;
@@ -1781,18 +1829,21 @@ async function renderImageGrid() {
   const kartu = m => {
     const nid     = idAman(m.slug);
     const menunggu = imgStore[m.slug];
-    const src     = menunggu || `${MEDIA_PUBLIK}/${m.path}?v=${m.versi}`;
     const kosong  = !menunggu && m.versi <= 1;   // versi 1 = belum pernah diunggah
+    const src     = menunggu || (kosong && m.sumber_lokal
+                    ? '/' + m.sumber_lokal.replace(/^\/+/, '')
+                    : `${MEDIA_PUBLIK}/${m.path}?v=${m.versi}`);
     const status  = menunggu ? 'Siap disimpan'
                   : kosong   ? 'Belum diisi'
                              : `Aktif di situs (v${m.versi})`;
     const warna   = menunggu ? 'var(--green)' : kosong ? '#B07A00' : '';
     return `
       <div class="img-item" id="imgitem-${nid}">
-        <img src="${src}" class="img-preview" alt="${m.judul}"
+        <img src="${htmlEsc(src)}" class="img-preview" alt="${htmlEsc(m.judul)}"
              onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-preview-ph',textContent:'🖼️'}))" decoding="async" />
         <div class="img-info">
-          <div class="img-name">${m.judul}</div>
+          <div class="img-name">${htmlEsc(m.judul)}</div>
+          <div style="font-size:11px;color:var(--gray-400);line-height:1.4;margin-top:3px">${htmlEsc(m.keterangan || '')}</div>
           <label class="img-upload-btn has-img" for="imgfile-${nid}">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             Ganti Foto
@@ -1804,10 +1855,12 @@ async function renderImageGrid() {
       </div>`;
   };
 
-  const urutan = ['beranda', 'hero', 'halaman', 'layanan', 'blog', 'umum'];
+  const urutan = ['beranda', 'paket', 'hero', 'halaman', 'layanan', 'blog', 'umum'];
   const lain   = [...new Set(MEDIA_SLOTS.map(m => m.kelompok))].filter(k => !urutan.includes(k));
 
-  grid.innerHTML = [...urutan, ...lain].map(kel => {
+  grid.innerHTML = (registryWarning
+    ? `<div style="grid-column:1/-1;background:#FFF8E6;border:1.5px solid #F5D98B;border-radius:10px;padding:12px 14px;color:#7A5A00;font-size:12.5px;line-height:1.5"><strong>Slot hasil audit belum seluruhnya terdaftar.</strong><br>${htmlEsc(registryWarning)}</div>`
+    : '') + [...urutan, ...lain].map(kel => {
     const isi = MEDIA_SLOTS.filter(m => m.kelompok === kel);
     if (!isi.length) return '';
     return `<div class="img-kel">${NAMA_KELOMPOK[kel] || kel}<span class="n">${isi.length} foto</span></div>`
@@ -1819,6 +1872,7 @@ async function renderImageGrid() {
 
 const NAMA_KELOMPOK = {
   beranda: '🏠 Beranda — kartu layanan',
+  paket:   '📦 Detail layanan & paket perawatan',
   hero:    '🖼️ Gambar utama — dipakai di banyak halaman sekaligus',
   halaman: '📄 Halaman layanan & area',
   layanan: '🧰 Kartu layanan di halaman order',

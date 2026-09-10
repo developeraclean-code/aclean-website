@@ -157,3 +157,127 @@
     }
   }, true);
 })();
+
+/* Sinkronisasi semua foto situs dari slot yang dikelola panel admin. */
+(function () {
+  var SUPA = 'https://apsbeppcmsxeldnejibz.supabase.co';
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwc2JlcHBjbXN4ZWxkbmVqaWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjI5OTAsImV4cCI6MjA4ODQzODk5MH0.ougABivpskSoQyFCOagV7GYah0yNV3-sGuc5ErplRo4';
+  var ROOT = SUPA + '/storage/v1/object/public/web/';
+  var PACKAGE_PATHS = [
+    'paket/cleaning.jpg',
+    'paket/service-besar.jpg',
+    'paket/freon-original.jpg',
+    'paket/pasang-baru.jpg',
+    'paket/bongkar-pasang.jpg',
+    'paket/perawatan-berkala.jpg'
+  ];
+
+  // File lokal tetap menjadi fallback; nama berikut menentukan slot pusatnya.
+  var FILE_TO_SLOT = {
+    'service-card-cleaning-v2.jpg': 'beranda/cuci.jpg',
+    'service-card-repair-v2.jpg': 'beranda/service.jpg',
+    'service-card-freon-v2.jpg': 'beranda/freon.jpg',
+    'service-card-installation-v2.jpg': 'beranda/pasang.jpg',
+    'service-card-relocation-v2.jpg': 'beranda/bongkar.jpg',
+    'service-card-ducting-v2.jpg': 'beranda/ducting.jpg',
+    'home-cleaning.jpg': 'beranda/cuci.jpg',
+    'home-service.jpg': 'beranda/service.jpg',
+    'home-freon.jpg': 'beranda/freon.jpg',
+    'home-pasang.jpg': 'beranda/pasang.jpg',
+    'home-bongkar.jpg': 'beranda/bongkar.jpg',
+    'home-ducting.jpg': 'beranda/ducting.jpg',
+    'blog-ac-tidak-dingin.png': 'beranda/artikel-ac-tidak-dingin.jpg',
+    'blog-ac-tidak-dingin.jpg': 'beranda/artikel-ac-tidak-dingin.jpg',
+    'blog-ac-tidak-dingin.webp': 'beranda/artikel-ac-tidak-dingin.jpg',
+    'blog-ac-bocor.jpg': 'beranda/artikel-ac-bocor.jpg',
+    'blog-ac-bocor.webp': 'beranda/artikel-ac-bocor.jpg',
+    'blog-maintenance.jpg': 'beranda/artikel-maintenance.jpg',
+    'blog-freon-r32-r410.jpg': 'beranda/artikel-freon.jpg',
+    'blog-freon-r32-r410.webp': 'beranda/artikel-freon.jpg',
+    'daikin-training-teknisi.jpg': 'beranda/sertifikasi-daikin.jpg',
+    'hero-ac-service.jpg': 'hero/ac-service.jpg',
+    'hero-teknisi-aclean.jpg': 'hero/teknisi-aclean.jpg',
+    'hero-teknisi-aclean.webp': 'hero/teknisi-aclean.jpg',
+    'hero-cleaning-ac.jpg': 'hero/cleaning-ac.jpg',
+    'hero-cleaning-ac.webp': 'hero/cleaning-ac.jpg',
+    'service-cuci-ac.jpg': 'halaman/cuci-ac.jpg',
+    'service-cuci-ac.webp': 'halaman/cuci-ac.jpg',
+    'service-repair-ac.jpg': 'halaman/perbaikan-ac.jpg',
+    'service-pasang-ac.jpg': 'halaman/pasang-ac.jpg',
+    'service-pasang-ac.webp': 'halaman/pasang-ac.jpg',
+    'service-isi-freon.jpg': 'halaman/isi-freon.jpg',
+    'service-isi-freon.webp': 'halaman/isi-freon.jpg',
+    'service-bongkar-pasang.jpg': 'halaman/bongkar-pasang-ac.jpg',
+    'service-ducting-ac.jpg': 'halaman/ducting-ac.jpg',
+    'service-ac-central.jpg': 'halaman/service-ac-central.jpg',
+    'service-ac-central.webp': 'halaman/service-ac-central.jpg',
+    'service-ac-bsd.jpg': 'halaman/area-bsd.jpg',
+    'service-ac-bsd-city.jpg': 'halaman/area-bsd.jpg',
+    'service-ac-alam-sutera.jpg': 'halaman/area-alam-sutera.jpg',
+    'service-ac-gading-serpong.jpg': 'halaman/area-gading-serpong.jpg',
+    'tim-teknisi-aclean-service.jpg': 'halaman/tentang-tim.jpg',
+    'pengisian-freon-ac-original-daikin.jpg': 'beranda/freon.jpg',
+    'freon-ac-daikin-original.jpg': 'blog/freon-ac-daikin-original.jpg',
+    'biaya-service-ac.jpg': 'blog/biaya-service-ac.jpg',
+    'ducting-ac-pu-board-hero-v2.jpg': 'halaman/ducting-ac.jpg',
+    'ducting-aclean-process-v2.jpg': 'halaman/ducting-proses.jpg'
+  };
+
+  function managedPath(value) {
+    try {
+      var u = new URL(value, location.href);
+      var marker = '/storage/v1/object/public/web/';
+      var at = u.pathname.indexOf(marker);
+      if (at !== -1) return u.pathname.slice(at + marker.length);
+      return FILE_TO_SLOT[u.pathname.split('/').pop()] || '';
+    } catch (e) { return ''; }
+  }
+
+  function syncImage(img, versions) {
+    if (!img || img.dataset.mediaSynced === 'true') return;
+    var path = img.getAttribute('data-media-path') || managedPath(img.getAttribute('src') || '');
+
+    // Enam kartu paket memakai foto sendiri, bukan foto hero/kartu yang kebetulan
+    // memiliki nama file lokal sama.
+    var paket = img.closest && img.closest('#paket');
+    if (paket) {
+      var packageImages = Array.prototype.slice.call(paket.querySelectorAll('.sc-img img'));
+      var packageIndex = packageImages.indexOf(img);
+      if (packageIndex >= 0 && PACKAGE_PATHS[packageIndex]) path = PACKAGE_PATHS[packageIndex];
+    }
+    if (!path || !versions.has(path)) return;
+
+    var fallback = img.getAttribute('src');
+    var target = ROOT + path + '?v=' + encodeURIComponent(versions.get(path) || 1);
+    var picture = img.closest && img.closest('picture');
+    var source = picture && picture.querySelector('source');
+    var sourceFallback = source && source.getAttribute('srcset');
+    var sourceType = source && source.getAttribute('type');
+    img.dataset.mediaSynced = 'true';
+    img.addEventListener('error', function () {
+      if (source) {
+        if (sourceFallback) source.srcset = sourceFallback;
+        else source.removeAttribute('srcset');
+        if (sourceType) source.setAttribute('type', sourceType);
+        else source.removeAttribute('type');
+      }
+      if (fallback && img.src !== new URL(fallback, location.href).href) img.src = fallback;
+    }, { once: true });
+    img.src = target;
+
+    if (source) {
+      source.removeAttribute('type');
+      source.srcset = target;
+    }
+  }
+
+  fetch(SUPA + '/rest/v1/media_slot?select=path,versi&aktif=is.true', {
+    headers: { apikey: KEY, Authorization: 'Bearer ' + KEY }
+  })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (rows) {
+      var versions = new Map(rows.map(function (r) { return [r.path, r.versi]; }));
+      document.querySelectorAll('img').forEach(function (img) { syncImage(img, versions); });
+    })
+    .catch(function () { /* src lokal tetap dipakai sebagai fallback */ });
+})();

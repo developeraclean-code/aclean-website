@@ -27,7 +27,7 @@
   "url": "https://aclean.id",
   "telephone": "+6281289898937",
   "email": "info@aclean.id",
-  "image": "https://aclean.id/images/og-image.jpg",
+  "image": "https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg",
   "logo": "https://aclean.id/images/logo-aclean.webp",
   "address": {
     "@type": "PostalAddress",
@@ -159,12 +159,12 @@
   <link rel="stylesheet" href="css/pages/index.css">
   <link rel="preconnect" href="https://apsbeppcmsxeldnejibz.supabase.co">
 
-  <meta property="og:image" content="https://aclean.id/images/og-image.jpg" />
+  <meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="AClean Service — Jasa Service AC Profesional" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://aclean.id/images/og-image.jpg" />
+  <meta name="twitter:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg" />
 
   <meta property="og:url" content="https://aclean.id/" />
 
@@ -599,56 +599,6 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener
     })
     .catch(function(){ /* diam — teks bawaan di HTML tetap tampil */ });
 })();
-</script>
-<!-- Sinkronisasi gambar dari panel admin (media_slot + Supabase Storage). -->
-<script>
-(function () {
-  const MEDIA_ROOT = 'https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/';
-  const API = 'https://apsbeppcmsxeldnejibz.supabase.co/rest/v1/media_slot'
-    + '?select=path,versi&aktif=is.true';
-  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwc2JlcHBjbXN4ZWxkbmVqaWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjI5OTAsImV4cCI6MjA4ODQzOTk5MH0.ougABivpskSoQyFCOagV7GYah0yNV3-sGuc5ErplRo4';
-  const paths = {
-    hero: 'hero/teknisi-aclean.jpg',
-    cuci: 'beranda/cuci.jpg', service: 'beranda/service.jpg',
-    freon: 'beranda/freon.jpg', pasang: 'beranda/pasang.jpg',
-    bongkar: 'beranda/bongkar.jpg', ducting: 'beranda/ducting.jpg',
-    paketCleaning: 'hero/cleaning-ac.jpg',
-    paketServiceBesar: 'hero/teknisi-aclean.jpg',
-    paketFreon: 'hero/freon-ac.jpg', paketPasang: 'beranda/pasang.jpg'
-  };
-
-  function apply(img, path, version) {
-    if (!img || !path) return;
-    const fallback = img.getAttribute('src');
-    const url = MEDIA_ROOT + path + '?v=' + encodeURIComponent(version || 1);
-    img.addEventListener('error', function () {
-      if (img.src !== new URL(fallback, location.href).href) img.src = fallback;
-    }, {once: true});
-    img.src = url;
-  }
-
-  fetch(API, {headers: {apikey: KEY, Authorization: 'Bearer ' + KEY}})
-    .then(r => r.ok ? r.json() : [])
-    .then(rows => {
-      const live = new Map((rows || []).map(r => [r.path, r.versi]));
-      const cards = document.querySelectorAll('#layanan [data-kartu] .sc-img img');
-      cards.forEach(img => {
-        const key = img.closest('[data-kartu]').getAttribute('data-kartu');
-        apply(img, paths[key], live.get(paths[key]));
-      });
-      const hero = document.querySelector('.hero-card img');
-      apply(hero, paths.hero, live.get(paths.hero));
-      const source = document.querySelector('.hero-card picture source');
-      if (source && live.has(paths.hero)) {
-        source.removeAttribute('type');
-        source.srcset = MEDIA_ROOT + paths.hero + '?v=' + encodeURIComponent(live.get(paths.hero));
-      }
-      const paket = document.querySelectorAll('#paket .sc-img img');
-      [paths.paketCleaning, paths.paketServiceBesar, paths.paketFreon, paths.paketPasang]
-        .forEach((path, i) => apply(paket[i], path, live.get(path)));
-    })
-    .catch(() => { /* file lokal tetap menjadi fallback */ });
-}());
 </script>
 </body>
 </html>

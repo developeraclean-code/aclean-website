@@ -52,6 +52,7 @@
 </script>
 <script src="/js/analytics.js" defer></script>
   <link rel="stylesheet" href="css/pages/service-ac-tangerang-selatan.css">
+  <link rel="stylesheet" href="css/pages/service-unified.css">
 
   <meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg" />
   <meta property="og:image:width" content="1200" />
@@ -63,7 +64,7 @@
   <meta property="og:url" content="https://aclean.id/service-ac-tangerang-selatan.html" />
 
 </head>
-<body>
+<body class="service-theme">
 <nav id="nb"><div class="nav-in">
 <a href="/" class="nav-logo"><img loading="eager" src="./images/logo-aclean.jpg" alt="AClean Service Logo" decoding="async" fetchpriority="high" /></a>
 <div class="nav-links">
@@ -95,7 +96,7 @@
       <div class="hero-badge anim"><span class="stars">★★★★★</span> 4.9/5 Rating Google · 200+ Ulasan Nyata</div>
       <h1 class="anim">Service AC <span class="hl">Tangerang Selatan</span><br/>Profesional Bergaransi</h1>
       <p class="hero-sub anim">AClean adalah jasa service AC panggilan terpercaya di Tangerang Selatan. Cuci AC, perbaikan, isi freon, hingga pasang AC baru — teknisi bersertifikat datang ke lokasi Anda dalam hitungan jam.</p>
-      <div class="hero-price anim"><span class="tag">MULAI</span> Rp 95.000 · Garansi Resmi · Sparepart Original</div>
+      <div class="hero-price anim"><span class="tag">MULAI</span><span class="hero-price-main">Rp 95.000</span><span class="hero-price-benefit">Garansi resmi &amp; sparepart original</span></div>
       <div class="hero-actions anim">
         <a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20butuh%20service%20AC%20di%20Tangerang%20Selatan" class="btn-primary" target="_blank" rel="noopener">💬 Booking Service AC</a>
         <a href="tel:+6281289898937" class="btn-outline">📞 0812-8989-8937</a>
@@ -107,28 +108,9 @@
         <div class="trust-item"><span>✓</span> Respons Cepat</div>
       </div>
     </div>
-    <div class="hero-vis anim">
-      <div style="background:linear-gradient(135deg,var(--primary-50),var(--primary-100));border-radius:24px;padding:32px 28px;">
-        <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--primary);margin-bottom:16px;text-align:center;">Layanan AClean di Tangerang Selatan</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <a href="/cuci-ac.html" style="background:var(--white);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;text-decoration:none;transition:all .2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='transparent'">
-            <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🧊</span><div><div style="font-size:13px;font-weight:700;color:var(--dark);">Cuci / Cleaning AC</div><div style="font-size:12px;color:var(--gray-400);">Mulai Rp 95.000/unit</div></div></div>
-            <span style="color:var(--primary);font-size:16px;">→</span>
-          </a>
-          <a href="/isi-freon.html" style="background:var(--white);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;text-decoration:none;">
-            <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🌡️</span><div><div style="font-size:13px;font-weight:700;color:var(--dark);">Isi / Tambah Freon</div><div style="font-size:12px;color:var(--gray-400);">Mulai Rp 500.000/unit</div></div></div>
-            <span style="color:var(--primary);font-size:16px;">→</span>
-          </a>
-          <a href="/pasang-ac.html" style="background:var(--white);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;text-decoration:none;">
-            <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🔧</span><div><div style="font-size:13px;font-weight:700;color:var(--dark);">Pasang AC Baru</div><div style="font-size:12px;color:var(--gray-400);">Mulai Rp 400.000/unit</div></div></div>
-            <span style="color:var(--primary);font-size:16px;">→</span>
-          </a>
-          <a href="/service-ac-central.html" style="background:var(--white);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;text-decoration:none;">
-            <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🏢</span><div><div style="font-size:13px;font-weight:700;color:var(--dark);">Service AC Central</div><div style="font-size:12px;color:var(--gray-400);">Gedung, kantor, mall</div></div></div>
-            <span style="color:var(--primary);font-size:16px;">→</span>
-          </a>
-        </div>
-      </div>
+    <div class="hero-vis service-hero-media anim">
+      <img src="images/tim-teknisi-aclean-service.jpg" width="800" height="449" fetchpriority="high" decoding="async" alt="Tim teknisi AClean siap menangani service AC di Tangerang Selatan" />
+      <div class="service-hero-note"><span class="note-dot"></span><span><strong>Satu tim untuk semua kebutuhan AC</strong><small>Cuci, diagnosa, perbaikan, freon, dan instalasi</small></span></div>
     </div>
   </div>
 </section>
@@ -173,7 +155,7 @@
     <p class="sec-desc anim">Satu panggilan untuk semua kebutuhan AC Anda di Tangerang Selatan</p>
     <div class="svc-grid anim">
       <div class="sc">
-        <div class="sc-img" style="background:linear-gradient(135deg,#EBF0FA,#C6D4F0);display:flex;align-items:center;justify-content:center;"><span style="font-size:64px;">🧊</span><div class="badge-ov">TERLARIS</div></div>
+        <div class="sc-img service-vector" aria-hidden="true"><span class="service-vector-label">DEEP CLEANING</span><svg viewBox="0 0 260 150"><rect class="v-unit" x="38" y="31" width="135" height="57" rx="11"/><path class="v-line" d="M54 53h101M61 66h87M70 78h69"/><path class="v-water" d="M188 52c20 6 29 22 31 48M198 47l-19 7 15 13M210 104c0 8-6 14-13 14s-13-6-13-14c0-6 13-23 13-23s13 17 13 23Z"/></svg><div class="badge-ov">TERLARIS</div></div>
         <div class="sc-con">
           <h3>Cuci / Cleaning AC</h3>
           <p>Deep cleaning dengan jet cleaner. Indoor dan outdoor unit dibersihkan menyeluruh.</p>
@@ -183,7 +165,7 @@
         </div>
       </div>
       <div class="sc">
-        <div class="sc-img" style="background:linear-gradient(135deg,#EBF0FA,#C6D4F0);display:flex;align-items:center;justify-content:center;"><span style="font-size:64px;">🔧</span></div>
+        <div class="sc-img service-vector" aria-hidden="true"><span class="service-vector-label">DIAGNOSA</span><svg viewBox="0 0 260 150"><rect class="v-unit" x="35" y="34" width="133" height="58" rx="11"/><path class="v-line" d="M51 57h101M58 70h86M72 82h58"/><circle class="v-shell" cx="190" cy="87" r="27"/><path class="v-accent" d="m210 107 22 22M181 87l7 7 13-16"/></svg></div>
         <div class="sc-con">
           <h3>Perbaikan / Service AC</h3>
           <p>AC tidak dingin, bocor, berisik, mati total — kami diagnosis dan perbaiki.</p>
@@ -193,7 +175,7 @@
         </div>
       </div>
       <div class="sc">
-        <div class="sc-img" style="background:linear-gradient(135deg,#EBF0FA,#C6D4F0);display:flex;align-items:center;justify-content:center;"><span style="font-size:64px;">🌡️</span></div>
+        <div class="sc-img service-vector" aria-hidden="true"><span class="service-vector-label">FREON ORIGINAL</span><svg viewBox="0 0 260 150"><rect class="v-shell" x="47" y="61" width="62" height="69" rx="12"/><path class="v-line" d="M61 61V45h34v16M58 83h40M78 83v33"/><circle class="v-shell" cx="163" cy="57" r="25"/><circle class="v-shell" cx="211" cy="57" r="25"/><path class="v-accent" d="M163 57l9-10M211 57l-8-12M187 82v38M109 94h40"/></svg></div>
         <div class="sc-con">
           <h3>Isi / Tambah Freon</h3>
           <p>Isi freon sesuai tipe: R32, R410A, R22. Cek kebocoran gratis sebelum pengisian.</p>

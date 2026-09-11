@@ -193,6 +193,7 @@
 
 <script src="/js/analytics.js" defer></script>
   <link rel="stylesheet" href="css/pages/perbaikan-ac.css">
+  <link rel="stylesheet" href="css/pages/service-unified.css">
   <link rel="preconnect" href="https://apsbeppcmsxeldnejibz.supabase.co">
 
   <meta property="og:image" content="https://apsbeppcmsxeldnejibz.supabase.co/storage/v1/object/public/web/umum/og-brand.jpg" />
@@ -205,7 +206,7 @@
   <meta property="og:url" content="https://aclean.id/perbaikan-ac.html" />
 
 </head>
-<body>
+<body class="service-theme">
 <nav id="nb"><div class="nav-in">
 <a href="/" class="nav-logo"><img loading="eager" src="./images/logo-aclean.jpg" alt="AClean Service Logo" decoding="async" fetchpriority="high" /></a>
 <div class="nav-links">
@@ -234,7 +235,7 @@
       <div class="hero-badge anim"><span class="stars">★★★★★</span> 4.9/5 · 48 Ulasan · Teknisi Datang Cepat</div>
       <h1 class="anim">Jasa <span class="hl">Perbaikan AC</span><br/>Tangerang Selatan</h1>
       <p class="hero-sub anim">AC tidak dingin, bocor air, mati total, atau bunyi berisik? Teknisi ahli AClean datang cepat, diagnosa akurat, dan biaya diinformasikan dulu sebelum dikerjakan — tanpa biaya kejutan.</p>
-      <div class="hero-price anim"><span class="tag">CEK & DIAGNOSA</span> Mulai Rp 100.000 · Estimasi Disetujui Dulu</div>
+      <div class="hero-price anim"><span class="tag">CEK &amp; DIAGNOSA</span><span class="hero-price-main">Rp 100.000</span><span class="hero-price-benefit">Estimasi disetujui sebelum dikerjakan</span></div>
       <div class="hero-actions anim">
         <a href="https://wa.me/6281289898937?text=Halo%20AClean,%20AC%20saya%20bermasalah%20dan%20mau%20diperbaiki" class="btn-p" target="_blank" rel="noopener">💬 Panggil Teknisi Sekarang</a>
         <a href="tel:+6281289898937" class="btn-s">📞 Telepon Sekarang</a>
@@ -246,17 +247,9 @@
         <div class="hero-trust-item"><span>✓</span> Bergaransi</div>
       </div>
     </div>
-    <div class="hero-vis anim">
-      <div style="background:linear-gradient(135deg,var(--primary-50),var(--primary-100));border-radius:24px;padding:32px 28px;">
-        <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--primary);margin-bottom:16px;text-align:center;">Keluhan AC yang Kami Perbaiki</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="background:var(--white);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🌡️</span><span style="font-size:13px;font-weight:600;color:var(--dark);">AC nyala tapi tidak dingin</span></div>
-          <div style="background:var(--white);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">💧</span><span style="font-size:13px;font-weight:600;color:var(--dark);">AC bocor / menetes air</span></div>
-          <div style="background:var(--white);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">⚡</span><span style="font-size:13px;font-weight:600;color:var(--dark);">AC mati total / tidak menyala</span></div>
-          <div style="background:var(--white);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🔊</span><span style="font-size:13px;font-weight:600;color:var(--dark);">AC bunyi berisik / bergetar</span></div>
-          <div style="background:var(--white);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🧊</span><span style="font-size:13px;font-weight:600;color:var(--dark);">Outdoor beku / freon bocor</span></div>
-        </div>
-      </div>
+    <div class="hero-vis service-hero-media anim">
+      <img src="images/service-card-repair-v2.jpg" width="1200" height="900" fetchpriority="high" decoding="async" alt="Teknisi AClean mendiagnosis komponen elektronik unit AC" />
+      <div class="service-hero-note"><span class="note-dot"></span><span><strong>Diagnosa dengan alat ukur</strong><small>Penyebab dan estimasi dijelaskan sebelum perbaikan</small></span></div>
     </div>
   </div>
 </section>
@@ -279,7 +272,7 @@
     <p class="sec-desc anim">Biaya jelas sebelum dikerjakan — Anda setuju dulu, baru kami mulai perbaikan</p>
     <div class="svc-grid anim">
       <div class="sc">
-        <div class="sc-img" style="background:linear-gradient(135deg,#EBF0FA,#C6D4F0);display:flex;align-items:center;justify-content:center;"><span style="font-size:64px;">🔍</span></div>
+        <div class="sc-img service-vector" aria-hidden="true"><span class="service-vector-label">CEK MENYELURUH</span><svg viewBox="0 0 260 150"><rect class="v-unit" x="35" y="34" width="133" height="58" rx="11"/><path class="v-line" d="M51 57h101M58 70h86M72 82h58"/><circle class="v-shell" cx="190" cy="87" r="27"/><path class="v-accent" d="m210 107 22 22M181 87l7 7 13-16"/></svg></div>
         <div class="sc-con">
           <h3>Cek &amp; Diagnosa</h3>
           <p>Teknisi datang, periksa unit, dan temukan penyebab pasti kerusakan AC Anda.</p>
@@ -289,7 +282,7 @@
         </div>
       </div>
       <div class="sc">
-        <div class="sc-img" style="background:linear-gradient(135deg,#EBF0FA,#C6D4F0);display:flex;align-items:center;justify-content:center;"><span style="font-size:64px;">🌡️</span><div class="badge-ov">PALING SERING</div></div>
+        <div class="sc-img service-vector" aria-hidden="true"><span class="service-vector-label">KEMBALI DINGIN</span><svg viewBox="0 0 260 150"><rect class="v-unit" x="34" y="32" width="138" height="58" rx="11"/><path class="v-line" d="M51 56h102M59 69h86M73 81h57"/><path class="v-water" d="M205 43v61M187 65l36 21M223 65l-36 21"/><path class="v-accent" d="M186 119h39"/></svg><div class="badge-ov">PALING SERING</div></div>
         <div class="sc-con">
           <h3>AC Tidak Dingin + Isi Freon</h3>
           <p>Penanganan AC tidak dingin: cek kebocoran, perbaikan, dan pengisian freon original.</p>
@@ -299,7 +292,7 @@
         </div>
       </div>
       <div class="sc">
-        <div class="sc-img" style="background:linear-gradient(135deg,#EBF0FA,#C6D4F0);display:flex;align-items:center;justify-content:center;"><span style="font-size:64px;">🛠️</span></div>
+        <div class="sc-img service-vector" aria-hidden="true"><span class="service-vector-label">SPAREPART ORIGINAL</span><svg viewBox="0 0 260 150"><path class="v-shell" d="M88 33h84v84H88Z"/><path class="v-line" d="M105 50h49v20h-49Zm0 36h22v16h-22Zm33 0h16v16h-16Z"/><path class="v-accent" d="m186 43 18 18-48 48-21 5 5-21Zm10 9 10-10 18 18-10 10"/></svg></div>
         <div class="sc-con">
           <h3>Ganti Sparepart</h3>
           <p>Penggantian komponen rusak — kapasitor, modul PCB, thermistor, hingga kompresor.</p>

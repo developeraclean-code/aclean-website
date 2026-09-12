@@ -247,7 +247,7 @@
     }
     if (!path || !versions.has(path)) return;
 
-    var fallback = img.getAttribute('src');
+    var fallback = img.getAttribute('data-media-fallback') || img.getAttribute('src');
     var target = ROOT + path + '?v=' + encodeURIComponent(versions.get(path) || 1);
     var picture = img.closest && img.closest('picture');
     var source = picture && picture.querySelector('source');
@@ -263,11 +263,30 @@
       }
       if (fallback && img.src !== new URL(fallback, location.href).href) img.src = fallback;
     }, { once: true });
-    img.src = target;
+    function applyTarget() {
+      img.src = target;
+      if (source) {
+        source.removeAttribute('type');
+        source.srcset = target;
+      }
+    }
 
-    if (source) {
-      source.removeAttribute('type');
-      source.srcset = target;
+    // Hero memakai URL aktif sejak HTML pertama kali diparsing. Jika admin
+    // menerbitkan versi baru, unduh dan decode dahulu supaya pergantian src
+    // tidak menampilkan ruang kosong atau kedipan gambar fallback.
+    if (img.dataset.mediaSmooth === 'true' && img.src !== new URL(target, location.href).href) {
+      var preload = new Image();
+      preload.decoding = 'async';
+      preload.onload = function () {
+        if (typeof preload.decode === 'function') {
+          preload.decode().catch(function () {}).then(applyTarget);
+        } else {
+          applyTarget();
+        }
+      };
+      preload.src = target;
+    } else {
+      applyTarget();
     }
   }
 

@@ -1,9 +1,8 @@
-# AClean — Negative Keyword List (Google Ads)
-# Buat 1 "Negative keyword list" di Shared Library → pasang ke SEMUA kampanye.
+# AClean — Shared Negative Keyword List (Google Ads)
+# Pasang ke kampanye yang sesuai. Jangan menerapkan daftar ini secara buta ke DCT.
 # Match type: Phrase (kecuali ditandai). Tinjau Search Terms Report tiap minggu untuk menambah.
 
 # --- Pencari info / non-beli ---
-gratis
 cara
 tutorial
 diy

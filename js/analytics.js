@@ -6,8 +6,9 @@
  * jadi ganti ID cukup di sini.
  *
  * Event yang dikirim:
- *   wa_click    — klik link WhatsApp mana pun (KONVERSI UTAMA)
+ *   wa_click    — klik link WhatsApp mana pun (interaksi)
  *   phone_click — klik link tel:
+ *   generate_lead — form lead ducting berhasil dikirim ke WhatsApp
  * Parameter: service (halaman), cta_position (letak tombol), link_url,
  *            traffic_type (paid/organic), ads_campaign
  *
@@ -16,13 +17,14 @@
  * utm_source=google&utm_medium=cpc). Saat itu terdeteksi, penanda seperti
  * [IKLAN-DCT] disisipkan ke teks WhatsApp, sehingga tim yang membalas
  * langsung tahu lead ini datang dari iklan berbayar — bukan organik.
- * Penanda disimpan di sessionStorage agar tetap terbawa saat pengunjung
- * berpindah halaman sebelum menekan tombol WhatsApp.
+ * Penanda disimpan di localStorage dengan masa berlaku terbatas agar tetap
+ * terbawa saat pengunjung berpindah halaman atau kembali dalam masa uji iklan.
  *
  * Tombol WhatsApp yang belum punya teks otomatis akan diisi teks default
  * sesuai nama halaman, jadi tidak ada lagi pesan kosong yang masuk.
  *
- * Tandai wa_click sebagai Key Event di GA4:
+ * Tandai generate_lead sebagai Key Event di GA4 untuk kampanye DCT.
+ * Jadikan wa_click sebagai event sekunder:
  *   Admin > Events > toggle "Mark as key event"
  * lalu import ke Google Ads: Tools > Conversions > Import > GA4.
  */
@@ -30,6 +32,8 @@
   var GA_ID = 'G-0HNM9V7R7W';
   var WA_RE = /(?:wa\.me|api\.whatsapp\.com)/i;
   var STORAGE_KEY = 'aclean_ads_src';
+  var ATTRIBUTION_KEY = 'aclean_ads_attribution';
+  var ATTRIBUTION_TTL = 30 * 24 * 60 * 60 * 1000;
 
   var s = document.createElement('script');
   s.async = true;
@@ -63,10 +67,30 @@
     try { sessionStorage.setItem(STORAGE_KEY, v); } catch (e) {}
   }
 
-  // Deteksi sekali saat halaman dimuat, lalu diingat selama sesi berlangsung.
+  function readAttribution() {
+    try {
+      var raw = localStorage.getItem(ATTRIBUTION_KEY);
+      if (!raw) return null;
+      var saved = JSON.parse(raw);
+      if (!saved || !saved.saved_at || Date.now() - saved.saved_at > ATTRIBUTION_TTL) {
+        localStorage.removeItem(ATTRIBUTION_KEY);
+        return null;
+      }
+      return saved;
+    } catch (e) { return null; }
+  }
+
+  function writeAttribution(value) {
+    try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(value)); } catch (e) {}
+  }
+
+  // Deteksi saat halaman dimuat, lalu simpan atribusi paid maksimal 30 hari.
   function detectSource() {
     var q;
-    try { q = new URLSearchParams(location.search); } catch (e) { return readStore(); }
+    try { q = new URLSearchParams(location.search); } catch (e) {
+      var fallback = readAttribution();
+      return fallback || {tag: readStore() || '', source: '', medium: '', campaign: '', landing_page: location.href};
+    }
     var gclid = q.get('gclid') || q.get('wbraid') || q.get('gbraid');
     var src = (q.get('utm_source') || '').toLowerCase();
     var med = (q.get('utm_medium') || '').toLowerCase();
@@ -74,12 +98,32 @@
     if (isPaid) {
       var tag = campaignTag(q.get('utm_campaign'));
       writeStore(tag);
-      return tag;
+      var fresh = {
+        tag: tag,
+        source: q.get('utm_source') || (gclid ? 'google' : ''),
+        medium: q.get('utm_medium') || (gclid ? 'cpc' : ''),
+        campaign: q.get('utm_campaign') || '',
+        content: q.get('utm_content') || '',
+        term: q.get('utm_term') || '',
+        gclid: gclid || '',
+        wbraid: q.get('wbraid') || '',
+        gbraid: q.get('gbraid') || '',
+        landing_page: location.href,
+        saved_at: Date.now()
+      };
+      writeAttribution(fresh);
+      return fresh;
     }
-    return readStore();
+    var saved = readAttribution();
+    if (saved) {
+      writeStore(saved.tag || '');
+      return saved;
+    }
+    return {tag: readStore() || '', source: '', medium: '', campaign: '', landing_page: location.href};
   }
 
-  var ADS_SRC = detectSource();
+  var ATTRIBUTION = detectSource();
+  var ADS_SRC = ATTRIBUTION.tag || '';
 
   function defaultText() {
     var svc = serviceFromPath();
@@ -134,14 +178,38 @@
 
   function track(a, href) {
     var isWA = WA_RE.test(href);
-    gtag('event', isWA ? 'wa_click' : 'phone_click', {
+    var params = {
       service: serviceFromPath(),
       cta_position: ctaPosition(a),
       link_url: href,
       traffic_type: ADS_SRC ? 'paid' : 'organic',
-      ads_campaign: ADS_SRC || 'none'
-    });
+      ads_campaign: ADS_SRC || 'none',
+      utm_campaign: ATTRIBUTION.campaign || 'none',
+      landing_page: ATTRIBUTION.landing_page || location.href
+    };
+    gtag('event', isWA ? 'wa_click' : 'phone_click', params);
   }
+
+  // Dipakai oleh form lead ducting tanpa mengirim nama atau nomor telepon ke GA4.
+  window.acleanTrack = function (eventName, params) {
+    var safeParams = params || {};
+    safeParams.traffic_type = ADS_SRC ? 'paid' : 'organic';
+    safeParams.ads_campaign = ADS_SRC || 'none';
+    safeParams.utm_campaign = ATTRIBUTION.campaign || 'none';
+    safeParams.landing_page = ATTRIBUTION.landing_page || location.href;
+    gtag('event', eventName, safeParams);
+  };
+
+  window.acleanAttributionTag = function () { return ADS_SRC || ''; };
+  window.acleanAttribution = function () {
+    return {
+      source: ATTRIBUTION.source || '',
+      medium: ATTRIBUTION.medium || '',
+      campaign: ATTRIBUTION.campaign || '',
+      content: ATTRIBUTION.content || '',
+      term: ATTRIBUTION.term || ''
+    };
+  };
 
   // Capture phase: event terkirim sebelum browser berpindah halaman.
   document.addEventListener('click', function (e) {

@@ -95,9 +95,9 @@ Gunakan **Phrase match `"..."`** dan **Exact `[...]`** sebagai basis (lebih terk
 ```
 
 ### 3.6 Negative Keywords (WAJIB — hemat budget)
-Buat 1 **Negative Keyword List** dipakai di semua kampanye:
+Buat **shared Negative Keyword List** untuk istilah informasi/pekerjaan, lalu tambahkan daftar khusus per kampanye. Jangan memblokir `gratis` secara global karena AClean menawarkan survei gratis.
 ```
-gratis, lowongan, loker, kerja, gaji, tutorial, cara, diy, sendiri,
+lowongan, loker, kerja, gaji, tutorial, cara, diy, sendiri,
 bekas, second, jual sparepart, harga sparepart eceran, sekolah, kursus,
 pdf, skripsi, adalah, arti, pengertian, wikipedia, modul, training,
 part number, remote ac, kapasitor ac beli, dinamo ac,
@@ -221,14 +221,14 @@ Hasil rapi & profesional. Konsultasi kebutuhan ducting Anda sekarang — gratis,
 Tanpa tracking, ROI tidak bisa diukur → optimasi buta. Setup wajib:
 
 1. **Google Tag / GA4** terpasang di semua landing page.
-2. **Konversi utama = klik tombol WhatsApp** (`wa.me/6281289898937`). Buat event konversi "WA_Click" di GA4 → import ke Google Ads.
-3. Konversi sekunder: klik nomor telepon (`tel:`), submit form order (`order.html`).
-4. Beri nilai konversi estimasi agar bisa hitung ROAS (mis. WA_Click = Rp30.000 nilai proxy, atau lebih baik pakai nilai rata-rata job).
-5. **UTM** di URL landing dari iklan (`?utm_source=google&utm_medium=cpc&utm_campaign=service-ac`).
-6. **Google Business Profile aktif** — banyak pencarian "service ac terdekat" → Local Pack, gratis, komplemen ads.
-7. Buat **template pesan WA** yang menangkap sumber (mis. tombol WA membawa teks "Halo, saya dari iklan Service AC BSD…") agar tim tahu lead dari kampanye mana.
+2. **Konversi utama untuk Ducting = `generate_lead`**, yaitu form kualifikasi berhasil dikirim dan WhatsApp dibuka. Import event ini ke Google Ads setelah ditandai sebagai key event di GA4.
+3. Konversi sekunder: `wa_click`, klik nomor telepon (`tel:`), dan submit form order (`order.html`). Klik WhatsApp adalah sinyal minat, bukan lead berkualitas.
+4. Tahap lanjutan yang dicatat tim: `survey_booked`, `quote_sent`, dan `won_project`. Gunakan nilai aktual proyek saat data sudah cukup.
+5. **UTM** di URL landing dari iklan (`?utm_source=google&utm_medium=cpc&utm_campaign=dct_search`). Atribusi iklan disimpan sementara agar tetap terbawa saat pengguna berpindah halaman.
+6. **Google Business Profile aktif** — banyak pencarian lokal dapat masuk melalui Local Pack dan melengkapi iklan.
+7. Form ducting membuat template pesan WA terstruktur berisi nama, area, jenis proyek, luas, target waktu, dan catatan. Sumber iklan ikut ditandai agar tim dapat mencatat kualitas lead.
 
-**Metrik yang dipantau mingguan:** CTR (>5% search bagus), Conversion Rate (klik→WA), Cost/Conversion, dan biaya per **job closing** riil (dari tim sales). Target akhir: **Cost per closing < margin 1 job**.
+**Metrik yang dipantau mingguan:** CTR, Search Terms, biaya per `generate_lead`, qualified-lead rate, biaya per survey, biaya per penawaran, dan biaya per **job closing** riil. Target akhir: **Cost per closing < margin 1 job**.
 
 ---
 
@@ -301,6 +301,7 @@ Mulai Rp50.000–100.000/hari untuk 1 kampanye Leads WA + Rp30.000/hari retarget
 **Aset iklan siap impor** ada di folder [docs/ads/](ads/):
 - `google-keywords.csv` — 67 keyword (Phrase+Exact) per kategori, siap impor ke Google Ads Editor.
 - `google-negative-keywords.txt` — daftar negative keyword untuk shared library.
+- `google-negative-keywords-dct.txt` — negative keyword khusus kampanye DCT.
 - `google-rsa.csv` — Responsive Search Ads (15 headline + 4 desc) semua sudah divalidasi ≤30/≤90 karakter.
 - `meta-ads-copy.md` — copy Meta/Instagram per kategori + angle kreatif.
 
@@ -312,7 +313,7 @@ Opsional berikutnya: buat landing khusus `isi-freon.html` diperkaya untuk ad gro
 
 **Minggu 0 — Persiapan**
 - [ ] Pasang GA4 + Google Tag di semua landing page
-- [ ] Set konversi "Klik WhatsApp" & impor ke Google Ads
+- [ ] Set `generate_lead` sebagai konversi utama & impor ke Google Ads; `wa_click` menjadi sekunder
 - [ ] Pasang Meta Pixel + event Lead
 - [ ] Verifikasi/optimasi Google Business Profile
 - [ ] Siapkan template pesan WA per kategori (auto-isi sumber lead)

@@ -1,0 +1,28 @@
+# AClean — Negative Keyword List khusus DCT (Google Ads)
+# Gunakan pada kampanye DCT saja. Match type awal: Phrase.
+# Jangan menambahkan "harga", "jasa", "pasang", "survei", atau "gratis" tanpa memeriksa Search Terms Report.
+
+# Informasi / DIY
+cara membuat ducting
+cara pasang ducting
+gambar ducting
+detail ducting
+autocad ducting
+download ducting
+pdf ducting
+materi ducting
+
+# Pekerjaan / pendidikan
+lowongan ducting
+loker ducting
+kerja ducting
+kursus ducting
+training ducting
+
+# Produk yang tidak dijual sebagai barang lepas
+jual bahan ducting
+material ducting bekas
+ducting bekas
+ducting dapur
+exhaust fan
+hood dapur

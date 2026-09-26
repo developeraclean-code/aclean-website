@@ -54,6 +54,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
 <script src="/js/analytics.js" defer></script>
+<script src="/js/ducting-lead.js" defer></script>
   <link rel="stylesheet" href="css/pages/ducting-ac-bsd.css">
 
   <meta property="og:image" content="https://aclean.id/og-aclean-service-v2.jpg" />
@@ -82,7 +83,7 @@
   <h1>Jasa Ducting AC BSD City<br>&amp; Serpong</h1>
   <p>Design, fabrikasi PU Board, dan instalasi ducting AC untuk perumahan premium BSD — Foresta, Nusa Loka, Greenwich Park, Summarecon, dan seluruh kawasan Serpong. Survei gratis, tanpa komitmen.</p>
   <div class="hero-btns">
-    <a href="https://wa.me/6281289898937?text=Halo%20AClean,%20saya%20mau%20konsultasi%20ducting%20AC%20di%20BSD%20City" class="btn-wa" target="_blank" rel="noopener">💬 Konsultasi via WhatsApp</a>
+    <a href="#lead" class="btn-wa">💬 Isi Detail Kebutuhan</a>
     <a href="/ducting-ac.html" class="btn-ghost">Lihat Layanan Lengkap</a>
   </div>
 </div>
@@ -176,6 +177,29 @@
       </div>
     </div>
   </div>
+
+  <section class="lead-section" id="lead" data-default-area="BSD City">
+    <div class="lead-card">
+      <div class="lead-copy">
+        <div class="section-label">Konsultasi Terarah</div>
+        <h2>Ceritakan kebutuhan ducting Anda</h2>
+        <p>Isi data singkat agar tim dapat menyiapkan konsultasi yang lebih relevan. Setelah dikirim, WhatsApp akan terbuka dengan detail Anda.</p>
+      </div>
+      <form class="ducting-lead-form" id="ductingLeadForm" novalidate>
+        <div class="lead-form-grid">
+          <label>Nama lengkap *<input name="nama" type="text" autocomplete="name" maxlength="100" required placeholder="Nama Anda"></label>
+          <label>Nomor WhatsApp *<input name="phone" type="tel" autocomplete="tel" maxlength="30" required placeholder="0812xxxxxxx"></label>
+          <label>Area proyek *<select name="area" required><option value="BSD City" selected>BSD City</option><option>Serpong</option><option>Bintaro</option><option>Alam Sutera</option><option>Gading Serpong</option><option>Ciputat / Pamulang</option><option>Tangerang Selatan lainnya</option><option>Di luar area utama</option></select></label>
+          <label>Jenis proyek *<select name="project_type" required><option value="">Pilih jenis proyek</option><option>Rumah tinggal</option><option>Kantor / ruko</option><option>Kafe / restoran</option><option>Cluster / renovasi</option><option>Lainnya</option></select></label>
+          <label>Perkiraan luas area<select name="room_size"><option value="Belum tahu">Belum tahu</option><option>Di bawah 50 m²</option><option>50–100 m²</option><option>Di atas 100 m²</option></select></label>
+          <label>Kapan membutuhkan? *<select name="timeline" required><option value="">Pilih waktu</option><option>Secepatnya</option><option>1–3 bulan</option><option>Lebih dari 3 bulan</option><option>Masih konsultasi</option></select></label>
+        </div>
+        <label class="lead-notes">Catatan kebutuhan<textarea name="notes" maxlength="500" rows="3" placeholder="Jumlah ruangan, unit AC yang sudah tersedia, tinggi plafon, dll."></textarea></label>
+        <button type="submit" class="lead-submit">💬 Kirim detail &amp; buka WhatsApp</button>
+        <p class="lead-form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
 
   <div class="cta-section">
     <h2>Booking Ducting AC di BSD City</h2>

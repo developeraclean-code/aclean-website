@@ -221,12 +221,12 @@ Hasil rapi & profesional. Konsultasi kebutuhan ducting Anda sekarang — gratis,
 Tanpa tracking, ROI tidak bisa diukur → optimasi buta. Setup wajib:
 
 1. **Google Tag / GA4** terpasang di semua landing page.
-2. **Konversi utama untuk Ducting = `generate_lead`**, yaitu form kualifikasi berhasil dikirim dan WhatsApp dibuka. Import event ini ke Google Ads setelah ditandai sebagai key event di GA4.
+2. **`generate_lead` adalah interaksi form → WhatsApp, bukan lead terverifikasi.** Gunakan sebagai Secondary; Primary adalah lead diterima/terkualifikasi yang sudah diverifikasi tim setelah pencatatan/import tersedia. Pengaturan akun tidak berubah otomatis ketika website dipublish.
 3. Konversi sekunder: `wa_click`, klik nomor telepon (`tel:`), dan submit form order (`order.html`). Klik WhatsApp adalah sinyal minat, bukan lead berkualitas.
 4. Tahap lanjutan yang dicatat tim: `survey_booked`, `quote_sent`, dan `won_project`. Gunakan nilai aktual proyek saat data sudah cukup.
 5. **UTM** di URL landing dari iklan (`?utm_source=google&utm_medium=cpc&utm_campaign=dct_search`). Atribusi iklan disimpan sementara agar tetap terbawa saat pengguna berpindah halaman.
 6. **Google Business Profile aktif** — banyak pencarian lokal dapat masuk melalui Local Pack dan melengkapi iklan.
-7. Form ducting membuat template pesan WA terstruktur berisi nama, area, jenis proyek, luas, target waktu, dan catatan. Sumber iklan ikut ditandai agar tim dapat mencatat kualitas lead.
+7. Form ducting membuat template pesan WA terstruktur berisi kode konsultasi, halaman asal, nama, area, jenis proyek, luas, target waktu, dan catatan. Sumber iklan ikut ditandai agar tim dapat mencatat kualitas lead. Pengguna tetap harus menekan Kirim di WhatsApp; belum ada penyimpanan CRM otomatis. Lihat [setup dari VS Code](ads/SETUP-VSCODE.md).
 
 **Metrik yang dipantau mingguan:** CTR, Search Terms, biaya per `generate_lead`, qualified-lead rate, biaya per survey, biaya per penawaran, dan biaya per **job closing** riil. Target akhir: **Cost per closing < margin 1 job**.
 
@@ -313,7 +313,7 @@ Opsional berikutnya: buat landing khusus `isi-freon.html` diperkaya untuk ad gro
 
 **Minggu 0 — Persiapan**
 - [ ] Pasang GA4 + Google Tag di semua landing page
-- [ ] Set `generate_lead` sebagai konversi utama & impor ke Google Ads; `wa_click` menjadi sekunder
+- [ ] Verifikasi import GA4; `generate_lead` dan `wa_click` Secondary, lead terkualifikasi Primary setelah tersedia
 - [ ] Pasang Meta Pixel + event Lead
 - [ ] Verifikasi/optimasi Google Business Profile
 - [ ] Siapkan template pesan WA per kategori (auto-isi sumber lead)

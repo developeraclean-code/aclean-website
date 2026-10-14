@@ -8,7 +8,9 @@
  * Event yang dikirim:
  *   wa_click    — klik link WhatsApp mana pun (interaksi)
  *   phone_click — klik link tel:
- *   generate_lead — form lead ducting berhasil dikirim ke WhatsApp
+ *   generate_lead — form valid diteruskan ke WhatsApp; bukan bukti pesan diterima
+ *   ducting_form_start — pengunjung mulai mengisi form
+ *   ducting_wa_blocked — browser memblokir pembukaan WhatsApp
  * Parameter: service (halaman), cta_position (letak tombol), link_url,
  *            traffic_type (paid/organic), ads_campaign
  *
@@ -23,10 +25,9 @@
  * Tombol WhatsApp yang belum punya teks otomatis akan diisi teks default
  * sesuai nama halaman, jadi tidak ada lagi pesan kosong yang masuk.
  *
- * Tandai generate_lead sebagai Key Event di GA4 untuk kampanye DCT.
- * Jadikan wa_click sebagai event sekunder:
- *   Admin > Events > toggle "Mark as key event"
- * lalu import ke Google Ads: Tools > Conversions > Import > GA4.
+ * Konfigurasi Key Event/import/Primary dilakukan di akun GA4 dan Google Ads.
+ * Klik dan penerusan ke WhatsApp adalah konversi interaksi (Secondary).
+ * Gunakan lead yang diterima/terkualifikasi sebagai Primary setelah diverifikasi.
  */
 (function () {
   var GA_ID = 'G-0HNM9V7R7W';
@@ -35,16 +36,23 @@
   var ATTRIBUTION_KEY = 'aclean_ads_attribution';
   var ATTRIBUTION_TTL = 30 * 24 * 60 * 60 * 1000;
 
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-  document.head.appendChild(s);
+  // Preview lokal tetap memiliki dataLayer untuk pemeriksaan, tanpa mengirim GA4.
+  var IS_PREVIEW = location.protocol === 'file:' ||
+    /^(localhost|127\.0\.0\.1|\[?::1\]?)$/i.test(location.hostname);
+  if (!IS_PREVIEW) {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   window.gtag = gtag;
   gtag('js', new Date());
-  gtag('config', GA_ID);
+  if (!IS_PREVIEW) gtag('config', GA_ID);
+
+  function pageURL() { return location.origin + location.pathname; }
 
   // Nama halaman dipakai untuk memisahkan lead per layanan di laporan GA4.
   function serviceFromPath() {
@@ -91,24 +99,25 @@
       var fallback = readAttribution();
       return fallback || {tag: readStore() || '', source: '', medium: '', campaign: '', landing_page: location.href};
     }
-    var gclid = q.get('gclid') || q.get('wbraid') || q.get('gbraid');
+    var gclid = q.get('gclid');
+    var hasClickId = !!(gclid || q.get('wbraid') || q.get('gbraid'));
     var src = (q.get('utm_source') || '').toLowerCase();
     var med = (q.get('utm_medium') || '').toLowerCase();
-    var isPaid = !!gclid || (src === 'google' && med === 'cpc');
+    var isPaid = hasClickId || (src === 'google' && med === 'cpc');
     if (isPaid) {
       var tag = campaignTag(q.get('utm_campaign'));
       writeStore(tag);
       var fresh = {
         tag: tag,
-        source: q.get('utm_source') || (gclid ? 'google' : ''),
-        medium: q.get('utm_medium') || (gclid ? 'cpc' : ''),
+        source: q.get('utm_source') || (hasClickId ? 'google' : ''),
+        medium: q.get('utm_medium') || (hasClickId ? 'cpc' : ''),
         campaign: q.get('utm_campaign') || '',
         content: q.get('utm_content') || '',
         term: q.get('utm_term') || '',
         gclid: gclid || '',
         wbraid: q.get('wbraid') || '',
         gbraid: q.get('gbraid') || '',
-        landing_page: location.href,
+        landing_page: pageURL(),
         saved_at: Date.now()
       };
       writeAttribution(fresh);
@@ -167,12 +176,12 @@
 
   // Membedakan tombol mana yang menghasilkan lead (hero vs kartu harga vs float).
   function ctaPosition(a) {
-    if (a.classList.contains('wa')) return 'float_button';
+    if (a.classList.contains('wa') || a.classList.contains('wa-float')) return 'float_button';
     if (a.closest('nav')) return 'nav';
     if (a.closest('footer')) return 'footer';
-    if (a.classList.contains('sc-cta')) return 'pricing_card';
-    if (a.classList.contains('btn-accent')) return 'cta_section';
-    if (a.classList.contains('btn-p') || a.classList.contains('btn-s')) return 'hero';
+    if (a.classList.contains('sc-cta') || a.classList.contains('pkg-btn')) return 'pricing_card';
+    if (a.closest('.cta-section')) return 'cta_section';
+    if (a.closest('.hero')) return 'hero';
     return 'other';
   }
 
@@ -181,11 +190,13 @@
     var params = {
       service: serviceFromPath(),
       cta_position: ctaPosition(a),
-      link_url: href,
+      link_url: href.split('?')[0],
       traffic_type: ADS_SRC ? 'paid' : 'organic',
       ads_campaign: ADS_SRC || 'none',
       utm_campaign: ATTRIBUTION.campaign || 'none',
-      landing_page: ATTRIBUTION.landing_page || location.href
+      landing_page: (ATTRIBUTION.landing_page || pageURL()).split('?')[0],
+      source_page: location.pathname,
+      attribution_scope: 'last_paid_touch_30d'
     };
     gtag('event', isWA ? 'wa_click' : 'phone_click', params);
   }
@@ -196,7 +207,9 @@
     safeParams.traffic_type = ADS_SRC ? 'paid' : 'organic';
     safeParams.ads_campaign = ADS_SRC || 'none';
     safeParams.utm_campaign = ATTRIBUTION.campaign || 'none';
-    safeParams.landing_page = ATTRIBUTION.landing_page || location.href;
+    safeParams.landing_page = (ATTRIBUTION.landing_page || pageURL()).split('?')[0];
+    safeParams.source_page = location.pathname;
+    safeParams.attribution_scope = 'last_paid_touch_30d';
     gtag('event', eventName, safeParams);
   };
 

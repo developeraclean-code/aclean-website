@@ -338,45 +338,53 @@ const DEFAULT_SERVICES = [
    desc:'Pembersihan evaporator, blower & filter. Cocok untuk AC ≤ 1PK. Cuci bersih, tidak bongkar unit indoor.',
    price:95000,img:'images/service-cuci-ac.webp',popular:true,icon:'🌀',
    variants:[
-     {id:'cuci-std-kecil', name:'Kapasitas Unit AC Split 0,5PK – 1PK',   price:95000,  originalPrice:110000},
-     {id:'cuci-std-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:100000, originalPrice:120000},
+     {id:'cuci-std-kecil', name:'Kapasitas Unit AC Split 0,5PK – 1PK',   price:95000},
+     {id:'cuci-std-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:100000},
    ]},
   // CUCI AC — Service Besar (Deep Cleaning)
   {id:'cuci-besar-deep',cat:'cuci',name:'Service Besar Unit AC Split',
    desc:'Pengerjaan bongkar unit indoor dan dibersihkan menyeluruh 1-1. Harga sudah termasuk Vacum Unit AC.',
    img:'images/service-cuci-ac.webp',icon:'🌀',
    variants:[
-     {id:'deep-kecil', name:'Kapasitas Unit AC Split 1/2PK – 1PK',   price:400000, originalPrice:500000},
-     {id:'deep-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:450000, originalPrice:550000},
+     {id:'deep-kecil', name:'Kapasitas Unit AC Split 1/2PK – 1PK',   price:400000},
+     {id:'deep-besar', name:'Kapasitas Unit AC Split 1,5PK – 2,5PK', price:450000},
    ]},
   // CUCI AC — Ducting / Duct
   {id:'cuci-ducting',cat:'cuci',name:'Service Cleaning AC Split Duct / Ducting',
    desc:'Jasa Service Cleaning AC Split Duct/Ducting. Include pengecekan unit, pengambilan data, pembersihan menyeluruh.',
    img:'images/service-ac-central.webp',icon:'🌀',
    variants:[
-     {id:'duct-kecil', name:'AC Split Duct Ukuran 1,5PK – 2,5PK', price:250000,  originalPrice:350000},
-     {id:'duct-besar', name:'AC Split Duct Ukuran 3PK – 5PK',      price:450000,  originalPrice:550000},
-     {id:'duct-xl',    name:'AC Split Duct Ukuran 5PK ke Atas',     price:1000000, originalPrice:1250000},
+     {id:'duct-16', name:'AC Split Duct 1,6 PK', price:200000},
+     {id:'duct-2',  name:'AC Split Duct 2 PK',   price:200000},
+     {id:'duct-25', name:'AC Split Duct 2,5 PK', price:250000},
+     {id:'duct-3',  name:'AC Split Duct 3 PK',   price:300000},
+     {id:'duct-35', name:'AC Split Duct 3,5 PK', price:350000},
+     {id:'duct-4',  name:'AC Split Duct 4 PK',   price:400000},
+     {id:'duct-5',  name:'AC Split Duct 5 PK',   price:500000},
+     {id:'duct-6',  name:'AC Split Duct 6 PK',   price:600000},
    ]},
   // PERBAIKAN
   {id:'diagnosa',cat:'perbaikan',name:'Diagnosa & Cek Unit AC',
    desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan. Biaya sparepart terpisah.',
    price:100000,img:'images/service-cuci-ac.webp',icon:'🔧'},
-  {id:'perbaikan',cat:'perbaikan',name:'Perbaikan AC Split',
-   desc:'Perbaikan kerusakan umum: kapasitor, motor fan, PCB. Harga jasa — sparepart terpisah.',
-   price:100000,img:'images/service-cuci-ac.webp',icon:'🔧'},
+  {id:'perbaikan',cat:'perbaikan',name:'Jasa Perbaikan PCB / Elektrik',
+   desc:'Jasa perbaikan PCB atau kelistrikan. Material dan sparepart dihitung terpisah.',
+   price:250000,img:'images/service-cuci-ac.webp',icon:'🔧'},
   // PASANG — Instalasi Baru
   {id:'pasang-baru',cat:'pasang',name:'Jasa Pemasangan Unit AC Baru',
    desc:'Jasa Pemasangan Unit Indoor & Outdoor Saja. Tidak Termasuk Pipa AC, Kabel Listrik, Breket, dll.',
    img:'images/service-pasang-ac.webp',popular:true,icon:'📦',
    variants:[
-     {id:'pasang-kecil',     name:'Pemasangan AC 1/2PK – 1PK Tanpa Vacum Unit',          price:400000, originalPrice:500000},
-     {id:'pasang-besar',     name:'Pemasangan AC 1,5PK – 2,5PK Tanpa Vacum Unit',        price:450000, originalPrice:550000},
-     {id:'bp-kecil-vac',     name:'Jasa Bongkar Pasang AC 1/2PK – 1PK Dengan Vacum Unit',  price:500000, originalPrice:600000},
-     {id:'bp-besar-vac',     name:'Jasa Bongkar Pasang AC 1,5PK – 2,5PK Dengan Vacum Unit',price:550000, originalPrice:650000},
-     {id:'bp-outdoor-saja',  name:'Jasa Bongkar Pasang Outdoor Saja',                      price:200000, originalPrice:250000},
-     {id:'bp-indoor-saja',   name:'Jasa Bongkar Pasang Indoor Saja',                       price:200000, originalPrice:250000},
-     {id:'bongkar-saja',     name:'Jasa Bongkar Unit Saja',                                price:150000, originalPrice:200000},
+     {id:'pasang-kecil',      name:'Pemasangan AC 0,5PK – 1PK (jasa saja)',                 price:400000},
+     {id:'pasang-besar',      name:'Pemasangan AC 1,5PK – 2PK (jasa saja)',                 price:450000},
+     {id:'pasang-apartemen',  name:'Pemasangan AC Baru Apartemen (jasa saja)',              price:350000},
+     {id:'relokasi-kecil',    name:'Relokasi lengkap 0,5PK – 1PK (material terpisah)',       price:550000},
+     {id:'relokasi-besar',    name:'Relokasi lengkap 1,5PK – 2,5PK (material terpisah)',     price:600000},
+     {id:'bp-outdoor-saja',   name:'Bongkar Pasang Outdoor Saja',                           price:200000},
+     {id:'bp-indoor-saja',    name:'Bongkar Pasang Indoor Saja',                            price:200000},
+     {id:'bongkar-kecil',     name:'Bongkar Unit AC 0,5PK – 1PK',                           price:150000},
+     {id:'bongkar-besar',     name:'Bongkar Unit AC 1,5PK – 2,5PK',                         price:200000},
+     {id:'vacum-kecil',       name:'Jasa Vacuum AC 0,5PK – 2,5PK',                          price:50000},
    ]},
   // FREON
   {id:'freon-r22',cat:'freon',name:'Isi Freon R22',
@@ -390,26 +398,51 @@ const DEFAULT_SERVICES = [
    price:500000,img:'images/service-isi-freon.webp',icon:'❄️'},
   {id:'vacuum-freon',cat:'freon',name:'Vacuum + Full Freon',
    desc:'Vacuum sistem + isi freon penuh. Solusi AC yang sama sekali kehabisan refrigerant.',
-   price:500000,img:'images/service-isi-freon.webp',icon:'❄️'},
+   price:650000,img:'images/service-isi-freon.webp',icon:'❄️'},
 ];
 
-// Load harga override dari admin panel jika ada (localStorage)
-// v2 = format baru dengan variants — localStorage lama (v1) diabaikan
-const CATALOG_VERSION = 'v2';
+// Nominal tidak pernah dibaca dari localStorage/services_catalog. Keduanya hanya
+// boleh mengubah teks katalog; harga selalu berasal dari price_list lewat RPC.
+const CATALOG_VERSION = 'v3';
 function getBaseServices() {
-  try {
-    const ver = localStorage.getItem('aclean_services_ver');
-    if (ver === CATALOG_VERSION) {
-      const saved = localStorage.getItem('aclean_services');
-      if (saved) return JSON.parse(saved);
-    } else {
-      // Hapus data lama agar tidak konflik
-      localStorage.removeItem('aclean_services');
-    }
-  } catch(e) {}
+  try { localStorage.removeItem('aclean_services'); } catch(e) {}
   return DEFAULT_SERVICES.map(s => ({...s}));
 }
 let SERVICES = getBaseServices();
+
+const CATALOG_PRICE_KEYS = {
+  'cuci-std-kecil':'cuci_split_kecil', 'cuci-std-besar':'cuci_split_besar',
+  'deep-kecil':'service_besar_kecil', 'deep-besar':'service_besar_besar',
+  'duct-16':'cuci_duct_16', 'duct-2':'cuci_duct_2', 'duct-25':'cuci_duct_25',
+  'duct-3':'cuci_duct_3', 'duct-35':'cuci_duct_35', 'duct-4':'cuci_duct_4',
+  'duct-5':'cuci_duct_5', 'duct-6':'cuci_duct_6',
+  'diagnosa':'pengecekan', 'perbaikan':'perbaikan_pcb',
+  'pasang-kecil':'pasang_kecil', 'pasang-besar':'pasang_besar',
+  'pasang-apartemen':'pasang_apartemen', 'bp-outdoor-saja':'bongkar_pasang_outdoor',
+  'bp-indoor-saja':'bongkar_pasang_indoor', 'bongkar-kecil':'bongkar_unit_kecil',
+  'bongkar-besar':'bongkar_unit_besar', 'vacum-kecil':'vacum_kecil',
+  'freon-r22':'freon_r22', 'freon-r32':'freon_r32', 'freon-r410':'freon_r410a',
+  'vacuum-freon':'kuras_vacum'
+};
+
+function applyCanonicalPricing(services, pricing) {
+  const valueFor = id => {
+    if (id === 'relokasi-kecil') return Number(pricing.bongkar_unit_kecil) + Number(pricing.bongkar_pasang_indoor) + Number(pricing.bongkar_pasang_outdoor);
+    if (id === 'relokasi-besar') return Number(pricing.bongkar_unit_besar) + Number(pricing.bongkar_pasang_indoor) + Number(pricing.bongkar_pasang_outdoor);
+    const key = CATALOG_PRICE_KEYS[id];
+    return key && pricing[key] != null ? Number(pricing[key]) : null;
+  };
+  return services.map(service => {
+    const next = {...service};
+    const fixed = valueFor(service.id);
+    if (fixed != null && Number.isFinite(fixed)) next.price = fixed;
+    if (service.variants) next.variants = service.variants.map(variant => {
+      const price = valueFor(variant.id);
+      return price != null && Number.isFinite(price) ? {...variant, price, originalPrice:undefined} : {...variant, originalPrice:undefined};
+    });
+    return next;
+  });
+}
 
 // Foto layanan dikelola dari panel admin (tab Foto Layanan) dan disimpan di
 // Supabase Storage. URL-nya TETAP — admin menimpa objek di path yang sama,
@@ -436,6 +469,7 @@ function fallbackFoto(el){
 
 // Sinkronisasi harga/nama layanan dari Supabase (foto sudah permanen lokal).
 async function loadServiceImages() {
+  let catalogChanged = false;
   try {
     // Versi "lite": tanpa foto base64. Foto layanan sudah permanen sebagai file
     // lokal (ORDER_IMG di atas), jadi mengirim base64 ke pengunjung sia-sia —
@@ -445,32 +479,29 @@ async function loadServiceImages() {
       headers: {'Content-Type':'application/json','apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`},
       body: JSON.stringify({})
     });
-    if (!res.ok) return;
+    if (!res.ok) throw new Error('Gagal memuat teks katalog');
     const rows = await res.json();
-    if (!Array.isArray(rows)) return;
+    if (!Array.isArray(rows)) throw new Error('Format katalog tidak valid');
 
-    // Terapkan harga dari Supabase (services_catalog) — override hardcoded defaults
-    let catalogChanged = false;
+    // services_catalog hanya mengatur teks. Nominal dari katalog sengaja diabaikan.
     const catalogRow = rows.find(r => r.key === 'services_catalog');
     if (catalogRow) {
       try {
         const catalog = JSON.parse(catalogRow.value);
         if (Array.isArray(catalog) && catalog.length > 0) {
-          // Simpan ke localStorage sebagai cache lokal
-          try { localStorage.setItem('aclean_services', JSON.stringify(catalog)); localStorage.setItem('aclean_services_ver', 'v2'); } catch(e) {}
-          // Terapkan ke SERVICES: update price, originalPrice, name, label per id
+          // Terapkan nama/label tanpa pernah menimpa struktur atau harga resmi.
           const catalogMap = {};
           catalog.forEach(c => { catalogMap[c.id] = c; });
           SERVICES = SERVICES.map(s => {
             const c = catalogMap[s.id];
             if (!c) return s;
-            const merged = { ...s, label: c.label ?? s.label, name: c.name ?? s.name, price: c.price ?? s.price };
+            const merged = { ...s, label: c.label ?? s.label, name: c.name ?? s.name, desc: c.desc ?? s.desc };
             if (s.variants && c.variants) {
               const vMap = {};
               c.variants.forEach(v => { vMap[v.id] = v; });
               merged.variants = s.variants.map(v => {
                 const cv = vMap[v.id];
-                return cv ? { ...v, name: cv.name ?? v.name, price: cv.price ?? v.price, originalPrice: cv.originalPrice ?? v.originalPrice } : v;
+                return cv ? { ...v, name: cv.name ?? v.name } : v;
               });
             }
             return merged;
@@ -482,8 +513,21 @@ async function loadServiceImages() {
 
     // Foto layanan sudah PERMANEN (di-bake lokal dari foto admin terbaru) —
     // tidak lagi menarik/menukar foto base64 dari Supabase, jadi tidak ada flash.
-    if (catalogChanged) renderServices(currentCat); // hanya harga/nama yang mungkin berubah
-  } catch(e) { /* silent fail — pakai data cache/default */ }
+  } catch(e) { /* teks fallback lokal tetap dipakai */ }
+
+  try {
+    const priceRes = await fetch(`${SUPA_URL}/rest/v1/rpc/get_website_pricing`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPA_ANON,'Authorization':`Bearer ${SUPA_ANON}`},
+      body:'{}'
+    });
+    if (!priceRes.ok) throw new Error('Gagal memuat price_list');
+    const pricing = await priceRes.json();
+    SERVICES = applyCanonicalPricing(SERVICES, pricing);
+    catalogChanged = true;
+  } catch(e) { /* snapshot DEFAULT_SERVICES adalah fallback resmi */ }
+
+  if (catalogChanged) renderServices(currentCat);
 }
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────

@@ -207,11 +207,11 @@
           <!-- HARGA LAYANAN -->
           <div class="settings-card">
             <h3>💰 Harga Layanan</h3>
-            <p class="sc-sub">Harga per unit — edit lalu klik Simpan</p>
+            <p class="sc-sub">Sumber resmi: price_list. Harga relokasi dihitung otomatis dari komponennya.</p>
             <div id="priceFields"></div>
             <button class="save-btn" onclick="savePrices()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              Simpan Harga
+              Simpan ke Price List
             </button>
           </div>
 
@@ -1243,8 +1243,10 @@ function downloadCSV() {
 }
 
 // ─── SETTINGS — HARGA ─────────────────────────────────────────────────────────
+const CATALOG_VERSION = 'v3';
 function getStoredServices() {
   try {
+    if (localStorage.getItem('aclean_services_ver') !== CATALOG_VERSION) return null;
     const s = localStorage.getItem('aclean_services');
     return s ? JSON.parse(s) : null;
   } catch(e) { return null; }
@@ -1256,11 +1258,26 @@ async function loadCatalogFromSupabase() {
     const rows = await supaRpc('get_website_settings_lite', {});
     if (!Array.isArray(rows)) return;
     const row = rows.find(r => r.key === 'services_catalog');
-    if (!row) return;
-    const catalog = JSON.parse(row.value);
-    if (!Array.isArray(catalog) || catalog.length === 0) return;
+    const remote = row ? JSON.parse(row.value) : [];
+    const remoteMap = Object.fromEntries((Array.isArray(remote) ? remote : []).map(s => [s.id, s]));
+    let catalog = ADMIN_CATALOG.map(service => {
+      const saved = remoteMap[service.id];
+      const next = {...service};
+      if (saved) {
+        next.label = saved.label ?? next.label;
+        next.name = saved.name ?? next.name;
+        next.desc = saved.desc ?? next.desc;
+        if (next.variants && saved.variants) {
+          const variantMap = Object.fromEntries(saved.variants.map(v => [v.id, v]));
+          next.variants = next.variants.map(v => variantMap[v.id] ? {...v, name:variantMap[v.id].name ?? v.name} : v);
+        }
+      }
+      return next;
+    });
+    const pricing = await supaRpc('get_website_pricing', {});
+    catalog = applyAdminCanonicalPricing(catalog, pricing || {});
     localStorage.setItem('aclean_services', JSON.stringify(catalog));
-    localStorage.setItem('aclean_services_ver', 'v2');
+    localStorage.setItem('aclean_services_ver', CATALOG_VERSION);
     // Rebuild custom services cache — semua yang bukan id bawaan ADMIN_CATALOG
     const builtInIds = new Set(ADMIN_CATALOG.map(s => s.id));
     const customs = catalog.filter(s => !builtInIds.has(s.id));
@@ -1274,59 +1291,99 @@ async function pushCatalogToSupabase(allSvcs) {
   } catch(e) { console.warn('pushCatalogToSupabase:', e); throw e; }
 }
 
-// Catalog v2 — sinkron dengan order.html DEFAULT_SERVICES
+// Catalog v3 — struktur sama dengan order.html; nominal diisi dari price_list.
 const ADMIN_CATALOG = [
   // CUCI
   {id:'cuci-kecil', label:'🌀 Service Cleaning AC Split', cat:'cuci', popular:true,
    icon:'🌀', img:'images/service-cuci-ac.jpg',
    desc:'Pembersihan evaporator, blower & filter. Tidak bongkar unit indoor.',
    variants:[
-     {id:'cuci-std-kecil', name:'Kapasitas 0,5PK – 1PK',   price:85000,  originalPrice:100000},
-     {id:'cuci-std-besar', name:'Kapasitas 1,5PK – 2,5PK', price:90000,  originalPrice:110000},
+     {id:'cuci-std-kecil', name:'Kapasitas 0,5PK – 1PK',   price:95000},
+     {id:'cuci-std-besar', name:'Kapasitas 1,5PK – 2,5PK', price:100000},
    ]},
   {id:'cuci-besar-deep', label:'🌀 Service Besar Unit AC Split', cat:'cuci',
    icon:'🌀', img:'images/service-cuci-ac.jpg',
    desc:'Bongkar unit indoor dibersihkan 1-1. Termasuk Vacum Unit AC.',
    variants:[
-     {id:'deep-kecil', name:'Kapasitas 1/2PK – 1PK',   price:400000, originalPrice:500000},
-     {id:'deep-besar', name:'Kapasitas 1,5PK – 2,5PK', price:450000, originalPrice:550000},
+     {id:'deep-kecil', name:'Kapasitas 1/2PK – 1PK',   price:400000},
+     {id:'deep-besar', name:'Kapasitas 1,5PK – 2,5PK', price:450000},
    ]},
   {id:'cuci-ducting', label:'🌀 Service Cleaning AC Duct / Ducting', cat:'cuci',
    icon:'🌀', img:'images/service-ac-central.jpg',
    desc:'Service Cleaning AC Split Duct/Ducting. Include pengecekan unit.',
    variants:[
-     {id:'duct-kecil', name:'Ukuran 1,5PK – 2,5PK', price:250000,  originalPrice:350000},
-     {id:'duct-besar', name:'Ukuran 3PK – 5PK',      price:450000,  originalPrice:550000},
-     {id:'duct-xl',    name:'Ukuran 5PK ke Atas',     price:1000000, originalPrice:1250000},
+     {id:'duct-16', name:'AC Split Duct 1,6 PK', price:200000},
+     {id:'duct-2',  name:'AC Split Duct 2 PK',   price:200000},
+     {id:'duct-25', name:'AC Split Duct 2,5 PK', price:250000},
+     {id:'duct-3',  name:'AC Split Duct 3 PK',   price:300000},
+     {id:'duct-35', name:'AC Split Duct 3,5 PK', price:350000},
+     {id:'duct-4',  name:'AC Split Duct 4 PK',   price:400000},
+     {id:'duct-5',  name:'AC Split Duct 5 PK',   price:500000},
+     {id:'duct-6',  name:'AC Split Duct 6 PK',   price:600000},
    ]},
   // PERBAIKAN
   {id:'diagnosa', label:'🔧 Diagnosa & Cek Unit AC', cat:'perbaikan',
    icon:'🔧', img:'images/service-cuci-ac.jpg',
    desc:'Pengecekan menyeluruh kondisi AC & identifikasi kerusakan.',
    price:100000},
-  {id:'perbaikan', label:'🔧 Perbaikan AC Split', cat:'perbaikan',
+  {id:'perbaikan', label:'🔧 Jasa Perbaikan PCB / Elektrik', cat:'perbaikan',
    icon:'🔧', img:'images/service-cuci-ac.jpg',
-   desc:'Perbaikan kerusakan umum: kapasitor, motor fan, PCB.',
-   price:100000},
+   desc:'Jasa perbaikan PCB atau kelistrikan; material dan sparepart terpisah.',
+   price:250000},
   // PASANG
   {id:'pasang-baru', label:'📦 Jasa Pemasangan Unit AC Baru', cat:'pasang', popular:true,
    icon:'📦', img:'images/service-pasang-ac.jpg',
-   desc:'Jasa Pemasangan Unit Indoor & Outdoor Saja.',
+   desc:'Jasa pemasangan unit saja; material instalasi dihitung terpisah.',
    variants:[
-     {id:'pasang-kecil',  name:'Pasang 1/2PK – 1PK Tanpa Vacum',           price:350000, originalPrice:400000},
-     {id:'pasang-besar',  name:'Pasang 1,5PK – 2,5PK Tanpa Vacum',         price:400000, originalPrice:450000},
-     {id:'bp-kecil-vac',  name:'Bongkar Pasang 1/2PK – 1PK + Vacum',       price:500000, originalPrice:600000},
-     {id:'bp-besar-vac',  name:'Bongkar Pasang 1,5PK – 2,5PK + Vacum',     price:550000, originalPrice:650000},
-     {id:'bp-outdoor-saja', name:'Bongkar Pasang Outdoor Saja',             price:250000, originalPrice:300000},
-     {id:'bp-indoor-saja',  name:'Bongkar Pasang Indoor Saja',              price:300000, originalPrice:350000},
-     {id:'bongkar-saja',  name:'Bongkar Unit Saja',                          price:150000, originalPrice:200000},
+     {id:'pasang-kecil',     name:'Pemasangan AC 0,5PK – 1PK (jasa saja)',             price:400000},
+     {id:'pasang-besar',     name:'Pemasangan AC 1,5PK – 2PK (jasa saja)',             price:450000},
+     {id:'pasang-apartemen', name:'Pemasangan AC Baru Apartemen (jasa saja)',          price:350000},
+     {id:'relokasi-kecil',   name:'Relokasi lengkap 0,5PK – 1PK (material terpisah)',  price:550000},
+     {id:'relokasi-besar',   name:'Relokasi lengkap 1,5PK – 2,5PK (material terpisah)',price:600000},
+     {id:'bp-outdoor-saja',  name:'Bongkar Pasang Outdoor Saja',                       price:200000},
+     {id:'bp-indoor-saja',   name:'Bongkar Pasang Indoor Saja',                        price:200000},
+     {id:'bongkar-kecil',    name:'Bongkar Unit AC 0,5PK – 1PK',                       price:150000},
+     {id:'bongkar-besar',    name:'Bongkar Unit AC 1,5PK – 2,5PK',                     price:200000},
+     {id:'vacum-kecil',      name:'Jasa Vacuum AC 0,5PK – 2,5PK',                      price:50000},
    ]},
   // FREON
-  {id:'freon-r22',    label:'❄️ Isi Freon R22',       cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R22 untuk AC lama.',  price:350000},
-  {id:'freon-r32',    label:'❄️ Isi Freon R32',       cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R32, ramah lingkungan.', price:450000, popular:true},
-  {id:'freon-r410',   label:'❄️ Isi Freon R410A',     cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R410A untuk AC inverter.', price:450000},
-  {id:'vacuum-freon', label:'❄️ Vacuum + Full Freon', cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Vacuum sistem + isi freon penuh.',  price:500000},
+  {id:'freon-r22',    label:'❄️ Isi Freon R22',       cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R22 untuk AC lama.',  price:500000},
+  {id:'freon-r32',    label:'❄️ Isi Freon R32',       cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R32, ramah lingkungan.', price:500000, popular:true},
+  {id:'freon-r410',   label:'❄️ Isi Freon R410A',     cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Refrigerant R410A untuk AC inverter.', price:500000},
+  {id:'vacuum-freon', label:'❄️ Vacuum + Full Freon', cat:'freon', icon:'❄️', img:'images/service-isi-freon.jpg', desc:'Vacuum sistem + isi freon penuh.',  price:650000},
 ];
+
+const ADMIN_PRICE_KEYS = {
+  'cuci-std-kecil':'cuci_split_kecil', 'cuci-std-besar':'cuci_split_besar',
+  'deep-kecil':'service_besar_kecil', 'deep-besar':'service_besar_besar',
+  'duct-16':'cuci_duct_16', 'duct-2':'cuci_duct_2', 'duct-25':'cuci_duct_25',
+  'duct-3':'cuci_duct_3', 'duct-35':'cuci_duct_35', 'duct-4':'cuci_duct_4',
+  'duct-5':'cuci_duct_5', 'duct-6':'cuci_duct_6',
+  'diagnosa':'pengecekan', 'perbaikan':'perbaikan_pcb',
+  'pasang-kecil':'pasang_kecil', 'pasang-besar':'pasang_besar', 'pasang-apartemen':'pasang_apartemen',
+  'bp-outdoor-saja':'bongkar_pasang_outdoor', 'bp-indoor-saja':'bongkar_pasang_indoor',
+  'bongkar-kecil':'bongkar_unit_kecil', 'bongkar-besar':'bongkar_unit_besar', 'vacum-kecil':'vacum_kecil',
+  'freon-r22':'freon_r22', 'freon-r32':'freon_r32', 'freon-r410':'freon_r410a', 'vacuum-freon':'kuras_vacum'
+};
+
+function applyAdminCanonicalPricing(catalog, pricing) {
+  const getPrice = id => {
+    if (id === 'relokasi-kecil') return Number(pricing.bongkar_unit_kecil) + Number(pricing.bongkar_pasang_indoor) + Number(pricing.bongkar_pasang_outdoor);
+    if (id === 'relokasi-besar') return Number(pricing.bongkar_unit_besar) + Number(pricing.bongkar_pasang_indoor) + Number(pricing.bongkar_pasang_outdoor);
+    const key = ADMIN_PRICE_KEYS[id];
+    return key && pricing[key] != null ? Number(pricing[key]) : null;
+  };
+  return catalog.map(service => {
+    const next = {...service};
+    const fixed = getPrice(service.id);
+    if (fixed != null && Number.isFinite(fixed)) next.price = fixed;
+    if (service.variants) next.variants = service.variants.map(v => {
+      const price = getPrice(v.id);
+      return price != null && Number.isFinite(price) ? {...v, price, originalPrice:undefined} : {...v, originalPrice:undefined};
+    });
+    return next;
+  });
+}
 
 function renderPriceFields() {
   const container = document.getElementById('priceFields');
@@ -1342,12 +1399,13 @@ function renderPriceFields() {
       </div>`;
     if (svc.variants) {
       svc.variants.forEach(v => {
+        const isDerived = v.id === 'relokasi-kecil' || v.id === 'relokasi-besar';
         html += `<div class="sf-row">
           <div style="flex:1;min-width:0">
             <input type="text" class="var-name-inp" id="varname-${htmlEsc(v.id)}" value="${htmlEsc(v.name)}" placeholder="Nama opsi"/>
-            <div class="sf-sub">Coret: <input type="number" id="orig-${htmlEsc(v.id)}" value="${htmlEsc(v.originalPrice||0)}" min="0" step="1000" style="width:90px;padding:2px 6px;border-radius:5px;border:1px solid var(--gray-200);font-size:11px"/></div>
+            <div class="sf-sub">${isDerived ? 'Otomatis dari jumlah komponen price_list' : 'Sumber: price_list aktif'}</div>
           </div>
-          <input type="number" class="sf-input" id="price-${htmlEsc(v.id)}" value="${htmlEsc(v.price)}" min="0" step="1000" style="width:110px"/>
+          <input type="number" class="sf-input" id="price-${htmlEsc(v.id)}" value="${htmlEsc(v.price)}" min="0" step="1000" style="width:110px" ${isDerived?'disabled':''}/>
         </div>`;
       });
     } else {
@@ -1364,6 +1422,7 @@ function renderPriceFields() {
 async function savePrices() {
   const stored = getStoredServices();
   const catalog = stored && stored.length ? stored : ADMIN_CATALOG;
+  const pricePayload = {};
   const updated = catalog.map(svc => {
     const nameEl   = document.getElementById('svcname-'+svc.id);
     const newName  = nameEl ? nameEl.value.trim() : svc.label.replace(/^[^\s]+ /,'');
@@ -1376,26 +1435,30 @@ async function savePrices() {
         variants: svc.variants.map(v => {
           const vNameEl = document.getElementById('varname-'+v.id);
           const priceEl = document.getElementById('price-'+v.id);
-          const origEl  = document.getElementById('orig-'+v.id);
+          const key = ADMIN_PRICE_KEYS[v.id];
+          if (key && priceEl) pricePayload[key] = Number(priceEl.value);
           return {
             ...v,
             name: vNameEl ? vNameEl.value.trim() : v.name,
             price: priceEl ? Number(priceEl.value) : v.price,
-            originalPrice: origEl ? Number(origEl.value) : v.originalPrice,
+            originalPrice: undefined,
           };
         })
       };
     } else {
       const el = document.getElementById('price-'+svc.id);
+      const key = ADMIN_PRICE_KEYS[svc.id];
+      if (key && el) pricePayload[key] = Number(el.value);
       return {...svc, label: newLabel, name: newName, price: el ? Number(el.value) : svc.price};
     }
   });
   localStorage.setItem('aclean_services', JSON.stringify(updated));
-  localStorage.setItem('aclean_services_ver', 'v2');
+  localStorage.setItem('aclean_services_ver', CATALOG_VERSION);
   showToast('⏳ Menyimpan ke Supabase...', 'info');
   try {
+    await supaRpc('admin_save_website_prices', {p_prices: pricePayload});
     await supaRpc('save_website_setting', {p_key: 'services_catalog', p_value: JSON.stringify(updated), admin_pass: ''});
-    showToast('✅ Harga disimpan ke Supabase! Berlaku langsung di semua perangkat.', 'success');
+    showToast('✅ price_list diperbarui. Harga publik langsung mengikuti sumber resmi.', 'success');
   } catch(e) {
     showToast('⚠️ Disimpan lokal saja (Supabase gagal: ' + e.message + ')', 'warning');
   }
@@ -1695,7 +1758,7 @@ async function saveNewService() {
   const customIds = new Set(customs.map(s => s.id));
   const allSvcs = [...ADMIN_CATALOG.filter(s => !customIds.has(s.id)), ...customs];
   localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
-  localStorage.setItem('aclean_services_ver', 'v2');
+  localStorage.setItem('aclean_services_ver', CATALOG_VERSION);
 
   closeAddModal();
   renderCatalogManager();
@@ -1715,7 +1778,7 @@ async function deleteCustomService(id) {
   const customIds = new Set(customs.map(s => s.id));
   const allSvcs = [...ADMIN_CATALOG.filter(s => !customIds.has(s.id)), ...customs];
   localStorage.setItem('aclean_services', JSON.stringify(allSvcs));
-  localStorage.setItem('aclean_services_ver', 'v2');
+  localStorage.setItem('aclean_services_ver', CATALOG_VERSION);
   renderCatalogManager();
   showToast('⏳ Menghapus dari Supabase...', 'info');
   try {

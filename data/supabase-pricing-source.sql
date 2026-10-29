@@ -71,6 +71,10 @@ as $function$
   );
 $function$;
 
+-- Harga boleh dibaca oleh website publik, tetapi tidak dapat diubah oleh anon.
+revoke all on function public.get_website_pricing() from public;
+grant execute on function public.get_website_pricing() to anon, authenticated;
+
 create or replace function public.admin_save_website_prices(p_prices jsonb)
 returns jsonb
 language plpgsql
